@@ -25,6 +25,18 @@ export default {
       validation: (Rule: any) => Rule.required(),
     },
     {
+      name: 'typePermis',
+      title: 'Type de Permis',
+      type: 'string',
+      description: 'Ex: A, B, C, D',
+    },
+    {
+      name: 'programmePermis',
+      title: 'Programme de Permis Assigné',
+      type: 'reference',
+      to: [{ type: 'programmePermis' }],
+    },
+    {
       name: 'dateDebutFormation',
       title: 'Date de Début de Formation',
       type: 'date',

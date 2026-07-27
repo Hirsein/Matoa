@@ -49,6 +49,18 @@ export interface AutoEcole {
   updatedAt: string;
 }
 
+export interface ProgrammePermis {
+  _id: string;
+  _type: 'programmePermis';
+  typePermis: string; // e.g. "A", "B", "C", "D"
+  titreProgramme: string; // e.g. "Programme complet Permis B – Voiture"
+  descriptionProgramme: string;
+  modules?: Array<{ _type: 'reference'; _ref: string } | ModuleFormation | string>;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Eleve {
   _id: string;
   _type: 'eleve';
@@ -61,6 +73,11 @@ export interface Eleve {
     _ref: string;
   } | AutoEcole;
   codeEleveUnique: string; // Unique for driving school e.g. AE001-ELV045
+  typePermis?: string; // "A", "B", "C", "D", etc.
+  programmePermis?: {
+    _type: 'reference';
+    _ref: string;
+  } | ProgrammePermis | string;
   dateDebutFormation: string; // YYYY-MM-DD
   dateFinFormation: string; // YYYY-MM-DD
   formationActive: boolean;
@@ -117,6 +134,11 @@ export interface ModuleFormation {
   summary: string; // 3-5 sentences summary of module goals
   learningObjectives: string[]; // 3-6 clear objectives
   ordre: number; // Position in sequence
+  typePermis?: string; // e.g. "A", "B", "C", "D"
+  programmePermis?: {
+    _type: 'reference';
+    _ref: string;
+  } | ProgrammePermis | string;
   videoUrl: string; // Default video or fallback
   durationSeconds: number; // Total length of video in seconds
   tempsMinimumVisionnage: number; // Min required seconds to watch e.g. 80%
@@ -174,6 +196,12 @@ export enum ActionType {
   CERTIFICAT_TELECHARGE = 'CERTIFICAT_TELECHARGE',
   MODIFICATION_BRANDING = 'MODIFICATION_BRANDING',
   MODIFICATION_MODULE = 'MODIFICATION_MODULE',
+  CREATION_PROGRAMME_PERMIS = 'CREATION_PROGRAMME_PERMIS',
+  MODIFICATION_PROGRAMME_PERMIS = 'MODIFICATION_PROGRAMME_PERMIS',
+  ASSOCIATION_MODULE_A_PROGRAMME = 'ASSOCIATION_MODULE_A_PROGRAMME',
+  CHOIX_TYPE_PERMIS_POUR_ELEVE = 'CHOIX_TYPE_PERMIS_POUR_ELEVE',
+  CHANGEMENT_TYPE_PERMIS_POUR_ELEVE = 'CHANGEMENT_TYPE_PERMIS_POUR_ELEVE',
+  ELEVE_CONNEXION_PROGRAMME_PERMIS = 'ELEVE_CONNEXION_PROGRAMME_PERMIS',
 }
 
 export interface LogActivite {

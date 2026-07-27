@@ -388,9 +388,14 @@ export const ElevePortal: React.FC = () => {
             )}
 
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider bg-white/20 text-white px-3 py-0.5 rounded-full backdrop-blur-sm inline-block mb-1">
-                Portail Élève Officiel
-              </span>
+              <div className="flex items-center space-x-2 mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider bg-white/20 text-white px-3 py-0.5 rounded-full backdrop-blur-sm inline-block">
+                  Portail Élève Officiel
+                </span>
+                <span className="text-xs font-black uppercase tracking-wider bg-amber-400 text-slate-900 px-2.5 py-0.5 rounded-full shadow-xs">
+                  Permis {eleveDetail?.typePermis || 'B'}
+                </span>
+              </div>
               <h1 className="text-2xl font-black text-white tracking-tight">{autoEcole?.name}</h1>
               <p className="text-xs text-white/90">
                 Bienvenue, <strong className="text-white font-bold">{user?.name}</strong> | Code Élève :{' '}

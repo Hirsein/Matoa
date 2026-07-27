@@ -15,6 +15,7 @@ import {
   AutoEcole,
   Eleve,
   User,
+  ProgrammePermis,
   ModuleFormation,
   Quiz,
   Certificat,
@@ -511,7 +512,7 @@ async function startServer() {
   });
 
   app.post('/api/eleves', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
-    const { name, email, phone, password, dateDebutFormation, dateFinFormation, autoEcoleId } = req.body;
+    const { name, email, phone, password, dateDebutFormation, dateFinFormation, autoEcoleId, typePermis, programmePermisId } = req.body;
 
     const targetAeId = req.user?.role === UserRole.SUPER_ADMIN ? autoEcoleId : req.user?.autoEcoleId;
 
@@ -522,6 +523,16 @@ async function startServer() {
     const ae = inMemoryStore.getAutoEcoleById(targetAeId);
     if (!ae) {
       return res.status(404).json({ error: 'Auto-école introuvable.' });
+    }
+
+    // Resolve Permit Type and Program
+    const selectedTypePermis = (typePermis || 'B').trim().toUpperCase();
+    let selectedProgId = programmePermisId;
+    if (!selectedProgId) {
+      const matchedProg = inMemoryStore.programmesPermis.find((p) => p.typePermis === selectedTypePermis);
+      if (matchedProg) {
+        selectedProgId = matchedProg._id;
+      }
     }
 
     // Check email uniqueness
@@ -565,6 +576,8 @@ async function startServer() {
       user: { _type: 'reference', _ref: userId },
       autoEcole: { _type: 'reference', _ref: ae._id },
       codeEleveUnique,
+      typePermis: selectedTypePermis,
+      programmePermis: selectedProgId ? { _type: 'reference', _ref: selectedProgId } : undefined,
       dateDebutFormation,
       dateFinFormation,
       formationActive: true,
@@ -582,7 +595,14 @@ async function startServer() {
     inMemoryStore.addLog(
       req.user!.userId,
       ActionType.CREATION_ELEVE,
-      `Création de l'élève ${name} (${codeEleveUnique}) du ${dateDebutFormation} au ${dateFinFormation}`,
+      `Création de l'élève ${name} (${codeEleveUnique}) - Permis ${selectedTypePermis} du ${dateDebutFormation} au ${dateFinFormation}`,
+      ae._id
+    );
+
+    inMemoryStore.addLog(
+      req.user!.userId,
+      ActionType.CHOIX_TYPE_PERMIS_POUR_ELEVE,
+      `Attribution du Permis ${selectedTypePermis} pour l'élève ${name} (${codeEleveUnique})`,
       ae._id
     );
 
@@ -752,7 +772,7 @@ async function startServer() {
       return res.status(403).json({ error: 'Accès non autorisé à cet élève.' });
     }
 
-    const { name, phone, dateDebutFormation, dateFinFormation, isBlocked, formationActive } = req.body;
+    const { name, phone, dateDebutFormation, dateFinFormation, isBlocked, formationActive, typePermis, programmePermisId } = req.body;
 
     const user = inMemoryStore.getUserById(eleve.user);
     if (user) {
@@ -761,12 +781,35 @@ async function startServer() {
       user.updatedAt = new Date().toISOString();
     }
 
+    if (typePermis && typePermis !== eleve.typePermis) {
+      const oldPermis = eleve.typePermis || 'Non défini';
+      eleve.typePermis = typePermis.trim().toUpperCase();
+
+      inMemoryStore.addLog(
+        req.user!.userId,
+        ActionType.CHANGEMENT_TYPE_PERMIS_POUR_ELEVE,
+        `Changement du type de permis de l'élève ${user?.name || ''} : ${oldPermis} ➔ ${eleve.typePermis}`,
+        aeRef
+      );
+    }
+
+    if (programmePermisId) {
+      eleve.programmePermis = { _type: 'reference', _ref: programmePermisId };
+    } else if (typePermis) {
+      const matchedProg = inMemoryStore.programmesPermis.find((p) => p.typePermis === typePermis.trim().toUpperCase());
+      if (matchedProg) {
+        eleve.programmePermis = { _type: 'reference', _ref: matchedProg._id };
+      }
+    }
+
     if (dateDebutFormation) eleve.dateDebutFormation = dateDebutFormation;
     if (dateFinFormation) eleve.dateFinFormation = dateFinFormation;
     if (isBlocked !== undefined) eleve.isBlocked = isBlocked;
     if (formationActive !== undefined) eleve.formationActive = formationActive;
 
     eleve.updatedAt = new Date().toISOString();
+
+    if (user) inMemoryStore.syncEleveToSanity(eleve, user);
 
     inMemoryStore.addLog(
       req.user!.userId,
@@ -803,6 +846,127 @@ async function startServer() {
     );
 
     res.json({ success: true, message: 'Élève supprimé.' });
+  });
+
+  // 4.5 PROGRAMMES DE PERMIS (CRUD)
+  app.get('/api/programmes-permis', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+    const list = inMemoryStore.programmesPermis.map((prog) => {
+      const moduleIds = (prog.modules || []).map((m: any) => getRefId(m)).filter(Boolean);
+      const matchedModules = inMemoryStore.modules.filter((mod) => moduleIds.includes(mod._id));
+      return {
+        ...prog,
+        moduleDetails: matchedModules,
+        moduleCount: matchedModules.length,
+      };
+    });
+    res.json(list);
+  });
+
+  app.post('/api/programmes-permis', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+    const { typePermis, titreProgramme, descriptionProgramme, moduleIds, isActive } = req.body;
+
+    if (!typePermis || !titreProgramme) {
+      return res.status(400).json({ error: 'Le type de permis et le titre du programme sont obligatoires.' });
+    }
+
+    const progId = `prog-permis-${Date.now()}`;
+    const modulesRef = Array.isArray(moduleIds)
+      ? moduleIds.map((id: string) => ({ _type: 'reference' as const, _ref: id }))
+      : [];
+
+    const newProg: ProgrammePermis = {
+      _id: progId,
+      _type: 'programmePermis',
+      typePermis: typePermis.trim().toUpperCase(),
+      titreProgramme: titreProgramme.trim(),
+      descriptionProgramme: descriptionProgramme || '',
+      modules: modulesRef,
+      isActive: isActive !== undefined ? isActive : true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    inMemoryStore.programmesPermis.push(newProg);
+
+    if (Array.isArray(moduleIds)) {
+      moduleIds.forEach((mId: string) => {
+        const mod = inMemoryStore.modules.find((m) => m._id === mId);
+        if (mod) {
+          mod.typePermis = newProg.typePermis;
+          mod.programmePermis = { _type: 'reference', _ref: newProg._id };
+        }
+      });
+    }
+
+    inMemoryStore.syncProgrammePermisToSanity(newProg);
+
+    inMemoryStore.addLog(
+      req.user!.userId,
+      ActionType.CREATION_PROGRAMME_PERMIS,
+      `Création du programme pour le permis ${newProg.typePermis} : "${newProg.titreProgramme}"`
+    );
+
+    res.status(201).json(newProg);
+  });
+
+  app.put('/api/programmes-permis/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+    const { id } = req.params;
+    const prog = inMemoryStore.getProgrammePermisById(id);
+
+    if (!prog) {
+      return res.status(404).json({ error: 'Programme de permis introuvable.' });
+    }
+
+    const { typePermis, titreProgramme, descriptionProgramme, moduleIds, isActive } = req.body;
+
+    if (typePermis) prog.typePermis = typePermis.trim().toUpperCase();
+    if (titreProgramme) prog.titreProgramme = titreProgramme.trim();
+    if (descriptionProgramme !== undefined) prog.descriptionProgramme = descriptionProgramme;
+    if (isActive !== undefined) prog.isActive = isActive;
+
+    if (Array.isArray(moduleIds)) {
+      prog.modules = moduleIds.map((mId: string) => ({ _type: 'reference' as const, _ref: mId }));
+
+      moduleIds.forEach((mId: string) => {
+        const mod = inMemoryStore.modules.find((m) => m._id === mId);
+        if (mod) {
+          mod.typePermis = prog.typePermis;
+          mod.programmePermis = { _type: 'reference', _ref: prog._id };
+        }
+      });
+    }
+
+    prog.updatedAt = new Date().toISOString();
+
+    inMemoryStore.syncProgrammePermisToSanity(prog);
+
+    inMemoryStore.addLog(
+      req.user!.userId,
+      ActionType.MODIFICATION_PROGRAMME_PERMIS,
+      `Mise à jour du programme permis ${prog.typePermis} : "${prog.titreProgramme}"`
+    );
+
+    res.json(prog);
+  });
+
+  app.delete('/api/programmes-permis/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+    const { id } = req.params;
+    const index = inMemoryStore.programmesPermis.findIndex((p) => p._id === id);
+
+    if (index === -1) {
+      return res.status(404).json({ error: 'Programme de permis non trouvé.' });
+    }
+
+    const removed = inMemoryStore.programmesPermis.splice(index, 1)[0];
+    inMemoryStore.deleteSanityDocument(id);
+
+    inMemoryStore.addLog(
+      req.user!.userId,
+      ActionType.MODIFICATION_PROGRAMME_PERMIS,
+      `Suppression du programme permis ${removed.typePermis} ("${removed.titreProgramme}")`
+    );
+
+    res.json({ message: 'Programme de permis supprimé avec succès.', programme: removed });
   });
 
   // 5. MODULES & QUIZZES
@@ -970,10 +1134,16 @@ async function startServer() {
       return res.status(403).json({ error: 'Accès non autorisé.' });
     }
 
-    // Fetch all active modules sorted by ordre
-    const activeModules = inMemoryStore.modules
-      .filter((m) => m.isActive)
-      .sort((a, b) => a.ordre - b.ordre);
+    // Fetch modules specific to student's program / permit type
+    const activeModules = inMemoryStore.getModulesForEleve(eleve._id);
+
+    // Resolve ProgrammePermis detail if available
+    const progId = eleve.programmePermis
+      ? typeof eleve.programmePermis === 'string'
+        ? eleve.programmePermis
+        : (eleve.programmePermis as any)._ref || (eleve.programmePermis as any)._id
+      : null;
+    const programmePermisDetail = progId ? inMemoryStore.getProgrammePermisById(progId) : null;
 
     // Fetch existing progressions
     const eleveProgressions = inMemoryStore.progressions.filter((p) => {
@@ -1071,6 +1241,7 @@ async function startServer() {
 
     res.json({
       eleve,
+      programmePermisDetail,
       structuredProgression,
     });
   });
@@ -1290,15 +1461,17 @@ async function startServer() {
       prog.lastActivityAt = new Date().toISOString();
     }
 
-    // Recalculate Overall Progression %
-    const activeModules = inMemoryStore.modules.filter((m) => m.isActive);
+    // Recalculate Overall Progression % based on student's program modules
+    const studentModules = inMemoryStore.getModulesForEleve(eleve._id);
+    const totalProgramModules = Math.max(1, studentModules.length);
     const allEleveProg = inMemoryStore.progressions.filter((p) => {
       const elRef = getRefId(p.eleve);
-      return elRef === eleve._id && p.isModuleValidated;
+      const mRef = getRefId(p.module);
+      return elRef === eleve._id && p.isModuleValidated && studentModules.some((sm) => sm._id === mRef);
     });
 
     const validatedCount = allEleveProg.length;
-    const overallPercentage = Math.round((validatedCount / activeModules.length) * 100);
+    const overallPercentage = Math.round((validatedCount / totalProgramModules) * 100);
     eleve.progressionGlobal = Math.min(100, overallPercentage);
 
     const userObj = inMemoryStore.getUserById(eleve.user);

@@ -140,6 +140,12 @@ export const AutoEcoleDashboard: React.FC = () => {
   // Tenant Logs
   const [logs, setLogs] = useState<LogActivite[]>([]);
 
+  // Programmes Permis
+  const [programmesPermis, setProgrammesPermis] = useState<any[]>([]);
+  const [newStudentTypePermis, setNewStudentTypePermis] = useState('B');
+  const [newStudentProgId, setNewStudentProgId] = useState('');
+  const [permitFilter, setPermitFilter] = useState<string>('ALL');
+
   // Feedback
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -149,7 +155,17 @@ export const AutoEcoleDashboard: React.FC = () => {
     fetchLogs();
     fetchCertificates();
     fetchModules();
+    fetchProgrammesPermis();
   }, [token]);
+
+  const fetchProgrammesPermis = async () => {
+    try {
+      const res = await fetch('/api/programmes-permis', { headers: { Authorization: `Bearer ${token}` } });
+      if (res.ok) setProgrammesPermis(await res.json());
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     if (autoEcole) {
@@ -597,6 +613,8 @@ export const AutoEcoleDashboard: React.FC = () => {
           password: newStudentPassword,
           dateDebutFormation: newStudentStartDate,
           dateFinFormation: newStudentEndDate,
+          typePermis: newStudentTypePermis,
+          programmePermisId: newStudentProgId || undefined,
         }),
       });
 
@@ -605,7 +623,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
       setFeedback({
         type: 'success',
-        text: `Élève ${newStudentName} inscrit avec le code unique ${data.codeEleveUnique} !`,
+        text: `Élève ${newStudentName} inscrit (Permis ${newStudentTypePermis}) avec le code unique ${data.codeEleveUnique} !`,
       });
       setShowEleveModal(false);
       setNewStudentName('');
@@ -637,6 +655,8 @@ export const AutoEcoleDashboard: React.FC = () => {
           dateDebutFormation: selectedEleveForEdit.dateDebutFormation,
           dateFinFormation: selectedEleveForEdit.dateFinFormation,
           isBlocked: selectedEleveForEdit.isBlocked,
+          typePermis: selectedEleveForEdit.typePermis || 'B',
+          programmePermisId: selectedEleveForEdit.programmePermisId || undefined,
         }),
       });
 
@@ -1334,6 +1354,19 @@ export const AutoEcoleDashboard: React.FC = () => {
                   <option value="BLOCKED">{t('filterStatusBlocked')}</option>
                 </select>
 
+                {/* Permit Type Filter Dropdown */}
+                <select
+                  value={permitFilter}
+                  onChange={(e) => setPermitFilter(e.target.value)}
+                  className="px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600 shadow-xs"
+                >
+                  <option value="ALL">Tous les Permis</option>
+                  <option value="A">Permis A (Moto)</option>
+                  <option value="B">Permis B (Voiture)</option>
+                  <option value="C">Permis C (Poids Lourd)</option>
+                  <option value="D">Permis D (Bus)</option>
+                </select>
+
                 <button
                   type="button"
                   onClick={handleExportStudentsCSV}
@@ -1375,6 +1408,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                     <tr>
                       <th className="p-3">{t('name')}</th>
                       <th className="p-3">{t('codeUnique')}</th>
+                      <th className="p-3">Permis</th>
                       <th className="p-3">Période Formation</th>
                       <th className="p-3">{t('progress')}</th>
                       <th className="p-3">{t('status')}</th>
@@ -1392,6 +1426,8 @@ export const AutoEcoleDashboard: React.FC = () => {
 
                         if (!matchesSearch) return false;
 
+                        if (permitFilter !== 'ALL' && (e.typePermis || 'B') !== permitFilter) return false;
+
                         if (statusFilter === 'ALL') return true;
                         if (statusFilter === 'EXPIRED') return !!e.isExpired;
                         if (statusFilter === 'BLOCKED') return !!e.isBlocked && !e.isExpired;
@@ -1407,6 +1443,11 @@ export const AutoEcoleDashboard: React.FC = () => {
                             <p className="text-[10px] text-slate-500">{el.userDetail?.email}</p>
                           </td>
                           <td className="p-3 font-mono text-emerald-600 font-bold">{el.codeEleveUnique}</td>
+                          <td className="p-3 font-bold">
+                            <span className="px-2.5 py-1 rounded-lg text-[11px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
+                              Permis {el.typePermis || 'B'}
+                            </span>
+                          </td>
                           <td className="p-3 font-mono text-[11px] text-slate-600">
                             Du {el.dateDebutFormation} au <strong className="text-slate-900">{el.dateFinFormation}</strong>
                           </td>
@@ -2049,6 +2090,45 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
+                  <label className="block text-slate-700 font-bold mb-1">Catégorie Permis Visée *</label>
+                  <select
+                    value={newStudentTypePermis}
+                    onChange={(e) => {
+                      setNewStudentTypePermis(e.target.value);
+                      // Auto-select program for this permit type if available
+                      const matched = programmesPermis.find((p) => p.typePermis === e.target.value);
+                      setNewStudentProgId(matched ? matched._id : '');
+                    }}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                  >
+                    <option value="A">Permis A (Moto)</option>
+                    <option value="B">Permis B (Voiture / V.L.)</option>
+                    <option value="C">Permis C (Poids Lourd)</option>
+                    <option value="D">Permis D (Bus / Transport)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 font-bold mb-1">Programme de Formation</label>
+                  <select
+                    value={newStudentProgId}
+                    onChange={(e) => setNewStudentProgId(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                  >
+                    <option value="">-- Programme Standard --</option>
+                    {programmesPermis
+                      .filter((p) => !p.typePermis || p.typePermis === newStudentTypePermis)
+                      .map((p) => (
+                        <option key={p._id} value={p._id}>
+                          {p.titre} ({p.modulesCount || p.moduleIds?.length || 0} modules)
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
                   <label className="block text-slate-700 font-bold mb-1">Date Début Formation *</label>
                   <input
                     type="date"
@@ -2283,6 +2363,50 @@ export const AutoEcoleDashboard: React.FC = () => {
                   }
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-700 font-bold mb-1">Type de Permis</label>
+                  <select
+                    value={selectedEleveForEdit.typePermis || 'B'}
+                    onChange={(e) =>
+                      setSelectedEleveForEdit({
+                        ...selectedEleveForEdit,
+                        typePermis: e.target.value,
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                  >
+                    <option value="A">Permis A (Moto)</option>
+                    <option value="B">Permis B (Voiture / V.L.)</option>
+                    <option value="C">Permis C (Poids Lourd)</option>
+                    <option value="D">Permis D (Bus / Transport)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-700 font-bold mb-1">Programme Associé</label>
+                  <select
+                    value={selectedEleveForEdit.programmePermisId || ''}
+                    onChange={(e) =>
+                      setSelectedEleveForEdit({
+                        ...selectedEleveForEdit,
+                        programmePermisId: e.target.value,
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                  >
+                    <option value="">-- Programme Standard --</option>
+                    {programmesPermis
+                      .filter((p) => !p.typePermis || p.typePermis === (selectedEleveForEdit.typePermis || 'B'))
+                      .map((p) => (
+                        <option key={p._id} value={p._id}>
+                          {p.titre} ({p.modulesCount || p.moduleIds?.length || 0} modules)
+                        </option>
+                      ))}
+                  </select>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2">

@@ -3,6 +3,7 @@ import {
   User,
   AutoEcole,
   Eleve,
+  ProgrammePermis,
   ModuleFormation,
   Quiz,
   ProgressionModule,
@@ -13,6 +14,54 @@ import {
   CertificatStatus,
   GlobalSettings,
 } from '../types';
+
+// Initial Seed Data for local datastore / fallback
+const INITIAL_PROGRAMMES_PERMIS: ProgrammePermis[] = [
+  {
+    _id: 'prog-permis-b',
+    _type: 'programmePermis',
+    typePermis: 'B',
+    titreProgramme: 'Programme complet Permis B – Voiture',
+    descriptionProgramme: 'Formation théorique officielle pour la conduite des véhicules légers. Couvre la signalisation, les priorités de passage, la vitesse et l\'éco-conduite.',
+    modules: [{ _type: 'reference', _ref: 'mod-1' }, { _type: 'reference', _ref: 'mod-2' }, { _type: 'reference', _ref: 'mod-3' }],
+    isActive: true,
+    createdAt: '2026-01-01T00:00:00Z',
+    updatedAt: '2026-01-01T00:00:00Z',
+  },
+  {
+    _id: 'prog-permis-a',
+    _type: 'programmePermis',
+    typePermis: 'A',
+    titreProgramme: 'Programme Permis A / A2 – Moto',
+    descriptionProgramme: 'Parcours théorique spécialisé moto (ETM), équipements de protection obligatoire, trajectoires de sécurité et dynamique deux-roues.',
+    modules: [{ _type: 'reference', _ref: 'mod-1' }, { _type: 'reference', _ref: 'mod-2' }],
+    isActive: true,
+    createdAt: '2026-01-01T00:00:00Z',
+    updatedAt: '2026-01-01T00:00:00Z',
+  },
+  {
+    _id: 'prog-permis-c',
+    _type: 'programmePermis',
+    typePermis: 'C',
+    titreProgramme: 'Programme Permis C – Poids Lourd',
+    descriptionProgramme: 'Formation théorique transport routier de marchandises, réglementation sociale européenne, gabarit et mécanique poids lourd.',
+    modules: [{ _type: 'reference', _ref: 'mod-1' }, { _type: 'reference', _ref: 'mod-3' }],
+    isActive: true,
+    createdAt: '2026-01-01T00:00:00Z',
+    updatedAt: '2026-01-01T00:00:00Z',
+  },
+  {
+    _id: 'prog-permis-d',
+    _type: 'programmePermis',
+    typePermis: 'D',
+    titreProgramme: 'Programme Permis D – Transport de Personnes',
+    descriptionProgramme: 'Formation théorique transport en commun de voyageurs, sécurité des passagers et règles d\'évacuation d\'urgence.',
+    modules: [{ _type: 'reference', _ref: 'mod-1' }],
+    isActive: true,
+    createdAt: '2026-01-01T00:00:00Z',
+    updatedAt: '2026-01-01T00:00:00Z',
+  },
+];
 
 // Sanity client configuration with user credentials
 const sanityProjectId = process.env.SANITY_PROJECT_ID || (import.meta as any).env?.VITE_SANITY_PROJECT_ID || 'cchdhqvw';
@@ -173,6 +222,8 @@ const INITIAL_ELEVES: Eleve[] = [
     user: { _type: 'reference', _ref: 'user-eleve-1' },
     autoEcole: { _type: 'reference', _ref: 'ae-001' },
     codeEleveUnique: 'AE001-ELV001',
+    typePermis: 'B',
+    programmePermis: { _type: 'reference', _ref: 'prog-permis-b' },
     dateDebutFormation: '2026-03-01',
     dateFinFormation: '2026-09-01',
     formationActive: true,
@@ -187,6 +238,8 @@ const INITIAL_ELEVES: Eleve[] = [
     user: { _type: 'reference', _ref: 'user-eleve-2' },
     autoEcole: { _type: 'reference', _ref: 'ae-001' },
     codeEleveUnique: 'AE001-ELV002',
+    typePermis: 'B',
+    programmePermis: { _type: 'reference', _ref: 'prog-permis-b' },
     dateDebutFormation: '2026-02-15',
     dateFinFormation: '2026-08-15',
     formationActive: true,
@@ -201,6 +254,8 @@ const INITIAL_ELEVES: Eleve[] = [
     user: { _type: 'reference', _ref: 'user-eleve-3' },
     autoEcole: { _type: 'reference', _ref: 'ae-001' },
     codeEleveUnique: 'AE001-ELV003',
+    typePermis: 'A',
+    programmePermis: { _type: 'reference', _ref: 'prog-permis-a' },
     dateDebutFormation: '2025-11-01',
     dateFinFormation: '2026-02-01', // Expired!
     formationActive: false,
@@ -215,6 +270,8 @@ const INITIAL_ELEVES: Eleve[] = [
     user: { _type: 'reference', _ref: 'user-eleve-4' },
     autoEcole: { _type: 'reference', _ref: 'ae-002' },
     codeEleveUnique: 'AE002-ELV001',
+    typePermis: 'C',
+    programmePermis: { _type: 'reference', _ref: 'prog-permis-c' },
     dateDebutFormation: '2026-03-10',
     dateFinFormation: '2026-10-10',
     formationActive: true,
@@ -239,6 +296,8 @@ const INITIAL_MODULES: ModuleFormation[] = [
       'Analyser les panonceaux complémentaires sous les panneaux principaux',
     ],
     ordre: 1,
+    typePermis: 'B',
+    programmePermis: { _type: 'reference', _ref: 'prog-permis-b' },
     videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
     durationSeconds: 410,
     tempsMinimumVisionnage: 328, // 80%
@@ -317,6 +376,8 @@ const INITIAL_MODULES: ModuleFormation[] = [
       'Anticiper la présence des véhicules prioritaires à gyrophares bleus',
     ],
     ordre: 2,
+    typePermis: 'B',
+    programmePermis: { _type: 'reference', _ref: 'prog-permis-b' },
     videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
     durationSeconds: 540,
     tempsMinimumVisionnage: 432,
@@ -389,6 +450,8 @@ const INITIAL_MODULES: ModuleFormation[] = [
       'Mettre en pratique les règles d\'éco-conduite pour réduire sa consommation',
     ],
     ordre: 3,
+    typePermis: 'B',
+    programmePermis: { _type: 'reference', _ref: 'prog-permis-b' },
     videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
     durationSeconds: 320,
     tempsMinimumVisionnage: 256,
@@ -751,6 +814,7 @@ class InMemorySanityStore {
   public autoEcoles: AutoEcole[] = [...INITIAL_AUTO_ECOLES];
   public users: User[] = [...INITIAL_USERS];
   public eleves: Eleve[] = [...INITIAL_ELEVES];
+  public programmesPermis: ProgrammePermis[] = [...INITIAL_PROGRAMMES_PERMIS];
   public modules: ModuleFormation[] = [...INITIAL_MODULES];
   public quizzes: Quiz[] = [...INITIAL_QUIZZES];
   public progressions: ProgressionModule[] = [...INITIAL_PROGRESSIONS];
@@ -777,6 +841,56 @@ class InMemorySanityStore {
     if (!idOrRef) return undefined;
     const refId = typeof idOrRef === 'string' ? idOrRef : idOrRef._ref || idOrRef._id;
     return this.eleves.find((el) => el._id === refId);
+  }
+
+  // Helper to resolve programmePermis reference
+  public getProgrammePermisById(idOrRef: string | any): ProgrammePermis | undefined {
+    if (!idOrRef) return undefined;
+    const refId = typeof idOrRef === 'string' ? idOrRef : idOrRef._ref || idOrRef._id;
+    return this.programmesPermis.find((p) => p._id === refId);
+  }
+
+  // Get modules filtered for a student's assigned program or permit type
+  public getModulesForEleve(eleveId: string): ModuleFormation[] {
+    const eleve = this.getEleveById(eleveId);
+    if (!eleve) return this.modules.filter((m) => m.isActive);
+
+    const progId = eleve.programmePermis
+      ? typeof eleve.programmePermis === 'string'
+        ? eleve.programmePermis
+        : (eleve.programmePermis as any)._ref || (eleve.programmePermis as any)._id
+      : null;
+
+    if (progId) {
+      const prog = this.getProgrammePermisById(progId);
+      if (prog && prog.modules && prog.modules.length > 0) {
+        const moduleIds = prog.modules.map((m: any) => (typeof m === 'string' ? m : m._ref || m._id));
+        const matched = this.modules.filter((m) => moduleIds.includes(m._id) && m.isActive);
+        if (matched.length > 0) {
+          return matched.sort((a, b) => a.ordre - b.ordre);
+        }
+      }
+    }
+
+    // Fallback filter by typePermis
+    const typeP = eleve.typePermis || 'B';
+    const filteredByType = this.modules.filter(
+      (m) =>
+        m.isActive &&
+        (m.typePermis === typeP ||
+          !m.typePermis ||
+          (m.programmePermis &&
+            (typeof m.programmePermis === 'string'
+              ? this.getProgrammePermisById(m.programmePermis)?.typePermis === typeP
+              : (m.programmePermis as any).typePermis === typeP)))
+    );
+
+    if (filteredByType.length > 0) {
+      return filteredByType.sort((a, b) => a.ordre - b.ordre);
+    }
+
+    // Ultimate fallback: return active modules sorted
+    return this.modules.filter((m) => m.isActive).sort((a, b) => a.ordre - b.ordre);
   }
 
   // Helper for safe weak references in Sanity mutations
@@ -886,6 +1000,26 @@ class InMemorySanityStore {
     }
   }
 
+  public async syncProgrammePermisToSanity(prog: ProgrammePermis) {
+    if (!liveSanityClient) return;
+    try {
+      const moduleRefs = (prog.modules || []).map((m: any) => this.toWeakRef(m)).filter(Boolean);
+      await liveSanityClient.createOrReplace({
+        _id: prog._id,
+        _type: 'programmePermis',
+        typePermis: prog.typePermis,
+        titreProgramme: prog.titreProgramme,
+        descriptionProgramme: prog.descriptionProgramme,
+        modules: moduleRefs,
+        isActive: prog.isActive,
+        createdAt: prog.createdAt,
+        updatedAt: prog.updatedAt,
+      });
+    } catch (err) {
+      console.warn('Sanity mutation sync warning (programmePermis):', err);
+    }
+  }
+
   public async syncEleveToSanity(eleve: Eleve, user: User) {
     if (!liveSanityClient) return;
     try {
@@ -909,6 +1043,8 @@ class InMemorySanityStore {
         user: this.toWeakRef(eleve.user),
         autoEcole: this.toWeakRef(eleve.autoEcole),
         codeEleveUnique: eleve.codeEleveUnique,
+        typePermis: eleve.typePermis,
+        programmePermis: this.toWeakRef(eleve.programmePermis),
         dateDebutFormation: eleve.dateDebutFormation,
         dateFinFormation: eleve.dateFinFormation,
         isBlocked: eleve.isBlocked,

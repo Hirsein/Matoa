@@ -137,9 +137,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
             {/* Content Text */}
             <p className="text-xs sm:text-sm text-slate-700 text-center max-w-xl mx-auto leading-relaxed">
-              A suivi l\'intégralité des modules de formation théorique au Code de la Route dispensés par{' '}
+              A suivi l'intégralité des modules de formation théorique pour le <strong className="text-blue-900 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Permis {eleve.typePermis || 'B'}</strong> dispensés par{' '}
               <strong className="text-slate-900">{autoEcole?.name || 'l\'Auto-École'}</strong> via la plateforme certifiée Matoa,
-              et a validé l\'ensemble des évaluations et quiz requis avec succès.
+              et a validé l'ensemble des évaluations et quiz requis avec succès.
             </p>
 
             {/* Footer Signatures and Verification Badge */}

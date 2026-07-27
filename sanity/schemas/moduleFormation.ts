@@ -22,6 +22,18 @@ export default {
       validation: (Rule: any) => Rule.required(),
     },
     {
+      name: 'typePermis',
+      title: 'Type de Permis',
+      type: 'string',
+      description: 'Ex: A, B, C, D',
+    },
+    {
+      name: 'programmePermis',
+      title: 'Programme de Permis',
+      type: 'reference',
+      to: [{ type: 'programmePermis' }],
+    },
+    {
       name: 'videoUrl',
       title: 'URL de la vidéo du cours',
       type: 'url',

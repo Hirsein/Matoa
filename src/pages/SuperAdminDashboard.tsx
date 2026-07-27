@@ -22,6 +22,7 @@ import {
 import {
   AutoEcole,
   ModuleFormation,
+  ProgrammePermis,
   Quiz,
   LogActivite as LogType,
   LogActivite,
@@ -50,6 +51,9 @@ import {
   Download,
   FileSpreadsheet,
   FileText,
+  Award,
+  Layers,
+  Car,
 } from 'lucide-react';
 
 export const SuperAdminDashboard: React.FC = () => {
@@ -57,7 +61,16 @@ export const SuperAdminDashboard: React.FC = () => {
   const { t } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const [activeTab, setActiveTab] = useState<'overview' | 'schools' | 'modules' | 'logs'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'schools' | 'programmes' | 'modules' | 'logs'>('overview');
+
+  // Programmes de Permis
+  const [programmes, setProgrammes] = useState<any[]>([]);
+  const [showProgrammeModal, setShowProgrammeModal] = useState(false);
+  const [editingProgramme, setEditingProgramme] = useState<any | null>(null);
+  const [progTypePermis, setProgTypePermis] = useState('B');
+  const [progTitre, setProgTitre] = useState('');
+  const [progDescription, setProgDescription] = useState('');
+  const [progModuleIds, setProgModuleIds] = useState<string[]>([]);
 
 
   // Stats
@@ -122,9 +135,94 @@ export const SuperAdminDashboard: React.FC = () => {
   useEffect(() => {
     fetchStats();
     fetchSchools();
+    fetchProgrammes();
     fetchModules();
     fetchLogs();
   }, [token]);
+
+  const fetchProgrammes = async () => {
+    try {
+      const res = await fetch('/api/programmes-permis', { headers: { Authorization: `Bearer ${token}` } });
+      if (res.ok) setProgrammes(await res.json());
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleOpenNewProgramme = () => {
+    setEditingProgramme(null);
+    setProgTypePermis('B');
+    setProgTitre('Programme complet Permis B – voiture');
+    setProgDescription('Formation théorique officielle de la conduite automobile.');
+    setProgModuleIds(modules.map((m) => m._id));
+    setShowProgrammeModal(true);
+  };
+
+  const handleOpenEditProgramme = (prog: any) => {
+    setEditingProgramme(prog);
+    setProgTypePermis(prog.typePermis || 'B');
+    setProgTitre(prog.titreProgramme || '');
+    setProgDescription(prog.descriptionProgramme || '');
+    const mIds = (prog.modules || []).map((m: any) => (typeof m === 'string' ? m : m._ref || m._id));
+    setProgModuleIds(mIds);
+    setShowProgrammeModal(true);
+  };
+
+  const handleSaveProgramme = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFeedbackMsg(null);
+
+    try {
+      const url = editingProgramme ? `/api/programmes-permis/${editingProgramme._id}` : '/api/programmes-permis';
+      const method = editingProgramme ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          typePermis: progTypePermis,
+          titreProgramme: progTitre,
+          descriptionProgramme: progDescription,
+          moduleIds: progModuleIds,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erreur lors de l\'enregistrement du programme.');
+
+      setFeedbackMsg({
+        type: 'success',
+        text: `Programme Permis ${progTypePermis} enregistré avec succès !`,
+      });
+      setShowProgrammeModal(false);
+      fetchProgrammes();
+      fetchLogs();
+    } catch (err: any) {
+      setFeedbackMsg({ type: 'error', text: err.message });
+    }
+  };
+
+  const handleDeleteProgramme = async (id: string) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce programme de permis ?')) return;
+
+    try {
+      const res = await fetch(`/api/programmes-permis/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.ok) {
+        setFeedbackMsg({ type: 'success', text: 'Programme supprimé avec succès.' });
+        fetchProgrammes();
+        fetchLogs();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const fetchStats = async () => {
     try {
@@ -479,6 +577,18 @@ export const SuperAdminDashboard: React.FC = () => {
           >
             <School className="w-4 h-4" />
             <span>Parc Auto-Écoles ({schools.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('programmes')}
+            className={`py-3 px-4 text-xs font-bold rounded-t-xl transition flex items-center space-x-2 shrink-0 ${
+              activeTab === 'programmes'
+                ? 'bg-blue-50 text-blue-700 border-b-2 border-blue-600'
+                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <Layers className="w-4 h-4" />
+            <span>Programmes Permis ({programmes.length})</span>
           </button>
 
           <button
@@ -902,6 +1012,116 @@ export const SuperAdminDashboard: React.FC = () => {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* TAB 2.5: PROGRAMMES DE PERMIS */}
+        {activeTab === 'programmes' && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <h2 className="text-lg font-black text-slate-900 tracking-tight">
+                  Programmes de Formation par Type de Permis
+                </h2>
+                <p className="text-xs text-slate-500 font-medium">
+                  Créez et personnalisez les parcours pédagogiques dédiés selon la catégorie du permis (A, B, C, D, etc.).
+                </p>
+              </div>
+
+              <button
+                onClick={handleOpenNewProgramme}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center space-x-1"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Nouveau Programme Permis</span>
+              </button>
+            </div>
+
+            {programmes.length === 0 ? (
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8 text-center text-slate-500">
+                <Layers className="w-10 h-10 mx-auto text-slate-400 mb-2" />
+                <p className="text-sm font-bold text-slate-700">Aucun programme de permis défini</p>
+                <p className="text-xs mt-1">
+                  Cliquez sur "Nouveau Programme Permis" pour associer des modules à chaque catégorie de permis.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {programmes.map((prog) => {
+                  const permitColors: Record<string, string> = {
+                    A: 'bg-orange-100 text-orange-800 border-orange-300',
+                    B: 'bg-blue-100 text-blue-800 border-blue-300',
+                    C: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                    D: 'bg-purple-100 text-purple-800 border-purple-300',
+                  };
+                  const badgeColor = permitColors[prog.typePermis] || 'bg-slate-100 text-slate-800 border-slate-300';
+
+                  return (
+                    <div
+                      key={prog._id}
+                      className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs relative flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-3">
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider border ${badgeColor} flex items-center space-x-1`}
+                          >
+                            <Car className="w-3.5 h-3.5 mr-1 inline" />
+                            Permis {prog.typePermis}
+                          </span>
+                          <span className="text-[11px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">
+                            {prog.moduleCount || (prog.modules?.length || 0)} Module(s)
+                          </span>
+                        </div>
+
+                        <h3 className="text-base font-black text-slate-900">{prog.titreProgramme}</h3>
+                        <p className="text-xs text-slate-600 mt-1">{prog.descriptionProgramme}</p>
+
+                        <div className="mt-4 pt-3 border-t border-slate-100">
+                          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                            Modules inclus dans ce programme :
+                          </p>
+                          <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
+                            {prog.moduleDetails && prog.moduleDetails.length > 0 ? (
+                              prog.moduleDetails.map((m: any) => (
+                                <div
+                                  key={m._id}
+                                  className="flex items-center text-xs text-slate-700 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 font-medium"
+                                >
+                                  <BookOpen className="w-3.5 h-3.5 text-blue-600 mr-2 shrink-0" />
+                                  <span className="truncate">
+                                    M{m.ordre} : {m.title}
+                                  </span>
+                                </div>
+                              ))
+                            ) : (
+                              <p className="text-xs text-slate-400 italic">Tous les modules actifs</p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-end space-x-2">
+                        <button
+                          onClick={() => handleOpenEditProgramme(prog)}
+                          className="text-xs font-bold px-3 py-1.5 rounded-xl transition bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center space-x-1"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                          <span>Modifier</span>
+                        </button>
+                        <button
+                          onClick={() => handleDeleteProgramme(prog._id)}
+                          className="text-xs font-bold px-3 py-1.5 rounded-xl transition bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 flex items-center space-x-1"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Supprimer</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 
@@ -1515,6 +1735,124 @@ export const SuperAdminDashboard: React.FC = () => {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: PROGRAMME PERMIS */}
+      {showProgrammeModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white max-w-lg w-full rounded-2xl shadow-xl overflow-hidden border border-slate-200 animate-in fade-in zoom-in duration-200">
+            <div className="p-6 bg-slate-900 text-white flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-black">
+                  {editingProgramme ? 'Modifier le Programme Permis' : 'Nouveau Programme Permis'}
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Définissez la catégorie de permis et les modules de formation applicables.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowProgrammeModal(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+              >
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveProgramme} className="p-6 space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Catégorie / Type de Permis *
+                </label>
+                <select
+                  value={progTypePermis}
+                  onChange={(e) => setProgTypePermis(e.target.value)}
+                  className="w-full text-xs p-2.5 rounded-xl border border-slate-300 font-bold bg-white focus:ring-2 focus:ring-blue-500 outline-none"
+                  required
+                >
+                  <option value="A">Permis A (Moto / Deux-roues)</option>
+                  <option value="B">Permis B (Voiture / Véhicule léger)</option>
+                  <option value="C">Permis C (Poids Lourd / Transport de marchandises)</option>
+                  <option value="D">Permis D (Transport en commun / Bus)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Titre du Programme *
+                </label>
+                <input
+                  type="text"
+                  value={progTitre}
+                  onChange={(e) => setProgTitre(e.target.value)}
+                  placeholder="ex. Programme Permis B - Conduite Automobile"
+                  className="w-full text-xs p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Description & Objectifs du Programme
+                </label>
+                <textarea
+                  value={progDescription}
+                  onChange={(e) => setProgDescription(e.target.value)}
+                  rows={2}
+                  placeholder="Objectifs pédagogiques et règles de la formation..."
+                  className="w-full text-xs p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-2">
+                  Sélectionnez les Modules à inclure dans ce Programme :
+                </label>
+                <div className="space-y-2 max-h-48 overflow-y-auto border border-slate-200 rounded-xl p-3 bg-slate-50">
+                  {modules.map((m) => {
+                    const isChecked = progModuleIds.includes(m._id);
+                    return (
+                      <label
+                        key={m._id}
+                        className="flex items-center space-x-2 text-xs text-slate-800 cursor-pointer hover:bg-white p-1.5 rounded-lg border border-transparent hover:border-slate-200 transition"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setProgModuleIds([...progModuleIds, m._id]);
+                            } else {
+                              setProgModuleIds(progModuleIds.filter((id) => id !== m._id));
+                            }
+                          }}
+                          className="rounded text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="font-bold">Module {m.ordre} :</span>
+                        <span className="truncate">{m.title}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="pt-4 flex items-center justify-end space-x-3 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setShowProgrammeModal(false)}
+                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-800 rounded-xl"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-xs"
+                >
+                  Enregistrer le Programme
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
