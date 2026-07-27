@@ -1,0 +1,70 @@
+export default {
+  name: 'eleve',
+  title: 'Élève',
+  type: 'document',
+  fields: [
+    {
+      name: 'user',
+      title: 'Compte Utilisateur',
+      type: 'reference',
+      to: [{ type: 'user' }],
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'autoEcole',
+      title: 'Auto-École (Tenant)',
+      type: 'reference',
+      to: [{ type: 'autoEcole' }],
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'codeEleveUnique',
+      title: 'Code Élève Unique',
+      type: 'string',
+      description: 'Format ex: AE001-ELV045',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'dateDebutFormation',
+      title: 'Date de Début de Formation',
+      type: 'date',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'dateFinFormation',
+      title: 'Date de Fin de Formation (Blocage Auto)',
+      type: 'date',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'formationActive',
+      title: 'Formation Active',
+      type: 'boolean',
+      initialValue: true,
+    },
+    {
+      name: 'progressionGlobal',
+      title: 'Progression Globale (0 à 100%)',
+      type: 'number',
+      initialValue: 0,
+      validation: (Rule: any) => Rule.min(0).max(100),
+    },
+    {
+      name: 'isBlocked',
+      title: 'Accès Bloqué (Expiration ou manuel)',
+      type: 'boolean',
+      initialValue: false,
+    },
+    {
+      name: 'createdAt',
+      title: 'Date de Création',
+      type: 'datetime',
+      initialValue: () => new Date().toISOString(),
+    },
+    {
+      name: 'updatedAt',
+      title: 'Dernière mise à jour',
+      type: 'datetime',
+    },
+  ],
+};

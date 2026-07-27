@@ -1,0 +1,6 @@
+{
+  "name": "Matoa",
+  "description": "Plateforme SaaS multi-tenant réservée aux auto-écoles pour la gestion des élèves, des cours théoriques et des certificats.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
