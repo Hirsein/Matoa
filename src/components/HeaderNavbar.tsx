@@ -20,8 +20,8 @@ export const HeaderNavbar: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Brand Logo & Name */}
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-xl italic shadow-xs">
-              M
+            <div className="w-10 h-10 bg-slate-900 rounded-xl border border-slate-700/50 shadow-md flex items-center justify-center p-1 overflow-hidden transition-transform duration-300 hover:scale-105 shrink-0">
+              <img src="/matoa-logo.png" alt="Matoa Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
@@ -92,11 +92,15 @@ export const HeaderNavbar: React.FC = () => {
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition border border-slate-200 dark:border-slate-700 shadow-xs"
+              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 border border-slate-200 dark:border-slate-700 shadow-xs active:scale-90"
               title={theme === 'dark' ? t('themeLight') : t('themeDark')}
               aria-label="Toggle dark mode"
             >
-              {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400 transition-transform duration-500 rotate-0 hover:rotate-90" />
+              ) : (
+                <Moon className="w-4 h-4 text-slate-700 dark:text-slate-300 transition-transform duration-500 rotate-0 hover:-rotate-45" />
+              )}
             </button>
 
             {/* Settings Button */}

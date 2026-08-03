@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { ModuleFormation, Quiz, ProgressionModule, Certificat } from '../types';
 import { CertificateModal } from '../components/CertificateModal';
 import { generateCertificatePDF } from '../lib/certificatePdfService';
+import { ModuleProgressionCharts } from '../components/ModuleProgressionCharts';
 import {
   GraduationCap,
   PlayCircle,
@@ -30,6 +31,13 @@ import {
   TrendingUp,
   Target,
   ShieldCheck,
+  Bell,
+  BellRing,
+  Calendar,
+  X,
+  CheckCheck,
+  Info,
+  MessageSquare,
 } from 'lucide-react';
 
 export const ElevePortal: React.FC = () => {
@@ -94,10 +102,102 @@ export const ElevePortal: React.FC = () => {
   // Logs state
   const [logs, setLogs] = useState<any[]>([]);
 
+  // Notifications System state
+  const [showNotificationPanel, setShowNotificationPanel] = useState(false);
+  const [notificationFilter, setNotificationFilter] = useState<'ALL' | 'COURS' | 'PLANNING'>('ALL');
+  const [readNotifIds, setReadNotifIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem(`matoa_read_notifs_${eleve?.user}`);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const markNotificationAsRead = (id: string) => {
+    if (!readNotifIds.includes(id)) {
+      const updated = [...readNotifIds, id];
+      setReadNotifIds(updated);
+      try {
+        localStorage.setItem(`matoa_read_notifs_${eleve?.user}`, JSON.stringify(updated));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
+  const markAllNotificationsAsRead = (ids: string[]) => {
+    const combined = Array.from(new Set([...readNotifIds, ...ids]));
+    setReadNotifIds(combined);
+    try {
+      localStorage.setItem(`matoa_read_notifs_${eleve?.user}`, JSON.stringify(combined));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // Check if student training period is expired or blocked
   const todayStr = new Date().toISOString().split('T')[0];
   const isExpired = eleveDetail?.dateFinFormation ? eleveDetail.dateFinFormation < todayStr : false;
   const isBlocked = eleveDetail?.isBlocked || isExpired;
+
+  // Dynamic Notifications calculation
+  const notificationsList = React.useMemo(() => {
+    const notifs: any[] = [];
+
+    // 1. Cours Théoriques Notifications
+    structuredProgression.forEach((sp: any) => {
+      if (!sp.isLocked) {
+        notifs.push({
+          id: `notif-course-${sp.module._id}`,
+          type: 'COURS',
+          title: `Nouveau cours théorique : ${sp.module.title}`,
+          message: `Le module Permis ${sp.module.typePermis || 'B'} est accessible (${sp.lecons?.length || 0} leçons vidéo avec quiz).`,
+          timestamp: 'Disponible',
+          targetTab: 'modules',
+          moduleId: sp.module._id,
+          badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
+        });
+      }
+    });
+
+    // 2. Planning & Expiration Notifications
+    if (eleveDetail?.dateFinFormation) {
+      const isSoonExpired = (new Date(eleveDetail.dateFinFormation).getTime() - new Date().getTime()) / (1000 * 3600 * 24) < 15;
+      notifs.push({
+        id: `notif-planning-${eleveDetail._id}`,
+        type: 'PLANNING',
+        title: isExpired
+          ? '⚠️ Planning de formation expiré'
+          : isSoonExpired
+          ? '⏰ Planning de formation : Fin imminente'
+          : '📅 Planning de formation actif',
+        message: isExpired
+          ? `Votre période de formation s'est achevée le ${eleveDetail.dateFinFormation}.`
+          : `Accès formation valide du ${eleveDetail.dateDebutFormation || 'Début'} au ${eleveDetail.dateFinFormation}.`,
+        timestamp: 'Statut Compte',
+        targetTab: 'profile',
+        badgeColor: isExpired ? 'bg-red-100 text-red-800 border-red-200' : 'bg-purple-100 text-purple-800 border-purple-200',
+      });
+    }
+
+    // 3. Certificat / Réussite
+    if (eleveDetail?.progressionGlobal >= 100) {
+      notifs.push({
+        id: `notif-cert-${eleveDetail._id}`,
+        type: 'CERTIFICATE',
+        title: '🏆 Certificat Officiel de Réussite Disponible !',
+        message: 'Vous avez complété 100% de votre programme de Code de la Route. Téléchargez votre attestation PDF dès maintenant.',
+        timestamp: 'Validation',
+        targetTab: 'certificat',
+        badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
+      });
+    }
+
+    return notifs;
+  }, [structuredProgression, eleveDetail, isExpired]);
+
+  const unreadNotifs = notificationsList.filter((n) => !readNotifIds.includes(n.id));
 
   const primaryColor = autoEcole?.couleursTheme?.primaryColor || '#2563eb';
   const secondaryColor = autoEcole?.couleursTheme?.secondaryColor || '#059669';
@@ -406,23 +506,166 @@ export const ElevePortal: React.FC = () => {
             </div>
           </div>
 
-          {/* Progress Badge Card */}
-          <div className="bg-white/15 backdrop-blur-md p-4 rounded-2xl border border-white/25 min-w-[240px] shadow-xs">
-            <div className="flex items-center justify-between text-xs text-white mb-1">
-              <span className="font-bold">Progression du Code</span>
-              <span className="font-black font-mono text-sm">{eleveDetail?.progressionGlobal || 0}%</span>
+          {/* Header Controls & Progress Badge Card */}
+          <div className="flex items-center space-x-3">
+            {/* Notification Bell Trigger */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowNotificationPanel(!showNotificationPanel)}
+                className="relative p-3 bg-white/20 hover:bg-white/30 text-white rounded-2xl backdrop-blur-md border border-white/30 transition shadow-sm flex items-center justify-center focus:outline-none"
+                title="Notifications & Alertes de formation"
+              >
+                <Bell className="w-5 h-5" />
+                {unreadNotifs.length > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-900 shadow-sm animate-pulse">
+                    {unreadNotifs.length}
+                  </span>
+                )}
+              </button>
+
+              {/* Notifications Dropdown Modal / Popover */}
+              <AnimatePresence>
+                {showNotificationPanel && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute right-0 mt-3 w-80 sm:w-96 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl z-50 overflow-hidden text-slate-900 dark:text-white"
+                  >
+                    {/* Panel Header */}
+                    <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <BellRing className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                        <h3 className="text-sm font-black tracking-tight">Centre de Notifications</h3>
+                        {unreadNotifs.length > 0 && (
+                          <span className="px-2 py-0.5 text-[10px] font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 rounded-full">
+                            {unreadNotifs.length} non lues
+                          </span>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={() => setShowNotificationPanel(false)}
+                        className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-500 transition"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Filter Tabs */}
+                    <div className="flex border-b border-slate-100 dark:border-slate-800 px-3 py-2 bg-white dark:bg-slate-900 gap-1 overflow-x-auto text-[11px] font-bold">
+                      <button
+                        onClick={() => setNotificationFilter('ALL')}
+                        className={`px-3 py-1 rounded-xl transition ${
+                          notificationFilter === 'ALL'
+                            ? 'bg-blue-600 text-white'
+                            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                        }`}
+                      >
+                        Toutes ({notificationsList.length})
+                      </button>
+                      <button
+                        onClick={() => setNotificationFilter('COURS')}
+                        className={`px-3 py-1 rounded-xl transition ${
+                          notificationFilter === 'COURS'
+                            ? 'bg-blue-600 text-white'
+                            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                        }`}
+                      >
+                        Cours Théoriques
+                      </button>
+                      <button
+                        onClick={() => setNotificationFilter('PLANNING')}
+                        className={`px-3 py-1 rounded-xl transition ${
+                          notificationFilter === 'PLANNING'
+                            ? 'bg-blue-600 text-white'
+                            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                        }`}
+                      >
+                        Planning
+                      </button>
+                    </div>
+
+                    {/* Notification List */}
+                    <div className="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
+                      {notificationsList.filter((n) => notificationFilter === 'ALL' || n.type === notificationFilter).length === 0 ? (
+                        <div className="p-8 text-center text-slate-400 dark:text-slate-500 text-xs font-medium">
+                          Aucune notification disponible.
+                        </div>
+                      ) : (
+                        notificationsList
+                          .filter((n) => notificationFilter === 'ALL' || n.type === notificationFilter)
+                          .map((notif) => {
+                            const isRead = readNotifIds.includes(notif.id);
+                            return (
+                              <div
+                                key={notif.id}
+                                onClick={() => {
+                                  markNotificationAsRead(notif.id);
+                                  if (notif.targetTab) setActiveTab(notif.targetTab);
+                                  setShowNotificationPanel(false);
+                                }}
+                                className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition cursor-pointer relative ${
+                                  !isRead ? 'bg-blue-50/40 dark:bg-blue-950/20' : ''
+                                }`}
+                              >
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="flex items-center space-x-2">
+                                    <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase border ${notif.badgeColor || 'bg-slate-100 text-slate-700'}`}>
+                                      {notif.type}
+                                    </span>
+                                    <span className="text-[10px] text-slate-400">{notif.timestamp}</span>
+                                  </div>
+
+                                  {!isRead && (
+                                    <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0 mt-1" />
+                                  )}
+                                </div>
+
+                                <h4 className="text-xs font-bold text-slate-900 dark:text-white mt-1.5">{notif.title}</h4>
+                                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-snug">{notif.message}</p>
+                              </div>
+                            );
+                          })
+                      )}
+                    </div>
+
+                    {/* Footer Actions */}
+                    {unreadNotifs.length > 0 && (
+                      <div className="p-3 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-800 text-center">
+                        <button
+                          onClick={() => markAllNotificationsAsRead(notificationsList.map((n) => n.id))}
+                          className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-center space-x-1 mx-auto"
+                        >
+                          <CheckCheck className="w-3.5 h-3.5" />
+                          <span>Tout marquer comme lu</span>
+                        </button>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <div className="w-full bg-black/20 rounded-full h-2.5 overflow-hidden p-0.5">
-              <div
-                className="bg-white h-full rounded-full transition-all duration-500 shadow-xs"
-                style={{ width: `${eleveDetail?.progressionGlobal || 0}%` }}
-              />
+
+            {/* Progress Badge Card */}
+            <div className="bg-white/15 backdrop-blur-md p-4 rounded-2xl border border-white/25 min-w-[240px] shadow-xs">
+              <div className="flex items-center justify-between text-xs text-white mb-1">
+                <span className="font-bold">Progression du Code</span>
+                <span className="font-black font-mono text-sm">{eleveDetail?.progressionGlobal || 0}%</span>
+              </div>
+              <div className="w-full bg-black/20 rounded-full h-2.5 overflow-hidden p-0.5">
+                <div
+                  className="bg-white h-full rounded-full transition-all duration-500 shadow-xs"
+                  style={{ width: `${eleveDetail?.progressionGlobal || 0}%` }}
+                />
+              </div>
+              <p className="text-[10px] text-white/90 mt-1.5 text-right font-medium">
+                {eleveDetail?.progressionGlobal >= 100
+                  ? '🎉 Formation 100% Complétée !'
+                  : 'Modules théoriques en cours'}
+              </p>
             </div>
-            <p className="text-[10px] text-white/90 mt-1.5 text-right font-medium">
-              {eleveDetail?.progressionGlobal >= 100
-                ? '🎉 Formation 100% Complétée !'
-                : 'Modules théoriques en cours'}
-            </p>
           </div>
         </div>
       </div>
@@ -518,7 +761,46 @@ export const ElevePortal: React.FC = () => {
           >
             {/* TAB 1: PARCOURS DE CODE */}
             {activeTab === 'modules' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="space-y-6">
+                {/* Active Notifications Alert Banner */}
+                {unreadNotifs.length > 0 && (
+                  <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl flex items-center justify-between shadow-xs">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-blue-600 text-white rounded-xl shadow-xs">
+                        <Bell className="w-5 h-5 animate-bounce" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-black text-blue-900 uppercase tracking-wider">
+                          Nouveaux Cours & Alerts ({unreadNotifs.length} non lus)
+                        </h4>
+                        <p className="text-xs text-blue-700 font-medium">
+                          {unreadNotifs[0].title} — <span className="opacity-90">{unreadNotifs[0].message}</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => setShowNotificationPanel(true)}
+                      className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition shadow-2xs whitespace-nowrap shrink-0"
+                    >
+                      Voir toutes les alerte &rarr;
+                    </button>
+                  </div>
+                )}
+
+                {/* Visual Chart Component */}
+                <ModuleProgressionCharts
+                  structuredProgression={structuredProgression}
+                  onSelectModule={(item) => {
+                    if (!item.isLocked && !isBlocked) {
+                      setActiveModuleItem(item);
+                      setVideoCurrentTime(item.progression?.videoWatchTimeSeconds || 0);
+                    }
+                  }}
+                  activeModuleId={activeModuleItem?.module?._id}
+                />
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left: Sequential Modules List */}
             <div className="space-y-4 lg:col-span-1">
               <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -913,6 +1195,7 @@ export const ElevePortal: React.FC = () => {
               )}
             </div>
           </div>
+        </div>
         )}
 
         {/* TAB: PROFILE & STATS */}
@@ -1046,6 +1329,9 @@ export const ElevePortal: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* Circular Charts Visual Breakdown */}
+            <ModuleProgressionCharts structuredProgression={structuredProgression} />
 
             {/* Detailed Progression per Module */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs space-y-4">

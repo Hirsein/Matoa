@@ -78,9 +78,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
             {/* Header Logos */}
             <div className="flex items-center justify-between border-b border-amber-200/60 pb-6 mb-8">
               {/* Matoa Platform Brand */}
-              <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-md">
-                  <Award className="w-6 h-6" />
+              <div className="flex items-center space-x-2.5">
+                <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700/40 p-1 flex items-center justify-center shadow-sm shrink-0">
+                  <img src="/matoa-logo.png" alt="Matoa Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
                   <h4 className="text-lg font-bold text-slate-900 tracking-tight">Matoa</h4>

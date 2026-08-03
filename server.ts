@@ -33,6 +33,9 @@ async function startServer() {
 
   app.use(express.json());
 
+  // Synchronize in-memory store with Sanity Cloud on boot
+  await inMemoryStore.loadFromSanity();
+
   // -------------------------------------------------------------
   // API ROUTES
   // -------------------------------------------------------------
@@ -55,7 +58,7 @@ async function startServer() {
     // Role-based login handling
     if (loginType === UserRole.SUPER_ADMIN) {
       const user = inMemoryStore.users.find(
-        (u) => u.role === UserRole.SUPER_ADMIN && (u.email === email || u.email === 'admin@matoa.fr')
+        (u) => u.role === UserRole.SUPER_ADMIN && (u.email.toLowerCase() === (email || '').trim().toLowerCase() || u.email === 'matoa@gmail.com')
       );
 
       if (!user || user.passwordHash !== password) {
@@ -985,7 +988,7 @@ async function startServer() {
     res.json(modulesSorted);
   });
 
-  app.post('/api/modules', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+  app.post('/api/modules', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
     const { code, title, summary, description, learningObjectives, ordre, videoUrl, durationSeconds, tempsMinimumVisionnage, scoreMinimumQuiz, lecons } = req.body;
 
     if (!title || !videoUrl) {
@@ -1011,6 +1014,7 @@ async function startServer() {
     };
 
     inMemoryStore.modules.push(newModule);
+    inMemoryStore.syncModuleToSanity(newModule);
 
     inMemoryStore.addLog(
       req.user!.userId,
@@ -1021,7 +1025,7 @@ async function startServer() {
     res.status(201).json(newModule);
   });
 
-  app.put('/api/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+  app.put('/api/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
     const { id } = req.params;
     const mod = inMemoryStore.modules.find((m) => m._id === id);
 
@@ -1044,6 +1048,7 @@ async function startServer() {
     if (Array.isArray(lecons)) mod.lecons = lecons;
 
     mod.updatedAt = new Date().toISOString();
+    inMemoryStore.syncModuleToSanity(mod);
 
     inMemoryStore.addLog(
       req.user!.userId,
@@ -1054,7 +1059,7 @@ async function startServer() {
     res.json(mod);
   });
 
-  app.delete('/api/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+  app.delete('/api/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
     const { id } = req.params;
     const index = inMemoryStore.modules.findIndex((m) => m._id === id);
 
@@ -1063,6 +1068,7 @@ async function startServer() {
     }
 
     const removed = inMemoryStore.modules.splice(index, 1)[0];
+    inMemoryStore.deleteSanityDocument(id);
 
     inMemoryStore.addLog(
       req.user!.userId,
@@ -1073,7 +1079,7 @@ async function startServer() {
     res.json({ message: 'Module supprimé avec succès.', module: removed });
   });
 
-  app.post('/api/quizzes', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+  app.post('/api/quizzes', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
     const { moduleId, questions, timerSeconds, scoreMinimum, title } = req.body;
 
     if (!moduleId || !questions || !Array.isArray(questions)) {
@@ -1115,6 +1121,8 @@ async function startServer() {
     if (mod) {
       mod.quiz = quiz;
     }
+
+    inMemoryStore.syncQuizToSanity(quiz);
 
     res.json(quiz);
   });

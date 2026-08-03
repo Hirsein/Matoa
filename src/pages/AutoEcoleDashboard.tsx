@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
-import { exportStudentsToCSV, exportDashboardStatsToPDF, exportLogsToCSV, exportLogsToJSON } from '../lib/exportService';
+import { exportStudentsToCSV, exportCoursesToCSV, exportDashboardStatsToPDF, exportLogsToCSV, exportLogsToJSON } from '../lib/exportService';
 import { generateCertificatePDF } from '../lib/certificatePdfService';
 import {
   ResponsiveContainer,
@@ -54,6 +54,8 @@ import {
   Video,
   Check,
   Layers,
+  Lock,
+  Info,
 } from 'lucide-react';
 
 export const AutoEcoleDashboard: React.FC = () => {
@@ -61,7 +63,7 @@ export const AutoEcoleDashboard: React.FC = () => {
   const { t } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const [activeTab, setActiveTab] = useState<'overview' | 'branding' | 'eleves' | 'programme' | 'progression' | 'certificats' | 'logs'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'branding' | 'eleves' | 'progression' | 'certificats' | 'logs'>('overview');
 
   // Curriculum Management State
   const [modules, setModules] = useState<ModuleFormation[]>([]);
@@ -106,6 +108,11 @@ export const AutoEcoleDashboard: React.FC = () => {
   const [eleveSearch, setEleveSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'IN_PROGRESS' | 'COMPLETED' | 'NOT_STARTED' | 'EXPIRED' | 'BLOCKED'>('ALL');
 
+  // Advanced Filter & Sort State
+  const [progressionTierFilter, setProgressionTierFilter] = useState<'ALL' | 'NOT_STARTED' | 'TIER_1_49' | 'TIER_50_99' | 'COMPLETED_100'>('ALL');
+  const [certificatStatusFilter, setCertificatStatusFilter] = useState<'ALL' | 'NOT_ELIGIBLE' | 'ELIGIBLE' | 'GENERE' | 'TELECHARGE'>('ALL');
+  const [sortBy, setSortBy] = useState<'RECENT' | 'PROG_DESC' | 'PROG_ASC' | 'NAME_ASC' | 'NAME_DESC'>('RECENT');
+
   // New Student modal
   const [showEleveModal, setShowEleveModal] = useState(false);
   const [newStudentName, setNewStudentName] = useState('');
@@ -145,6 +152,108 @@ export const AutoEcoleDashboard: React.FC = () => {
   const [newStudentTypePermis, setNewStudentTypePermis] = useState('B');
   const [newStudentProgId, setNewStudentProgId] = useState('');
   const [permitFilter, setPermitFilter] = useState<string>('ALL');
+
+  // Quick Student Search & Logo File Upload State
+  const [quickSearchQuery, setQuickSearchQuery] = useState('');
+  const [showQuickSearchDropdown, setShowQuickSearchDropdown] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [isDraggingLogo, setIsDraggingLogo] = useState(false);
+
+  const matchingQuickStudents = React.useMemo(() => {
+    if (!quickSearchQuery || quickSearchQuery.trim().length === 0) return [];
+    const q = quickSearchQuery.toLowerCase().trim();
+    return eleves.filter((e) => {
+      const name = e.userDetail?.name?.toLowerCase() || '';
+      const code = e.codeEleveUnique?.toLowerCase() || '';
+      const email = e.userDetail?.email?.toLowerCase() || '';
+      const phone = (e.telephone || e.userDetail?.phone || '').toLowerCase();
+      const permis = (e.typePermis || 'B').toLowerCase();
+      return (
+        name.includes(q) ||
+        code.includes(q) ||
+        email.includes(q) ||
+        phone.includes(q) ||
+        `permis ${permis}`.includes(q)
+      );
+    }).slice(0, 8);
+  }, [quickSearchQuery, eleves]);
+
+  const filteredAndSortedEleves = React.useMemo(() => {
+    return eleves
+      .filter((e) => {
+        // 1. Search query
+        const matchesSearch =
+          !eleveSearch ||
+          e.userDetail?.name?.toLowerCase().includes(eleveSearch.toLowerCase()) ||
+          e.codeEleveUnique?.toLowerCase().includes(eleveSearch.toLowerCase()) ||
+          e.userDetail?.email?.toLowerCase().includes(eleveSearch.toLowerCase());
+
+        if (!matchesSearch) return false;
+
+        // 2. Permit filter
+        if (permitFilter !== 'ALL' && (e.typePermis || 'B') !== permitFilter) return false;
+
+        // 3. Status filter
+        if (statusFilter === 'EXPIRED' && !e.isExpired) return false;
+        if (statusFilter === 'BLOCKED' && (!e.isBlocked || e.isExpired)) return false;
+        if (statusFilter === 'COMPLETED' && e.progressionGlobal !== 100) return false;
+        if (statusFilter === 'NOT_STARTED' && (e.progressionGlobal !== 0 || e.isExpired || e.isBlocked)) return false;
+        if (statusFilter === 'IN_PROGRESS' && (e.progressionGlobal === 0 || e.progressionGlobal === 100 || e.isExpired || e.isBlocked)) return false;
+
+        // 4. Progression Tier filter
+        const prog = e.progressionGlobal || 0;
+        if (progressionTierFilter === 'NOT_STARTED' && prog !== 0) return false;
+        if (progressionTierFilter === 'TIER_1_49' && (prog < 1 || prog > 49)) return false;
+        if (progressionTierFilter === 'TIER_50_99' && (prog < 50 || prog > 99)) return false;
+        if (progressionTierFilter === 'COMPLETED_100' && prog !== 100) return false;
+
+        // 5. Certificate Status filter
+        if (certificatStatusFilter !== 'ALL') {
+          const certItem = certificates.find((c) => {
+            const elId = typeof c.eleve === 'string' ? c.eleve : c.eleve?._id;
+            return elId === e._id;
+          });
+          const hasCert = !!certItem?.certificat;
+          const certStatus = certItem?.certificat?.status;
+
+          if (certificatStatusFilter === 'NOT_ELIGIBLE' && prog === 100) return false;
+          if (certificatStatusFilter === 'ELIGIBLE' && (prog < 100 || hasCert)) return false;
+          if (certificatStatusFilter === 'GENERE' && (!hasCert || certStatus !== 'GENERE')) return false;
+          if (certificatStatusFilter === 'TELECHARGE' && (!hasCert || certStatus !== 'TELECHARGE')) return false;
+        }
+
+        return true;
+      })
+      .sort((a, b) => {
+        if (sortBy === 'PROG_DESC') return (b.progressionGlobal || 0) - (a.progressionGlobal || 0);
+        if (sortBy === 'PROG_ASC') return (a.progressionGlobal || 0) - (b.progressionGlobal || 0);
+        if (sortBy === 'NAME_ASC') return (a.userDetail?.name || '').localeCompare(b.userDetail?.name || '');
+        if (sortBy === 'NAME_DESC') return (a.userDetail?.name || '').localeCompare(a.userDetail?.name || '');
+        return 0;
+      });
+  }, [eleves, eleveSearch, permitFilter, statusFilter, progressionTierFilter, certificatStatusFilter, sortBy, certificates]);
+
+  const handleLogoFileChange = (file: File) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setFeedback({ type: 'error', text: 'Veuillez sélectionner un fichier image valide (PNG, JPG, SVG, WebP).' });
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setFeedback({ type: 'error', text: 'L\'image dépasse 5 Mo. Veuillez choisir une image plus légère.' });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64Data = e.target?.result as string;
+      if (base64Data) {
+        setLogoUrl(base64Data);
+        setFeedback({ type: 'success', text: `Logo "${file.name}" importé avec succès depuis votre terminal ! Cliquez sur "Enregistrer" pour appliquer.` });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   // Feedback
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -195,28 +304,12 @@ export const AutoEcoleDashboard: React.FC = () => {
   };
 
   const handleExportStudentsCSV = () => {
-    if (!eleves || eleves.length === 0) {
-      setFeedback({ type: 'error', text: 'Aucun élève à exporter.' });
+    if (!filteredAndSortedEleves || filteredAndSortedEleves.length === 0) {
+      setFeedback({ type: 'error', text: 'Aucun élève correspondant aux filtres à exporter.' });
       return;
     }
 
-    const filtered = eleves.filter((e) => {
-      const matchesSearch =
-        !eleveSearch ||
-        e.userDetail?.name?.toLowerCase().includes(eleveSearch.toLowerCase()) ||
-        e.codeEleveUnique?.toLowerCase().includes(eleveSearch.toLowerCase()) ||
-        e.userDetail?.email?.toLowerCase().includes(eleveSearch.toLowerCase());
-
-      if (!matchesSearch) return false;
-
-      if (statusFilter === 'ALL') return true;
-      if (statusFilter === 'EXPIRED') return !!e.isExpired;
-      if (statusFilter === 'BLOCKED') return !!e.isBlocked && !e.isExpired;
-      if (statusFilter === 'COMPLETED') return e.progressionGlobal === 100;
-      if (statusFilter === 'NOT_STARTED') return e.progressionGlobal === 0 && !e.isExpired && !e.isBlocked;
-      if (statusFilter === 'IN_PROGRESS') return e.progressionGlobal > 0 && e.progressionGlobal < 100 && !e.isExpired && !e.isBlocked;
-      return true;
-    });
+    const filtered = filteredAndSortedEleves;
 
     const headers = ['Code Eleve', 'Nom Complet', 'Email', 'Telephone', 'Date Debut', 'Date Fin', 'Progression (%)', 'Statut'];
     const rows = filtered.map((el) => {
@@ -296,7 +389,7 @@ export const AutoEcoleDashboard: React.FC = () => {
       setModSummary('');
       setModObjectives('');
       setModOrdre(modules.length + 1);
-      setModVideoUrl('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+      setModVideoUrl('');
       setModDurationSeconds(180);
       setModMinWatchPct(80);
       setModQuizScoreMin(70);
@@ -778,6 +871,127 @@ export const AutoEcoleDashboard: React.FC = () => {
             </div>
           </div>
 
+          {/* Quick Search Bar for Instant Student Lookup */}
+          <div className="relative flex-1 max-w-md w-full my-2 md:my-0">
+            <div className="relative">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <input
+                type="text"
+                placeholder="Recherche rapide élève (Nom, Code MATOA-EL-..., Email, Tél)..."
+                value={quickSearchQuery}
+                onChange={(e) => {
+                  setQuickSearchQuery(e.target.value);
+                  setShowQuickSearchDropdown(true);
+                }}
+                onFocus={() => setShowQuickSearchDropdown(true)}
+                className="w-full pl-10 pr-9 py-2 bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-medium text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 shadow-2xs transition"
+              />
+              {quickSearchQuery && (
+                <button
+                  onClick={() => {
+                    setQuickSearchQuery('');
+                    setShowQuickSearchDropdown(false);
+                  }}
+                  className="absolute right-3 top-2 text-slate-400 hover:text-slate-600 text-xs font-bold p-0.5"
+                  title="Effacer la recherche"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* Quick Search Auto-complete Dropdown */}
+            {showQuickSearchDropdown && quickSearchQuery.trim().length > 0 && (
+              <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-96 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
+                <div className="px-4 py-2 bg-slate-50 dark:bg-slate-800/80 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                  <span>Dossiers trouvés ({matchingQuickStudents.length})</span>
+                  <button
+                    onClick={() => setShowQuickSearchDropdown(false)}
+                    className="text-slate-400 hover:text-slate-600 text-[10px]"
+                  >
+                    Fermer ✕
+                  </button>
+                </div>
+
+                {matchingQuickStudents.length === 0 ? (
+                  <div className="p-4 text-center text-xs text-slate-500 font-medium">
+                    Aucun dossier élève correspondant à "<strong className="text-slate-800 dark:text-slate-200">{quickSearchQuery}</strong>"
+                  </div>
+                ) : (
+                  matchingQuickStudents.map((st) => (
+                    <div
+                      key={st._id}
+                      className="p-3 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer"
+                      onClick={() => {
+                        setEleveSearch(st.codeEleveUnique || st.userDetail?.name || '');
+                        setActiveTab('eleves');
+                        setShowQuickSearchDropdown(false);
+                      }}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 font-black text-xs flex items-center justify-center border border-blue-200/60 shrink-0">
+                          {(st.userDetail?.name || 'E').slice(0, 2).toUpperCase()}
+                        </div>
+
+                        <div>
+                          <div className="flex items-center space-x-2 flex-wrap gap-y-1">
+                            <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                              {st.userDetail?.name}
+                            </h4>
+                            <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                              {st.codeEleveUnique}
+                            </span>
+                            <span className="text-[10px] font-black px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
+                              Permis {st.typePermis || 'B'}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center space-x-2 text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            <span>{st.userDetail?.email}</span>
+                            {st.telephone && <span>• Tél: {st.telephone}</span>}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center space-x-1.5 self-end sm:self-center shrink-0">
+                        <div className="text-right mr-2 hidden sm:block">
+                          <span className="text-xs font-black text-slate-900 dark:text-white">
+                            {st.progressionGlobal || 0}%
+                          </span>
+                          <p className="text-[9px] text-slate-400">Progression</p>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleInspectProgression(st);
+                            setShowQuickSearchDropdown(false);
+                          }}
+                          className="px-2.5 py-1 bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 font-bold rounded-lg text-[10px] border border-blue-200 dark:border-blue-800 transition"
+                        >
+                          Suivi
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedEleveForEdit(st);
+                            setShowQuickSearchDropdown(false);
+                          }}
+                          className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 font-bold rounded-lg text-[10px] border border-slate-200 dark:border-slate-700 transition"
+                        >
+                          Éditer
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+
           <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
             <button
               onClick={() => exportDashboardStatsToPDF(`Statistiques - ${autoEcole?.name || 'Auto-École'}`, stats, eleves)}
@@ -791,10 +1005,19 @@ export const AutoEcoleDashboard: React.FC = () => {
             <button
               onClick={() => exportStudentsToCSV(eleves, `eleves_${autoEcole?.codeAutoEcoleUnique || 'autoecole'}.csv`)}
               className="inline-flex items-center space-x-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs transition"
-              title={t('exportExcel')}
+              title="Exporter la liste des élèves au format CSV"
             >
               <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
-              <span>Excel/CSV</span>
+              <span>CSV Élèves</span>
+            </button>
+
+            <button
+              onClick={() => exportCoursesToCSV(modules, `cours_modules_${autoEcole?.codeAutoEcoleUnique || 'autoecole'}.csv`)}
+              className="inline-flex items-center space-x-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs transition"
+              title="Exporter les cours et modules théoriques au format CSV"
+            >
+              <BookOpen className="w-4 h-4 text-blue-600" />
+              <span>CSV Cours</span>
             </button>
 
             <button
@@ -863,18 +1086,6 @@ export const AutoEcoleDashboard: React.FC = () => {
           >
             <Users className="w-4 h-4" />
             <span>Gestion des Élèves ({eleves.length})</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('programme')}
-            className={`py-3 px-4 text-xs font-bold rounded-t-xl transition flex items-center space-x-2 shrink-0 ${
-              activeTab === 'programme'
-                ? 'bg-purple-50 text-purple-700 border-b-2 border-purple-600 font-extrabold'
-                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-          >
-            <BookOpen className="w-4 h-4 text-purple-600" />
-            <span>Programme & Leçons ({modules.length})</span>
           </button>
 
           <button
@@ -1229,16 +1440,101 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="space-y-4 text-xs pt-2">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">
-                    URL du Logo de l'Auto-École
+                  <label className="block text-slate-700 font-bold mb-1.5 flex items-center justify-between">
+                    <span>Logo de l'Auto-École</span>
+                    <span className="text-[10px] text-slate-500 font-normal">Importation directe ou URL</span>
                   </label>
-                  <input
-                    type="url"
-                    placeholder="https://..."
-                    value={logoUrl}
-                    onChange={(e) => setLogoUrl(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600"
-                  />
+
+                  {/* Direct Terminal/Device File Dropzone */}
+                  <div
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setIsDraggingLogo(true);
+                    }}
+                    onDragLeave={() => setIsDraggingLogo(false)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setIsDraggingLogo(false);
+                      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                        handleLogoFileChange(e.dataTransfer.files[0]);
+                      }
+                    }}
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`p-4 border-2 border-dashed rounded-2xl transition text-center cursor-pointer ${
+                      isDraggingLogo
+                        ? 'border-blue-500 bg-blue-50/80 dark:bg-blue-950/40'
+                        : 'border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/40 hover:bg-slate-100/80 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          handleLogoFileChange(e.target.files[0]);
+                        }
+                      }}
+                    />
+
+                    {logoUrl ? (
+                      <div className="flex items-center justify-center space-x-4">
+                        <img
+                          src={logoUrl}
+                          alt="Aperçu Logo"
+                          className="w-16 h-16 object-cover rounded-xl border border-slate-200 bg-white p-1 shadow-sm"
+                        />
+                        <div className="text-left">
+                          <p className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 inline mr-1" />
+                            <span>Logo chargé</span>
+                          </p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Cliquez pour changer d'image depuis votre terminal
+                          </p>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLogoUrl('');
+                            }}
+                            className="text-[10px] text-red-600 hover:underline font-bold mt-1"
+                          >
+                            Supprimer le logo
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-2 py-1">
+                        <UploadCloud className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto" />
+                        <div>
+                          <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                            Importer une image depuis votre terminal / appareil
+                          </p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Glissez-déposez votre logo ici ou cliquez pour parcourir vos fichiers (PNG, JPG, SVG, WebP)
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Fallback URL Input */}
+                  <div className="mt-2.5">
+                    <details className="text-[11px] text-slate-500 dark:text-slate-400">
+                      <summary className="hover:text-slate-800 dark:hover:text-slate-200 cursor-pointer font-medium">
+                        Ou coller une URL Web directe...
+                      </summary>
+                      <input
+                        type="url"
+                        placeholder="https://..."
+                        value={logoUrl}
+                        onChange={(e) => setLogoUrl(e.target.value)}
+                        className="w-full px-3 py-2 mt-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 text-xs focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-blue-600"
+                      />
+                    </details>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -1400,6 +1696,83 @@ export const AutoEcoleDashboard: React.FC = () => {
               </div>
             </div>
 
+            {/* Advanced Filter Toolbar */}
+            <div className="bg-slate-50 dark:bg-slate-800/80 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700/80 flex flex-wrap items-center justify-between gap-3 text-xs shadow-2xs">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <div className="flex items-center space-x-1.5 text-slate-700 dark:text-slate-300 font-bold pr-2 border-r border-slate-200 dark:border-slate-700">
+                  <TrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <span>Filtres Avancés :</span>
+                </div>
+
+                {/* Progression Filter */}
+                <div className="flex items-center space-x-1 bg-white dark:bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                  <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="font-semibold text-slate-500 dark:text-slate-400">Progression :</span>
+                  <select
+                    value={progressionTierFilter}
+                    onChange={(e) => setProgressionTierFilter(e.target.value as any)}
+                    className="bg-transparent font-bold text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer"
+                  >
+                    <option value="ALL">Toutes les progressions (0-100%)</option>
+                    <option value="NOT_STARTED">0% (Non démarré)</option>
+                    <option value="TIER_1_49">1% à 49% (Débutant)</option>
+                    <option value="TIER_50_99">50% à 99% (Avancé)</option>
+                    <option value="COMPLETED_100">100% (Terminé)</option>
+                  </select>
+                </div>
+
+                {/* Certificate Status Filter */}
+                <div className="flex items-center space-x-1 bg-white dark:bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                  <Award className="w-3.5 h-3.5 text-amber-500" />
+                  <span className="font-semibold text-slate-500 dark:text-slate-400">Certificat :</span>
+                  <select
+                    value={certificatStatusFilter}
+                    onChange={(e) => setCertificatStatusFilter(e.target.value as any)}
+                    className="bg-transparent font-bold text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer"
+                  >
+                    <option value="ALL">Tous les certificats</option>
+                    <option value="NOT_ELIGIBLE">En cours (&lt; 100%)</option>
+                    <option value="ELIGIBLE">Éligible (100% sans attestation)</option>
+                    <option value="GENERE">Certificat Généré</option>
+                    <option value="TELECHARGE">Certificat Téléchargé</option>
+                  </select>
+                </div>
+
+                {/* Sort By Filter */}
+                <div className="flex items-center space-x-1 bg-white dark:bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                  <span className="font-semibold text-slate-500 dark:text-slate-400">Trier par :</span>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="bg-transparent font-bold text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer"
+                  >
+                    <option value="RECENT">Inscriptions récentes</option>
+                    <option value="PROG_DESC">Progression : Forte → Faible (100% → 0%)</option>
+                    <option value="PROG_ASC">Progression : Faible → Forte (0% → 100%)</option>
+                    <option value="NAME_ASC">Nom (A - Z)</option>
+                    <option value="NAME_DESC">Nom (Z - A)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Reset Filters button if active */}
+              {(progressionTierFilter !== 'ALL' || certificatStatusFilter !== 'ALL' || sortBy !== 'RECENT' || statusFilter !== 'ALL' || permitFilter !== 'ALL' || eleveSearch) && (
+                <button
+                  onClick={() => {
+                    setProgressionTierFilter('ALL');
+                    setCertificatStatusFilter('ALL');
+                    setSortBy('RECENT');
+                    setStatusFilter('ALL');
+                    setPermitFilter('ALL');
+                    setEleveSearch('');
+                  }}
+                  className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center space-x-1 ml-auto"
+                >
+                  <span>Réinitialiser les filtres</span>
+                </button>
+              )}
+            </div>
+
             {/* Table */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs">
               <div className="overflow-x-auto">
@@ -1411,92 +1784,125 @@ export const AutoEcoleDashboard: React.FC = () => {
                       <th className="p-3">Permis</th>
                       <th className="p-3">Période Formation</th>
                       <th className="p-3">{t('progress')}</th>
+                      <th className="p-3">Attestation</th>
                       <th className="p-3">{t('status')}</th>
                       <th className="p-3 text-right">{t('actions')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                    {eleves
-                      .filter((e) => {
-                        const matchesSearch =
-                          !eleveSearch ||
-                          e.userDetail?.name?.toLowerCase().includes(eleveSearch.toLowerCase()) ||
-                          e.codeEleveUnique?.toLowerCase().includes(eleveSearch.toLowerCase()) ||
-                          e.userDetail?.email?.toLowerCase().includes(eleveSearch.toLowerCase());
+                    {filteredAndSortedEleves.length === 0 ? (
+                      <tr>
+                        <td colSpan={8} className="p-8 text-center text-slate-500 font-medium">
+                          Aucun élève ne correspond aux critères de recherche et filtres sélectionnés.
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredAndSortedEleves.map((el) => {
+                        const certMatch = certificates.find((c) => {
+                          const elId = typeof c.eleve === 'string' ? c.eleve : c.eleve?._id;
+                          return elId === el._id;
+                        });
+                        const cert = certMatch?.certificat;
 
-                        if (!matchesSearch) return false;
-
-                        if (permitFilter !== 'ALL' && (e.typePermis || 'B') !== permitFilter) return false;
-
-                        if (statusFilter === 'ALL') return true;
-                        if (statusFilter === 'EXPIRED') return !!e.isExpired;
-                        if (statusFilter === 'BLOCKED') return !!e.isBlocked && !e.isExpired;
-                        if (statusFilter === 'COMPLETED') return e.progressionGlobal === 100;
-                        if (statusFilter === 'NOT_STARTED') return e.progressionGlobal === 0 && !e.isExpired && !e.isBlocked;
-                        if (statusFilter === 'IN_PROGRESS') return e.progressionGlobal > 0 && e.progressionGlobal < 100 && !e.isExpired && !e.isBlocked;
-                        return true;
+                        return (
+                          <tr key={el._id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors">
+                            <td className="p-3 font-bold text-slate-900 dark:text-white">
+                              {el.userDetail?.name}
+                              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">{el.userDetail?.email}</p>
+                            </td>
+                            <td className="p-3 font-mono text-emerald-600 dark:text-emerald-400 font-bold">{el.codeEleveUnique}</td>
+                            <td className="p-3 font-bold">
+                              <span className="px-2.5 py-1 rounded-lg text-[11px] font-black uppercase bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                                Permis {el.typePermis || 'B'}
+                              </span>
+                            </td>
+                            <td className="p-3 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+                              Du {el.dateDebutFormation} au <strong className="text-slate-900 dark:text-white">{el.dateFinFormation}</strong>
+                            </td>
+                            <td className="p-3">
+                              <div className="flex items-center space-x-2">
+                                <span className="font-bold text-slate-900 dark:text-white">{el.progressionGlobal}%</span>
+                                <div className="w-16 bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full ${
+                                      el.progressionGlobal === 100
+                                        ? 'bg-emerald-500'
+                                        : el.progressionGlobal >= 50
+                                        ? 'bg-blue-500'
+                                        : 'bg-amber-500'
+                                    }`}
+                                    style={{ width: `${el.progressionGlobal}%` }}
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td className="p-3 font-bold">
+                              {cert ? (
+                                cert.status === 'TELECHARGE' ? (
+                                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center w-fit space-x-1">
+                                    <FileCheck className="w-3 h-3 text-emerald-600" />
+                                    <span>Téléchargé</span>
+                                  </span>
+                                ) : (
+                                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 flex items-center w-fit space-x-1">
+                                    <Award className="w-3 h-3 text-blue-600" />
+                                    <span>Généré</span>
+                                  </span>
+                                )
+                              ) : el.progressionGlobal === 100 ? (
+                                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 flex items-center w-fit space-x-1">
+                                  <Sparkles className="w-3 h-3 text-amber-500" />
+                                  <span>Éligible (100%)</span>
+                                </span>
+                              ) : (
+                                <span className="text-[11px] text-slate-400 font-medium">Non éligible</span>
+                              )}
+                            </td>
+                            <td className="p-3">
+                              {el.isExpired ? (
+                                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 flex items-center w-fit space-x-1">
+                                  <Clock className="w-3 h-3" />
+                                  <span>Expiré</span>
+                                </span>
+                              ) : el.isBlocked ? (
+                                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800 flex items-center w-fit space-x-1">
+                                  <UserX className="w-3 h-3" />
+                                  <span>Suspendu</span>
+                                </span>
+                              ) : (
+                                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center w-fit space-x-1">
+                                  <UserCheck className="w-3 h-3" />
+                                  <span>Accès Valide</span>
+                                </span>
+                              )}
+                            </td>
+                            <td className="p-3 text-right space-x-2">
+                              <button
+                                onClick={() => handleInspectProgression(el)}
+                                className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-blue-700 dark:text-blue-300 rounded-lg transition text-xs font-bold border border-slate-200 dark:border-slate-700"
+                                title="Voir la progression"
+                              >
+                                Suivi
+                              </button>
+                              <button
+                                onClick={() => setSelectedEleveForEdit(el)}
+                                className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition text-xs font-bold border border-slate-200 dark:border-slate-700"
+                                title="Modifier"
+                              >
+                                Modifier
+                              </button>
+                              <button
+                                onClick={() => handleDeleteStudent(el._id)}
+                                className="px-2.5 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/60 dark:hover:bg-red-900/80 text-red-700 dark:text-red-300 rounded-lg transition text-xs font-bold border border-red-200 dark:border-red-800"
+                                title="Supprimer"
+                              >
+                                Supprimer
+                              </button>
+                            </td>
+                          </tr>
+                        );
                       })
-                      .map((el) => (
-                        <tr key={el._id} className="hover:bg-slate-50/80 transition-colors">
-                          <td className="p-3 font-bold text-slate-900">
-                            {el.userDetail?.name}
-                            <p className="text-[10px] text-slate-500">{el.userDetail?.email}</p>
-                          </td>
-                          <td className="p-3 font-mono text-emerald-600 font-bold">{el.codeEleveUnique}</td>
-                          <td className="p-3 font-bold">
-                            <span className="px-2.5 py-1 rounded-lg text-[11px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
-                              Permis {el.typePermis || 'B'}
-                            </span>
-                          </td>
-                          <td className="p-3 font-mono text-[11px] text-slate-600">
-                            Du {el.dateDebutFormation} au <strong className="text-slate-900">{el.dateFinFormation}</strong>
-                          </td>
-                          <td className="p-3">
-                            <span className="font-bold text-slate-900">{el.progressionGlobal}%</span>
-                          </td>
-                          <td className="p-3">
-                            {el.isExpired ? (
-                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center w-fit space-x-1">
-                                <Clock className="w-3 h-3" />
-                                <span>Expiré (Accès Bloqué)</span>
-                              </span>
-                            ) : el.isBlocked ? (
-                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200 flex items-center w-fit space-x-1">
-                                <UserX className="w-3 h-3" />
-                                <span>Suspendu Manuel</span>
-                              </span>
-                            ) : (
-                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center w-fit space-x-1">
-                                <UserCheck className="w-3 h-3" />
-                                <span>Accès Valide</span>
-                              </span>
-                            )}
-                          </td>
-                          <td className="p-3 text-right space-x-2">
-                            <button
-                              onClick={() => handleInspectProgression(el)}
-                              className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-blue-700 rounded-lg transition text-xs font-bold border border-slate-200"
-                              title="Voir la progression"
-                            >
-                              Suivi
-                            </button>
-                            <button
-                              onClick={() => setSelectedEleveForEdit(el)}
-                              className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition text-xs font-bold border border-slate-200"
-                              title="Modifier"
-                            >
-                              Modifier
-                            </button>
-                            <button
-                              onClick={() => handleDeleteStudent(el._id)}
-                              className="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg transition text-xs font-bold border border-red-200"
-                              title="Supprimer"
-                            >
-                              Supprimer
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -1507,10 +1913,80 @@ export const AutoEcoleDashboard: React.FC = () => {
         {/* TAB 4: SUIVI DE PROGRESSION */}
         {activeTab === 'progression' && (
           <div className="space-y-6">
-            <h2 className="text-lg font-black text-slate-900 tracking-tight">Suivi de la Progression par Élève</h2>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center space-x-2">
+                  <TrendingUp className="w-5 h-5 text-blue-600" />
+                  <span>Suivi de la Progression & Avancement des Cours</span>
+                </h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  Analyse détaillée de la réussite par module et du suivi individuel des élèves.
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => exportCoursesToCSV(modules, `cours_modules_${autoEcole?.codeAutoEcoleUnique || 'ecole'}.csv`)}
+                  className="px-3.5 py-2 bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-bold rounded-xl border border-blue-200 dark:border-blue-800 text-xs flex items-center space-x-1.5 transition shadow-2xs hover:bg-blue-100"
+                  title="Exporter la liste des cours au format CSV"
+                >
+                  <FileSpreadsheet className="w-4 h-4 text-blue-600" />
+                  <span>Export CSV Cours</span>
+                </button>
+
+                <button
+                  onClick={() => exportStudentsToCSV(eleves, `eleves_${autoEcole?.codeAutoEcoleUnique || 'ecole'}.csv`)}
+                  className="px-3.5 py-2 bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-bold rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs flex items-center space-x-1.5 transition shadow-2xs hover:bg-emerald-100"
+                  title="Exporter la liste des élèves au format CSV"
+                >
+                  <Download className="w-4 h-4 text-emerald-600" />
+                  <span>Export CSV Élèves</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Visual Recharts Widget for Course Progression */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs">
+              <h3 className="text-sm font-black text-slate-900 dark:text-white mb-1 uppercase tracking-wider">
+                Progression Globale des Modules Théoriques (Recharts Analytics)
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+                Taux moyen d'avancement et de validation des questions par module de formation.
+              </p>
+
+              <div className="h-64 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={stats?.modulesCompletion || []} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#334155' : '#e2e8f0'} />
+                    <XAxis dataKey="moduleTitle" tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#64748b' }} stroke={isDark ? '#475569' : '#cbd5e1'} />
+                    <YAxis tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#64748b' }} stroke={isDark ? '#475569' : '#cbd5e1'} unit="%" domain={[0, 100]} />
+                    <Tooltip
+                      formatter={(value: any) => [`${value}%`, 'Taux de réussite']}
+                      contentStyle={{
+                        backgroundColor: isDark ? '#0f172a' : '#1e293b',
+                        borderColor: isDark ? '#334155' : '#0f172a',
+                        borderRadius: '12px',
+                        color: '#f8fafc',
+                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                      }}
+                    />
+                    <Bar
+                      dataKey="completionRate"
+                      name="Taux de réussite (%)"
+                      fill={secondaryColor || (isDark ? '#10b981' : '#059669')}
+                      radius={[8, 8, 0, 0]}
+                      isAnimationActive={true}
+                      animationDuration={1200}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {eleves.map((el) => (
+              {filteredAndSortedEleves.map((el) => (
                 <div
                   key={el._id}
                   onClick={() => handleInspectProgression(el)}
@@ -1892,141 +2368,6 @@ export const AutoEcoleDashboard: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 7: PROGRAMME & LEÇONS (CURRICULUM MANAGEMENT) */}
-        {activeTab === 'programme' && (
-          <div className="space-y-6">
-            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <div className="flex items-center space-x-2">
-                  <span className="p-2 bg-purple-50 text-purple-700 rounded-xl">
-                    <BookOpen className="w-5 h-5" />
-                  </span>
-                  <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                    Gestion Pédagogique du Programme de Code
-                  </h2>
-                </div>
-                <p className="text-xs text-slate-500 font-medium mt-1">
-                  Configurez le contenu des modules, ajoutez des leçons vidéo, gérez les mini-quiz et définissez les seuils de réussite exigés pour vos élèves.
-                </p>
-              </div>
-
-              <button
-                onClick={() => handleOpenModuleModal()}
-                className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center space-x-2 shrink-0"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Nouveau Module de Formation</span>
-              </button>
-            </div>
-
-            {/* Modules Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {modules
-                .sort((a, b) => a.ordre - b.ordre)
-                .map((mod) => (
-                  <div
-                    key={mod._id}
-                    className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs hover:border-slate-300 transition space-y-4 flex flex-col justify-between"
-                  >
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-200">
-                            {mod.code || `MOD-00${mod.ordre}`}
-                          </span>
-                          <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
-                            Ordre #{mod.ordre}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center space-x-1">
-                          <button
-                            onClick={() => handleOpenModuleModal(mod)}
-                            className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
-                            title="Modifier le module"
-                          >
-                            <Edit2 className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteModule(mod._id)}
-                            className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
-                            title="Supprimer le module"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className="text-base font-black text-slate-900 tracking-tight">
-                          {mod.title}
-                        </h3>
-                        <p className="text-xs text-slate-600 font-medium mt-1 line-clamp-2">
-                          {mod.summary || mod.description || 'Aucun résumé défini.'}
-                        </p>
-                      </div>
-
-                      {/* Learning Objectives */}
-                      {mod.learningObjectives && mod.learningObjectives.length > 0 && (
-                        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
-                          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                            Objectifs Pédagogiques ({mod.learningObjectives.length})
-                          </p>
-                          <ul className="text-xs text-slate-700 font-medium space-y-0.5">
-                            {mod.learningObjectives.slice(0, 3).map((obj, i) => (
-                              <li key={i} className="flex items-center space-x-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0" />
-                                <span className="truncate">{obj}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
-                      {/* Config Metrics Pills */}
-                      <div className="grid grid-cols-2 gap-2 text-[11px] pt-1">
-                        <div className="bg-blue-50/70 border border-blue-200 p-2.5 rounded-xl text-blue-900 font-medium">
-                          <span className="block text-[10px] uppercase font-bold text-blue-700">Visionnage Vidéo</span>
-                          <span className="font-bold">Min : {mod.tempsMinimumVisionnage}s</span> ({Math.round((mod.tempsMinimumVisionnage / (mod.durationSeconds || 180)) * 100)}%)
-                        </div>
-
-                        <div className="bg-emerald-50/70 border border-emerald-200 p-2.5 rounded-xl text-emerald-900 font-medium">
-                          <span className="block text-[10px] uppercase font-bold text-emerald-700">Seuil Requis Quiz</span>
-                          <span className="font-bold font-mono text-xs">{mod.scoreMinimumQuiz}% de bonnes réponses</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom Action Cards: Lessons & Quiz Config */}
-                    <div className="pt-3 border-t border-slate-100 grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => handleOpenLessonModal(mod)}
-                        className="p-2.5 bg-slate-50 hover:bg-purple-50 hover:border-purple-300 border border-slate-200 rounded-xl text-slate-700 hover:text-purple-900 font-bold text-xs flex items-center justify-between transition"
-                      >
-                        <div className="flex items-center space-x-1.5">
-                          <Video className="w-3.5 h-3.5 text-purple-600" />
-                          <span>Leçons ({mod.lecons?.length || 0})</span>
-                        </div>
-                        <span className="text-[10px] font-mono text-purple-700">Gérer →</span>
-                      </button>
-
-                      <button
-                        onClick={() => handleOpenQuizModal(mod)}
-                        className="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-slate-700 hover:text-blue-900 font-bold text-xs flex items-center justify-between transition"
-                      >
-                        <div className="flex items-center space-x-1.5">
-                          <HelpCircle className="w-3.5 h-3.5 text-blue-600" />
-                          <span>Quiz ({mod.quiz?.questions?.length || 0} Q)</span>
-                        </div>
-                        <span className="text-[10px] font-mono text-blue-700">Éditer →</span>
-                      </button>
-                    </div>
-                  </div>
-                ))}
             </div>
           </div>
         )}
@@ -2826,308 +3167,186 @@ export const AutoEcoleDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* MODAL: LESSONS CONFIGURATOR */}
+      {/* MODAL: LESSONS VIEWER (READ-ONLY) */}
       {showLessonModal && selectedModForLessons && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-2xl max-w-3xl w-full p-6 text-slate-900 space-y-5 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-3xl w-full p-6 text-slate-900 dark:text-white space-y-5 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <div>
-                <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+                <span className="text-xs font-mono font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded border border-purple-200 dark:border-purple-900/50">
                   {selectedModForLessons.code}
                 </span>
-                <h3 className="text-base font-black text-slate-900 mt-1">
-                  Gestion des Leçons — {selectedModForLessons.title}
+                <h3 className="text-base font-black text-slate-900 dark:text-white mt-1">
+                  Consultation des Leçons — {selectedModForLessons.title}
                 </h3>
               </div>
               <button
                 onClick={() => setShowLessonModal(false)}
-                className="text-slate-400 hover:text-slate-700 font-bold"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white font-bold"
               >
                 ✕
               </button>
             </div>
 
-            {/* List of current lessons */}
-            <div className="space-y-4 text-xs">
-              {lessonsList.map((lec, lIdx) => (
-                <div key={lIdx} className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900">Leçon #{lIdx + 1}</span>
-                    <button
-                      onClick={() => setLessonsList(lessonsList.filter((_, i) => i !== lIdx))}
-                      className="text-red-600 hover:text-red-800 font-bold text-[11px] hover:bg-red-50 p-1 rounded"
-                    >
-                      Supprimer
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="col-span-2">
-                      <label className="block text-[11px] font-bold text-slate-700 mb-0.5">Titre Leçon</label>
-                      <input
-                        type="text"
-                        value={lec.title}
-                        onChange={(e) => {
-                          const updated = [...lessonsList];
-                          updated[lIdx].title = e.target.value;
-                          setLessonsList(updated);
-                        }}
-                        className="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-700 mb-0.5">Ordre</label>
-                      <input
-                        type="number"
-                        value={lec.ordre}
-                        onChange={(e) => {
-                          const updated = [...lessonsList];
-                          updated[lIdx].ordre = Number(e.target.value);
-                          setLessonsList(updated);
-                        }}
-                        className="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg font-mono"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-0.5">URL Vidéo Leçon</label>
-                    <input
-                      type="url"
-                      value={lec.videoUrl}
-                      onChange={(e) => {
-                        const updated = [...lessonsList];
-                        updated[lIdx].videoUrl = e.target.value;
-                        setLessonsList(updated);
-                      }}
-                      className="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-0.5">Description Pédagogique</label>
-                    <textarea
-                      rows={2}
-                      value={lec.description}
-                      onChange={(e) => {
-                        const updated = [...lessonsList];
-                        updated[lIdx].description = e.target.value;
-                        setLessonsList(updated);
-                      }}
-                      className="w-full p-2 bg-white border border-slate-200 rounded-lg text-slate-800"
-                    />
-                  </div>
-                </div>
-              ))}
-
-              <button
-                type="button"
-                onClick={() =>
-                  setLessonsList([
-                    ...lessonsList,
-                    {
-                      _id: `lec-${Date.now()}`,
-                      _type: 'lecon',
-                      title: `Nouvelle Leçon ${lessonsList.length + 1}`,
-                      ordre: lessonsList.length + 1,
-                      description: 'Explication détaillée de la leçon.',
-                      videoUrl: selectedModForLessons.videoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-                      durationSeconds: 120,
-                      tempsMinimumVisionnageSeconds: 90,
-                      hasInlineQuiz: true,
-                    },
-                  ])
-                }
-                className="w-full py-2.5 border-2 border-dashed border-purple-300 hover:border-purple-500 bg-purple-50/50 hover:bg-purple-50 text-purple-800 font-bold text-xs rounded-xl transition flex items-center justify-center space-x-1"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Ajouter une Leçon</span>
-              </button>
+            <div className="bg-purple-50/80 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900/50 p-3.5 rounded-xl text-purple-900 dark:text-purple-200 text-xs font-medium flex items-center space-x-2">
+              <Info className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+              <span>Contenu officiel géré centralement par le Super Administrateur.</span>
             </div>
 
-            <div className="flex justify-end space-x-2 pt-3 border-t border-slate-200">
+            {/* List of current lessons (Read-Only) */}
+            <div className="space-y-4 text-xs">
+              {lessonsList.length === 0 ? (
+                <div className="p-6 text-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 rounded-xl">
+                  Aucune leçon individuelle configurée pour ce module.
+                </div>
+              ) : (
+                lessonsList.map((lec, lIdx) => (
+                  <div key={lIdx} className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-900 dark:text-white text-xs">
+                        Leçon #{lec.ordre || lIdx + 1} : {lec.title}
+                      </span>
+                      <span className="text-[10px] font-mono bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-300 px-2 py-0.5 rounded font-bold">
+                        Durée min : {lec.tempsMinimumVisionnageSeconds || 90}s
+                      </span>
+                    </div>
+
+                    <p className="text-slate-600 dark:text-slate-300 text-xs">
+                      {lec.description || 'Aucune description fournie.'}
+                    </p>
+
+                    {lec.videoUrl && (
+                      <div className="pt-2">
+                        <a
+                          href={lec.videoUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center space-x-1.5 text-blue-600 dark:text-blue-400 hover:underline font-bold text-xs"
+                        >
+                          <Video className="w-3.5 h-3.5" />
+                          <span>Ouvrir la vidéo de la leçon</span>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="flex justify-end pt-3 border-t border-slate-200 dark:border-slate-800">
               <button
                 onClick={() => setShowLessonModal(false)}
-                className="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl border border-slate-200 text-xs"
+                className="px-5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl border border-slate-200 dark:border-slate-700 text-xs transition"
               >
-                Annuler
-              </button>
-              <button
-                onClick={handleSaveLessons}
-                className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-xs text-xs"
-              >
-                Enregistrer les Leçons
+                Fermer
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* MODAL: QUIZ CONFIGURATOR */}
+      {/* MODAL: QUIZ VIEWER (READ-ONLY) */}
       {showQuizModal && selectedModForQuiz && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-2xl max-w-3xl w-full p-6 text-slate-900 space-y-5 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-3xl w-full p-6 text-slate-900 dark:text-white space-y-5 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <div>
-                <span className="text-xs font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                <span className="text-xs font-mono font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-900/50">
                   {selectedModForQuiz.code}
                 </span>
-                <h3 className="text-base font-black text-slate-900 mt-1">
-                  Configuration du Quiz du Module — {selectedModForQuiz.title}
+                <h3 className="text-base font-black text-slate-900 dark:text-white mt-1">
+                  Aperçu du Quiz Officiel — {selectedModForQuiz.title}
                 </h3>
               </div>
               <button
                 onClick={() => setShowQuizModal(false)}
-                className="text-slate-400 hover:text-slate-700 font-bold"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white font-bold"
               >
                 ✕
               </button>
             </div>
 
-            {/* Quiz Parameters: Timer & Threshold */}
-            <div className="grid grid-cols-2 gap-4 bg-blue-50/60 p-4 rounded-xl border border-blue-200 text-xs">
+            {/* Quiz Parameters Read-Only */}
+            <div className="grid grid-cols-2 gap-4 bg-blue-50/60 dark:bg-blue-950/40 p-4 rounded-xl border border-blue-200 dark:border-blue-900/50 text-xs">
               <div>
-                <label className="block font-bold text-blue-900 mb-1">Timer Chrono (Minutes)</label>
-                <input
-                  type="number"
-                  min="1"
-                  max="60"
-                  value={Math.round(quizTimerSecs / 60)}
-                  onChange={(e) => setQuizTimerSecs(Number(e.target.value) * 60)}
-                  className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl font-mono text-slate-900 font-bold"
-                />
+                <span className="block font-bold text-blue-900 dark:text-blue-200 mb-1">Durée Chrono Réglementaire</span>
+                <p className="font-mono font-bold text-slate-900 dark:text-white text-sm">
+                  {Math.round(quizTimerSecs / 60)} minutes ({quizTimerSecs} secondes)
+                </p>
               </div>
 
               <div>
-                <label className="block font-bold text-blue-900 mb-1">Seuil de Réussite Exigé (%)</label>
-                <input
-                  type="number"
-                  min="50"
-                  max="100"
-                  value={quizPassingScore}
-                  onChange={(e) => setQuizPassingScore(Number(e.target.value))}
-                  className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl font-mono text-emerald-700 font-black"
-                />
+                <span className="block font-bold text-blue-900 dark:text-blue-200 mb-1">Seuil Minimum Requis</span>
+                <p className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-sm">
+                  {quizPassingScore}% de bonnes réponses
+                </p>
               </div>
             </div>
 
-            {/* Questions List Builder */}
+            {/* Questions List Viewer */}
             <div className="space-y-4 text-xs">
-              <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">
+              <h4 className="font-bold text-slate-800 dark:text-slate-200 text-xs uppercase tracking-wider">
                 Questions du Quiz ({quizQuestionsList.length})
               </h4>
 
-              {quizQuestionsList.map((q, qIdx) => (
-                <div key={qIdx} className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900 text-xs">Question #{qIdx + 1}</span>
-                    <button
-                      onClick={() => setQuizQuestionsList(quizQuestionsList.filter((_, i) => i !== qIdx))}
-                      className="text-red-600 hover:text-red-800 font-bold text-[11px] hover:bg-red-50 p-1 rounded"
-                    >
-                      Supprimer Question
-                    </button>
-                  </div>
+              {quizQuestionsList.length === 0 ? (
+                <p className="text-slate-500 italic p-4 bg-slate-50 rounded-xl">Aucune question n'a été ajoutée pour l'instant.</p>
+              ) : (
+                quizQuestionsList.map((q, qIdx) => (
+                  <div key={qIdx} className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-900 dark:text-white text-xs">Question #{qIdx + 1}</span>
+                      <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
+                        Correction Incluse
+                      </span>
+                    </div>
 
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-0.5">Énoncé de la Question *</label>
-                    <input
-                      type="text"
-                      required
-                      value={q.questionText}
-                      onChange={(e) => {
-                        const updated = [...quizQuestionsList];
-                        updated[qIdx].questionText = e.target.value;
-                        setQuizQuestionsList(updated);
-                      }}
-                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-slate-900"
-                    />
-                  </div>
+                    <p className="font-bold text-slate-900 dark:text-white text-sm">
+                      {q.questionText}
+                    </p>
 
-                  {/* 4 Choices */}
-                  <div className="space-y-2 pt-1">
-                    <label className="block text-[11px] font-bold text-slate-700">Options de Réponse (Cochez la bonne option) :</label>
-                    {q.options?.map((optStr, oIdx) => (
-                      <div key={oIdx} className="flex items-center space-x-2">
-                        <input
-                          type="radio"
-                          name={`correct-opt-${qIdx}`}
-                          checked={q.correctOptionIndex === oIdx}
-                          onChange={() => {
-                            const updated = [...quizQuestionsList];
-                            updated[qIdx].correctOptionIndex = oIdx;
-                            setQuizQuestionsList(updated);
-                          }}
-                          className="text-purple-600 focus:ring-purple-500 shrink-0"
-                        />
-                        <input
-                          type="text"
-                          value={optStr}
-                          onChange={(e) => {
-                            const updated = [...quizQuestionsList];
-                            updated[qIdx].options[oIdx] = e.target.value;
-                            setQuizQuestionsList(updated);
-                          }}
-                          className={`w-full px-3 py-1.5 rounded-lg border text-xs ${
-                            q.correctOptionIndex === oIdx
-                              ? 'bg-emerald-50 border-emerald-400 font-bold text-emerald-900'
-                              : 'bg-white border-slate-200 text-slate-800'
-                          }`}
-                        />
+                    {/* Options */}
+                    <div className="space-y-1.5 pt-1">
+                      {q.options?.map((optStr, oIdx) => {
+                        const isCorrect = q.correctOptionIndex === oIdx;
+                        return (
+                          <div
+                            key={oIdx}
+                            className={`px-3 py-2 rounded-xl border text-xs flex items-center justify-between ${
+                              isCorrect
+                                ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-400 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 font-bold'
+                                : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
+                            }`}
+                          >
+                            <span>{optStr}</span>
+                            {isCorrect && (
+                              <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/60 px-2 py-0.5 rounded-full flex items-center space-x-1">
+                                <Check className="w-3 h-3" />
+                                <span>Bonne Réponse</span>
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {q.explanation && (
+                      <div className="mt-2 p-2.5 bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 rounded-xl text-amber-900 dark:text-amber-200 text-xs">
+                        <span className="font-bold block mb-0.5 uppercase text-[10px] text-amber-800 dark:text-amber-300">Explication Pédagogique :</span>
+                        {q.explanation}
                       </div>
-                    ))}
+                    )}
                   </div>
-
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-0.5">Explication Pédagogique (Correction)</label>
-                    <textarea
-                      rows={2}
-                      placeholder="Explication affichée à l'élève lors de la correction immédiate..."
-                      value={q.explanation || ''}
-                      onChange={(e) => {
-                        const updated = [...quizQuestionsList];
-                        updated[qIdx].explanation = e.target.value;
-                        setQuizQuestionsList(updated);
-                      }}
-                      className="w-full p-2 bg-white border border-slate-200 rounded-lg text-slate-800 font-medium"
-                    />
-                  </div>
-                </div>
-              ))}
-
-              <button
-                type="button"
-                onClick={() =>
-                  setQuizQuestionsList([
-                    ...quizQuestionsList,
-                    {
-                      questionText: 'Nouvelle question de code...',
-                      options: ['Option A', 'Option B', 'Option C', 'Option D'],
-                      correctOptionIndex: 0,
-                      explanation: 'Explication théorique selon le code de la route.',
-                    },
-                  ])
-                }
-                className="w-full py-2.5 border-2 border-dashed border-blue-300 hover:border-blue-500 bg-blue-50/50 hover:bg-blue-50 text-blue-800 font-bold text-xs rounded-xl transition flex items-center justify-center space-x-1"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Ajouter une Question au Quiz</span>
-              </button>
+                ))
+              )}
             </div>
 
-            <div className="flex justify-end space-x-2 pt-3 border-t border-slate-200">
+            <div className="flex justify-end pt-3 border-t border-slate-200 dark:border-slate-800">
               <button
                 onClick={() => setShowQuizModal(false)}
-                className="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl border border-slate-200 text-xs"
+                className="px-5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl border border-slate-200 dark:border-slate-700 text-xs transition"
               >
-                Annuler
-              </button>
-              <button
-                onClick={handleSaveQuizConfig}
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-xs text-xs"
-              >
-                Enregistrer le Quiz
+                Fermer
               </button>
             </div>
           </div>

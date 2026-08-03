@@ -44,6 +44,42 @@ export const exportStudentsToCSV = (students: any[], filename = 'eleves_matoa.cs
   document.body.removeChild(link);
 };
 
+export const exportCoursesToCSV = (modules: any[], filename = 'cours_modules_matoa.csv') => {
+  if (!modules || modules.length === 0) {
+    alert('Aucun module/cours à exporter.');
+    return;
+  }
+
+  const headers = ['Code', 'Titre du Module', 'Ordre', 'Type Permis', 'Durée (sec)', 'Score Min Quiz (%)', 'Nb Leçons', 'Statut'];
+  const rows = modules.map((m) => {
+    return [
+      m.code || '',
+      m.title || '',
+      m.ordre || 1,
+      m.typePermis || 'B',
+      m.durationSeconds || 0,
+      `${m.scoreMinimumQuiz || 70}%`,
+      Array.isArray(m.lecons) ? m.lecons.length : 0,
+      m.isActive !== false ? 'Actif' : 'Inactif',
+    ];
+  });
+
+  let csvContent = '\uFEFF';
+  csvContent += headers.map((h) => `"${h}"`).join(',') + '\n';
+  rows.forEach((row) => {
+    csvContent += row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(',') + '\n';
+  });
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 export const exportLogsToCSV = (logs: any[], filename = 'logs_activite_matoa.csv') => {
   if (!logs || logs.length === 0) {
     alert('Aucun log à exporter.');

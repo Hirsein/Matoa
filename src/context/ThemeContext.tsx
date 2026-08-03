@@ -19,22 +19,45 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       : 'light';
   });
 
-  useEffect(() => {
+  const applyThemeToDOM = (newTheme: ThemeMode) => {
     const root = document.documentElement;
-    if (theme === 'dark') {
+    if (newTheme === 'dark') {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
+  };
+
+  useEffect(() => {
+    applyThemeToDOM(theme);
     localStorage.setItem('matoa_theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'light' ? 'dark' : 'light'));
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+
+    // Use View Transitions API if supported for fluid full-screen transition
+    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+      (document as any).startViewTransition(() => {
+        applyThemeToDOM(nextTheme);
+        setThemeState(nextTheme);
+      });
+    } else {
+      applyThemeToDOM(nextTheme);
+      setThemeState(nextTheme);
+    }
   };
 
   const setTheme = (newTheme: ThemeMode) => {
-    setThemeState(newTheme);
+    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+      (document as any).startViewTransition(() => {
+        applyThemeToDOM(newTheme);
+        setThemeState(newTheme);
+      });
+    } else {
+      applyThemeToDOM(newTheme);
+      setThemeState(newTheme);
+    }
   };
 
   return (
@@ -51,3 +74,4 @@ export const useTheme = () => {
   }
   return context;
 };
+

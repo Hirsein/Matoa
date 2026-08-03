@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { UserRole } from '../types';
-import { ShieldCheck, School, GraduationCap, Sparkles, Key, ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, School, GraduationCap, Key, ArrowRight, AlertCircle, Sun, Moon } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   
   // Determine initial login type from URL pathname
   const getInitialRole = (): UserRole => {
@@ -25,12 +27,7 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const handleRoleChange = (role: UserRole) => {
-    setLoginType(role);
-    updateUrlForRole(role);
-  };
-
-  // Form states
+  // Initial Form states
   const [email, setEmail] = useState('');
   const [codeAutoEcole, setCodeAutoEcole] = useState('');
   const [codeEleveUnique, setCodeEleveUnique] = useState('');
@@ -38,6 +35,16 @@ export const LoginPage: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleRoleChange = (role: UserRole) => {
+    setLoginType(role);
+    updateUrlForRole(role);
+    setError(null);
+    setEmail('');
+    setPassword('');
+    setCodeAutoEcole('');
+    setCodeEleveUnique('');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,31 +78,24 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  // Helper for quick demo login fill
-  const handleQuickDemo = (role: UserRole) => {
-    setError(null);
-    setLoginType(role);
-    updateUrlForRole(role);
-
-    if (role === UserRole.SUPER_ADMIN) {
-      setEmail('admin@matoa.fr');
-      setPassword('password123');
-      setCodeAutoEcole('');
-      setCodeEleveUnique('');
-    } else if (role === UserRole.AUTO_ECOLE_ADMIN) {
-      setEmail('contact@conduitepassion.fr');
-      setPassword('password123');
-      setCodeAutoEcole('MATOA-AE-001');
-      setCodeEleveUnique('');
-    } else if (role === UserRole.ELEVE) {
-      setCodeAutoEcole('MATOA-AE-001');
-      setCodeEleveUnique('AE001-ELV001');
-      setEmail('jean.dupont@email.fr');
-      setPassword('password123');
-    }
-  };
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-sans text-slate-900 dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
+      {/* Theme Toggle Top-Right */}
+      <div className="absolute top-4 right-4 z-20">
+        <button
+          onClick={toggleTheme}
+          className="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 border border-slate-200 dark:border-slate-800 shadow-sm active:scale-90 flex items-center justify-center"
+          title={theme === 'dark' ? 'Basculer en mode clair' : 'Basculer en mode sombre'}
+          aria-label="Toggle dark mode"
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-4 h-4 text-amber-400 transition-transform duration-500 rotate-0 hover:rotate-90" />
+          ) : (
+            <Moon className="w-4 h-4 text-slate-700 dark:text-slate-300 transition-transform duration-500 rotate-0 hover:-rotate-45" />
+          )}
+        </button>
+      </div>
+
       {/* Background Subtle Geometric Blobs */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-100 dark:bg-blue-950/40 rounded-full blur-3xl pointer-events-none opacity-60" />
       <div className="absolute bottom-10 right-10 w-80 h-80 bg-emerald-100 dark:bg-emerald-950/40 rounded-full blur-3xl pointer-events-none opacity-60" />
@@ -103,8 +103,8 @@ export const LoginPage: React.FC = () => {
       {/* Main Container */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <div className="flex justify-center">
-          <div className="w-12 h-12 bg-blue-600 rounded-2xl text-white shadow-lg flex items-center justify-center font-black text-2xl italic">
-            M
+          <div className="w-20 h-20 bg-slate-900/90 dark:bg-slate-900 rounded-3xl border border-blue-500/30 shadow-xl flex items-center justify-center p-2 overflow-hidden hover:scale-105 transition-transform duration-300">
+            <img src="/matoa-logo.png" alt="Matoa Logo" className="w-full h-full object-contain filter drop-shadow-md" />
           </div>
         </div>
 
@@ -118,60 +118,14 @@ export const LoginPage: React.FC = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4 sm:px-0">
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 py-8 px-6 shadow-xl rounded-2xl sm:px-10">
-          {/* Quick Demo Selector */}
-          <div className="mb-6 p-3 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2 flex items-center">
-              <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-              Accès Démo Instantané (1-Clic)
-            </p>
-            <div className="grid grid-cols-3 gap-1.5 text-xs font-bold">
-              <button
-                type="button"
-                onClick={() => handleQuickDemo(UserRole.ELEVE)}
-                className={`py-1.5 px-2 rounded-lg transition text-center ${
-                  loginType === UserRole.ELEVE
-                    ? 'bg-emerald-600 text-white font-bold shadow-xs'
-                    : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600'
-                }`}
-              >
-                Élève
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickDemo(UserRole.AUTO_ECOLE_ADMIN)}
-                className={`py-1.5 px-2 rounded-lg transition text-center ${
-                  loginType === UserRole.AUTO_ECOLE_ADMIN
-                    ? 'bg-blue-600 text-white font-bold shadow-xs'
-                    : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600'
-                }`}
-              >
-                Auto-École
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickDemo(UserRole.SUPER_ADMIN)}
-                className={`py-1.5 px-2 rounded-lg transition text-center ${
-                  loginType === UserRole.SUPER_ADMIN
-                    ? 'bg-purple-600 text-white font-bold shadow-xs'
-                    : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600'
-                }`}
-              >
-                Super Admin
-              </button>
-            </div>
-          </div>
-
           {/* Role Tabs */}
-          <div className="flex border-b border-slate-200 mb-6 pb-2 space-x-1">
+          <div className="flex border-b border-slate-200 dark:border-slate-800 mb-6 pb-2 space-x-1">
             <button
-              onClick={() => {
-                handleRoleChange(UserRole.ELEVE);
-                setError(null);
-              }}
+              onClick={() => handleRoleChange(UserRole.ELEVE)}
               className={`flex-1 text-center py-2 text-xs font-bold rounded-lg flex items-center justify-center space-x-1 transition ${
                 loginType === UserRole.ELEVE
-                  ? 'text-emerald-700 border-b-2 border-emerald-600 bg-emerald-50'
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/30'
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
               <GraduationCap className="w-4 h-4" />
@@ -179,14 +133,11 @@ export const LoginPage: React.FC = () => {
             </button>
 
             <button
-              onClick={() => {
-                handleRoleChange(UserRole.AUTO_ECOLE_ADMIN);
-                setError(null);
-              }}
+              onClick={() => handleRoleChange(UserRole.AUTO_ECOLE_ADMIN)}
               className={`flex-1 text-center py-2 text-xs font-bold rounded-lg flex items-center justify-center space-x-1 transition ${
                 loginType === UserRole.AUTO_ECOLE_ADMIN
-                  ? 'text-blue-700 border-b-2 border-blue-600 bg-blue-50'
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 bg-blue-50/50 dark:bg-blue-950/30'
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
               <School className="w-4 h-4" />
@@ -194,14 +145,11 @@ export const LoginPage: React.FC = () => {
             </button>
 
             <button
-              onClick={() => {
-                handleRoleChange(UserRole.SUPER_ADMIN);
-                setError(null);
-              }}
+              onClick={() => handleRoleChange(UserRole.SUPER_ADMIN)}
               className={`flex-1 text-center py-2 text-xs font-bold rounded-lg flex items-center justify-center space-x-1 transition ${
                 loginType === UserRole.SUPER_ADMIN
-                  ? 'text-purple-700 border-b-2 border-purple-600 bg-purple-50'
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 bg-purple-50/50 dark:bg-purple-950/30'
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
               <ShieldCheck className="w-4 h-4" />
@@ -223,33 +171,33 @@ export const LoginPage: React.FC = () => {
             {loginType === UserRole.ELEVE && (
               <>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700">
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
                     Code Unique Auto-École *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Ex: MATOA-AE-001"
+                    placeholder="MATOA-AE-..."
                     value={codeAutoEcole}
                     onChange={(e) => setCodeAutoEcole(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white"
+                    className="mt-1 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white dark:focus:bg-slate-800"
                   />
-                  <p className="mt-1 text-[11px] text-slate-500 font-medium">
+                  <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                     Fourni par votre auto-école lors de votre inscription.
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700">
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
                     Code Élève (ou Email) *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Ex: AE001-ELV001 ou jean.dupont@email.fr"
+                    placeholder="Entrez votre code élève ou email"
                     value={codeEleveUnique}
                     onChange={(e) => setCodeEleveUnique(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white"
+                    className="mt-1 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white dark:focus:bg-slate-800"
                   />
                 </div>
               </>
@@ -258,25 +206,25 @@ export const LoginPage: React.FC = () => {
             {/* 2. AUTO-ECOLE & SUPER ADMIN EMAIL FIELD */}
             {loginType !== UserRole.ELEVE && (
               <div>
-                <label className="block text-xs font-bold text-slate-700">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
                   Adresse Email Professionnelle *
                 </label>
                 <input
                   type="email"
                   required
                   placeholder={
-                    loginType === UserRole.SUPER_ADMIN ? 'admin@matoa.fr' : 'contact@conduitepassion.fr'
+                    loginType === UserRole.SUPER_ADMIN ? 'admin@domaine.com' : 'votre.email@autoecole.fr'
                   }
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 block w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
+                  className="mt-1 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white dark:focus:bg-slate-800"
                 />
               </div>
             )}
 
             {/* PASSWORD FIELD */}
             <div>
-              <label className="block text-xs font-bold text-slate-700">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
                 Mot de passe *
               </label>
               <div className="mt-1 relative">
@@ -286,7 +234,7 @@ export const LoginPage: React.FC = () => {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
+                  className="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white dark:focus:bg-slate-800"
                 />
                 <Key className="w-4 h-4 text-slate-400 absolute right-3 top-2.5" />
               </div>

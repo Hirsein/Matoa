@@ -124,6 +124,10 @@ export const SuperAdminDashboard: React.FC = () => {
     }>
   >([]);
 
+  // Lesson Manager state
+  const [selectedModuleForLessons, setSelectedModuleForLessons] = useState<ModuleFormation | null>(null);
+  const [moduleLessons, setModuleLessons] = useState<any[]>([]);
+
   // Logs
   const [logs, setLogs] = useState<LogActivite[]>([]);
   const [logSearch, setLogSearch] = useState('');
@@ -439,22 +443,101 @@ export const SuperAdminDashboard: React.FC = () => {
     }
   };
 
+  // Open Lesson Manager Modal
+  const handleOpenLessonEditor = (mod: ModuleFormation) => {
+    setSelectedModuleForLessons(mod);
+    setModuleLessons(mod.lecons ? JSON.parse(JSON.stringify(mod.lecons)) : []);
+  };
+
+  // Save Lessons
+  const handleSaveLessons = async () => {
+    if (!selectedModuleForLessons) return;
+
+    try {
+      const res = await fetch(`/api/modules/${selectedModuleForLessons._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          lecons: moduleLessons,
+        }),
+      });
+
+      if (res.ok) {
+        setFeedbackMsg({
+          type: 'success',
+          text: `Les leçons et mini-quiz (5Q) du module "${selectedModuleForLessons.title}" ont été enregistrés avec succès !`,
+        });
+        setSelectedModuleForLessons(null);
+        fetchModules();
+        fetchLogs();
+      } else {
+        const data = await res.json();
+        throw new Error(data.error || 'Erreur lors de l\'enregistrement des leçons.');
+      }
+    } catch (err: any) {
+      setFeedbackMsg({ type: 'error', text: err.message });
+    }
+  };
+
+  // Helper to generate 5 pre-filled mini-quiz questions for a lesson
+  const generate5MiniQuizQuestions = (lessonTitle: string) => [
+    {
+      questionText: `1. Concernant [${lessonTitle}], quelle est la règle fondamentale ?`,
+      options: ['Option A (Correcte)', 'Option B', 'Option C', 'Option D'],
+      correctOptionIndex: 0,
+      explanation: 'Explication pédagogique de la règle.',
+    },
+    {
+      questionText: `2. Quel danger particulier devez-vous anticiper sur ce sujet ?`,
+      options: ['Risque faible', 'Perte d\'adhérence ou masquage visuel (Correct)', 'Aucun risque', 'Vitesse excessive uniquement'],
+      correctOptionIndex: 1,
+      explanation: 'Anticiper les angles morts et la vitesse adaptée.',
+    },
+    {
+      questionText: `3. Quelle est la distance ou consigne de sécurité à respecter ?`,
+      options: ['5 mètres', '2 secondes d\'intervalle au minimum (Correct)', 'Pas de distance', '100 mètres'],
+      correctOptionIndex: 1,
+      explanation: 'L\'intervalle de sécurité légal est d\'au moins 2 secondes.',
+    },
+    {
+      questionText: `4. Que devez-vous faire en priorité avant d\'effectuer la manœuvre ?`,
+      options: ['Klaxonner', 'Contrôler rétroviseurs et angle mort + clignotant (Correct)', 'Accélérer', 'Freiner brusquement'],
+      correctOptionIndex: 1,
+      explanation: 'Toujours vérifier les rétroviseurs et l\'angle mort avant toute manœuvre.',
+    },
+    {
+      questionText: `5. Quelle sanction s\'applique en cas d\'infraction à cette règle ?`,
+      options: ['Avertissement verbal', 'Amende forfaire et retrait de points (Correct)', 'Aucune sanction', 'Confiscation immédiate du véhicule'],
+      correctOptionIndex: 1,
+      explanation: 'Le non-respect de la réglementation entraîne une amende et retrait de points.',
+    },
+  ];
+
+  // Helper to prefill 10 questions for final module quiz
+  const generate10ModuleQuizQuestions = (moduleTitle: string) => Array.from({ length: 10 }, (_, i) => ({
+    questionText: `${i + 1}. [${moduleTitle}] Question ${i + 1} du Quiz de Fin de Module :`,
+    options: [
+      `Option ${i + 1}.1 (Réponse exacte)`,
+      `Option ${i + 1}.2`,
+      `Option ${i + 1}.3`,
+      `Option ${i + 1}.4`,
+    ],
+    correctOptionIndex: 0,
+    explanation: `Explication détaillée de la réponse ${i + 1} du module ${moduleTitle}.`,
+  }));
+
   // Open Quiz Modal
   const handleOpenQuizEditor = (mod: ModuleFormation) => {
     setSelectedModuleForQuiz(mod);
-    if (mod.quiz) {
+    if (mod.quiz && mod.quiz.questions && mod.quiz.questions.length > 0) {
       setQuizTimer(mod.quiz.timerSeconds || 600);
-      setQuizQuestions(mod.quiz.questions || []);
+      setQuizQuestions(mod.quiz.questions);
     } else {
       setQuizTimer(600);
-      setQuizQuestions([
-        {
-          questionText: 'Question exemple 1',
-          options: ['Option A', 'Option B', 'Option C', 'Option D'],
-          correctOptionIndex: 0,
-          explanation: 'Explication corrective',
-        },
-      ]);
+      setQuizQuestions(generate10ModuleQuizQuestions(mod.title));
     }
   };
 
@@ -1128,11 +1211,11 @@ export const SuperAdminDashboard: React.FC = () => {
         {/* TAB 3: MODULES & QUIZZES */}
         {activeTab === 'modules' && (
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <h2 className="text-lg font-black text-slate-900 tracking-tight">Modules de Formation Théorique</h2>
                 <p className="text-xs text-slate-500 font-medium">
-                  Définissez l'ordre du parcours, le temps de visionnage minimum et les quiz obligatoires.
+                  Chaque module comprend un résumé, N leçons (avec mini-quiz de 5 questions après chaque leçon) et un quiz de fin de module (10 questions).
                 </p>
               </div>
 
@@ -1146,50 +1229,68 @@ export const SuperAdminDashboard: React.FC = () => {
             </div>
 
             <div className="space-y-4">
-              {modules.map((mod) => (
-                <div
-                  key={mod._id}
-                  className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs"
-                >
-                  <div className="space-y-2 max-w-2xl">
-                    <div className="flex items-center space-x-2">
-                      <span className="bg-slate-100 text-blue-700 font-bold text-xs px-2.5 py-1 rounded-lg border border-slate-200">
-                        Ordre {mod.ordre}
-                      </span>
-                      <h3 className="text-base font-bold text-slate-900">{mod.title}</h3>
+              {modules.map((mod) => {
+                const lessonCount = mod.lecons?.length || 0;
+                const quizQuestionCount = mod.quiz?.questions?.length || 0;
+
+                return (
+                  <div
+                    key={mod._id}
+                    className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs"
+                  >
+                    <div className="space-y-2 max-w-2xl">
+                      <div className="flex items-center space-x-2 flex-wrap gap-1">
+                        <span className="bg-blue-50 text-blue-700 font-bold text-xs px-2.5 py-1 rounded-lg border border-blue-200">
+                          Ordre {mod.ordre}
+                        </span>
+                        {mod.typePermis && (
+                          <span className="bg-purple-50 text-purple-700 font-bold text-xs px-2 py-0.5 rounded-md border border-purple-200">
+                            Permis {mod.typePermis}
+                          </span>
+                        )}
+                        <h3 className="text-base font-bold text-slate-900">{mod.title}</h3>
+                      </div>
+
+                      <p className="text-xs text-slate-600 line-clamp-2">{mod.summary || mod.description}</p>
+
+                      <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-700 font-medium pt-1">
+                        <span className="flex items-center space-x-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
+                          <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+                          <span className="font-bold">{lessonCount} Leçon(s)</span>
+                        </span>
+
+                        <span className="flex items-center space-x-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
+                          <HelpCircle className="w-3.5 h-3.5 text-purple-600" />
+                          <span className="font-bold">Quiz Fin : {quizQuestionCount} / 10 Qs</span>
+                        </span>
+
+                        <span className="flex items-center space-x-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
+                          <Clock className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>Score min : {mod.scoreMinimumQuiz}%</span>
+                        </span>
+                      </div>
                     </div>
 
-                    <p className="text-xs text-slate-600">{mod.description}</p>
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => handleOpenLessonEditor(mod)}
+                        className="px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 text-xs font-bold rounded-xl transition flex items-center space-x-1.5"
+                      >
+                        <BookOpen className="w-4 h-4 text-blue-600" />
+                        <span>Gérer Leçons & Mini-Quiz (5Q)</span>
+                      </button>
 
-                    <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-700 font-medium pt-1">
-                      <span className="flex items-center space-x-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
-                        <Video className="w-3.5 h-3.5 text-blue-600" />
-                        <span>Durée : {mod.durationSeconds}s</span>
-                      </span>
-
-                      <span className="flex items-center space-x-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
-                        <Clock className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>Min visionnage : {mod.tempsMinimumVisionnage}s</span>
-                      </span>
-
-                      <span className="flex items-center space-x-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
-                        <HelpCircle className="w-3.5 h-3.5 text-purple-600" />
-                        <span>Score min Quiz : {mod.scoreMinimumQuiz}%</span>
-                      </span>
+                      <button
+                        onClick={() => handleOpenQuizEditor(mod)}
+                        className="px-3.5 py-2 bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 text-xs font-bold rounded-xl transition flex items-center space-x-1.5"
+                      >
+                        <HelpCircle className="w-4 h-4 text-purple-600" />
+                        <span>Quiz Fin de Module ({quizQuestionCount}/10 Qs)</span>
+                      </button>
                     </div>
                   </div>
-
-                  <div className="flex items-center space-x-3 shrink-0">
-                    <button
-                      onClick={() => handleOpenQuizEditor(mod)}
-                      className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 text-xs font-bold rounded-xl transition flex items-center space-x-1.5"
-                    >
-                      <HelpCircle className="w-4 h-4" />
-                      <span>{mod.quiz ? 'Éditer le Quiz' : 'Créer le Quiz'}</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -1629,29 +1730,55 @@ export const SuperAdminDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* MODAL: QUIZ EDITOR */}
+      {/* MODAL: QUIZ EDITOR (MODULE FINAL 10 QUESTIONS) */}
       {selectedModuleForQuiz && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full p-6 text-slate-900 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <h3 className="text-lg font-black text-slate-900">
-              Édition du Quiz — {selectedModuleForQuiz.title}
-            </h3>
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <span className="bg-purple-100 text-purple-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  Quiz de Fin de Module (10 Questions)
+                </span>
+                <h3 className="text-lg font-black text-slate-900 mt-1">
+                  Édition du Quiz — {selectedModuleForQuiz.title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedModuleForQuiz(null)}
+                className="text-slate-400 hover:text-slate-600 p-1"
+              >
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
 
             <div className="space-y-4 text-xs">
-              <div>
-                <label className="block text-slate-700 font-bold mb-1">Chrono du Quiz (secondes)</label>
-                <input
-                  type="number"
-                  value={quizTimer}
-                  onChange={(e) => setQuizTimer(Number(e.target.value))}
-                  className="w-32 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600"
-                />
+              <div className="flex items-center justify-between bg-purple-50 p-3 rounded-xl border border-purple-100">
+                <div>
+                  <label className="block text-slate-700 font-bold mb-1">Chrono du Quiz Final (secondes)</label>
+                  <input
+                    type="number"
+                    value={quizTimer}
+                    onChange={(e) => setQuizTimer(Number(e.target.value))}
+                    className="w-32 px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-purple-600"
+                  />
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-bold text-purple-900">Total Questions : {quizQuestions.length} / 10</p>
+                  <button
+                    type="button"
+                    onClick={() => setQuizQuestions(generate10ModuleQuizQuestions(selectedModuleForQuiz.title))}
+                    className="mt-1 px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white font-bold text-[11px] rounded-lg transition"
+                  >
+                    Générer 10 Questions
+                  </button>
+                </div>
               </div>
 
               {quizQuestions.map((q, qIdx) => (
                 <div key={qIdx} className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-purple-700">Question {qIdx + 1}</span>
+                    <span className="font-bold text-purple-700">Question {qIdx + 1} / 10</span>
                     <button
                       type="button"
                       onClick={() => setQuizQuestions(quizQuestions.filter((_, i) => i !== qIdx))}
@@ -1673,7 +1800,7 @@ export const SuperAdminDashboard: React.FC = () => {
                     className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-900 font-medium"
                   />
 
-                  <p className="text-[11px] text-slate-500 font-bold mt-2">Options de réponse :</p>
+                  <p className="text-[11px] text-slate-500 font-bold mt-2">Options de réponse (Cocher la bonne réponse) :</p>
                   {q.options.map((opt, oIdx) => (
                     <div key={oIdx} className="flex items-center space-x-2">
                       <input
@@ -1698,6 +1825,21 @@ export const SuperAdminDashboard: React.FC = () => {
                       />
                     </div>
                   ))}
+
+                  <div className="pt-2">
+                    <label className="block text-[11px] font-bold text-slate-600 mb-0.5">Explication pédagogique :</label>
+                    <input
+                      type="text"
+                      value={q.explanation || ''}
+                      onChange={(e) => {
+                        const updated = [...quizQuestions];
+                        updated[qIdx].explanation = e.target.value;
+                        setQuizQuestions(updated);
+                      }}
+                      placeholder="Explication affichée après le choix..."
+                      className="w-full px-2.5 py-1 bg-white border border-slate-200 rounded text-slate-700 text-xs"
+                    />
+                  </div>
                 </div>
               ))}
 
@@ -1707,15 +1849,16 @@ export const SuperAdminDashboard: React.FC = () => {
                   setQuizQuestions([
                     ...quizQuestions,
                     {
-                      questionText: 'Nouvelle question',
+                      questionText: `Question ${quizQuestions.length + 1}`,
                       options: ['Option A', 'Option B', 'Option C', 'Option D'],
                       correctOptionIndex: 0,
+                      explanation: 'Explication pédagogique',
                     },
                   ])
                 }
                 className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl border border-slate-200"
               >
-                + Ajouter une question
+                + Ajouter une question au Quiz
               </button>
 
               <div className="flex justify-end space-x-2 pt-4 border-t border-slate-200">
@@ -1731,7 +1874,283 @@ export const SuperAdminDashboard: React.FC = () => {
                   onClick={handleSaveQuiz}
                   className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-xs"
                 >
-                  Enregistrer Quiz
+                  Enregistrer Quiz Final (10Q)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: LESSON MANAGER & MINI-QUIZ 5Q */}
+      {selectedModuleForLessons && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-2xl max-w-3xl w-full p-6 text-slate-900 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <span className="bg-blue-100 text-blue-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  Structure du Module : N Leçons & Mini-Quiz (5Q)
+                </span>
+                <h3 className="text-lg font-black text-slate-900 mt-1">
+                  Gestion des Leçons — {selectedModuleForLessons.title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedModuleForLessons(null)}
+                className="text-slate-400 hover:text-slate-600 p-1"
+              >
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-6 text-xs">
+              {moduleLessons.map((lec, lIdx) => (
+                <div key={lec._id || lIdx} className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span className="font-black text-blue-700 text-sm">Leçon {lIdx + 1} / {moduleLessons.length}</span>
+                    <button
+                      type="button"
+                      onClick={() => setModuleLessons(moduleLessons.filter((_, i) => i !== lIdx))}
+                      className="text-red-600 hover:text-red-800 font-bold text-xs"
+                    >
+                      Supprimer la Leçon
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="md:col-span-2">
+                      <label className="block font-bold text-slate-700 mb-1">Titre de la Leçon</label>
+                      <input
+                        type="text"
+                        value={lec.title || ''}
+                        onChange={(e) => {
+                          const updated = [...moduleLessons];
+                          updated[lIdx].title = e.target.value;
+                          setModuleLessons(updated);
+                        }}
+                        placeholder="Titre de la leçon..."
+                        className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-medium text-slate-900"
+                      />
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <label className="block font-bold text-slate-700 mb-1">Résumé / Description de la Leçon</label>
+                      <textarea
+                        rows={2}
+                        value={lec.description || ''}
+                        onChange={(e) => {
+                          const updated = [...moduleLessons];
+                          updated[lIdx].description = e.target.value;
+                          setModuleLessons(updated);
+                        }}
+                        placeholder="Court résumé de cette leçon..."
+                        className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-900"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">URL de la Vidéo</label>
+                      <input
+                        type="text"
+                        value={lec.videoUrl || ''}
+                        onChange={(e) => {
+                          const updated = [...moduleLessons];
+                          updated[lIdx].videoUrl = e.target.value;
+                          setModuleLessons(updated);
+                        }}
+                        placeholder="https://..."
+                        className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-900"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">Durée (sec)</label>
+                        <input
+                          type="number"
+                          value={lec.durationSeconds || 180}
+                          onChange={(e) => {
+                            const updated = [...moduleLessons];
+                            updated[lIdx].durationSeconds = Number(e.target.value);
+                            setModuleLessons(updated);
+                          }}
+                          className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-900"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">Min Visionnage (sec)</label>
+                        <input
+                          type="number"
+                          value={lec.tempsMinimumVisionnageSeconds || 144}
+                          onChange={(e) => {
+                            const updated = [...moduleLessons];
+                            updated[lIdx].tempsMinimumVisionnageSeconds = Number(e.target.value);
+                            setModuleLessons(updated);
+                          }}
+                          className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-900"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mini Quiz 5 Questions */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3.5 space-y-3 mt-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id={`hasQuiz-${lIdx}`}
+                          checked={lec.hasInlineQuiz ?? true}
+                          onChange={(e) => {
+                            const updated = [...moduleLessons];
+                            updated[lIdx].hasInlineQuiz = e.target.checked;
+                            setModuleLessons(updated);
+                          }}
+                        />
+                        <label htmlFor={`hasQuiz-${lIdx}`} className="font-black text-purple-900 text-xs">
+                          Activer le Mini-Quiz de 5 questions après cette leçon
+                        </label>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = [...moduleLessons];
+                          updated[lIdx].hasInlineQuiz = true;
+                          updated[lIdx].inlineQuiz = generate5MiniQuizQuestions(lec.title || `Leçon ${lIdx + 1}`);
+                          setModuleLessons(updated);
+                        }}
+                        className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 font-bold text-[11px] rounded-lg transition"
+                      >
+                        Générer 5 Questions de Mini-Quiz
+                      </button>
+                    </div>
+
+                    {lec.hasInlineQuiz !== false && (
+                      <div className="space-y-3 pt-2">
+                        <p className="text-[11px] font-bold text-slate-500">
+                          Questions du Mini-Quiz ({lec.inlineQuiz?.length || 0} / 5 recommandées) :
+                        </p>
+
+                        {(lec.inlineQuiz || []).map((q: any, qIdx: number) => (
+                          <div key={qIdx} className="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold text-purple-800">Mini-Q{qIdx + 1}</span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const updated = [...moduleLessons];
+                                  updated[lIdx].inlineQuiz = updated[lIdx].inlineQuiz.filter((_: any, i: number) => i !== qIdx);
+                                  setModuleLessons(updated);
+                                }}
+                                className="text-red-600 font-bold text-[11px]"
+                              >
+                                Supprimer Q
+                              </button>
+                            </div>
+
+                            <input
+                              type="text"
+                              value={q.questionText}
+                              onChange={(e) => {
+                                const updated = [...moduleLessons];
+                                updated[lIdx].inlineQuiz[qIdx].questionText = e.target.value;
+                                setModuleLessons(updated);
+                              }}
+                              className="w-full px-2.5 py-1 bg-white border border-slate-200 rounded text-slate-900 font-medium"
+                              placeholder="Intitulé de la question..."
+                            />
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
+                              {q.options?.map((opt: string, oIdx: number) => (
+                                <div key={oIdx} className="flex items-center space-x-1.5">
+                                  <input
+                                    type="radio"
+                                    name={`lec-${lIdx}-q-${qIdx}`}
+                                    checked={q.correctOptionIndex === oIdx}
+                                    onChange={() => {
+                                      const updated = [...moduleLessons];
+                                      updated[lIdx].inlineQuiz[qIdx].correctOptionIndex = oIdx;
+                                      setModuleLessons(updated);
+                                    }}
+                                  />
+                                  <input
+                                    type="text"
+                                    value={opt}
+                                    onChange={(e) => {
+                                      const updated = [...moduleLessons];
+                                      updated[lIdx].inlineQuiz[qIdx].options[oIdx] = e.target.value;
+                                      setModuleLessons(updated);
+                                    }}
+                                    className="w-full px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-800 text-[11px]"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = [...moduleLessons];
+                            if (!updated[lIdx].inlineQuiz) updated[lIdx].inlineQuiz = [];
+                            updated[lIdx].inlineQuiz.push({
+                              questionText: `Question ${updated[lIdx].inlineQuiz.length + 1}`,
+                              options: ['Option A', 'Option B', 'Option C', 'Option D'],
+                              correctOptionIndex: 0,
+                              explanation: 'Explication',
+                            });
+                            setModuleLessons(updated);
+                          }}
+                          className="w-full py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold rounded-lg border border-purple-200 text-center"
+                        >
+                          + Ajouter une question au mini-quiz
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  setModuleLessons([
+                    ...moduleLessons,
+                    {
+                      _id: `lec-${Date.now()}`,
+                      title: `Leçon ${moduleLessons.length + 1}`,
+                      ordre: moduleLessons.length + 1,
+                      description: 'Description de la leçon...',
+                      videoUrl: '',
+                      durationSeconds: 180,
+                      tempsMinimumVisionnageSeconds: 144,
+                      hasInlineQuiz: true,
+                      inlineQuiz: generate5MiniQuizQuestions(`Leçon ${moduleLessons.length + 1}`),
+                    },
+                  ]);
+                }}
+                className="w-full py-3 bg-blue-50 hover:bg-blue-100 text-blue-700 font-black rounded-xl border border-blue-200 text-center"
+              >
+                + Ajouter une Leçon au Module
+              </button>
+
+              <div className="flex justify-end space-x-2 pt-4 border-t border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => setSelectedModuleForLessons(null)}
+                  className="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl border border-slate-200"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveLessons}
+                  className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-xs"
+                >
+                  Enregistrer les Leçons & Mini-Quiz
                 </button>
               </div>
             </div>

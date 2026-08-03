@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -7,11 +7,13 @@ import { LoginPage } from './pages/LoginPage';
 import { SuperAdminDashboard } from './pages/SuperAdminDashboard';
 import { AutoEcoleDashboard } from './pages/AutoEcoleDashboard';
 import { ElevePortal } from './pages/ElevePortal';
+import { SplashScreen } from './components/SplashScreen';
 import { UserRole } from './types';
 
 const MainAppRouter: React.FC = () => {
   const { user, loading } = useAuth();
-  const [currentPath, setCurrentPath] = React.useState<string>(window.location.pathname);
+  const [showSplash, setShowSplash] = useState(true);
+  const [currentPath, setCurrentPath] = useState<string>(window.location.pathname);
 
   React.useEffect(() => {
     const handlePopState = () => {
@@ -42,12 +44,19 @@ const MainAppRouter: React.FC = () => {
     }
   }, [user, loading, currentPath]);
 
+  if (showSplash) {
+    return <SplashScreen onFinish={() => setShowSplash(false)} minDurationMs={2200} />;
+  }
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex items-center justify-center font-sans">
-        <div className="text-center space-y-3">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Chargement de Matoa SaaS...</p>
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center font-sans">
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 bg-slate-900 rounded-2xl border border-blue-500/30 p-2 shadow-xl mx-auto flex items-center justify-center animate-pulse">
+            <img src="/matoa-logo.png" alt="Matoa Logo" className="w-full h-full object-contain" />
+          </div>
+          <div className="w-8 h-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-xs text-slate-400 font-medium font-mono">Chargement de Matoa SaaS...</p>
         </div>
       </div>
     );
