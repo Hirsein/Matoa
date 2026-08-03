@@ -54,6 +54,7 @@ import {
   Award,
   Layers,
   Car,
+  RefreshCw,
 } from 'lucide-react';
 
 export const SuperAdminDashboard: React.FC = () => {
@@ -252,6 +253,29 @@ export const SuperAdminDashboard: React.FC = () => {
       if (res.ok) setModules(await res.json());
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const handleSeedPermisB = async () => {
+    if (!window.confirm('Voulez-vous réinitialiser et injecter le programme complet Permis B (10 modules avec leçons, vidéos YouTube FR, mini-quizzes 5Q et quiz finaux 10Q) ?')) {
+      return;
+    }
+    try {
+      const res = await fetch('/api/modules/seed-permis-b', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        alert(data.message || 'Programme Permis B injecté avec succès !');
+        fetchModules();
+        fetchProgrammes();
+      } else {
+        alert('Erreur lors de l\'injection du programme Permis B.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erreur réseau lors de l\'injection du Permis B.');
     }
   };
 
@@ -1219,13 +1243,24 @@ export const SuperAdminDashboard: React.FC = () => {
                 </p>
               </div>
 
-              <button
-                onClick={() => setShowModuleModal(true)}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center space-x-1"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Nouveau Module</span>
-              </button>
+              <div className="flex items-center space-x-2 flex-wrap gap-2">
+                <button
+                  onClick={handleSeedPermisB}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center space-x-1.5"
+                  title="Réinitialiser et charger le programme officiel Permis B complet (10 modules, YouTube FR, mini-quizzes 5Q et quiz finaux 10Q)"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  <span>Réinitialiser Permis B (10 Modules)</span>
+                </button>
+
+                <button
+                  onClick={() => setShowModuleModal(true)}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center space-x-1"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Nouveau Module</span>
+                </button>
+              </div>
             </div>
 
             <div className="space-y-4">

@@ -973,6 +973,21 @@ async function startServer() {
   });
 
   // 5. MODULES & QUIZZES
+  app.post('/api/modules/seed-permis-b', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
+    inMemoryStore.seedPermisBContent();
+    await inMemoryStore.seedInitialDatasetToSanity();
+    inMemoryStore.addLog(
+      req.user!.userId,
+      ActionType.CREATION_PROGRAMME_PERMIS,
+      'Réinitialisation et injection du programme et modules Permis B complets (10 modules, YouTube FR, mini-quizzes & quizzes finaux).'
+    );
+    res.json({
+      message: 'Programme et modules complets Permis B réinitialisés et injectés avec succès !',
+      program: inMemoryStore.getProgrammePermisById('prog-permis-b'),
+      modulesCount: inMemoryStore.modules.filter((m) => m.typePermis === 'B').length,
+    });
+  });
+
   app.get('/api/modules', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
     const modulesSorted = [...inMemoryStore.modules]
       .filter((m) => m.isActive)
