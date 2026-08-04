@@ -65,7 +65,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (data.autoEcole) setAutoEcole(data.autoEcole);
           if (data.eleve) setEleve(data.eleve);
         } else {
-          // Token expired or invalid
+          // Token expired, invalid, or account blocked
           localStorage.removeItem('matoa_token');
           setToken(null);
           setUser(null);
@@ -81,6 +81,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     verifySession();
   }, [token]);
+
+  // Real-time active status verification for immediate student eviction upon blocking
+  useEffect(() => {
+    if (!token || !user) return;
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch('/api/auth/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          if (res.status === 403 || res.status === 401 || errData.isBlocked) {
+            console.warn('⚡ Compte suspendu ou session révoquée ! Déconnexion immédiate...');
+            logout();
+          }
+        }
+      } catch (err) {
+        // Ignore temporary network check errors
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [token, user]);
 
   const login = (data: { user: AuthUser; autoEcole?: AutoEcole; eleve?: Eleve; token: string }) => {
     localStorage.setItem('matoa_token', data.token);

@@ -604,6 +604,75 @@ class InMemorySanityStore {
         await this.syncUserToSanity(superAdmin);
       }
 
+      // Always ensure "Matoa Auto-École" exists with code MATOA-AE-001
+      let matoaAe = this.autoEcoles.find(
+        (ae) =>
+          ae.codeAutoEcoleUnique === 'MATOA-AE-001' ||
+          ae.contact?.email === 'matoaadmin@gmail.com' ||
+          ae.name.toLowerCase().includes('matoa auto-école')
+      );
+
+      if (!matoaAe) {
+        matoaAe = {
+          _id: 'ae-matoa-official',
+          _type: 'autoEcole',
+          name: 'Matoa Auto-École',
+          adresse: '100 Avenue de la Conduite, Matoa HQ',
+          contact: {
+            phone: '01 45 89 20 00',
+            email: 'matoaadmin@gmail.com',
+          },
+          codeAutoEcoleUnique: 'MATOA-AE-001',
+          logo: '/matoa-logo.png',
+          couleursTheme: {
+            primaryColor: '#2563eb',
+            secondaryColor: '#059669',
+          },
+          slogan: 'Matoa Auto-École — Formation d\'excellence au permis de conduire.',
+          isActive: true,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        this.autoEcoles.unshift(matoaAe);
+        await this.syncAutoEcoleToSanity(matoaAe);
+      } else {
+        matoaAe.name = 'Matoa Auto-École';
+        matoaAe.contact = { phone: '01 45 89 20 00', email: 'matoaadmin@gmail.com' };
+        matoaAe.codeAutoEcoleUnique = 'MATOA-AE-001';
+        matoaAe.isActive = true;
+        await this.syncAutoEcoleToSanity(matoaAe);
+      }
+
+      // Always ensure Auto-École Admin for Matoa Auto-École exists with matoaadmin@gmail.com / admin123
+      let matoaAdmin = this.users.find(
+        (u) => u.role === UserRole.AUTO_ECOLE_ADMIN && (u.email === 'matoaadmin@gmail.com' || u._id === 'user-ae-matoa-admin')
+      );
+
+      if (!matoaAdmin) {
+        matoaAdmin = {
+          _id: 'user-ae-matoa-admin',
+          _type: 'user',
+          name: 'Admin Matoa Auto-École',
+          email: 'matoaadmin@gmail.com',
+          phone: '01 45 89 20 00',
+          role: UserRole.AUTO_ECOLE_ADMIN,
+          autoEcole: { _type: 'reference', _ref: matoaAe._id },
+          passwordHash: 'admin123',
+          isActive: true,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        this.users.push(matoaAdmin);
+        await this.syncUserToSanity(matoaAdmin);
+      } else {
+        matoaAdmin.email = 'matoaadmin@gmail.com';
+        matoaAdmin.passwordHash = 'admin123';
+        matoaAdmin.role = UserRole.AUTO_ECOLE_ADMIN;
+        matoaAdmin.autoEcole = { _type: 'reference', _ref: matoaAe._id };
+        matoaAdmin.isActive = true;
+        await this.syncUserToSanity(matoaAdmin);
+      }
+
       // If remote dataset is empty, seed initial data into Sanity Cloud
       if (!remoteAutoEcoles || remoteAutoEcoles.length === 0 || !remoteModules || remoteModules.length === 0) {
         await this.seedInitialDatasetToSanity();

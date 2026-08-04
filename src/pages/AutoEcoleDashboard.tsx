@@ -1876,13 +1876,48 @@ export const AutoEcoleDashboard: React.FC = () => {
                                 </span>
                               )}
                             </td>
-                            <td className="p-3 text-right space-x-2">
+                            <td className="p-3 text-right space-x-1.5">
                               <button
                                 onClick={() => handleInspectProgression(el)}
                                 className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-blue-700 dark:text-blue-300 rounded-lg transition text-xs font-bold border border-slate-200 dark:border-slate-700"
                                 title="Voir la progression"
                               >
                                 Suivi
+                              </button>
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    const res = await fetch(`/api/eleves/${el._id}`, {
+                                      method: 'PUT',
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        Authorization: `Bearer ${token}`,
+                                      },
+                                      body: JSON.stringify({ isBlocked: !el.isBlocked }),
+                                    });
+                                    if (res.ok) {
+                                      setFeedback({
+                                        type: 'success',
+                                        text: el.isBlocked
+                                          ? `Compte de l'élève ${el.userDetail?.name} débloqué avec succès.`
+                                          : `Compte de l'élève ${el.userDetail?.name} suspendu (déconnexion automatique activée).`,
+                                      });
+                                      fetchEleves();
+                                      fetchStats();
+                                      fetchLogs();
+                                    }
+                                  } catch (e) {
+                                    console.error(e);
+                                  }
+                                }}
+                                className={`px-2.5 py-1 rounded-lg transition text-xs font-bold border ${
+                                  el.isBlocked
+                                    ? 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                                    : 'bg-amber-50 hover:bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800'
+                                }`}
+                                title={el.isBlocked ? 'Débloquer l\'accès élève' : 'Suspendre/Bloquer l\'accès élève'}
+                              >
+                                {el.isBlocked ? 'Débloquer' : 'Bloquer'}
                               </button>
                               <button
                                 onClick={() => setSelectedEleveForEdit(el)}

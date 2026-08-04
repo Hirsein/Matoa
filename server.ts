@@ -87,7 +87,7 @@ async function startServer() {
 
     if (loginType === UserRole.AUTO_ECOLE_ADMIN) {
       const user = inMemoryStore.users.find(
-        (u) => u.role === UserRole.AUTO_ECOLE_ADMIN && u.email === email
+        (u) => u.role === UserRole.AUTO_ECOLE_ADMIN && u.email.toLowerCase() === (email || '').trim().toLowerCase()
       );
 
       if (!user || user.passwordHash !== password) {
@@ -177,14 +177,18 @@ async function startServer() {
         );
 
         return res.status(403).json({
-          error: `Période de formation expirée le ${eleveRecord.dateFinFormation}. Votre accès aux modules est automatiquement verrouillé. Veuillez contacter ${ae.name}.`,
+          error: `ACCÈS SUSPENDU : Votre période de formation s'est achevée le ${eleveRecord.dateFinFormation}. Votre compte est actuellement verrouillé. Veuillez contacter l'administration de ${ae.name}.`,
+          isBlocked: true,
           isExpired: true,
           dateFinFormation: eleveRecord.dateFinFormation,
         });
       }
 
       if (eleveRecord.isBlocked || !user.isActive) {
-        return res.status(403).json({ error: 'Accès élève suspendu par votre auto-école.' });
+        return res.status(403).json({
+          error: `ACCÈS SUSPENDU : Votre compte élève a été bloqué par votre auto-école (${ae.name}). Veuillez contacter la direction pour rétablir votre accès.`,
+          isBlocked: true,
+        });
       }
 
       const token = signJwtToken({
@@ -228,8 +232,8 @@ async function startServer() {
     const userPayload = req.user!;
     const user = inMemoryStore.getUserById(userPayload.userId);
 
-    if (!user) {
-      return res.status(404).json({ error: 'Utilisateur introuvable.' });
+    if (!user || !user.isActive) {
+      return res.status(403).json({ error: 'Utilisateur introuvable ou suspendu.', isBlocked: true });
     }
 
     let ae: AutoEcole | undefined;
@@ -237,6 +241,9 @@ async function startServer() {
 
     if (userPayload.autoEcoleId) {
       ae = inMemoryStore.getAutoEcoleById(userPayload.autoEcoleId);
+      if (userPayload.role !== UserRole.SUPER_ADMIN && (!ae || !ae.isActive)) {
+        return res.status(403).json({ error: 'Établissement auto-école suspendu.', isBlocked: true });
+      }
     }
 
     if (userPayload.role === UserRole.ELEVE) {
@@ -244,6 +251,28 @@ async function startServer() {
         const uId = getRefId(el.user);
         return uId === user._id;
       });
+
+      if (!eleve) {
+        return res.status(404).json({ error: 'Dossier élève introuvable.', isBlocked: true });
+      }
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      const isExpired = eleve.dateFinFormation ? eleve.dateFinFormation < todayStr : false;
+
+      if (eleve.isBlocked || !eleve.formationActive || isExpired) {
+        if (isExpired && !eleve.isBlocked) {
+          eleve.isBlocked = true;
+          eleve.formationActive = false;
+          inMemoryStore.syncEleveToSanity(eleve, user);
+        }
+        return res.status(403).json({
+          error: eleve.isBlocked
+            ? `Accès élève suspendu par l'auto-école ${ae?.name || 'Matoa Auto-École'}.`
+            : `Période de formation expirée le ${eleve.dateFinFormation}.`,
+          isBlocked: true,
+          isExpired,
+        });
+      }
     }
 
     res.json({

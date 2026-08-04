@@ -159,9 +159,28 @@ export const LoginPage: React.FC = () => {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start space-x-2 font-medium">
-              <AlertCircle className="w-4 h-4 mt-0.5 shrink-0 text-red-600" />
-              <span>{error}</span>
+            <div
+              className={`mb-5 p-4 rounded-2xl text-xs flex items-start space-x-3 font-medium shadow-sm transition-all duration-200 ${
+                error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué')
+                  ? 'bg-amber-50 dark:bg-amber-950/60 border-2 border-amber-500/60 text-amber-900 dark:text-amber-200'
+                  : 'bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
+              }`}
+            >
+              <AlertCircle
+                className={`w-5 h-5 mt-0.5 shrink-0 ${
+                  error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué')
+                    ? 'text-amber-600 dark:text-amber-400'
+                    : 'text-red-600 dark:text-red-400'
+                }`}
+              />
+              <div className="space-y-1">
+                {(error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué')) && (
+                  <p className="font-extrabold text-xs uppercase tracking-wider text-amber-700 dark:text-amber-300">
+                    ⛔ ACCÈS COMPTE SUSPENDU
+                  </p>
+                )}
+                <p className="leading-relaxed font-semibold">{error}</p>
+              </div>
             </div>
           )}
 
