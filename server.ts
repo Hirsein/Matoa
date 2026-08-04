@@ -34,7 +34,7 @@ async function startServer() {
   app.use(express.json());
 
   // Synchronize in-memory store with Sanity Cloud on boot
-  await inMemoryStore.loadFromSanity();
+  inMemoryStore.loadFromSanity().catch((err) => console.warn('Sanity load warning:', err));
 
   // -------------------------------------------------------------
   // API ROUTES

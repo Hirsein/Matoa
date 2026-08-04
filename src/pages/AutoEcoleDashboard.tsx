@@ -1656,11 +1656,8 @@ export const AutoEcoleDashboard: React.FC = () => {
                   onChange={(e) => setPermitFilter(e.target.value)}
                   className="px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600 shadow-xs"
                 >
-                  <option value="ALL">Tous les Permis</option>
-                  <option value="A">Permis A (Moto)</option>
+                  <option value="ALL">Tous les Permis (Permis B)</option>
                   <option value="B">Permis B (Voiture)</option>
-                  <option value="C">Permis C (Poids Lourd)</option>
-                  <option value="D">Permis D (Bus)</option>
                 </select>
 
                 <button
@@ -2477,10 +2474,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                     }}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
                   >
-                    <option value="A">Permis A (Moto)</option>
                     <option value="B">Permis B (Voiture / V.L.)</option>
-                    <option value="C">Permis C (Poids Lourd)</option>
-                    <option value="D">Permis D (Bus / Transport)</option>
                   </select>
                 </div>
 
@@ -2754,10 +2748,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                     }
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
                   >
-                    <option value="A">Permis A (Moto)</option>
                     <option value="B">Permis B (Voiture / V.L.)</option>
-                    <option value="C">Permis C (Poids Lourd)</option>
-                    <option value="D">Permis D (Bus / Transport)</option>
                   </select>
                 </div>
 

@@ -73,7 +73,29 @@ const INITIAL_SETTINGS: GlobalSettings = {
 
 // In-Memory Data Store class
 class InMemorySanityStore {
-  public autoEcoles: AutoEcole[] = [];
+  public autoEcoles: AutoEcole[] = [
+    {
+      _id: 'ae-matoa-official',
+      _type: 'autoEcole',
+      name: 'Matoa Auto-École',
+      adresse: '100 Avenue de la Conduite, Matoa HQ',
+      contact: {
+        phone: '01 45 89 20 00',
+        email: 'matoaadmin@gmail.com',
+      },
+      codeAutoEcoleUnique: 'MATOA-AE-001',
+      logo: '/matoa-logo.png',
+      couleursTheme: {
+        primaryColor: '#2563eb',
+        secondaryColor: '#059669',
+      },
+      slogan: 'Matoa Auto-École — Formation d\'excellence au permis de conduire.',
+      isActive: true,
+      createdAt: '2026-01-01T00:00:00Z',
+      updatedAt: '2026-01-01T00:00:00Z',
+    },
+  ];
+
   public users: User[] = [
     {
       _id: 'user-super-admin',
@@ -83,6 +105,19 @@ class InMemorySanityStore {
       phone: '01 00 00 00 00',
       role: UserRole.SUPER_ADMIN,
       passwordHash: 'qlac485!',
+      isActive: true,
+      createdAt: '2026-01-01T00:00:00Z',
+      updatedAt: '2026-01-01T00:00:00Z',
+    },
+    {
+      _id: 'user-ae-matoa-admin',
+      _type: 'user',
+      name: 'Admin Matoa Auto-École',
+      email: 'matoaadmin@gmail.com',
+      phone: '01 45 89 20 00',
+      role: UserRole.AUTO_ECOLE_ADMIN,
+      autoEcole: { _type: 'reference', _ref: 'ae-matoa-official' },
+      passwordHash: 'admin123',
       isActive: true,
       createdAt: '2026-01-01T00:00:00Z',
       updatedAt: '2026-01-01T00:00:00Z',
@@ -97,10 +132,59 @@ class InMemorySanityStore {
   public certificats: Certificat[] = [];
   public settings: GlobalSettings = { ...INITIAL_SETTINGS };
 
-  public seedPermisBContent() {
+  public async purgeNonPermisBFromSanity() {
+    if (!liveSanityClient) return;
+    try {
+      const [remoteProgs, remoteMods, remoteQuizzes] = await Promise.all([
+        liveSanityClient.fetch<any[]>(`*[_type == "programmePermis"]`),
+        liveSanityClient.fetch<any[]>(`*[_type == "moduleFormation"]`),
+        liveSanityClient.fetch<any[]>(`*[_type == "quiz"]`),
+      ]);
+
+      const validProgIds = [PERMIS_B_PROGRAMME._id];
+      const validModIds = PERMIS_B_MODULES.map((m) => m._id);
+      const validQuizIds = PERMIS_B_QUIZZES.map((q) => q._id);
+
+      for (const p of remoteProgs || []) {
+        if (!validProgIds.includes(p._id)) {
+          await liveSanityClient.delete(p._id).catch(() => {});
+        }
+      }
+      for (const m of remoteMods || []) {
+        if (!validModIds.includes(m._id)) {
+          await liveSanityClient.delete(m._id).catch(() => {});
+        }
+      }
+      for (const q of remoteQuizzes || []) {
+        if (!validQuizIds.includes(q._id)) {
+          await liveSanityClient.delete(q._id).catch(() => {});
+        }
+      }
+    } catch (err) {
+      console.warn('Purge non-Permis B Sanity warning:', err);
+    }
+  }
+
+  public async seedPermisBContent() {
     this.programmesPermis = [{ ...PERMIS_B_PROGRAMME }];
     this.modules = [...PERMIS_B_MODULES];
     this.quizzes = [...PERMIS_B_QUIZZES];
+
+    await this.purgeNonPermisBFromSanity();
+
+    if (liveSanityClient) {
+      try {
+        await this.syncProgrammePermisToSanity(PERMIS_B_PROGRAMME);
+        for (const mod of PERMIS_B_MODULES) {
+          await this.syncModuleToSanity(mod);
+        }
+        for (const qz of PERMIS_B_QUIZZES) {
+          await this.syncQuizToSanity(qz);
+        }
+      } catch (e) {
+        console.warn('Erreur sync Permis B Sanity Cloud:', e);
+      }
+    }
   }
 
   public clearDemoData() {
@@ -557,9 +641,9 @@ class InMemorySanityStore {
         this.eleves = [];
       }
 
-      if (remoteProgrammes && remoteProgrammes.length > 0) this.programmesPermis = remoteProgrammes;
-      if (remoteModules && remoteModules.length > 0) this.modules = remoteModules;
-      if (remoteQuizzes && remoteQuizzes.length > 0) this.quizzes = remoteQuizzes;
+      this.programmesPermis = [{ ...PERMIS_B_PROGRAMME }];
+      this.modules = [...PERMIS_B_MODULES];
+      this.quizzes = [...PERMIS_B_QUIZZES];
 
       if (remoteProgressions && remoteProgressions.length > 0) {
         this.progressions = remoteProgressions.filter((pr) => {
@@ -678,8 +762,8 @@ class InMemorySanityStore {
         await this.seedInitialDatasetToSanity();
       }
 
-      // Ensure complete Permis B programme & modules exist in store
-      this.seedPermisBContent();
+      // Ensure complete Permis B programme & modules exist in store and Sanity Cloud
+      await this.seedPermisBContent();
 
       console.log(`✅ Sanity Synchronisé ! (${this.autoEcoles.length} auto-écoles, ${this.users.length} utilisateurs, ${this.eleves.length} élèves, ${this.modules.length} modules)`);
     } catch (err) {

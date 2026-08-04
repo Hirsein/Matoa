@@ -2225,10 +2225,7 @@ export const SuperAdminDashboard: React.FC = () => {
                   className="w-full text-xs p-2.5 rounded-xl border border-slate-300 font-bold bg-white focus:ring-2 focus:ring-blue-500 outline-none"
                   required
                 >
-                  <option value="A">Permis A (Moto / Deux-roues)</option>
                   <option value="B">Permis B (Voiture / Véhicule léger)</option>
-                  <option value="C">Permis C (Poids Lourd / Transport de marchandises)</option>
-                  <option value="D">Permis D (Transport en commun / Bus)</option>
                 </select>
               </div>
 
