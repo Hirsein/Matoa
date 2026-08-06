@@ -40,6 +40,138 @@ import {
   MessageSquare,
 } from 'lucide-react';
 
+interface YoutubePlayerProps {
+  videoUrl: string;
+  onTimeUpdate: (currentTime: number) => void;
+  savedTime: number;
+}
+
+const YoutubePlayer: React.FC<YoutubePlayerProps> = ({
+  videoUrl,
+  onTimeUpdate,
+  savedTime,
+}) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const playerRef = useRef<any>(null);
+  const intervalRef = useRef<any>(null);
+
+  const getYoutubeId = (url: string): string | null => {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
+
+  const videoId = getYoutubeId(videoUrl);
+
+  useEffect(() => {
+    if (!videoId) return;
+
+    if (!(window as any).YT) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    }
+
+    let player: any = null;
+
+    const startTracking = () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      intervalRef.current = setInterval(() => {
+        if (player && typeof player.getCurrentTime === 'function') {
+          const currentTime = Math.floor(player.getCurrentTime());
+          onTimeUpdate(currentTime);
+        }
+      }, 1000);
+    };
+
+    const stopTracking = () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+
+    const initPlayer = () => {
+      if (!containerRef.current) return;
+
+      const placeholder = document.createElement('div');
+      placeholder.className = 'w-full h-full';
+      containerRef.current.innerHTML = '';
+      containerRef.current.appendChild(placeholder);
+
+      player = new (window as any).YT.Player(placeholder, {
+        height: '100%',
+        width: '100%',
+        videoId: videoId,
+        playerVars: {
+          playsinline: 1,
+          rel: 0,
+          modestbranding: 1,
+        },
+        events: {
+          onReady: (event: any) => {
+            playerRef.current = event.target;
+            if (savedTime > 0) {
+              event.target.seekTo(savedTime, true);
+            }
+          },
+          onStateChange: (event: any) => {
+            // YT.PlayerState.PLAYING = 1
+            if (event.data === 1) {
+              startTracking();
+            } else {
+              stopTracking();
+            }
+          },
+        },
+      });
+    };
+
+    if ((window as any).YT && (window as any).YT.Player) {
+      initPlayer();
+    } else {
+      const timer = setInterval(() => {
+        if ((window as any).YT && (window as any).YT.Player) {
+          clearInterval(timer);
+          initPlayer();
+        }
+      }, 100);
+
+      return () => {
+        clearInterval(timer);
+        stopTracking();
+        if (player && typeof player.destroy === 'function') {
+          player.destroy();
+        }
+      };
+    }
+
+    return () => {
+      stopTracking();
+      if (player && typeof player.destroy === 'function') {
+        player.destroy();
+      }
+    };
+  }, [videoId, savedTime]);
+
+  if (!videoId) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-slate-900 text-slate-400 text-xs">
+        Format de vidéo non supporté
+      </div>
+    );
+  }
+
+  return <div ref={containerRef} className="w-full h-full" />;
+};
+
+const isYoutubeUrl = (url: string): boolean => {
+  if (!url) return false;
+  return url.includes('youtube.com') || url.includes('youtu.be');
+};
+
 export const ElevePortal: React.FC = () => {
   const { token, user, autoEcole, eleve } = useAuth();
   const { t } = useLanguage();
@@ -292,13 +424,12 @@ export const ElevePortal: React.FC = () => {
     }
   };
 
-  // Video playback time update handler
-  const handleVideoTimeUpdate = async () => {
-    if (!videoRef.current || !activeModuleItem || isBlocked) return;
+  // Synchroniser le temps de visionnage de la vidéo (native ou YouTube)
+  const syncWatchTime = async (currentTime: number) => {
+    if (!activeModuleItem || isBlocked) return;
 
     const currentLecStatus = activeModuleItem.lecons?.[selectedLessonIndex];
     const currentLec = currentLecStatus?.lecon;
-    const currentTime = Math.floor(videoRef.current.currentTime);
     setVideoCurrentTime(currentTime);
 
     // Sync watch time every 5 seconds
@@ -328,6 +459,12 @@ export const ElevePortal: React.FC = () => {
         console.error(e);
       }
     }
+  };
+
+  // Video playback time update handler for native HTML5 video
+  const handleVideoTimeUpdate = async () => {
+    if (!videoRef.current) return;
+    syncWatchTime(Math.floor(videoRef.current.currentTime));
   };
 
   // Open Inline Lesson Quiz Modal
@@ -1079,13 +1216,21 @@ export const ElevePortal: React.FC = () => {
                             isFullscreenVideo ? 'fixed inset-0 z-50 rounded-none w-screen h-screen flex flex-col justify-center items-center bg-black' : 'aspect-video w-full'
                           }`}
                         >
-                          <video
-                            ref={videoRef}
-                            src={lec.videoUrl}
-                            onTimeUpdate={handleVideoTimeUpdate}
-                            controls
-                            className="w-full h-full object-contain"
-                          />
+                          {isYoutubeUrl(lec.videoUrl) ? (
+                            <YoutubePlayer
+                              videoUrl={lec.videoUrl}
+                              onTimeUpdate={syncWatchTime}
+                              savedTime={currentLecStatus.videoWatchTimeSeconds || 0}
+                            />
+                          ) : (
+                            <video
+                              ref={videoRef}
+                              src={lec.videoUrl}
+                              onTimeUpdate={handleVideoTimeUpdate}
+                              controls
+                              className="w-full h-full object-contain"
+                            />
+                          )}
                           {isFullscreenVideo && (
                             <button
                               type="button"
