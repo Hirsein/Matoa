@@ -1300,7 +1300,7 @@ async function startServer() {
 
   // Track video watch time
   app.post('/api/progression/watch-time', authMiddleware, requireRoles(UserRole.ELEVE), (req: AuthenticatedRequest, res: Response) => {
-    const { eleveId, moduleId, leconId, watchSeconds } = req.body;
+    const { eleveId, moduleId, leconId, watchSeconds, isFinished } = req.body;
 
     if (!eleveId || !moduleId || typeof watchSeconds !== 'number') {
       return res.status(400).json({ error: 'Données de visionnage invalides.' });
@@ -1354,8 +1354,9 @@ async function startServer() {
       isCompleted: false,
     };
 
-    const newWatchTime = Math.max(prevLecProg.videoWatchTimeSeconds, watchSeconds);
-    const hasCompletedLecVideo = newWatchTime >= targetLec.tempsMinimumVisionnageSeconds;
+    const reqWatchSeconds = isFinished ? targetLec.tempsMinimumVisionnageSeconds : watchSeconds;
+    const newWatchTime = Math.max(prevLecProg.videoWatchTimeSeconds, reqWatchSeconds);
+    const hasCompletedLecVideo = isFinished || newWatchTime >= targetLec.tempsMinimumVisionnageSeconds;
     const isLecCompleted = hasCompletedLecVideo && (!targetLec.hasInlineQuiz || (prevLecProg.isInlineQuizPassed ?? false));
 
     prog.leconProgressions[targetLecId] = {
@@ -1365,7 +1366,7 @@ async function startServer() {
       isCompleted: isLecCompleted,
     };
 
-    prog.videoWatchTimeSeconds = Math.max(prog.videoWatchTimeSeconds, watchSeconds);
+    prog.videoWatchTimeSeconds = Math.max(prog.videoWatchTimeSeconds, newWatchTime);
     prog.lastActivityAt = new Date().toISOString();
 
     res.json({

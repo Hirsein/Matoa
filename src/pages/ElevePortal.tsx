@@ -42,7 +42,7 @@ import {
 
 interface YoutubePlayerProps {
   videoUrl: string;
-  onTimeUpdate: (currentTime: number) => void;
+  onTimeUpdate: (currentTime: number, isFinished?: boolean) => void;
   savedTime: number;
 }
 
@@ -123,6 +123,13 @@ const YoutubePlayer: React.FC<YoutubePlayerProps> = ({
               startTracking();
             } else {
               stopTracking();
+              // YT.PlayerState.ENDED = 0
+              if (event.data === 0) {
+                const finalTime = player && typeof player.getDuration === 'function' 
+                  ? Math.floor(player.getDuration()) 
+                  : savedTime;
+                onTimeUpdate(finalTime, true);
+              }
             }
           },
         },
@@ -425,15 +432,15 @@ export const ElevePortal: React.FC = () => {
   };
 
   // Synchroniser le temps de visionnage de la vidéo (native ou YouTube)
-  const syncWatchTime = async (currentTime: number) => {
+  const syncWatchTime = async (currentTime: number, isFinished?: boolean) => {
     if (!activeModuleItem || isBlocked) return;
 
     const currentLecStatus = activeModuleItem.lecons?.[selectedLessonIndex];
     const currentLec = currentLecStatus?.lecon;
     setVideoCurrentTime(currentTime);
 
-    // Sync watch time every 5 seconds
-    if (currentTime > 0 && currentTime % 5 === 0) {
+    // Sync watch time if isFinished is true OR every 5 seconds
+    if (isFinished || (currentTime > 0 && currentTime % 5 === 0)) {
       try {
         const res = await fetch('/api/progression/watch-time', {
           method: 'POST',
@@ -446,6 +453,7 @@ export const ElevePortal: React.FC = () => {
             moduleId: activeModuleItem.module._id,
             leconId: currentLec?._id,
             watchSeconds: currentTime,
+            isFinished: !!isFinished,
           }),
         });
 
@@ -465,6 +473,15 @@ export const ElevePortal: React.FC = () => {
   const handleVideoTimeUpdate = async () => {
     if (!videoRef.current) return;
     syncWatchTime(Math.floor(videoRef.current.currentTime));
+  };
+
+  // Handler for native HTML5 video completion
+  const handleVideoEnded = async () => {
+    if (!activeModuleItem) return;
+    const currentLecStatus = activeModuleItem.lecons?.[selectedLessonIndex];
+    const currentLec = currentLecStatus?.lecon;
+    const duration = videoRef.current ? Math.floor(videoRef.current.duration || 0) : 0;
+    syncWatchTime(duration, true);
   };
 
   // Open Inline Lesson Quiz Modal
@@ -1227,6 +1244,7 @@ export const ElevePortal: React.FC = () => {
                               ref={videoRef}
                               src={lec.videoUrl}
                               onTimeUpdate={handleVideoTimeUpdate}
+                              onEnded={handleVideoEnded}
                               controls
                               className="w-full h-full object-contain"
                             />
