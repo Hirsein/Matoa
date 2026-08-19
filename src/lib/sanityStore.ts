@@ -607,8 +607,6 @@ class InMemorySanityStore {
           (ae) =>
             ae._id !== 'ae-001' &&
             ae._id !== 'ae-002' &&
-            ae.codeAutoEcoleUnique !== 'MATOA-AE-001' &&
-            ae.codeAutoEcoleUnique !== 'MATOA-AE-002' &&
             !ae.name?.includes('Conduite Passion') &&
             !ae.name?.includes('Permis Zen')
         );
@@ -616,13 +614,16 @@ class InMemorySanityStore {
         this.autoEcoles = [];
       }
 
-      // Filter out demo student users, demo auto-école admins, and demo eleves
-      const isDemoId = (id: string) =>
-        id.startsWith('eleve-00') ||
-        id.startsWith('user-eleve-') ||
-        id === 'ae-001' || id === 'ae-002' ||
-        id === 'user-ae-001' || id === 'user-ae-002' ||
-        ['eleve-001', 'eleve-002', 'eleve-003', 'eleve-004', 'user-eleve-1', 'user-eleve-2', 'user-eleve-3', 'user-eleve-4'].includes(id);
+      // Filter out only specific legacy demo records
+      const DEMO_IDS = new Set([
+        'ae-001', 'ae-002', 'user-ae-001', 'user-ae-002',
+        'eleve-001', 'eleve-002', 'eleve-003', 'eleve-004',
+        'user-eleve-1', 'user-eleve-2', 'user-eleve-3', 'user-eleve-4',
+        'prog-001-mod-1', 'prog-001-mod-2', 'prog-001-mod-3',
+        'prog-002-mod-1', 'prog-002-mod-2', 'prog-002-mod-3',
+        'cert-001',
+      ]);
+      const isDemoId = (id: string) => Boolean(id && DEMO_IDS.has(id));
 
       if (remoteUsers && remoteUsers.length > 0) {
         this.users = remoteUsers.filter(
