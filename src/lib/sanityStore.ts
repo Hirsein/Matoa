@@ -20,9 +20,24 @@ import { PERMIS_B_PROGRAMME, PERMIS_B_MODULES, PERMIS_B_QUIZZES } from './permis
 const INITIAL_PROGRAMMES_PERMIS: ProgrammePermis[] = [PERMIS_B_PROGRAMME];
 
 // Sanity client configuration with user credentials
-const sanityProjectId = process.env.SANITY_PROJECT_ID || (import.meta as any).env?.VITE_SANITY_PROJECT_ID || 'cchdhqvw';
-const sanityDataset = process.env.SANITY_DATASET || (import.meta as any).env?.VITE_SANITY_DATASET || 'production';
-const sanityToken = process.env.SANITY_API_TOKEN || (import.meta as any).env?.VITE_SANITY_API_TOKEN || 'skEGKHtehXGVW6vZV3vOQxxnJPuM2ySmjAvkYWI68CtKUgJOt5lOBLgtBeLKQhUNgtNgoPNpp6ewuJumw2t7PZdJdnBObPSh0Z886EQpZOsTkh6O9uc1ySmCt3MYP2XFzcDNlcwSkyPBSdarV6O6rxmXveGpkA5lb7mLFyOJ5TKZj00n6LRh';
+const getEnvVar = (nodeKey: string, viteKey: string, fallback: string): string => {
+  if (typeof process !== 'undefined' && process.env && process.env[nodeKey]) {
+    return process.env[nodeKey] as string;
+  }
+  try {
+    const metaEnv = (import.meta as any)?.env;
+    if (metaEnv && metaEnv[viteKey]) {
+      return metaEnv[viteKey];
+    }
+  } catch (e) {
+    // Ignore in Node CJS environment
+  }
+  return fallback;
+};
+
+const sanityProjectId = getEnvVar('SANITY_PROJECT_ID', 'VITE_SANITY_PROJECT_ID', 'cchdhqvw');
+const sanityDataset = getEnvVar('SANITY_DATASET', 'VITE_SANITY_DATASET', 'production');
+const sanityToken = getEnvVar('SANITY_API_TOKEN', 'VITE_SANITY_API_TOKEN', 'skEGKHtehXGVW6vZV3vOQxxnJPuM2ySmjAvkYWI68CtKUgJOt5lOBLgtBeLKQhUNgtNgoPNpp6ewuJumw2t7PZdJdnBObPSh0Z886EQpZOsTkh6O9uc1ySmCt3MYP2XFzcDNlcwSkyPBSdarV6O6rxmXveGpkA5lb7mLFyOJ5TKZj00n6LRh');
 
 export const liveSanityClient = sanityProjectId
   ? createClient({
