@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { UserRole } from '../types';
+import { parseJsonResponse } from '../lib/api';
 import { ShieldCheck, School, GraduationCap, Key, ArrowRight, AlertCircle, Sun, Moon } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
@@ -64,11 +65,7 @@ export const LoginPage: React.FC = () => {
         }),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Échec de la connexion.');
-      }
+      const data = await parseJsonResponse(res);
 
       login(data);
     } catch (err: any) {

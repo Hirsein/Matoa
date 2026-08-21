@@ -60,10 +60,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
 
         if (res.ok) {
-          const data = await res.json();
-          setUser(data.user);
-          if (data.autoEcole) setAutoEcole(data.autoEcole);
-          if (data.eleve) setEleve(data.eleve);
+          const contentType = res.headers.get('content-type') || '';
+          if (contentType.includes('application/json')) {
+            const data = await res.json();
+            setUser(data.user);
+            if (data.autoEcole) setAutoEcole(data.autoEcole);
+            if (data.eleve) setEleve(data.eleve);
+          }
         } else {
           // Token expired, invalid, or account blocked
           localStorage.removeItem('matoa_token');

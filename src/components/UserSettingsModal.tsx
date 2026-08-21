@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { parseJsonResponse } from '../lib/api';
 import { User, Lock, Bell, CheckCircle2, AlertTriangle, Shield, Save, X } from 'lucide-react';
 
 interface UserSettingsModalProps {
@@ -75,8 +76,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Erreur lors de la mise à jour des paramètres.');
+      const data = await parseJsonResponse(res);
 
       setMessage({ type: 'success', text: 'Vos paramètres ont été mis à jour avec succès.' });
 
