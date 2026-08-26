@@ -582,12 +582,13 @@ class InMemorySanityStore {
   }
 
   public async loadFromSanity() {
-    // Clean up demo student records from Sanity Cloud
-    await this.purgeDemoElevesFromSanity();
+    if (!liveSanityClient) {
+      console.log('ℹ️ Client Sanity non configuré, utilisation du store mémoire local.');
+      return;
+    }
 
-    if (!liveSanityClient) return;
     try {
-      console.log('🔄 Sync avec Sanity Cloud (project ID: cchdhqvw)...');
+      console.log('🔄 Chargement rapide depuis Sanity Cloud...');
       const [
         remoteAutoEcoles,
         remoteUsers,
@@ -597,7 +598,7 @@ class InMemorySanityStore {
         remoteQuizzes,
         remoteProgressions,
         remoteLogs,
-        remoteCertificats
+        remoteCertificats,
       ] = await Promise.all([
         liveSanityClient.fetch<AutoEcole[]>(`*[_type == "autoEcole"]`),
         liveSanityClient.fetch<User[]>(`*[_type == "user"]`),
@@ -610,19 +611,6 @@ class InMemorySanityStore {
         liveSanityClient.fetch<Certificat[]>(`*[_type == "certificat"]`),
       ]);
 
-      if (remoteAutoEcoles && remoteAutoEcoles.length > 0) {
-        this.autoEcoles = remoteAutoEcoles.filter(
-          (ae) =>
-            ae._id !== 'ae-001' &&
-            ae._id !== 'ae-002' &&
-            !ae.name?.includes('Conduite Passion') &&
-            !ae.name?.includes('Permis Zen')
-        );
-      } else {
-        this.autoEcoles = [];
-      }
-
-      // Filter out only specific legacy demo records
       const DEMO_IDS = new Set([
         'ae-001', 'ae-002', 'user-ae-001', 'user-ae-002',
         'eleve-001', 'eleve-002', 'eleve-003', 'eleve-004',
@@ -633,34 +621,41 @@ class InMemorySanityStore {
       ]);
       const isDemoId = (id: string) => Boolean(id && DEMO_IDS.has(id));
 
-      if (remoteUsers && remoteUsers.length > 0) {
-        this.users = remoteUsers.filter(
-          (u) =>
-            !isDemoId(u._id) &&
-            u.email !== 'contact@conduitepassion.fr' &&
-            u.email !== 'admin@permiszen.fr'
+      if (remoteAutoEcoles && remoteAutoEcoles.length > 0) {
+        const filtered = remoteAutoEcoles.filter(
+          (ae) => !isDemoId(ae._id) && !ae.name?.includes('Conduite Passion') && !ae.name?.includes('Permis Zen')
         );
-      } else {
-        this.users = [...INITIAL_USERS];
+        if (filtered.length > 0) this.autoEcoles = filtered;
+      }
+
+      if (remoteUsers && remoteUsers.length > 0) {
+        const filtered = remoteUsers.filter(
+          (u) => !isDemoId(u._id) && u.email !== 'contact@conduitepassion.fr' && u.email !== 'admin@permiszen.fr'
+        );
+        if (filtered.length > 0) this.users = filtered;
       }
 
       if (remoteEleves && remoteEleves.length > 0) {
         this.eleves = remoteEleves.filter((e) => !isDemoId(e._id));
-      } else {
-        this.eleves = [];
       }
 
-      this.programmesPermis = [{ ...PERMIS_B_PROGRAMME }];
-      this.modules = [...PERMIS_B_MODULES];
-      this.quizzes = [...PERMIS_B_QUIZZES];
+      if (remoteProgrammes && remoteProgrammes.length > 0) {
+        this.programmesPermis = remoteProgrammes;
+      }
+
+      if (remoteModules && remoteModules.length > 0) {
+        this.modules = remoteModules;
+      }
+
+      if (remoteQuizzes && remoteQuizzes.length > 0) {
+        this.quizzes = remoteQuizzes;
+      }
 
       if (remoteProgressions && remoteProgressions.length > 0) {
         this.progressions = remoteProgressions.filter((pr) => {
           const elId = typeof pr.eleve === 'string' ? pr.eleve : (pr.eleve as any)?._ref || (pr.eleve as any)?._id;
           return elId && !isDemoId(elId) && !pr._id.startsWith('prog-00');
         });
-      } else {
-        this.progressions = [];
       }
 
       if (remoteLogs && remoteLogs.length > 0) this.logs = remoteLogs;
@@ -670,11 +665,9 @@ class InMemorySanityStore {
           const elId = typeof c.eleve === 'string' ? c.eleve : (c.eleve as any)?._ref || (c.eleve as any)?._id;
           return elId && !isDemoId(elId) && c._id !== 'cert-001';
         });
-      } else {
-        this.certificats = [];
       }
 
-      // Always ensure Super Admin user exists with matoa@gmail.com / qlac485!
+      // Always guarantee Super Admin user exists in memory
       let superAdmin = this.users.find((u) => u.role === UserRole.SUPER_ADMIN);
       if (!superAdmin) {
         superAdmin = {
@@ -690,14 +683,9 @@ class InMemorySanityStore {
           updatedAt: new Date().toISOString(),
         };
         this.users.unshift(superAdmin);
-        await this.syncUserToSanity(superAdmin);
-      } else {
-        superAdmin.email = 'matoa@gmail.com';
-        superAdmin.passwordHash = 'qlac485!';
-        await this.syncUserToSanity(superAdmin);
       }
 
-      // Always ensure "Matoa Auto-École" exists with code MATOA-AE-001
+      // Always guarantee default Matoa Auto-École exists in memory
       let matoaAe = this.autoEcoles.find(
         (ae) =>
           ae.codeAutoEcoleUnique === 'MATOA-AE-001' ||
@@ -727,16 +715,9 @@ class InMemorySanityStore {
           updatedAt: new Date().toISOString(),
         };
         this.autoEcoles.unshift(matoaAe);
-        await this.syncAutoEcoleToSanity(matoaAe);
-      } else {
-        matoaAe.name = 'Matoa Auto-École';
-        matoaAe.contact = { phone: '01 45 89 20 00', email: 'matoaadmin@gmail.com' };
-        matoaAe.codeAutoEcoleUnique = 'MATOA-AE-001';
-        matoaAe.isActive = true;
-        await this.syncAutoEcoleToSanity(matoaAe);
       }
 
-      // Always ensure Auto-École Admin for Matoa Auto-École exists with matoaadmin@gmail.com / admin123
+      // Always guarantee Auto-École Admin exists in memory
       let matoaAdmin = this.users.find(
         (u) => u.role === UserRole.AUTO_ECOLE_ADMIN && (u.email === 'matoaadmin@gmail.com' || u._id === 'user-ae-matoa-admin')
       );
@@ -756,27 +737,11 @@ class InMemorySanityStore {
           updatedAt: new Date().toISOString(),
         };
         this.users.push(matoaAdmin);
-        await this.syncUserToSanity(matoaAdmin);
-      } else {
-        matoaAdmin.email = 'matoaadmin@gmail.com';
-        matoaAdmin.passwordHash = 'admin123';
-        matoaAdmin.role = UserRole.AUTO_ECOLE_ADMIN;
-        matoaAdmin.autoEcole = { _type: 'reference', _ref: matoaAe._id };
-        matoaAdmin.isActive = true;
-        await this.syncUserToSanity(matoaAdmin);
       }
-
-      // If remote dataset is empty, seed initial data into Sanity Cloud
-      if (!remoteAutoEcoles || remoteAutoEcoles.length === 0 || !remoteModules || remoteModules.length === 0) {
-        await this.seedInitialDatasetToSanity();
-      }
-
-      // Ensure complete Permis B programme & modules exist in store and Sanity Cloud
-      await this.seedPermisBContent();
 
       console.log(`✅ Sanity Synchronisé ! (${this.autoEcoles.length} auto-écoles, ${this.users.length} utilisateurs, ${this.eleves.length} élèves, ${this.modules.length} modules)`);
     } catch (err) {
-      console.warn('⚠️ Avertissement lors de la synchronisation Sanity:', err);
+      console.warn('⚠️ Avertissement lors du chargement Sanity:', err);
     }
   }
 }
