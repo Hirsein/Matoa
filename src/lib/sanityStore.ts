@@ -21,16 +21,9 @@ const INITIAL_PROGRAMMES_PERMIS: ProgrammePermis[] = [PERMIS_B_PROGRAMME];
 
 // Sanity client configuration with user credentials
 const getEnvVar = (nodeKey: string, viteKey: string, fallback: string): string => {
-  if (typeof process !== 'undefined' && process.env && process.env[nodeKey]) {
-    return process.env[nodeKey] as string;
-  }
-  try {
-    const metaEnv = (import.meta as any)?.env;
-    if (metaEnv && metaEnv[viteKey]) {
-      return metaEnv[viteKey];
-    }
-  } catch (e) {
-    // Ignore in Node CJS environment
+  if (typeof process !== 'undefined' && process.env) {
+    if (process.env[nodeKey]) return process.env[nodeKey] as string;
+    if (process.env[viteKey]) return process.env[viteKey] as string;
   }
   return fallback;
 };
@@ -139,9 +132,9 @@ class InMemorySanityStore {
     },
   ];
   public eleves: Eleve[] = [];
-  public programmesPermis: ProgrammePermis[] = [];
-  public modules: ModuleFormation[] = [];
-  public quizzes: Quiz[] = [];
+  public programmesPermis: ProgrammePermis[] = [...INITIAL_PROGRAMMES_PERMIS];
+  public modules: ModuleFormation[] = [...INITIAL_MODULES];
+  public quizzes: Quiz[] = [...INITIAL_QUIZZES];
   public progressions: ProgressionModule[] = [];
   public logs: LogActivite[] = [];
   public certificats: Certificat[] = [];

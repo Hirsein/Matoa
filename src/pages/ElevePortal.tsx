@@ -183,7 +183,7 @@ export const ElevePortal: React.FC = () => {
   const { token, user, autoEcole, eleve } = useAuth();
   const { t } = useLanguage();
 
-  const [activeTab, setActiveTab] = useState<'modules' | 'profile' | 'certificat' | 'logs'>('modules');
+  const [activeTab, setActiveTab] = useState<'modules' | 'profile' | 'certificat' | 'logs' | 'panneau'>('modules');
 
   const [structuredProgression, setStructuredProgression] = useState<any[]>([]);
   const [eleveDetail, setEleveDetail] = useState<any>(eleve);
@@ -901,6 +901,17 @@ export const ElevePortal: React.FC = () => {
           >
             <History className="w-4 h-4" />
             <span>Mon Historique</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('panneau')}
+            className={`py-3 px-5 text-xs font-bold rounded-t-xl transition flex items-center space-x-2 ${
+              activeTab === 'panneau'
+                ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-800 dark:text-indigo-300 border-b-2 border-indigo-600'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+            }`}
+          >
+            <Info className="w-4 h-4" />
+            <span>Panneau</span>
           </button>
         </div>
 

@@ -53,6 +53,7 @@ export const translations = {
     downloadCertificate: 'Télécharger le Certificat',
     recentLogs: 'Journal des Activités',
     studentProfile: 'Mon Profil Élève',
+    panneau: 'Panneau',
     learningTime: 'Temps de visionnage total',
     myStatistics: 'Mes Statistiques',
     quizAverage: 'Moyenne des Quiz',
