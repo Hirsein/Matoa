@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { inMemoryStore } from './lib/sanityStore';
+import { inMemoryStore, liveSanityClient } from './lib/sanityStore';
 import {
   authMiddleware,
   requireRoles,
@@ -48,31 +48,56 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Synchronize in-memory store with Sanity Cloud on boot
-inMemoryStore.loadFromSanity().catch((err) => console.warn('Sanity load warning:', err));
+// Initial non-blocking load on boot
+inMemoryStore.ensureSynced().catch((err) => console.warn('Boot sync warning:', err));
 
 // -------------------------------------------------------------
 // API ROUTER (mounted at both /api and / for absolute reliability)
 // -------------------------------------------------------------
 const apiRouter = express.Router();
 
-// Health check
-apiRouter.get('/health', (_req: Request, res: Response) => {
+// Health check & Sanity Sync Status
+apiRouter.get('/health', async (_req: Request, res: Response) => {
   res.json({
     status: 'ok',
     app: 'Matoa Multi-Tenant Driving School SaaS',
+    sanityConnected: Boolean(liveSanityClient),
+    schoolsCount: inMemoryStore.autoEcoles.length,
+    studentsCount: inMemoryStore.eleves.length,
+    modulesCount: inMemoryStore.modules.length,
     time: new Date().toISOString(),
   });
 });
 
+// Force Sync endpoint (Super Admin & Admins)
+apiRouter.post('/sync/refresh', authMiddleware, async (_req: AuthenticatedRequest, res: Response) => {
+  try {
+    await inMemoryStore.ensureSynced(true);
+    res.json({
+      success: true,
+      message: 'Base de données Sanity Cloud synchronisée avec succès !',
+      schoolsCount: inMemoryStore.autoEcoles.length,
+      usersCount: inMemoryStore.users.length,
+      studentsCount: inMemoryStore.eleves.length,
+      modulesCount: inMemoryStore.modules.length,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err?.message || 'Erreur de synchronisation Sanity' });
+  }
+});
+
 // 1. AUTH - Login
-apiRouter.post('/auth/login', (req: Request, res: Response) => {
+apiRouter.post('/auth/login', async (req: Request, res: Response) => {
   try {
     const { loginType, email, password, codeAutoEcole, codeEleveUnique } = req.body || {};
 
     if (!password) {
       return res.status(400).json({ error: 'Le mot de passe est obligatoire.' });
     }
+
+    // Ensure database is freshly synchronized before authenticating
+    await inMemoryStore.ensureSynced();
 
     const todayStr = new Date().toISOString().split('T')[0];
 
@@ -95,7 +120,8 @@ apiRouter.post('/auth/login', (req: Request, res: Response) => {
         role: UserRole.SUPER_ADMIN,
       });
 
-      inMemoryStore.addLog(user, ActionType.CONNEXION_UTILISATEUR, 'Connexion Super Admin Matoa');
+      const log = inMemoryStore.addLog(user, ActionType.CONNEXION_UTILISATEUR, 'Connexion Super Admin Matoa');
+      await inMemoryStore.syncLogToSanity(log);
 
       return res.json({
         token,
@@ -134,7 +160,8 @@ apiRouter.post('/auth/login', (req: Request, res: Response) => {
         autoEcoleId: ae._id,
       });
 
-      inMemoryStore.addLog(user, ActionType.CONNEXION_UTILISATEUR, `Connexion Admin Auto-École : ${ae.name}`, ae._id);
+      const log = inMemoryStore.addLog(user, ActionType.CONNEXION_UTILISATEUR, `Connexion Admin Auto-École : ${ae.name}`, ae._id);
+      await inMemoryStore.syncLogToSanity(log);
 
       return res.json({
         token,
@@ -189,12 +216,14 @@ apiRouter.post('/auth/login', (req: Request, res: Response) => {
         eleveRecord.isBlocked = true;
         eleveRecord.formationActive = false;
 
-        inMemoryStore.addLog(
+        const log = inMemoryStore.addLog(
           user,
           ActionType.SUSPENSION_ELEVE,
           `Tentative de connexion refusée : Période de formation expirée (${eleveRecord.dateFinFormation})`,
           ae._id
         );
+        await inMemoryStore.syncLogToSanity(log);
+        await inMemoryStore.syncEleveToSanity(eleveRecord, user);
 
         return res.status(403).json({
           error: `ACCÈS SUSPENDU : Votre période de formation s'est achevée le ${eleveRecord.dateFinFormation}. Votre compte est actuellement verrouillé. Veuillez contacter l'administration de ${ae.name}.`,
@@ -220,12 +249,13 @@ apiRouter.post('/auth/login', (req: Request, res: Response) => {
         codeEleveUnique: eleveRecord.codeEleveUnique,
       });
 
-      inMemoryStore.addLog(
+      const log = inMemoryStore.addLog(
         user,
         ActionType.CONNEXION_UTILISATEUR,
         `Connexion de l'élève ${user.name} (${eleveRecord.codeEleveUnique})`,
         ae._id
       );
+      await inMemoryStore.syncLogToSanity(log);
 
       return res.json({
         token,
@@ -252,8 +282,10 @@ apiRouter.post('/auth/login', (req: Request, res: Response) => {
 });
 
 // 2. AUTH - Session info
-apiRouter.get('/auth/me', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/auth/me', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     const userPayload = req.user!;
     const user = inMemoryStore.getUserById(userPayload.userId);
 
@@ -288,7 +320,7 @@ apiRouter.get('/auth/me', authMiddleware, (req: AuthenticatedRequest, res: Respo
         if (isExpired && !eleve.isBlocked) {
           eleve.isBlocked = true;
           eleve.formationActive = false;
-          inMemoryStore.syncEleveToSanity(eleve, user);
+          await inMemoryStore.syncEleveToSanity(eleve, user);
         }
         return res.status(403).json({
           error: eleve.isBlocked
@@ -321,8 +353,10 @@ apiRouter.get('/auth/me', authMiddleware, (req: AuthenticatedRequest, res: Respo
 });
 
 // 3. AUTO-ÉCOLES
-apiRouter.get('/auto-ecoles', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/auto-ecoles', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     if (req.user?.role === UserRole.SUPER_ADMIN) {
       const schools = inMemoryStore.autoEcoles.map((ae) => {
         const studentCount = inMemoryStore.eleves.filter((e) => {
@@ -346,7 +380,7 @@ apiRouter.get('/auto-ecoles', authMiddleware, (req: AuthenticatedRequest, res: R
   }
 });
 
-apiRouter.post('/auto-ecoles', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/auto-ecoles', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { name, adresse, contact, slogan, primaryColor, secondaryColor, adminName, adminEmail, adminPassword } = req.body || {};
 
@@ -377,7 +411,7 @@ apiRouter.post('/auto-ecoles', authMiddleware, requireRoles(UserRole.SUPER_ADMIN
     };
 
     inMemoryStore.autoEcoles.push(newAutoEcole);
-    inMemoryStore.syncAutoEcoleToSanity(newAutoEcole);
+    await inMemoryStore.syncAutoEcoleToSanity(newAutoEcole);
 
     const newAdminUser: User = {
       _id: `user-ae-${Date.now()}`,
@@ -394,14 +428,15 @@ apiRouter.post('/auto-ecoles', authMiddleware, requireRoles(UserRole.SUPER_ADMIN
     };
 
     inMemoryStore.users.push(newAdminUser);
-    inMemoryStore.syncUserToSanity(newAdminUser);
+    await inMemoryStore.syncUserToSanity(newAdminUser);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.CREATION_AUTO_ECOLE,
       `Création de l'auto-école ${name} (${codeAutoEcoleUnique}) avec administrateur ${adminEmail}`,
       aeId
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.status(201).json({ autoEcole: newAutoEcole, adminUser: newAdminUser });
   } catch (err: any) {
@@ -409,7 +444,7 @@ apiRouter.post('/auto-ecoles', authMiddleware, requireRoles(UserRole.SUPER_ADMIN
   }
 });
 
-apiRouter.put('/auto-ecoles/:id', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.put('/auto-ecoles/:id', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { id } = req.params;
 
@@ -433,24 +468,26 @@ apiRouter.put('/auto-ecoles/:id', authMiddleware, (req: AuthenticatedRequest, re
 
     if (req.user?.role === UserRole.SUPER_ADMIN && isActive !== undefined) {
       ae.isActive = isActive;
-      inMemoryStore.addLog(
+      const log = inMemoryStore.addLog(
         req.user.userId,
         isActive ? ActionType.ACTIVATION_AUTO_ECOLE : ActionType.SUSPENSION_AUTO_ECOLE,
         `Auto-école ${ae.name} ${isActive ? 'réactivée' : 'suspendue'}.`,
         ae._id
       );
+      await inMemoryStore.syncLogToSanity(log);
     }
 
     ae.updatedAt = new Date().toISOString();
-    inMemoryStore.syncAutoEcoleToSanity(ae);
+    await inMemoryStore.syncAutoEcoleToSanity(ae);
 
     if (req.user?.role === UserRole.AUTO_ECOLE_ADMIN) {
-      inMemoryStore.addLog(
+      const log = inMemoryStore.addLog(
         req.user.userId,
         ActionType.MODIFICATION_BRANDING,
         `Mise à jour du branding et informations de l'auto-école ${ae.name}`,
         ae._id
       );
+      await inMemoryStore.syncLogToSanity(log);
     }
 
     res.json(ae);
@@ -474,14 +511,15 @@ apiRouter.delete('/auto-ecoles/:id', authMiddleware, requireRoles(UserRole.SUPER
     inMemoryStore.eleves = inMemoryStore.eleves.filter((e) => getRefId(e.autoEcole) !== id);
     inMemoryStore.users = inMemoryStore.users.filter((u) => getRefId(u.autoEcole) !== id);
 
-    inMemoryStore.deleteSanityDocument(id);
+    await inMemoryStore.deleteSanityDocument(id);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.SUPPRESSION_AUTO_ECOLE,
       `Suppression définitive de l'auto-école ${schoolName} (${schoolCode})`,
       id
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json({ message: `L'auto-école ${schoolName} a été supprimée avec succès.`, deletedId: id });
   } catch (err: any) {
@@ -490,7 +528,7 @@ apiRouter.delete('/auto-ecoles/:id', authMiddleware, requireRoles(UserRole.SUPER
 });
 
 // User Profile Settings
-apiRouter.put('/users/profile', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.put('/users/profile', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
     const user = inMemoryStore.getUserById(userId);
@@ -524,14 +562,15 @@ apiRouter.put('/users/profile', authMiddleware, (req: AuthenticatedRequest, res:
     }
 
     user.updatedAt = new Date().toISOString();
-    inMemoryStore.syncUserToSanity(user);
+    await inMemoryStore.syncUserToSanity(user);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       userId,
       ActionType.MODIFICATION_ELEVE,
       `Mise à jour des paramètres du profil utilisateur (${user.name})`,
       req.user?.autoEcoleId
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json({
       message: 'Profil mis à jour avec succès.',
@@ -550,8 +589,10 @@ apiRouter.put('/users/profile', authMiddleware, (req: AuthenticatedRequest, res:
 });
 
 // 4. ÉLÈVES
-apiRouter.get('/eleves', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/eleves', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     let list = [...inMemoryStore.eleves];
 
     if (req.user?.role === UserRole.AUTO_ECOLE_ADMIN || req.user?.role === UserRole.ELEVE) {
@@ -582,7 +623,7 @@ apiRouter.get('/eleves', authMiddleware, (req: AuthenticatedRequest, res: Respon
   }
 });
 
-apiRouter.post('/eleves', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/eleves', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { name, email, phone, password, dateDebutFormation, dateFinFormation, autoEcoleId, typePermis, programmePermisId } = req.body || {};
 
@@ -655,21 +696,23 @@ apiRouter.post('/eleves', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, Use
     };
 
     inMemoryStore.eleves.push(newEleve);
-    inMemoryStore.syncEleveToSanity(newEleve, newUser);
+    await inMemoryStore.syncEleveToSanity(newEleve, newUser);
 
-    inMemoryStore.addLog(
+    const log1 = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.CREATION_ELEVE,
       `Création de l'élève ${name} (${codeEleveUnique}) - Permis ${selectedTypePermis} du ${dateDebutFormation} au ${dateFinFormation}`,
       ae._id
     );
+    await inMemoryStore.syncLogToSanity(log1);
 
-    inMemoryStore.addLog(
+    const log2 = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.CHOIX_TYPE_PERMIS_POUR_ELEVE,
       `Attribution du Permis ${selectedTypePermis} pour l'élève ${name} (${codeEleveUnique})`,
       ae._id
     );
+    await inMemoryStore.syncLogToSanity(log2);
 
     res.status(201).json({
       eleve: newEleve,
@@ -681,7 +724,7 @@ apiRouter.post('/eleves', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, Use
   }
 });
 
-apiRouter.post('/eleves/bulk-import', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/eleves/bulk-import', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { csvText, studentsList, autoEcoleId } = req.body || {};
     const targetAeId = req.user?.role === UserRole.SUPER_ADMIN ? autoEcoleId : req.user?.autoEcoleId;
@@ -793,7 +836,7 @@ apiRouter.post('/eleves/bulk-import', authMiddleware, requireRoles(UserRole.SUPE
 
       inMemoryStore.users.push(newUser);
       inMemoryStore.eleves.push(newEleve);
-      inMemoryStore.syncEleveToSanity(newEleve, newUser);
+      await inMemoryStore.syncEleveToSanity(newEleve, newUser);
 
       importedStudents.push({
         _id: eleveId,
@@ -804,12 +847,13 @@ apiRouter.post('/eleves/bulk-import', authMiddleware, requireRoles(UserRole.SUPE
     }
 
     if (importedStudents.length > 0) {
-      inMemoryStore.addLog(
+      const log = inMemoryStore.addLog(
         req.user!.userId,
         ActionType.CREATION_ELEVE,
         `Importation CSV groupée de ${importedStudents.length} élèves dans l'auto-école ${ae.name}`,
         ae._id
       );
+      await inMemoryStore.syncLogToSanity(log);
     }
 
     res.json({
@@ -824,7 +868,7 @@ apiRouter.post('/eleves/bulk-import', authMiddleware, requireRoles(UserRole.SUPE
   }
 });
 
-apiRouter.put('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.put('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { id } = req.params;
     const eleve = inMemoryStore.getEleveById(id);
@@ -851,12 +895,13 @@ apiRouter.put('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, 
       const oldPermis = eleve.typePermis || 'Non défini';
       eleve.typePermis = typePermis.trim().toUpperCase();
 
-      inMemoryStore.addLog(
+      const log = inMemoryStore.addLog(
         req.user!.userId,
         ActionType.CHANGEMENT_TYPE_PERMIS_POUR_ELEVE,
         `Changement du type de permis de l'élève ${user?.name || ''} : ${oldPermis} ➔ ${eleve.typePermis}`,
         aeRef
       );
+      await inMemoryStore.syncLogToSanity(log);
     }
 
     if (programmePermisId) {
@@ -875,14 +920,15 @@ apiRouter.put('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, 
 
     eleve.updatedAt = new Date().toISOString();
 
-    if (user) inMemoryStore.syncEleveToSanity(eleve, user);
+    if (user) await inMemoryStore.syncEleveToSanity(eleve, user);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.MODIFICATION_ELEVE,
       `Mise à jour du dossier élève ${user?.name || ''} (${eleve.codeEleveUnique})`,
       aeRef
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json(eleve);
   } catch (err: any) {
@@ -890,7 +936,7 @@ apiRouter.put('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, 
   }
 });
 
-apiRouter.delete('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.delete('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { id } = req.params;
     const index = inMemoryStore.eleves.findIndex((e) => e._id === id);
@@ -901,19 +947,26 @@ apiRouter.delete('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMI
 
     const eleve = inMemoryStore.eleves[index];
     const aeRef = getRefId(eleve.autoEcole);
+    const userId = getRefId(eleve.user);
 
     if (req.user?.role === UserRole.AUTO_ECOLE_ADMIN && aeRef !== req.user.autoEcoleId) {
       return res.status(403).json({ error: 'Accès non autorisé.' });
     }
 
     inMemoryStore.eleves.splice(index, 1);
+    await inMemoryStore.deleteSanityDocument(id);
+    if (userId) {
+      inMemoryStore.users = inMemoryStore.users.filter((u) => u._id !== userId);
+      await inMemoryStore.deleteSanityDocument(userId);
+    }
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.MODIFICATION_ELEVE,
       `Suppression de l'élève code ${eleve.codeEleveUnique}`,
       aeRef
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json({ success: true, message: 'Élève supprimé.' });
   } catch (err: any) {
@@ -922,8 +975,10 @@ apiRouter.delete('/eleves/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMI
 });
 
 // 4.5 PROGRAMMES DE PERMIS
-apiRouter.get('/programmes-permis', authMiddleware, (_req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/programmes-permis', authMiddleware, async (_req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     const list = inMemoryStore.programmesPermis.map((prog) => {
       const moduleIds = (prog.modules || []).map((m: any) => getRefId(m)).filter(Boolean);
       const matchedModules = inMemoryStore.modules.filter((mod) => moduleIds.includes(mod._id));
@@ -939,7 +994,7 @@ apiRouter.get('/programmes-permis', authMiddleware, (_req: AuthenticatedRequest,
   }
 });
 
-apiRouter.post('/programmes-permis', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/programmes-permis', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { typePermis, titreProgramme, descriptionProgramme, moduleIds, isActive } = req.body || {};
 
@@ -976,13 +1031,14 @@ apiRouter.post('/programmes-permis', authMiddleware, requireRoles(UserRole.SUPER
       });
     }
 
-    inMemoryStore.syncProgrammePermisToSanity(newProg);
+    await inMemoryStore.syncProgrammePermisToSanity(newProg);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.CREATION_PROGRAMME_PERMIS,
       `Création du programme pour le permis ${newProg.typePermis} : "${newProg.titreProgramme}"`
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.status(201).json(newProg);
   } catch (err: any) {
@@ -990,7 +1046,7 @@ apiRouter.post('/programmes-permis', authMiddleware, requireRoles(UserRole.SUPER
   }
 });
 
-apiRouter.put('/programmes-permis/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.put('/programmes-permis/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { id } = req.params;
     const prog = inMemoryStore.getProgrammePermisById(id);
@@ -1019,13 +1075,14 @@ apiRouter.put('/programmes-permis/:id', authMiddleware, requireRoles(UserRole.SU
     }
 
     prog.updatedAt = new Date().toISOString();
-    inMemoryStore.syncProgrammePermisToSanity(prog);
+    await inMemoryStore.syncProgrammePermisToSanity(prog);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.MODIFICATION_PROGRAMME_PERMIS,
       `Mise à jour du programme permis ${prog.typePermis} : "${prog.titreProgramme}"`
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json(prog);
   } catch (err: any) {
@@ -1033,7 +1090,7 @@ apiRouter.put('/programmes-permis/:id', authMiddleware, requireRoles(UserRole.SU
   }
 });
 
-apiRouter.delete('/programmes-permis/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.delete('/programmes-permis/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { id } = req.params;
     const index = inMemoryStore.programmesPermis.findIndex((p) => p._id === id);
@@ -1043,13 +1100,14 @@ apiRouter.delete('/programmes-permis/:id', authMiddleware, requireRoles(UserRole
     }
 
     const removed = inMemoryStore.programmesPermis.splice(index, 1)[0];
-    inMemoryStore.deleteSanityDocument(id);
+    await inMemoryStore.deleteSanityDocument(id);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.MODIFICATION_PROGRAMME_PERMIS,
       `Suppression du programme permis ${removed.typePermis} ("${removed.titreProgramme}")`
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json({ message: 'Programme de permis supprimé avec succès.', programme: removed });
   } catch (err: any) {
@@ -1060,13 +1118,14 @@ apiRouter.delete('/programmes-permis/:id', authMiddleware, requireRoles(UserRole
 // 5. MODULES & QUIZZES
 apiRouter.post('/modules/seed-permis-b', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
-    inMemoryStore.seedPermisBContent();
+    await inMemoryStore.seedPermisBContent();
     await inMemoryStore.seedInitialDatasetToSanity();
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.CREATION_PROGRAMME_PERMIS,
       'Réinitialisation et injection du programme et modules Permis B complets (10 modules, YouTube FR, mini-quizzes & quizzes finaux).'
     );
+    await inMemoryStore.syncLogToSanity(log);
     res.json({
       message: 'Programme et modules complets Permis B réinitialisés et injectés avec succès !',
       program: inMemoryStore.getProgrammePermisById('prog-permis-b'),
@@ -1077,8 +1136,10 @@ apiRouter.post('/modules/seed-permis-b', authMiddleware, requireRoles(UserRole.S
   }
 });
 
-apiRouter.get('/modules', authMiddleware, (_req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/modules', authMiddleware, async (_req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     const modulesSorted = [...inMemoryStore.modules]
       .filter((m) => m.isActive)
       .sort((a, b) => a.ordre - b.ordre)
@@ -1096,7 +1157,7 @@ apiRouter.get('/modules', authMiddleware, (_req: AuthenticatedRequest, res: Resp
   }
 });
 
-apiRouter.post('/modules', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/modules', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { code, title, summary, description, learningObjectives, ordre, videoUrl, durationSeconds, tempsMinimumVisionnage, scoreMinimumQuiz, lecons } = req.body || {};
 
@@ -1123,13 +1184,14 @@ apiRouter.post('/modules', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (
     };
 
     inMemoryStore.modules.push(newModule);
-    inMemoryStore.syncModuleToSanity(newModule);
+    await inMemoryStore.syncModuleToSanity(newModule);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.MODIFICATION_MODULE,
       `Module de formation créé : ${title}`
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.status(201).json(newModule);
   } catch (err: any) {
@@ -1137,7 +1199,7 @@ apiRouter.post('/modules', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (
   }
 });
 
-apiRouter.put('/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.put('/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { id } = req.params;
     const mod = inMemoryStore.modules.find((m) => m._id === id);
@@ -1161,13 +1223,14 @@ apiRouter.put('/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN)
     if (Array.isArray(lecons)) mod.lecons = lecons;
 
     mod.updatedAt = new Date().toISOString();
-    inMemoryStore.syncModuleToSanity(mod);
+    await inMemoryStore.syncModuleToSanity(mod);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.MODIFICATION_MODULE,
       `Module de formation mis à jour : ${mod.title}`
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json(mod);
   } catch (err: any) {
@@ -1175,7 +1238,7 @@ apiRouter.put('/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN)
   }
 });
 
-apiRouter.delete('/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.delete('/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { id } = req.params;
     const index = inMemoryStore.modules.findIndex((m) => m._id === id);
@@ -1185,13 +1248,14 @@ apiRouter.delete('/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADM
     }
 
     const removed = inMemoryStore.modules.splice(index, 1)[0];
-    inMemoryStore.deleteSanityDocument(id);
+    await inMemoryStore.deleteSanityDocument(id);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.MODIFICATION_MODULE,
       `Module de formation supprimé : ${removed.title}`
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json({ message: 'Module supprimé avec succès.', module: removed });
   } catch (err: any) {
@@ -1199,7 +1263,7 @@ apiRouter.delete('/modules/:id', authMiddleware, requireRoles(UserRole.SUPER_ADM
   }
 });
 
-apiRouter.post('/quizzes', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/quizzes', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { moduleId, questions, timerSeconds, scoreMinimum, title } = req.body || {};
 
@@ -1242,7 +1306,7 @@ apiRouter.post('/quizzes', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (
       mod.quiz = quiz;
     }
 
-    inMemoryStore.syncQuizToSanity(quiz);
+    await inMemoryStore.syncQuizToSanity(quiz);
 
     res.json(quiz);
   } catch (err: any) {
@@ -1251,8 +1315,10 @@ apiRouter.post('/quizzes', authMiddleware, requireRoles(UserRole.SUPER_ADMIN), (
 });
 
 // 6. PROGRESSION & LEARNING PATH
-apiRouter.get('/progression/:eleveId', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/progression/:eleveId', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     const { eleveId } = req.params;
 
     const eleve = inMemoryStore.getEleveById(eleveId);
@@ -1374,7 +1440,7 @@ apiRouter.get('/progression/:eleveId', authMiddleware, (req: AuthenticatedReques
 });
 
 // Track video watch time
-apiRouter.post('/progression/watch-time', authMiddleware, requireRoles(UserRole.ELEVE), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/progression/watch-time', authMiddleware, requireRoles(UserRole.ELEVE), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { eleveId, moduleId, leconId, watchSeconds, isFinished } = req.body || {};
 
@@ -1445,6 +1511,8 @@ apiRouter.post('/progression/watch-time', authMiddleware, requireRoles(UserRole.
     prog.videoWatchTimeSeconds = Math.max(prog.videoWatchTimeSeconds, newWatchTime);
     prog.lastActivityAt = new Date().toISOString();
 
+    await inMemoryStore.syncProgressionToSanity(prog);
+
     res.json({
       progression: prog,
       leconProgression: prog.leconProgressions[targetLecId],
@@ -1456,7 +1524,7 @@ apiRouter.post('/progression/watch-time', authMiddleware, requireRoles(UserRole.
 });
 
 // Submit Inline Lesson Quiz attempt
-apiRouter.post('/progression/submit-lesson-quiz', authMiddleware, requireRoles(UserRole.ELEVE), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/progression/submit-lesson-quiz', authMiddleware, requireRoles(UserRole.ELEVE), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { eleveId, moduleId, leconId, userAnswers } = req.body || {};
 
@@ -1524,6 +1592,8 @@ apiRouter.post('/progression/submit-lesson-quiz', authMiddleware, requireRoles(U
 
     prog.lastActivityAt = new Date().toISOString();
 
+    await inMemoryStore.syncProgressionToSanity(prog);
+
     res.json({
       scorePercentage,
       correctCount,
@@ -1537,7 +1607,7 @@ apiRouter.post('/progression/submit-lesson-quiz', authMiddleware, requireRoles(U
 });
 
 // Submit Quiz attempt
-apiRouter.post('/progression/submit-quiz', authMiddleware, requireRoles(UserRole.ELEVE), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/progression/submit-quiz', authMiddleware, requireRoles(UserRole.ELEVE), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { eleveId, moduleId, userAnswers } = req.body || {};
 
@@ -1612,14 +1682,18 @@ apiRouter.post('/progression/submit-quiz', authMiddleware, requireRoles(UserRole
     const userObj = inMemoryStore.getUserById(eleve.user);
     const aeRef = getRefId(eleve.autoEcole);
 
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.QUIZ_PASSE,
       `Élève ${userObj?.name || ''} (${eleve.codeEleveUnique}) a passé le Quiz "${mod.title}" : Score ${scorePercentage}% (${passed ? 'RÉUSSI' : 'ÉCHOUÉ'})`,
       aeRef
     );
+    await inMemoryStore.syncLogToSanity(log);
 
-    inMemoryStore.syncProgressionToSanity(prog);
+    await inMemoryStore.syncProgressionToSanity(prog);
+    if (userObj) {
+      await inMemoryStore.syncEleveToSanity(eleve, userObj);
+    }
 
     let certificatRecord: Certificat | undefined;
     if (overallPercentage >= 100) {
@@ -1641,15 +1715,16 @@ apiRouter.post('/progression/submit-quiz', authMiddleware, requireRoles(UserRole
         };
         inMemoryStore.certificats.push(cert);
 
-        inMemoryStore.addLog(
+        const logCert = inMemoryStore.addLog(
           req.user!.userId,
           ActionType.CERTIFICAT_GENERE,
           `Certificat Officiel Matoa généré pour l'élève ${userObj?.name || ''} (${cert.certificateCode})`,
           aeRef
         );
+        await inMemoryStore.syncLogToSanity(logCert);
       }
       certificatRecord = cert;
-      inMemoryStore.syncCertificatToSanity(cert);
+      await inMemoryStore.syncCertificatToSanity(cert);
     }
 
     res.json({
@@ -1667,8 +1742,10 @@ apiRouter.post('/progression/submit-quiz', authMiddleware, requireRoles(UserRole
 });
 
 // 7. CERTIFICAT
-apiRouter.get('/certificats', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/certificats', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     let targetEleves = [...inMemoryStore.eleves];
 
     if (req.user?.role === UserRole.AUTO_ECOLE_ADMIN) {
@@ -1695,7 +1772,7 @@ apiRouter.get('/certificats', authMiddleware, requireRoles(UserRole.SUPER_ADMIN,
   }
 });
 
-apiRouter.post('/certificats/generate', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/certificats/generate', authMiddleware, requireRoles(UserRole.SUPER_ADMIN, UserRole.AUTO_ECOLE_ADMIN), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { eleveId } = req.body || {};
     const eleve = inMemoryStore.getEleveById(eleveId);
@@ -1728,15 +1805,16 @@ apiRouter.post('/certificats/generate', authMiddleware, requireRoles(UserRole.SU
       cert.dateEmission = new Date().toISOString();
     }
 
-    inMemoryStore.syncCertificatToSanity(cert);
+    await inMemoryStore.syncCertificatToSanity(cert);
 
     const userObj = inMemoryStore.getUserById(eleve.user);
-    inMemoryStore.addLog(
+    const log = inMemoryStore.addLog(
       req.user!.userId,
       ActionType.CERTIFICAT_GENERE,
       `Génération manuelle du certificat pour l'élève ${userObj?.name || ''} (${cert.certificateCode})`,
       aeRef
     );
+    await inMemoryStore.syncLogToSanity(log);
 
     res.json({ success: true, certificat: cert });
   } catch (err: any) {
@@ -1744,8 +1822,10 @@ apiRouter.post('/certificats/generate', authMiddleware, requireRoles(UserRole.SU
   }
 });
 
-apiRouter.get('/certificats/:eleveId', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/certificats/:eleveId', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     const { eleveId } = req.params;
     const eleve = inMemoryStore.getEleveById(eleveId);
 
@@ -1773,7 +1853,7 @@ apiRouter.get('/certificats/:eleveId', authMiddleware, (req: AuthenticatedReques
   }
 });
 
-apiRouter.post('/certificats/download', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.post('/certificats/download', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { eleveId } = req.body || {};
     const eleve = inMemoryStore.getEleveById(eleveId);
@@ -1789,15 +1869,18 @@ apiRouter.post('/certificats/download', authMiddleware, (req: AuthenticatedReque
 
     if (cert) {
       cert.status = CertificatStatus.TELECHARGE;
+      await inMemoryStore.syncCertificatToSanity(cert);
+
       const user = inMemoryStore.getUserById(eleve.user);
       const aeRef = getRefId(eleve.autoEcole);
 
-      inMemoryStore.addLog(
+      const log = inMemoryStore.addLog(
         req.user!.userId,
         ActionType.CERTIFICAT_TELECHARGE,
         `Certificat téléchargé pour l'élève ${user?.name || ''} (${cert.certificateCode})`,
         aeRef
       );
+      await inMemoryStore.syncLogToSanity(log);
     }
 
     res.json({ success: true, certificat: cert });
@@ -1807,8 +1890,10 @@ apiRouter.post('/certificats/download', authMiddleware, (req: AuthenticatedReque
 });
 
 // 8. LOGS D'ACTIVITÉ
-apiRouter.get('/logs', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/logs', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     let logs = [...inMemoryStore.logs];
 
     if (req.user?.role === UserRole.AUTO_ECOLE_ADMIN) {
@@ -1830,8 +1915,10 @@ apiRouter.get('/logs', authMiddleware, (req: AuthenticatedRequest, res: Response
 });
 
 // 9. OVERVIEW STATS
-apiRouter.get('/stats', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
+apiRouter.get('/stats', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    await inMemoryStore.ensureSynced();
+
     const todayStr = new Date().toISOString().split('T')[0];
 
     if (req.user?.role === UserRole.SUPER_ADMIN) {

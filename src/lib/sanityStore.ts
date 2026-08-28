@@ -581,6 +581,29 @@ class InMemorySanityStore {
     }
   }
 
+  private lastSyncTimestamp = 0;
+  private syncPromise: Promise<void> | null = null;
+
+  public async ensureSynced(force = false): Promise<void> {
+    const now = Date.now();
+    if (!force && this.lastSyncTimestamp > 0 && now - this.lastSyncTimestamp < 2000) {
+      return;
+    }
+    if (this.syncPromise) {
+      return this.syncPromise;
+    }
+    this.syncPromise = this.loadFromSanity()
+      .then(() => {
+        this.lastSyncTimestamp = Date.now();
+        this.syncPromise = null;
+      })
+      .catch((err) => {
+        console.warn('Sync error:', err);
+        this.syncPromise = null;
+      });
+    return this.syncPromise;
+  }
+
   public async loadFromSanity() {
     if (!liveSanityClient) {
       console.log('ℹ️ Client Sanity non configuré, utilisation du store mémoire local.');
