@@ -182,7 +182,7 @@ const isYoutubeUrl = (url: string): boolean => {
 
 export const ElevePortal: React.FC = () => {
   const { token, user, autoEcole, eleve } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const [activeTab, setActiveTab] = useState<'modules' | 'profile' | 'certificat' | 'logs' | 'panneau'>('modules');
 
@@ -297,8 +297,8 @@ export const ElevePortal: React.FC = () => {
         notifs.push({
           id: `notif-course-${sp.module._id}`,
           type: 'COURS',
-          title: `Nouveau cours théorique : ${sp.module.title}`,
-          message: `Le module Permis ${sp.module.typePermis || 'B'} est accessible (${sp.lecons?.length || 0} leçons vidéo avec quiz).`,
+          title: t('newCourseNotificationTitle', { title: sp.module.title }),
+          message: t('newCourseNotificationBody', { type: sp.module.typePermis || 'B', count: sp.lecons?.length || 0 }),
           timestamp: 'Disponible',
           targetTab: 'modules',
           moduleId: sp.module._id,
@@ -314,14 +314,14 @@ export const ElevePortal: React.FC = () => {
         id: `notif-planning-${eleveDetail._id}`,
         type: 'PLANNING',
         title: isExpired
-          ? '⚠️ Planning de formation expiré'
+          ? t('planningExpiredNotifTitle')
           : isSoonExpired
-          ? '⏰ Planning de formation : Fin imminente'
-          : '📅 Planning de formation actif',
+          ? t('planningImminentNotifTitle')
+          : t('planningActiveNotifTitle'),
         message: isExpired
-          ? `Votre période de formation s'est achevée le ${eleveDetail.dateFinFormation}.`
-          : `Accès formation valide du ${eleveDetail.dateDebutFormation || 'Début'} au ${eleveDetail.dateFinFormation}.`,
-        timestamp: 'Statut Compte',
+          ? t('planningExpiredNotifBody', { date: eleveDetail.dateFinFormation })
+          : t('planningActiveNotifBody', { start: eleveDetail.dateDebutFormation || 'Début', end: eleveDetail.dateFinFormation }),
+        timestamp: t('accountStatusBadge'),
         targetTab: 'profile',
         badgeColor: isExpired ? 'bg-red-100 text-red-800 border-red-200' : 'bg-purple-100 text-purple-800 border-purple-200',
       });
@@ -332,16 +332,16 @@ export const ElevePortal: React.FC = () => {
       notifs.push({
         id: `notif-cert-${eleveDetail._id}`,
         type: 'CERTIFICATE',
-        title: '🏆 Certificat Officiel de Réussite Disponible !',
-        message: 'Vous avez complété 100% de votre programme de Code de la Route. Téléchargez votre attestation PDF dès maintenant.',
-        timestamp: 'Validation',
+        title: t('certAvailableNotifTitle'),
+        message: t('certAvailableNotifBody'),
+        timestamp: t('validationBadge'),
         targetTab: 'certificat',
         badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
       });
     }
 
     return notifs;
-  }, [structuredProgression, eleveDetail, isExpired]);
+  }, [structuredProgression, eleveDetail, isExpired, t]);
 
   const unreadNotifs = notificationsList.filter((n) => !readNotifIds.includes(n.id));
 
@@ -672,15 +672,15 @@ export const ElevePortal: React.FC = () => {
             <div>
               <div className="flex items-center space-x-2 mb-1">
                 <span className="text-xs font-bold uppercase tracking-wider bg-white/20 text-white px-3 py-0.5 rounded-full backdrop-blur-sm inline-block">
-                  Portail Élève Officiel
+                  {t('officialStudentPortalBadge')}
                 </span>
                 <span className="text-xs font-black uppercase tracking-wider bg-amber-400 text-slate-900 px-2.5 py-0.5 rounded-full shadow-xs">
-                  Permis {eleveDetail?.typePermis || 'B'}
+                  {t('permisPrefix')} {eleveDetail?.typePermis || 'B'}
                 </span>
               </div>
               <h1 className="text-2xl font-black text-white tracking-tight">{autoEcole?.name}</h1>
               <p className="text-xs text-white/90">
-                Bienvenue, <strong className="text-white font-bold">{user?.name}</strong> | Code Élève :{' '}
+                {t('welcomeStudentPrefix')} <strong className="text-white font-bold">{user?.name}</strong> | {t('studentCodeLabel')}{' '}
                 <span className="font-mono font-bold bg-white/20 px-2 py-0.5 rounded text-white">
                   {eleveDetail?.codeEleveUnique}
                 </span>
@@ -719,10 +719,10 @@ export const ElevePortal: React.FC = () => {
                     <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <BellRing className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                        <h3 className="text-sm font-black tracking-tight">Centre de Notifications</h3>
+                        <h3 className="text-sm font-black tracking-tight">{t('notifCenterTitle')}</h3>
                         {unreadNotifs.length > 0 && (
                           <span className="px-2 py-0.5 text-[10px] font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 rounded-full">
-                            {unreadNotifs.length} non lues
+                            {unreadNotifs.length} {t('unreadBadge')}
                           </span>
                         )}
                       </div>
@@ -745,7 +745,7 @@ export const ElevePortal: React.FC = () => {
                             : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                         }`}
                       >
-                        Toutes ({notificationsList.length})
+                        {t('allNotifsTab')} ({notificationsList.length})
                       </button>
                       <button
                         onClick={() => setNotificationFilter('COURS')}
@@ -755,7 +755,7 @@ export const ElevePortal: React.FC = () => {
                             : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                         }`}
                       >
-                        Cours Théoriques
+                        {t('courseNotifsTab')}
                       </button>
                       <button
                         onClick={() => setNotificationFilter('PLANNING')}
@@ -765,7 +765,7 @@ export const ElevePortal: React.FC = () => {
                             : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                         }`}
                       >
-                        Planning
+                        {t('planningNotifsTab')}
                       </button>
                     </div>
 
@@ -773,7 +773,7 @@ export const ElevePortal: React.FC = () => {
                     <div className="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
                       {notificationsList.filter((n) => notificationFilter === 'ALL' || n.type === notificationFilter).length === 0 ? (
                         <div className="p-8 text-center text-slate-400 dark:text-slate-500 text-xs font-medium">
-                          Aucune notification disponible.
+                          {t('noNotificationsAvailable')}
                         </div>
                       ) : (
                         notificationsList
@@ -821,7 +821,7 @@ export const ElevePortal: React.FC = () => {
                           className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-center space-x-1 mx-auto"
                         >
                           <CheckCheck className="w-3.5 h-3.5" />
-                          <span>Tout marquer comme lu</span>
+                          <span>{t('markAllAsReadBtn')}</span>
                         </button>
                       </div>
                     )}
@@ -833,7 +833,7 @@ export const ElevePortal: React.FC = () => {
             {/* Progress Badge Card */}
             <div className="bg-white/15 backdrop-blur-md p-4 rounded-2xl border border-white/25 min-w-[240px] shadow-xs">
               <div className="flex items-center justify-between text-xs text-white mb-1">
-                <span className="font-bold">Progression du Code</span>
+                <span className="font-bold">{t('codeProgressCardTitle')}</span>
                 <span className="font-black font-mono text-sm">{eleveDetail?.progressionGlobal || 0}%</span>
               </div>
               <div className="w-full bg-black/20 rounded-full h-2.5 overflow-hidden p-0.5">
@@ -844,8 +844,8 @@ export const ElevePortal: React.FC = () => {
               </div>
               <p className="text-[10px] text-white/90 mt-1.5 text-right font-medium">
                 {eleveDetail?.progressionGlobal >= 100
-                  ? '🎉 Formation 100% Complétée !'
-                  : 'Modules théoriques en cours'}
+                  ? t('training100CompletedBadge')
+                  : t('modulesInProgressBadge')}
               </p>
             </div>
           </div>
@@ -863,17 +863,17 @@ export const ElevePortal: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-base font-black text-red-900">
-                  {isExpired ? 'Période de Formation Expirée' : 'Accès aux Modules Suspendu'}
+                  {isExpired ? t('trainingPeriodExpiredTitle') : t('accessToModulesSuspendedTitle')}
                 </h3>
                 <p className="text-xs text-red-700 font-medium">
                   {isExpired
-                    ? `Votre période de formation s'est terminée le ${eleveDetail.dateFinFormation}. Conformément aux règles métier, votre accès aux vidéos et quiz est verrouillé.`
-                    : 'Votre auto-école a suspendu votre compte. Veuillez contacter votre administration.'}
+                    ? t('trainingPeriodExpiredDesc', { date: eleveDetail.dateFinFormation })
+                    : t('accountSuspendedDesc')}
                 </p>
               </div>
             </div>
             <p className="text-xs font-bold text-red-800 pt-2 border-t border-red-200">
-              Veuillez contacter {autoEcole?.name} au {autoEcole?.contact?.phone || autoEcole?.contact?.email} pour réactiver votre formation.
+              {t('contactSchoolToReactivate', { school: autoEcole?.name, contact: autoEcole?.contact?.phone || autoEcole?.contact?.email })}
             </p>
           </div>
         )}
@@ -889,7 +889,7 @@ export const ElevePortal: React.FC = () => {
             }`}
           >
             <GraduationCap className="w-4 h-4" />
-            <span>Parcours de Code</span>
+            <span>{t('tabCodePath')}</span>
           </button>
 
           <button
@@ -913,7 +913,7 @@ export const ElevePortal: React.FC = () => {
             }`}
           >
             <Award className="w-4 h-4" />
-            <span>Mon Certificat Officiel</span>
+            <span>{t('tabMyOfficialCert')}</span>
             {eleveDetail?.progressionGlobal >= 100 && (
               <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />
             )}
@@ -928,7 +928,7 @@ export const ElevePortal: React.FC = () => {
             }`}
           >
             <History className="w-4 h-4" />
-            <span>Mon Historique</span>
+            <span>{t('tabMyHistory')}</span>
           </button>
           <button
             onClick={() => setActiveTab('panneau')}
@@ -939,7 +939,7 @@ export const ElevePortal: React.FC = () => {
             }`}
           >
             <Info className="w-4 h-4" />
-            <span>Panneau</span>
+            <span>{t('tabStudentPanel')}</span>
           </button>
         </div>
 
@@ -964,7 +964,7 @@ export const ElevePortal: React.FC = () => {
                       </div>
                       <div>
                         <h4 className="text-xs font-black text-blue-900 uppercase tracking-wider">
-                          Nouveaux Cours & Alerts ({unreadNotifs.length} non lus)
+                          {t('newCoursesAndAlertsBanner')} ({unreadNotifs.length} {t('unreadBadge')})
                         </h4>
                         <p className="text-xs text-blue-700 font-medium">
                           {unreadNotifs[0].title} — <span className="opacity-90">{unreadNotifs[0].message}</span>
@@ -976,7 +976,7 @@ export const ElevePortal: React.FC = () => {
                       onClick={() => setShowNotificationPanel(true)}
                       className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition shadow-2xs whitespace-nowrap shrink-0"
                     >
-                      Voir toutes les alerte &rarr;
+                      {t('seeAllAlertsBtn')}
                     </button>
                   </div>
                 )}
@@ -997,7 +997,7 @@ export const ElevePortal: React.FC = () => {
             {/* Left: Sequential Modules List */}
             <div className="space-y-4 lg:col-span-1">
               <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Parcours Verrouillé (1 à 1)
+                {t('lockedPathNotice')}
               </h3>
 
               <div className="space-y-3">
@@ -1043,11 +1043,11 @@ export const ElevePortal: React.FC = () => {
                           <Lock className="w-4 h-4 text-slate-400 shrink-0" />
                         ) : item.isValidated ? (
                           <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                            Validé
+                            {t('validatedBadge')}
                           </span>
                         ) : (
                           <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
-                            Disponible
+                            {t('availableBadge')}
                           </span>
                         )}
                       </div>
@@ -1057,8 +1057,8 @@ export const ElevePortal: React.FC = () => {
                       </p>
 
                       <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-medium">
-                        <span>Min vidéo : {item.module.tempsMinimumVisionnage}s</span>
-                        <span>Quiz requis : {item.module.scoreMinimumQuiz}%</span>
+                        <span>{t('minVideoLabel')} {item.module.tempsMinimumVisionnage}s</span>
+                        <span>{t('quizRequiredLabel')} {item.module.scoreMinimumQuiz}%</span>
                       </div>
                     </div>
                   );
@@ -1078,7 +1078,7 @@ export const ElevePortal: React.FC = () => {
                           {activeModuleItem.module.code || `MOD-00${activeModuleItem.module.ordre}`}
                         </span>
                         <span className="text-xs font-semibold text-slate-500">
-                          Module {activeModuleItem.module.ordre}
+                          {t('moduleCounterLabel')} {activeModuleItem.module.ordre}
                         </span>
                       </div>
                       <h2 className="text-lg font-black text-slate-900 mt-1 tracking-tight">
@@ -1090,16 +1090,16 @@ export const ElevePortal: React.FC = () => {
                       {activeModuleItem.isValidated ? (
                         <span className="px-3 py-1 bg-emerald-50 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200 flex items-center space-x-1">
                           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                          <span>Module Validé</span>
+                          <span>{t('moduleValidatedBadge')}</span>
                         </span>
                       ) : activeModuleItem.areAllLessonsCompleted ? (
                         <span className="px-3 py-1 bg-purple-50 text-purple-800 font-bold text-xs rounded-full border border-purple-200 flex items-center space-x-1">
                           <HelpCircle className="w-4 h-4 text-purple-600" />
-                          <span>Leçons Terminées &rarr; Quiz de Module Débloqué</span>
+                          <span>{t('lessonsFinishedQuizUnlocked')}</span>
                         </span>
                       ) : (
                         <span className="px-3 py-1 bg-amber-50 text-amber-800 font-bold text-xs rounded-full border border-amber-200">
-                          En cours d'apprentissage
+                          {t('inLearningProcess')}
                         </span>
                       )}
                     </div>
@@ -1111,7 +1111,7 @@ export const ElevePortal: React.FC = () => {
                       {activeModuleItem.module.summary && (
                         <div>
                           <h4 className="font-bold text-slate-900 uppercase tracking-wide text-[10px] text-slate-500 mb-1">
-                            Résumé du Module
+                            {t('moduleSummaryTitle')}
                           </h4>
                           <p className="text-slate-700 leading-relaxed font-medium">
                             {activeModuleItem.module.summary}
@@ -1122,7 +1122,7 @@ export const ElevePortal: React.FC = () => {
                       {activeModuleItem.module.learningObjectives?.length > 0 && (
                         <div>
                           <h4 className="font-bold text-slate-900 uppercase tracking-wide text-[10px] text-slate-500 mb-1.5">
-                            Objectifs Pédagogiques
+                            {t('learningObjectivesTitle')}
                           </h4>
                           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700">
                             {activeModuleItem.module.learningObjectives.map((obj: string, oIdx: number) => (
@@ -1143,10 +1143,13 @@ export const ElevePortal: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center space-x-1.5">
                           <BookOpen className="w-4 h-4 text-blue-600" />
-                          <span>Leçons du Module ({activeModuleItem.lecons.length})</span>
+                          <span>{t('moduleLessonsCount')} ({activeModuleItem.lecons.length})</span>
                         </h3>
                         <span className="text-[11px] font-bold text-slate-500">
-                          Progrès : {activeModuleItem.lecons.filter((l: any) => l.isCompleted).length} / {activeModuleItem.lecons.length} complétée(s)
+                          {t('lessonsProgressCounter', {
+                            completed: activeModuleItem.lecons.filter((l: any) => l.isCompleted).length,
+                            total: activeModuleItem.lecons.length,
+                          })}
                         </span>
                       </div>
 
@@ -1176,7 +1179,7 @@ export const ElevePortal: React.FC = () => {
                             >
                               <div className="flex items-center justify-between w-full">
                                 <span className="text-[10px] font-mono font-bold text-slate-500">
-                                  Leçon {lecStatus.lecon.ordre}
+                                  {t('lessonBadge')} {lecStatus.lecon.ordre}
                                 </span>
                                 {isLessonLocked ? (
                                   <Lock className="w-3.5 h-3.5 text-slate-400" />
@@ -1193,10 +1196,10 @@ export const ElevePortal: React.FC = () => {
                               </span>
                               <div className="text-[10px] text-slate-500 mt-2 flex items-center space-x-2">
                                 <Video className="w-3 h-3 text-slate-400" />
-                                <span>{Math.round(lecStatus.lecon.tempsMinimumVisionnageSeconds / 60)} min</span>
+                                <span>{Math.round(lecStatus.lecon.tempsMinimumVisionnageSeconds / 60)} {t('minutesShort')}</span>
                                 {lecStatus.lecon.hasInlineQuiz && (
                                   <span className="text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200 font-bold">
-                                    Mini-Quiz
+                                    {t('miniQuizBadge')}
                                   </span>
                                 )}
                               </div>
@@ -1228,14 +1231,14 @@ export const ElevePortal: React.FC = () => {
                         <div className="flex items-center justify-between">
                           <div>
                             <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider">
-                              Leçon Active #{selectedLessonIndex + 1}
+                              {t('activeLessonNumber')}{selectedLessonIndex + 1}
                             </span>
                             <h3 className="text-base font-black text-slate-900">{lec.title}</h3>
                           </div>
                           {currentLecStatus.hasCompletedVideo && (
                             <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center space-x-1">
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                              <span>Vidéo Validée</span>
+                              <span>{t('videoValidatedBadge')}</span>
                             </span>
                           )}
                         </div>
@@ -1251,17 +1254,17 @@ export const ElevePortal: React.FC = () => {
                         <div className="flex items-center justify-between">
                           <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center space-x-1.5">
                             <Video className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                            <span>Session vidéo d'apprentissage</span>
+                            <span>{t('videoLearningSessionTitle')}</span>
                           </span>
 
                           <button
                             type="button"
                             onClick={() => toggleContainerFullscreen(videoContainerRef, isFullscreenVideo, setIsFullscreenVideo)}
                             className="px-3 py-1.5 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 border border-slate-700 shadow-xs"
-                            title="Passer la vidéo en mode immersif sans distraction"
+                            title={t('immersiveVideoTooltip')}
                           >
                             {isFullscreenVideo ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-                            <span>{isFullscreenVideo ? 'Quitter Plein Écran' : 'Mode Plein Écran'}</span>
+                            <span>{isFullscreenVideo ? t('exitFullscreen') : t('fullscreenMode')}</span>
                           </button>
                         </div>
 
@@ -1295,7 +1298,7 @@ export const ElevePortal: React.FC = () => {
                               className="absolute top-4 right-4 z-50 bg-slate-900/90 text-white p-2.5 rounded-xl border border-slate-700 font-bold text-xs flex items-center space-x-2 shadow-xl hover:bg-slate-800"
                             >
                               <Minimize2 className="w-4 h-4" />
-                              <span>Quitter le plein écran</span>
+                              <span>{t('exitFullscreen')}</span>
                             </button>
                           )}
                         </div>
@@ -1303,9 +1306,9 @@ export const ElevePortal: React.FC = () => {
                         {/* Video Progress Bar Tracker */}
                         <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
                           <div className="flex items-center justify-between text-xs">
-                            <span className="text-slate-600 font-bold">Temps de visionnage de la leçon</span>
+                            <span className="text-slate-600 font-bold">{t('lessonWatchTimeLabel')}</span>
                             <span className="font-mono text-slate-900 font-extrabold">
-                              {videoCurrentTime}s / {lec.tempsMinimumVisionnageSeconds}s requis
+                              {t('watchTimeCounter', { current: videoCurrentTime, required: lec.tempsMinimumVisionnageSeconds })}
                             </span>
                           </div>
 
@@ -1328,12 +1331,12 @@ export const ElevePortal: React.FC = () => {
                             <div>
                               <span className="font-bold text-purple-900 flex items-center space-x-1.5">
                                 <HelpCircle className="w-4 h-4 text-purple-600" />
-                                <span>Mini-Quiz de Révision de la Leçon</span>
+                                <span>{t('miniQuizRevisionTitle')}</span>
                               </span>
                               <p className="text-purple-700 mt-0.5 font-medium">
                                 {currentLecStatus.isInlineQuizPassed
-                                  ? `Mini-quiz validé (${currentLecStatus.inlineQuizScore}%)`
-                                  : 'Répondez aux questions rapides pour tester vos connaissances avant la suite.'}
+                                  ? t('miniQuizValidatedStatus', { score: currentLecStatus.inlineQuizScore })
+                                  : t('miniQuizPendingPrompt')}
                               </p>
                             </div>
 
@@ -1349,10 +1352,10 @@ export const ElevePortal: React.FC = () => {
                               }`}
                             >
                               {!currentLecStatus.hasCompletedVideo
-                                ? 'Visionner la vidéo'
+                                ? t('watchVideoFirstBtn')
                                 : currentLecStatus.isInlineQuizPassed
-                                ? 'Refaire le Mini-Quiz'
-                                : 'Commencer le Mini-Quiz'}
+                                ? t('retakeMiniQuizBtn')
+                                : t('startMiniQuizBtn')}
                             </button>
                           </div>
                         )}
@@ -1365,10 +1368,10 @@ export const ElevePortal: React.FC = () => {
                     <div>
                       <h4 className="text-sm font-bold text-slate-900 flex items-center space-x-1.5">
                         <HelpCircle className="w-4 h-4 text-blue-600" />
-                        <span>Évaluation Finale du Module ({activeModuleItem.module.scoreMinimumQuiz}% Requis)</span>
+                        <span>{t('finalModuleQuizHeading', { score: activeModuleItem.module.scoreMinimumQuiz })}</span>
                       </h4>
                       <p className="text-xs text-slate-500 mt-1 font-medium">
-                        Une fois toutes les leçons terminées, passez le quiz final du module pour débloquer le module suivant.
+                        {t('finalModuleQuizDesc')}
                       </p>
                     </div>
 
@@ -1384,15 +1387,15 @@ export const ElevePortal: React.FC = () => {
                       <HelpCircle className="w-4 h-4" />
                       <span>
                         {!activeModuleItem.areAllLessonsCompleted
-                          ? 'Compléter toutes les leçons d\'abord'
-                          : 'Commencer le Quiz de Module'}
+                          ? t('completeAllLessonsFirstBtn')
+                          : t('startModuleQuizBtn')}
                       </span>
                     </button>
                   </div>
                 </div>
               ) : (
                 <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center text-slate-500 font-medium shadow-xs">
-                  <p>Sélectionnez un module pour démarrer les cours.</p>
+                  <p>{t('selectModuleToStartMessage')}</p>
                 </div>
               )}
             </div>
@@ -1422,7 +1425,7 @@ export const ElevePortal: React.FC = () => {
                     </div>
                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">{user?.email}</p>
                     {eleveDetail?.telephone && (
-                      <p className="text-xs text-slate-400 dark:text-slate-500 font-mono mt-0.5">Tél: {eleveDetail.telephone}</p>
+                      <p className="text-xs text-slate-400 dark:text-slate-500 font-mono mt-0.5">{t('phonePrefix')} {eleveDetail.telephone}</p>
                     )}
                   </div>
                 </div>
@@ -1433,23 +1436,23 @@ export const ElevePortal: React.FC = () => {
                     <p className="text-sm font-mono font-bold text-emerald-600 dark:text-emerald-400">{eleveDetail?.codeEleveUnique}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">Auto-École</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">{t('schoolLabel')}</span>
                     <p className="text-xs font-bold text-slate-800 dark:text-slate-200">{autoEcole?.name || 'Matoa Auto-École'}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">Accès Formation</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">{t('trainingAccessField')}</span>
                     <div className="mt-0.5">
                       {isExpired ? (
                         <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
-                          Expiré
+                          {t('expired')}
                         </span>
                       ) : isBlocked ? (
                         <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800">
-                          Suspendu
+                          {t('suspended')}
                         </span>
                       ) : (
                         <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                          Valide
+                          {t('valid')}
                         </span>
                       )}
                     </div>
@@ -1472,7 +1475,7 @@ export const ElevePortal: React.FC = () => {
                     {watchHours > 0 ? `${watchHours}h ${watchMinutes}m` : `${watchMinutes} min`}
                   </p>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-                    Temps de visionnage vidéo cumulé
+                    {t('totalVideoWatchTimeSub')}
                   </p>
                 </div>
               </div>
@@ -1509,14 +1512,14 @@ export const ElevePortal: React.FC = () => {
                     {averageQuizScore !== null ? `${averageQuizScore}%` : '—'}
                   </p>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-                    {quizScoresList.length} épreuve(s) passée(s)
+                    {t('testsPassedCountSub', { count: quizScoresList.length })}
                   </p>
                 </div>
               </div>
 
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Modules Validés</span>
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('validatedModulesKpi')}</span>
                   <div className="p-2 bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-xl">
                     <Target className="w-5 h-5" />
                   </div>
@@ -1526,7 +1529,7 @@ export const ElevePortal: React.FC = () => {
                     {completedModulesCount} / {totalModulesCount}
                   </p>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-                    Modules théoriques débloqués
+                    {t('unlockedTheoreticalModules')}
                   </p>
                 </div>
               </div>
@@ -1562,17 +1565,17 @@ export const ElevePortal: React.FC = () => {
                           {sp.isCompleted ? (
                             <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 flex items-center space-x-1">
                               <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                              <span>Validé (100%)</span>
+                              <span>{t('validated100Pct')}</span>
                             </span>
                           ) : sp.isLocked ? (
                             <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 flex items-center space-x-1">
                               <Lock className="w-3 h-3" />
-                              <span>Verrouillé</span>
+                              <span>{t('lockedBadge')}</span>
                             </span>
                           ) : (
                             <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-700 flex items-center space-x-1">
                               <Clock className="w-3 h-3 text-blue-600" />
-                              <span>En cours ({sp.progressionPct || 0}%)</span>
+                              <span>{t('inProgressBadge')} ({sp.progressionPct || 0}%)</span>
                             </span>
                           )}
                         </div>
@@ -1581,7 +1584,7 @@ export const ElevePortal: React.FC = () => {
                       {/* Progress Bar & Details */}
                       <div className="space-y-1.5 pt-1">
                         <div className="flex justify-between text-xs font-bold text-slate-600 dark:text-slate-300">
-                          <span>Progression Module</span>
+                          <span>{t('moduleProgressLabel')}</span>
                           <span>{sp.progressionPct || 0}%</span>
                         </div>
                         <div className="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
@@ -1596,13 +1599,13 @@ export const ElevePortal: React.FC = () => {
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-xs font-medium text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
                         <div>
-                          Leçons : <strong className="text-slate-900 dark:text-white">{completedLecCount} / {totalLecCount} terminées</strong>
+                          {t('lessonsDetailLine', { completed: completedLecCount, total: totalLecCount })}
                         </div>
                         <div>
-                          Visionnage : <strong className="text-slate-900 dark:text-white">{Math.floor(modLessonsWatch / 60)} min {modLessonsWatch % 60} sec</strong>
+                          {t('watchTimeDetailLine', { minutes: Math.floor(modLessonsWatch / 60), seconds: modLessonsWatch % 60 })}
                         </div>
                         <div>
-                          Quiz Final : <strong className="text-slate-900 dark:text-white">{typeof sp.quizScore === 'number' ? `${sp.quizScore}%` : 'Non passé'}</strong>
+                          {t('finalQuizDetailLine')} <strong className="text-slate-900 dark:text-white">{typeof sp.quizScore === 'number' ? `${sp.quizScore}%` : t('notTakenYet')}</strong>
                         </div>
                       </div>
                     </div>
@@ -1621,9 +1624,9 @@ export const ElevePortal: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-black text-slate-900 tracking-tight">Certificat Officiel Matoa</h2>
+              <h2 className="text-xl font-black text-slate-900 tracking-tight">{t('officialMatoaCertTitle')}</h2>
               <p className="text-xs text-slate-500 mt-1 font-medium">
-                Attestation de fin de formation théorique certifiée par l'établissement{' '}
+                {t('officialCertDesc')}{' '}
                 <strong className="text-slate-800">{autoEcole?.name}</strong>.
               </p>
             </div>
@@ -1631,7 +1634,7 @@ export const ElevePortal: React.FC = () => {
             {eleveDetail?.progressionGlobal >= 100 ? (
               <div className="space-y-4 pt-2">
                 <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-xl">
-                  🎉 Félicitations ! Vous avez validé 100% des modules théoriques. Votre attestation est prête.
+                  {t('congrats100SuccessBanner')}
                 </div>
 
                 <button
@@ -1639,13 +1642,13 @@ export const ElevePortal: React.FC = () => {
                   className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-xl shadow-xs transition inline-flex items-center space-x-2"
                 >
                   <Award className="w-4 h-4" />
-                  <span>Consulter & Imprimer Mon Certificat</span>
+                  <span>{t('viewAndPrintCertBtn')}</span>
                 </button>
               </div>
             ) : (
               <div className="p-4 bg-slate-50 border border-slate-200 text-slate-600 text-xs font-medium rounded-xl">
-                🔒 Complétez l'ensemble des modules théoriques à 100% pour débloquer votre attestation.
-                Progression actuelle : <strong className="text-slate-900 font-bold">{eleveDetail?.progressionGlobal || 0}%</strong>
+                {t('completeAllModulesToUnlockCert')}{' '}
+                {t('currentProgressLabel')} <strong className="text-slate-900 font-bold">{eleveDetail?.progressionGlobal || 0}%</strong>
               </div>
             )}
           </div>
@@ -1654,7 +1657,7 @@ export const ElevePortal: React.FC = () => {
         {/* TAB 3: LOGS */}
         {activeTab === 'logs' && (
           <div className="space-y-4">
-            <h2 className="text-lg font-black text-slate-900 tracking-tight">Historique de vos Activités</h2>
+            <h2 className="text-lg font-black text-slate-900 tracking-tight">{t('activityHistoryTitle')}</h2>
 
             <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl text-white">
               <div className="divide-y divide-slate-800">
@@ -1668,7 +1671,7 @@ export const ElevePortal: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-white">{log.typeAction}</span>
                         <span className="text-[10px] text-slate-400 font-mono">
-                          {new Date(log.timestamp).toLocaleString('fr-FR')}
+                          {new Date(log.timestamp).toLocaleString(language === 'en' ? 'en-US' : 'fr-FR')}
                         </span>
                       </div>
                       <p className="text-slate-300 font-medium">{log.description}</p>
@@ -1683,11 +1686,11 @@ export const ElevePortal: React.FC = () => {
         {/* TAB 5: PANNEAU */}
         {activeTab === 'panneau' && (
           <div className="space-y-4">
-            <h2 className="text-lg font-black text-slate-900 tracking-tight">Panneau des Élèves</h2>
+            <h2 className="text-lg font-black text-slate-900 tracking-tight">{t('studentsPanelTitle')}</h2>
             <div className="flex items-center space-x-2">
               <input
                 type="text"
-                placeholder={t('search') ?? 'Rechercher...'}
+                placeholder={t('searchPlaceholder')}
                 value={eleveSearch}
                 onChange={e => setEleveSearch(e.target.value)}
                 className="flex-1 p-2 border rounded-md"
@@ -1696,7 +1699,7 @@ export const ElevePortal: React.FC = () => {
             </div>
 
             {elevesLoading ? (
-              <p>{t('loading') ?? 'Chargement...'}</p>
+              <p>{t('loadingIndicator')}</p>
             ) : elevesError ? (
               <p className="text-red-600">{elevesError}</p>
             ) : (
@@ -1704,11 +1707,11 @@ export const ElevePortal: React.FC = () => {
                 <table className="min-w-full table-auto border-collapse">
                   <thead className="bg-slate-100">
                     <tr>
-                      <th className="px-4 py-2 text-left">{t('name') ?? 'Nom'}</th>
-                      <th className="px-4 py-2 text-left">Email</th>
-                      <th className="px-4 py-2 text-left">{t('phone') ?? 'Téléphone'}</th>
-                      <th className="px-4 py-2 text-left">{t('code') ?? 'Code'}</th>
-                      <th className="px-4 py-2 text-left">{t('status') ?? 'Statut'}</th>
+                      <th className="px-4 py-2 text-left">{t('studentCol')}</th>
+                      <th className="px-4 py-2 text-left">{t('emailLabel')}</th>
+                      <th className="px-4 py-2 text-left">{t('phoneLabel')}</th>
+                      <th className="px-4 py-2 text-left">{t('studentCodeCol')}</th>
+                      <th className="px-4 py-2 text-left">{t('statusCol')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1725,11 +1728,11 @@ export const ElevePortal: React.FC = () => {
                           <td className="px-4 py-2 font-mono">{e.codeEleveUnique || '—'}</td>
                           <td className="px-4 py-2">
                             {e.isBlocked ? (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-red-50 text-red-800 rounded">Bloqué</span>
+                              <span className="px-2 py-0.5 text-xs font-bold bg-red-50 text-red-800 rounded">{t('blocked')}</span>
                             ) : e.isExpired ? (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-amber-50 text-amber-800 rounded">Expiré</span>
+                              <span className="px-2 py-0.5 text-xs font-bold bg-amber-50 text-amber-800 rounded">{t('expired')}</span>
                             ) : (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-emerald-50 text-emerald-800 rounded">Valide</span>
+                              <span className="px-2 py-0.5 text-xs font-bold bg-emerald-50 text-emerald-800 rounded">{t('valid')}</span>
                             )}
                           </td>
                         </tr>
@@ -1756,7 +1759,7 @@ export const ElevePortal: React.FC = () => {
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
               <div>
                 <span className="text-xs font-mono font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded border border-purple-200 dark:border-purple-800">
-                  Mini-Quiz de Leçon
+                  {t('miniQuizLessonModalBadge')}
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white mt-1">
                   {activeInlineQuizLesson.title}
@@ -1768,10 +1771,10 @@ export const ElevePortal: React.FC = () => {
                   type="button"
                   onClick={() => toggleContainerFullscreen(inlineQuizContainerRef, isFullscreenInlineQuiz, setIsFullscreenInlineQuiz)}
                   className="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-xl text-xs font-bold transition flex items-center space-x-1 border border-slate-200 dark:border-slate-700"
-                  title="Activer le mode plein écran"
+                  title={t('fullscreenMode')}
                 >
                   {isFullscreenInlineQuiz ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-                  <span className="hidden sm:inline">{isFullscreenInlineQuiz ? 'Normal' : 'Plein Écran'}</span>
+                  <span className="hidden sm:inline">{isFullscreenInlineQuiz ? t('normalMode') : t('fullscreenMode')}</span>
                 </button>
 
                 <button
@@ -1801,20 +1804,23 @@ export const ElevePortal: React.FC = () => {
 
                 <div>
                   <h3 className="text-lg font-black text-slate-900">
-                    {inlineQuizSubmittedResult.passed ? 'Mini-Quiz Validé !' : 'Continuez vos Révisions'}
+                    {inlineQuizSubmittedResult.passed ? t('miniQuizPassedTitle') : t('continueRevisingTitle')}
                   </h3>
                   <p className="text-2xl font-black font-mono mt-1 text-slate-900">
                     {inlineQuizSubmittedResult.scorePercentage}%
                   </p>
                   <p className="text-xs text-slate-500 font-medium mt-1">
-                    {inlineQuizSubmittedResult.correctCount} bonne(s) réponse(s) sur {inlineQuizSubmittedResult.totalQuestions}
+                    {t('goodAnswersSummary', {
+                      correct: inlineQuizSubmittedResult.correctCount,
+                      total: inlineQuizSubmittedResult.totalQuestions,
+                    })}
                   </p>
                 </div>
 
                 {/* Explication de chaque question */}
                 <div className="space-y-3 text-left border-t border-slate-200 pt-4">
                   <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wide">
-                    Correction et Explications
+                    {t('correctionAndExplanationsTitle')}
                   </h4>
                   {activeInlineQuizLesson.inlineQuiz?.map((q: any, qIdx: number) => {
                     const isUserCorrect = userInlineAnswers[qIdx] === q.correctOptionIndex;
@@ -1829,19 +1835,19 @@ export const ElevePortal: React.FC = () => {
                           {qIdx + 1}. {q.questionText}
                         </p>
                         <p className="text-[11px] font-medium text-slate-700">
-                          Votre réponse :{' '}
+                          {t('yourAnswerLabel')}{' '}
                           <strong className={isUserCorrect ? 'text-emerald-700' : 'text-red-700'}>
-                            {q.options?.[userInlineAnswers[qIdx]] || 'Non répondue'}
+                            {q.options?.[userInlineAnswers[qIdx]] || t('unansweredQuestion')}
                           </strong>
                         </p>
                         {!isUserCorrect && (
                           <p className="text-[11px] font-medium text-emerald-800">
-                            Réponse correcte : <strong>{q.options?.[q.correctOptionIndex]}</strong>
+                            {t('correctAnswerLabel')} <strong>{q.options?.[q.correctOptionIndex]}</strong>
                           </p>
                         )}
                         {q.explanation && (
                           <p className="text-[10px] text-slate-600 bg-white/80 p-2 rounded border border-slate-200 font-medium mt-1">
-                            💡 <strong>Explication :</strong> {q.explanation}
+                            💡 <strong>{t('explanationLabel')}</strong> {q.explanation}
                           </p>
                         )}
                       </div>
@@ -1855,14 +1861,14 @@ export const ElevePortal: React.FC = () => {
                     className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl flex items-center space-x-1 border border-slate-200"
                   >
                     <RefreshCw className="w-3.5 h-3.5" />
-                    <span>Réessayer</span>
+                    <span>{t('retryBtn')}</span>
                   </button>
 
                   <button
                     onClick={() => setActiveInlineQuizLesson(null)}
                     className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs"
                   >
-                    Fermer
+                    {t('close')}
                   </button>
                 </div>
               </div>
@@ -1903,7 +1909,7 @@ export const ElevePortal: React.FC = () => {
                   onClick={handleSubmitInlineQuiz}
                   className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm rounded-xl shadow-xs transition"
                 >
-                  Valider le Mini-Quiz
+                  {t('validateMiniQuizBtn')}
                 </button>
               </div>
             )}
@@ -1923,10 +1929,10 @@ export const ElevePortal: React.FC = () => {
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
               <div>
                 <span className="text-xs font-mono font-bold text-purple-700 dark:text-purple-300">
-                  Évaluation Quiz — {activeQuizItem.module.title}
+                  {t('quizEvaluationModalBadge')} {activeQuizItem.module.title}
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white mt-0.5">
-                  Score minimum requis : {activeQuizItem.module.scoreMinimumQuiz}%
+                  {t('minScoreRequiredBadge')} {activeQuizItem.module.scoreMinimumQuiz}%
                 </h3>
               </div>
 
@@ -1948,10 +1954,10 @@ export const ElevePortal: React.FC = () => {
                   type="button"
                   onClick={() => toggleContainerFullscreen(moduleQuizContainerRef, isFullscreenModuleQuiz, setIsFullscreenModuleQuiz)}
                   className="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-xl text-xs font-bold transition flex items-center space-x-1 border border-slate-200 dark:border-slate-700"
-                  title="Activer le mode plein écran"
+                  title={t('fullscreenMode')}
                 >
                   {isFullscreenModuleQuiz ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-                  <span className="hidden sm:inline">{isFullscreenModuleQuiz ? 'Normal' : 'Plein Écran'}</span>
+                  <span className="hidden sm:inline">{isFullscreenModuleQuiz ? t('normalMode') : t('fullscreenMode')}</span>
                 </button>
 
                 <button
@@ -1982,23 +1988,26 @@ export const ElevePortal: React.FC = () => {
 
                 <div>
                   <h3 className="text-xl font-black text-slate-900">
-                    {quizSubmittedResult.passed ? 'Quiz Réussi !' : 'Score Insuffisant'}
+                    {quizSubmittedResult.passed ? t('quizSucceededTitle') : t('insufficientScoreTitle')}
                   </h3>
                   <p className="text-2xl font-black font-mono mt-1 text-slate-900">
                     {quizSubmittedResult.scorePercentage}%
                   </p>
                   <p className="text-xs text-slate-500 font-medium mt-1">
-                    {quizSubmittedResult.correctCount} bonne(s) réponse(s) sur {quizSubmittedResult.totalQuestions}
+                    {t('goodAnswersSummary', {
+                      correct: quizSubmittedResult.correctCount,
+                      total: quizSubmittedResult.totalQuestions,
+                    })}
                   </p>
                 </div>
 
                 {quizSubmittedResult.passed ? (
                   <p className="text-xs text-emerald-800 bg-emerald-50 p-3 rounded-xl border border-emerald-200 font-bold">
-                    🎉 Bravo ! Le module est désormais validé. Le module suivant a été débloqué dans votre parcours.
+                    {t('quizPassedSuccessDesc')}
                   </p>
                 ) : (
                   <p className="text-xs text-red-800 bg-red-50 p-3 rounded-xl border border-red-200 font-bold">
-                    Vous devez obtenir au moins {activeQuizItem.module.scoreMinimumQuiz}% pour valider ce module. Révisez le cours et réessayez.
+                    {t('quizFailedScoreDesc', { score: activeQuizItem.module.scoreMinimumQuiz })}
                   </p>
                 )}
 
@@ -2009,7 +2018,7 @@ export const ElevePortal: React.FC = () => {
                       className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl flex items-center space-x-1 border border-slate-200"
                     >
                       <RefreshCw className="w-4 h-4" />
-                      <span>Réessayer le Quiz</span>
+                      <span>{t('retryQuizBtn')}</span>
                     </button>
                   )}
 
@@ -2017,7 +2026,7 @@ export const ElevePortal: React.FC = () => {
                     onClick={() => setActiveQuizItem(null)}
                     className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs"
                   >
-                    Fermer et Continuer
+                    {t('closeAndContinueBtn')}
                   </button>
                 </div>
               </div>
@@ -2058,7 +2067,7 @@ export const ElevePortal: React.FC = () => {
                   onClick={handleSubmitQuiz}
                   className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-xs transition"
                 >
-                  Valider et Soumettre Mes Réponses
+                  {t('submitMyAnswersBtn')}
                 </button>
               </div>
             )}

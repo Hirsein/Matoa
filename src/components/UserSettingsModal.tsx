@@ -43,11 +43,11 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
     if (activeTab === 'password') {
       if (!newPassword) {
-        setMessage({ type: 'error', text: 'Veuillez saisir un nouveau mot de passe.' });
+        setMessage({ type: 'error', text: t('passwordRequiredError') });
         return;
       }
       if (newPassword !== confirmPassword) {
-        setMessage({ type: 'error', text: 'Les nouveaux mots de passe ne correspondent pas.' });
+        setMessage({ type: 'error', text: t('passwordMismatchError') });
         return;
       }
     }
@@ -78,7 +78,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
       const data = await parseJsonResponse(res);
 
-      setMessage({ type: 'success', text: 'Vos paramètres ont été mis à jour avec succès.' });
+      setMessage({ type: 'success', text: t('settingsUpdatedSuccess') });
 
       // Update auth context
       updateUserProfile({
@@ -93,7 +93,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
         setConfirmPassword('');
       }
     } catch (err: any) {
-      setMessage({ type: 'error', text: err.message || 'Une erreur est survenue.' });
+      setMessage({ type: 'error', text: err.message || t('errorOccurred') });
     } finally {
       setLoading(false);
     }
@@ -109,8 +109,8 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
               <User className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">Paramètres du Compte</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Gérez vos informations personnelles et préférences</p>
+              <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">{t('accountSettings')}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{t('accountSettingsSubtitle')}</p>
             </div>
           </div>
           <button
@@ -132,7 +132,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
             }`}
           >
             <User className="w-3.5 h-3.5" />
-            <span>Profil Personnel</span>
+            <span>{t('tabPersonalProfile')}</span>
           </button>
 
           <button
@@ -144,7 +144,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
             }`}
           >
             <Lock className="w-3.5 h-3.5" />
-            <span>Sécurité & Mot de Passe</span>
+            <span>{t('tabSecurityPassword')}</span>
           </button>
 
           <button
@@ -156,7 +156,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
             }`}
           >
             <Bell className="w-3.5 h-3.5" />
-            <span>Notifications</span>
+            <span>{t('tabNotifications')}</span>
           </button>
         </div>
 
@@ -184,7 +184,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
             <div className="space-y-3 text-xs">
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
-                  Nom Complet *
+                  {t('fullName')} *
                 </label>
                 <input
                   type="text"
@@ -197,7 +197,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
-                  Adresse Email *
+                  {t('email')} *
                 </label>
                 <input
                   type="email"
@@ -210,7 +210,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
-                  Numéro de Téléphone
+                  {t('phone')}
                 </label>
                 <input
                   type="tel"
@@ -222,7 +222,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
               </div>
 
               <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 text-[11px] text-slate-500 dark:text-slate-400">
-                <span className="font-bold text-slate-700 dark:text-slate-300">Rôle sur Matoa :</span> {user.role}
+                <span className="font-bold text-slate-700 dark:text-slate-300">{t('roleLabel')}</span> {user.role}
               </div>
             </div>
           )}
@@ -231,7 +231,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
             <div className="space-y-3 text-xs">
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
-                  Mot de passe actuel
+                  {t('currentPassword')}
                 </label>
                 <input
                   type="password"
@@ -244,11 +244,11 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
-                  Nouveau mot de passe
+                  {t('newPassword')}
                 </label>
                 <input
                   type="password"
-                  placeholder="Minimum 6 caractères"
+                  placeholder={t('newPasswordPlaceholder')}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-medium focus:ring-2 focus:ring-blue-600"
@@ -257,11 +257,11 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
-                  Confirmer le nouveau mot de passe
+                  {t('confirmNewPassword')}
                 </label>
                 <input
                   type="password"
-                  placeholder="Répétez le nouveau mot de passe"
+                  placeholder={t('confirmPasswordPlaceholder')}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-medium focus:ring-2 focus:ring-blue-600"
@@ -274,8 +274,8 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
             <div className="space-y-3 text-xs">
               <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer">
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Déblocage de Nouveaux Modules</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">Recevoir un email quand un module est déverrouillé</p>
+                  <p className="font-bold text-slate-900 dark:text-white">{t('notifUnlockModules')}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('notifUnlockModulesDesc')}</p>
                 </div>
                 <input
                   type="checkbox"
@@ -287,8 +287,8 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
               <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer">
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Résultats des Quiz & Certificats</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">Confirmation par email lors de la réussite des quiz</p>
+                  <p className="font-bold text-slate-900 dark:text-white">{t('notifQuizResults')}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('notifQuizResultsDesc')}</p>
                 </div>
                 <input
                   type="checkbox"
@@ -300,8 +300,8 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
               <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer">
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Rappel Expiration Formation</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">Alertes 15 jours avant la date de fin de validité</p>
+                  <p className="font-bold text-slate-900 dark:text-white">{t('notifExpiryReminder')}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('notifExpiryReminderDesc')}</p>
                 </div>
                 <input
                   type="checkbox"
@@ -313,8 +313,8 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
               <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer">
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Notifications SMS</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">Alerte directe sur mobile (optionnel)</p>
+                  <p className="font-bold text-slate-900 dark:text-white">{t('notifSms')}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('notifSmsDesc')}</p>
                 </div>
                 <input
                   type="checkbox"
@@ -333,7 +333,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
               onClick={onClose}
               className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl border border-slate-200 dark:border-slate-700 text-xs transition"
             >
-              Annuler
+              {t('cancel')}
             </button>
             <button
               type="submit"
@@ -341,7 +341,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold rounded-xl shadow-xs text-xs flex items-center space-x-1.5 transition"
             >
               <Save className="w-4 h-4" />
-              <span>{loading ? 'Enregistrement...' : 'Enregistrer'}</span>
+              <span>{loading ? t('saving') : t('save')}</span>
             </button>
           </div>
         </form>

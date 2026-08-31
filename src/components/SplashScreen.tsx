@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShieldCheck, Sparkles, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -8,9 +9,10 @@ interface SplashScreenProps {
 }
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDurationMs = 2800 }) => {
+  const { t } = useLanguage();
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
-  const [statusText, setStatusText] = useState('Initialisation de Matoa...');
+  const [statusText, setStatusText] = useState(t('initMatoa'));
 
   useEffect(() => {
     const startTime = Date.now();
@@ -20,13 +22,13 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDuratio
       setProgress(currentProgress);
 
       if (currentProgress < 25) {
-        setStatusText('Initialisation de Matoa SaaS...');
+        setStatusText(t('initMatoaSaaS'));
       } else if (currentProgress < 55) {
-        setStatusText('Chargement des modules & sécurité...');
+        setStatusText(t('loadingModulesSecurity'));
       } else if (currentProgress < 85) {
-        setStatusText('Vérification de l\'espace auto-école...');
+        setStatusText(t('checkingSchoolSpace'));
       } else {
-        setStatusText('Bienvenue sur Matoa !');
+        setStatusText(t('welcomeToMatoa'));
       }
 
       if (elapsed >= minDurationMs) {
@@ -39,7 +41,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDuratio
     }, 30);
 
     return () => clearInterval(interval);
-  }, [minDurationMs, onFinish]);
+  }, [minDurationMs, onFinish, t]);
 
   return (
     <AnimatePresence>
@@ -122,7 +124,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDuratio
                 <Sparkles className="w-6 h-6 text-emerald-400 animate-spin" style={{ animationDuration: '6s' }} />
               </h1>
               <p className="text-xs sm:text-sm font-bold tracking-widest text-slate-400 uppercase">
-                Plateforme SaaS Multi-Tenant & Formation Conduite
+                {t('splashSubtitle')}
               </p>
             </motion.div>
 
@@ -161,11 +163,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDuratio
             className="absolute bottom-6 flex items-center space-x-2 text-[11px] text-slate-500 font-medium tracking-wide uppercase bg-slate-900/50 px-4 py-1.5 rounded-full border border-slate-800/60 backdrop-blur-md"
           >
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Accès sécurisé & SSL 256-bit — Matoa SaaS Engine</span>
+            <span>{t('splashSecurityFooter')}</span>
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
   );
 };
-

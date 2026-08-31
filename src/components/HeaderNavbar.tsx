@@ -93,7 +93,7 @@ export const HeaderNavbar: React.FC = () => {
             <button
               onClick={toggleTheme}
               className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 border border-slate-200 dark:border-slate-700 shadow-xs active:scale-90"
-              title={theme === 'dark' ? t('themeLight') : t('themeDark')}
+              title={theme === 'dark' ? t('switchThemeToLight') : t('switchThemeToDark')}
               aria-label="Toggle dark mode"
             >
               {theme === 'dark' ? (
@@ -107,7 +107,7 @@ export const HeaderNavbar: React.FC = () => {
             <button
               onClick={() => setShowSettingsModal(true)}
               className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition border border-slate-200 dark:border-slate-700 shadow-xs"
-              title="Paramètres du compte"
+              title={t('accountSettings')}
             >
               <Settings className="w-4 h-4" />
             </button>
@@ -138,4 +138,3 @@ export const HeaderNavbar: React.FC = () => {
     </>
   );
 };
-

@@ -1,6 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { PieChart as PieChartIcon, CheckCircle2, Lock, Clock, BookOpen } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ModuleProgressionChartsProps {
   structuredProgression: any[];
@@ -13,6 +14,8 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
   onSelectModule,
   activeModuleId,
 }) => {
+  const { t } = useLanguage();
+
   if (!structuredProgression || structuredProgression.length === 0) {
     return null;
   }
@@ -25,9 +28,9 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
   const notStartedCount = structuredProgression.length - validatedCount - inProgressCount;
 
   const pieData = [
-    { name: 'Validés (100%)', value: validatedCount, color: '#10b981' }, // Emerald
-    { name: 'En cours', value: inProgressCount, color: '#2563eb' }, // Blue
-    { name: 'A faire / Verrouillés', value: Math.max(0, notStartedCount), color: '#cbd5e1' }, // Slate
+    { name: t('pieValidated100'), value: validatedCount, color: '#10b981' }, // Emerald
+    { name: t('pieInProgress'), value: inProgressCount, color: '#2563eb' }, // Blue
+    { name: t('pieToDoLocked'), value: Math.max(0, notStartedCount), color: '#cbd5e1' }, // Slate
   ].filter((d) => d.value > 0);
 
   // Average Progression
@@ -46,16 +49,16 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
               <PieChartIcon className="w-5 h-5" />
             </span>
             <h3 className="text-base font-black text-slate-900 dark:text-white tracking-tight">
-              Analyse Visuelle de la Progression Théorique
+              {t('theoreticalProgressAnalysisTitle')}
             </h3>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">
-            Graphique circulaire global et jauges d'avancement par module
+            {t('theoreticalProgressAnalysisSub')}
           </p>
         </div>
 
         <div className="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800/80 px-3.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold">
-          <span className="text-slate-500 dark:text-slate-400">Moyenne Globale :</span>
+          <span className="text-slate-500 dark:text-slate-400">{t('globalAverageBadgeLabel')}</span>
           <span className="text-blue-600 dark:text-blue-400 font-mono text-sm font-black">{avgProgression}%</span>
         </div>
       </div>
@@ -64,7 +67,7 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
         {/* Left: Global Donut Pie Chart */}
         <div className="lg:col-span-5 bg-slate-50/70 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 flex flex-col items-center justify-center min-h-[220px]">
           <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
-            Répartition par Statut des Modules
+            {t('moduleStatusBreakdownTitle')}
           </h4>
 
           <div className="w-full h-48 relative flex items-center justify-center">
@@ -84,7 +87,7 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value: any, name: any) => [`${value} module(s)`, name]}
+                  formatter={(value: any, name: any) => [`${value} ${t('moduleUnitsTooltip')}`, name]}
                   contentStyle={{
                     backgroundColor: '#0f172a',
                     borderRadius: '0.75rem',
@@ -103,7 +106,7 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
                 {validatedCount}/{structuredProgression.length}
               </span>
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                Validés
+                {t('validated')}
               </span>
             </div>
           </div>
@@ -112,15 +115,15 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
           <div className="flex flex-wrap justify-center gap-3 pt-2 text-[11px] font-bold text-slate-700 dark:text-slate-300">
             <div className="flex items-center space-x-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-              <span>Validés ({validatedCount})</span>
+              <span>{t('validated')} ({validatedCount})</span>
             </div>
             <div className="flex items-center space-x-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-              <span>En cours ({inProgressCount})</span>
+              <span>{t('inProgress')} ({inProgressCount})</span>
             </div>
             <div className="flex items-center space-x-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
-              <span>A faire ({Math.max(0, notStartedCount)})</span>
+              <span>{t('notStarted')} ({Math.max(0, notStartedCount)})</span>
             </div>
           </div>
         </div>
@@ -128,7 +131,7 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
         {/* Right: Individual Circular Gauges per Module */}
         <div className="lg:col-span-7 space-y-3">
           <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
-            Progression par Module (Jauges Circulaires)
+            {t('gaugeProgressTitle')}
           </h4>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[340px] overflow-y-auto pr-1">
@@ -198,20 +201,20 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
                   <div className="flex-1 min-w-0 space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950 px-1.5 py-0.5 rounded border border-blue-200 dark:border-blue-800">
-                        Mod {sp.module.ordre}
+                        {t('modAbbr')} {sp.module.ordre}
                       </span>
 
                       {sp.isCompleted || sp.isValidated ? (
                         <span className="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-1.5 py-0.5 rounded-full border border-emerald-200">
-                          Validé
+                          {t('validated')}
                         </span>
                       ) : sp.isLocked ? (
                         <span className="text-[9px] font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-full">
-                          Verrouillé
+                          {t('locked')}
                         </span>
                       ) : (
                         <span className="text-[9px] font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950 px-1.5 py-0.5 rounded-full">
-                          En cours
+                          {t('inProgress')}
                         </span>
                       )}
                     </div>
@@ -221,7 +224,11 @@ export const ModuleProgressionCharts: React.FC<ModuleProgressionChartsProps> = (
                     </h5>
 
                     <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                      Leçons : {completedLecCount}/{totalLecCount} • Quiz : {typeof sp.quizScore === 'number' ? `${sp.quizScore}%` : '-'}
+                      {t('lessonsAndQuizCounter', {
+                        completed: completedLecCount,
+                        total: totalLecCount,
+                        score: typeof sp.quizScore === 'number' ? `${sp.quizScore}%` : '-',
+                      })}
                     </p>
                   </div>
                 </div>

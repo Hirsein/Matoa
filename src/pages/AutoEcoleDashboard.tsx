@@ -60,7 +60,7 @@ import {
 
 export const AutoEcoleDashboard: React.FC = () => {
   const { token, autoEcole, updateAutoEcoleBranding } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [activeTab, setActiveTab] = useState<'overview' | 'branding' | 'eleves' | 'progression' | 'certificats' | 'logs'>('overview');
@@ -861,12 +861,12 @@ export const AutoEcoleDashboard: React.FC = () => {
             <div>
               <div className="flex items-center space-x-2">
                 <span className="bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-0.5 rounded-full border border-blue-200">
-                  Code Unique : {autoEcole?.codeAutoEcoleUnique}
+                  {t('uniqueCode')} : {autoEcole?.codeAutoEcoleUnique}
                 </span>
               </div>
               <h1 className="text-2xl font-black text-slate-900 mt-1 tracking-tight">{autoEcole?.name}</h1>
               <p className="text-xs text-slate-500 italic">
-                "{autoEcole?.slogan || 'Plateforme d\'apprentissage théorique du Code de la Route'}"
+                "{autoEcole?.slogan || t('theoreticalLearningPlatform')}"
               </p>
             </div>
           </div>
@@ -877,7 +877,7 @@ export const AutoEcoleDashboard: React.FC = () => {
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
               <input
                 type="text"
-                placeholder="Recherche rapide élève (Nom, Code MATOA-EL-..., Email, Tél)..."
+                placeholder={t('quickSearchStudentPlaceholder')}
                 value={quickSearchQuery}
                 onChange={(e) => {
                   setQuickSearchQuery(e.target.value);
@@ -893,7 +893,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                     setShowQuickSearchDropdown(false);
                   }}
                   className="absolute right-3 top-2 text-slate-400 hover:text-slate-600 text-xs font-bold p-0.5"
-                  title="Effacer la recherche"
+                  title={t('clearSearch')}
                 >
                   ✕
                 </button>
@@ -904,18 +904,18 @@ export const AutoEcoleDashboard: React.FC = () => {
             {showQuickSearchDropdown && quickSearchQuery.trim().length > 0 && (
               <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-96 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
                 <div className="px-4 py-2 bg-slate-50 dark:bg-slate-800/80 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center justify-between">
-                  <span>Dossiers trouvés ({matchingQuickStudents.length})</span>
+                  <span>{t('foldersFound', { count: matchingQuickStudents.length })}</span>
                   <button
                     onClick={() => setShowQuickSearchDropdown(false)}
                     className="text-slate-400 hover:text-slate-600 text-[10px]"
                   >
-                    Fermer ✕
+                    {t('close')}
                   </button>
                 </div>
 
                 {matchingQuickStudents.length === 0 ? (
                   <div className="p-4 text-center text-xs text-slate-500 font-medium">
-                    Aucun dossier élève correspondant à "<strong className="text-slate-800 dark:text-slate-200">{quickSearchQuery}</strong>"
+                    {t('noStudentMatching', { query: quickSearchQuery })}
                   </div>
                 ) : (
                   matchingQuickStudents.map((st) => (
@@ -942,13 +942,13 @@ export const AutoEcoleDashboard: React.FC = () => {
                               {st.codeEleveUnique}
                             </span>
                             <span className="text-[10px] font-black px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
-                              Permis {st.typePermis || 'B'}
+                              {t('permisPrefix')} {st.typePermis || 'B'}
                             </span>
                           </div>
 
                           <div className="flex items-center space-x-2 text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                             <span>{st.userDetail?.email}</span>
-                            {st.telephone && <span>• Tél: {st.telephone}</span>}
+                            {st.telephone && <span>• {t('telPrefix')} {st.telephone}</span>}
                           </div>
                         </div>
                       </div>
@@ -958,7 +958,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                           <span className="text-xs font-black text-slate-900 dark:text-white">
                             {st.progressionGlobal || 0}%
                           </span>
-                          <p className="text-[9px] text-slate-400">Progression</p>
+                          <p className="text-[9px] text-slate-400">{t('progress')}</p>
                         </div>
 
                         <button
@@ -970,7 +970,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                           }}
                           className="px-2.5 py-1 bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 font-bold rounded-lg text-[10px] border border-blue-200 dark:border-blue-800 transition"
                         >
-                          Suivi
+                          {t('tracking')}
                         </button>
 
                         <button
@@ -982,7 +982,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                           }}
                           className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 font-bold rounded-lg text-[10px] border border-slate-200 dark:border-slate-700 transition"
                         >
-                          Éditer
+                          {t('edit')}
                         </button>
                       </div>
                     </div>
@@ -999,25 +999,25 @@ export const AutoEcoleDashboard: React.FC = () => {
               title={t('exportPdf')}
             >
               <Download className="w-4 h-4 text-red-500" />
-              <span>PDF</span>
+              <span>{t('exportPdf')}</span>
             </button>
 
             <button
               onClick={() => exportStudentsToCSV(eleves, `eleves_${autoEcole?.codeAutoEcoleUnique || 'autoecole'}.csv`)}
               className="inline-flex items-center space-x-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs transition"
-              title="Exporter la liste des élèves au format CSV"
+              title={t('exportCsv')}
             >
               <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
-              <span>CSV Élèves</span>
+              <span>{t('csvStudents')}</span>
             </button>
 
             <button
               onClick={() => exportCoursesToCSV(modules, `cours_modules_${autoEcole?.codeAutoEcoleUnique || 'autoecole'}.csv`)}
               className="inline-flex items-center space-x-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs transition"
-              title="Exporter les cours et modules théoriques au format CSV"
+              title={t('exportCoursesCsv')}
             >
               <BookOpen className="w-4 h-4 text-blue-600" />
-              <span>CSV Cours</span>
+              <span>{t('csvCourses')}</span>
             </button>
 
             <button
@@ -1061,7 +1061,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             }`}
           >
             <TrendingUp className="w-4 h-4" />
-            <span>Vue d'Ensemble</span>
+            <span>{t('tabOverview')}</span>
           </button>
 
           <button
@@ -1073,7 +1073,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             }`}
           >
             <Palette className="w-4 h-4" />
-            <span>Branding & Thème</span>
+            <span>{t('tabBranding')}</span>
           </button>
 
           <button
@@ -1085,7 +1085,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             }`}
           >
             <Users className="w-4 h-4" />
-            <span>Gestion des Élèves ({eleves.length})</span>
+            <span>{t('tabStudents', { count: eleves.length })}</span>
           </button>
 
           <button
@@ -1097,7 +1097,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             }`}
           >
             <CheckCircle2 className="w-4 h-4" />
-            <span>Suivi de Progression</span>
+            <span>{t('tabProgression')}</span>
           </button>
 
           <button
@@ -1109,7 +1109,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             }`}
           >
             <Award className="w-4 h-4 text-amber-500" />
-            <span>Certificats & Attestations ({certificates.filter(c => c.certificat).length})</span>
+            <span>{t('tabCertificates', { count: certificates.filter(c => c.certificat).length })}</span>
           </button>
 
           <button
@@ -1121,7 +1121,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             }`}
           >
             <History className="w-4 h-4" />
-            <span>Journal de l'Auto-École</span>
+            <span>{t('tabSchoolLogs')}</span>
           </button>
         </div>
 
@@ -1144,13 +1144,13 @@ export const AutoEcoleDashboard: React.FC = () => {
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Élèves</p>
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('totalStudents')}</p>
                   <div className="p-2 bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 rounded-xl border border-blue-100 dark:border-blue-900/50">
                     <Users className="w-5 h-5" />
                   </div>
                 </div>
                 <h3 className="text-3xl font-black text-slate-900 dark:text-white mt-2">{stats?.totalStudents || 0}</h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-medium">Élèves sous votre établissement</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-medium">{t('studentsUnderSchool')}</p>
               </motion.div>
 
               <motion.div
@@ -1159,13 +1159,13 @@ export const AutoEcoleDashboard: React.FC = () => {
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">En Formation Active</p>
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('activeTrainingStatus')}</p>
                   <div className="p-2 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 rounded-xl border border-emerald-100 dark:border-emerald-900/50">
                     <UserCheck className="w-5 h-5" />
                   </div>
                 </div>
                 <h3 className="text-3xl font-black text-slate-900 dark:text-white mt-2">{stats?.activeStudents || 0}</h3>
-                <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-bold">Période valide non expirée</p>
+                <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-bold">{t('validNonExpiredPeriod')}</p>
               </motion.div>
 
               <motion.div
@@ -1174,13 +1174,13 @@ export const AutoEcoleDashboard: React.FC = () => {
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Progression Moyenne</p>
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('averageProgress')}</p>
                   <div className="p-2 bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 rounded-xl border border-purple-100 dark:border-purple-900/50">
                     <TrendingUp className="w-5 h-5" />
                   </div>
                 </div>
                 <h3 className="text-3xl font-black text-slate-900 dark:text-white mt-2">{stats?.avgProgress || 0}%</h3>
-                <p className="text-[11px] text-purple-600 dark:text-purple-400 mt-1 font-bold">Avancement moyen aux cours</p>
+                <p className="text-[11px] text-purple-600 dark:text-purple-400 mt-1 font-bold">{t('avgProgressCourses')}</p>
               </motion.div>
 
               <motion.div
@@ -1189,13 +1189,13 @@ export const AutoEcoleDashboard: React.FC = () => {
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Formations Expirées</p>
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('expiredTrainings')}</p>
                   <div className="p-2 bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 rounded-xl border border-amber-100 dark:border-amber-900/50">
                     <Clock className="w-5 h-5" />
                   </div>
                 </div>
                 <h3 className="text-3xl font-black text-slate-900 dark:text-white mt-2">{stats?.expiredStudents || 0}</h3>
-                <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-1 font-bold">Bloqués automatiquement</p>
+                <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-1 font-bold">{t('autoBlocked')}</p>
               </motion.div>
             </div>
 
@@ -1210,15 +1210,15 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <h3 className="text-base font-black text-slate-900 dark:text-white tracking-tight">
-                      Taux de Réussite par Module
+                      {t('moduleSuccessRate')}
                     </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Pourcentage de vos élèves ayant validé chaque module</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{t('moduleSuccessRateSubSchool')}</p>
                   </div>
                   <span
                     className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-white shadow-xs"
                     style={{ backgroundColor: primaryColor }}
                   >
-                    Statistiques de l'École
+                    {t('schoolStatsChip')}
                   </span>
                 </div>
 
@@ -1229,7 +1229,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                       <XAxis dataKey="moduleTitle" tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#64748b' }} stroke={isDark ? '#475569' : '#cbd5e1'} />
                       <YAxis tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#64748b' }} stroke={isDark ? '#475569' : '#cbd5e1'} unit="%" domain={[0, 100]} />
                       <Tooltip
-                        formatter={(value: any) => [`${value}%`, 'Taux de réussite']}
+                        formatter={(value: any) => [`${value}%`, t('successRate')]}
                         contentStyle={{
                           backgroundColor: isDark ? '#0f172a' : '#1e293b',
                           borderColor: isDark ? '#334155' : '#0f172a',
@@ -1242,7 +1242,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                       />
                       <Bar
                         dataKey="completionRate"
-                        name="Taux de réussite (%)"
+                        name={t('successRate')}
                         fill={primaryColor || (isDark ? '#3b82f6' : '#2563eb')}
                         radius={[8, 8, 0, 0]}
                         isAnimationActive={true}
@@ -1260,8 +1260,8 @@ export const AutoEcoleDashboard: React.FC = () => {
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-xs"
               >
                 <div className="mb-4">
-                  <h3 className="text-base font-black text-slate-900 dark:text-white tracking-tight">Statut des Élèves</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Répartition par état de formation</p>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white tracking-tight">{t('studentsStatusTitle')}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{t('trainingStatusDistribution')}</p>
                 </div>
 
                 <div className="h-64 w-full">
@@ -1313,9 +1313,9 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <h3 className="text-base font-black text-slate-900 dark:text-white tracking-tight">
-                      Évolution des Inscriptions Élèves
+                      {t('studentEnrollmentEvolution')}
                     </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Progression mensuelle des nouveaux inscrits dans votre établissement</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{t('monthlyEnrollmentEvolution')}</p>
                   </div>
                 </div>
 
@@ -1345,7 +1345,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                       <Area
                         type="monotone"
                         dataKey="inscriptions"
-                        name="Inscriptions élèves"
+                        name={t('studentEnrollmentLegend')}
                         stroke={secondaryColor || (isDark ? '#34d399' : '#059669')}
                         strokeWidth={3}
                         fillOpacity={1}
@@ -1360,17 +1360,17 @@ export const AutoEcoleDashboard: React.FC = () => {
             </div>
 
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs">
-              <h3 className="text-base font-black text-slate-900 dark:text-white mb-4 tracking-tight">Derniers Élèves Inscrits</h3>
+              <h3 className="text-base font-black text-slate-900 dark:text-white mb-4 tracking-tight">{t('latestRegisteredStudents')}</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs text-slate-700 dark:text-slate-200">
                   <thead className="bg-slate-50/80 dark:bg-slate-800/80 text-slate-400 dark:text-slate-400 uppercase text-[10px] tracking-wider font-bold">
                     <tr>
-                      <th className="p-3 rounded-l-lg">Nom & Prénom</th>
-                      <th className="p-3">Code Unique Élève</th>
-                      <th className="p-3">Fin de Formation</th>
-                      <th className="p-3">Progression</th>
-                      <th className="p-3">Statut Accès</th>
-                      <th className="p-3 rounded-r-lg text-right">Action</th>
+                      <th className="p-3 rounded-l-lg">{t('firstLastNameTh')}</th>
+                      <th className="p-3">{t('studentUniqueCodeTh')}</th>
+                      <th className="p-3">{t('trainingEndTh')}</th>
+                      <th className="p-3">{t('progress')}</th>
+                      <th className="p-3">{t('accessStatus')}</th>
+                      <th className="p-3 rounded-r-lg text-right">{t('action')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -1396,15 +1396,15 @@ export const AutoEcoleDashboard: React.FC = () => {
                         <td className="p-3">
                           {el.isExpired ? (
                             <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
-                              Expiré
+                              {t('expired')}
                             </span>
                           ) : el.isBlocked ? (
                             <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200">
-                              Bloqué
+                              {t('blocked')}
                             </span>
                           ) : (
                             <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                              Active
+                              {t('active')}
                             </span>
                           )}
                         </td>
@@ -1413,7 +1413,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                             onClick={() => handleInspectProgression(el)}
                             className="text-xs text-blue-600 hover:text-blue-800 font-bold"
                           >
-                            Détails
+                            {t('details')}
                           </button>
                         </td>
                       </tr>
@@ -1432,17 +1432,17 @@ export const AutoEcoleDashboard: React.FC = () => {
             <div className="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-xs">
               <h2 className="text-lg font-black text-slate-900 flex items-center space-x-2 tracking-tight">
                 <Palette className="w-5 h-5 text-blue-600" />
-                <span>Personnalisation de l'Espace Élève</span>
+                <span>{t('studentSpaceCustomization')}</span>
               </h2>
               <p className="text-xs text-slate-500 font-medium">
-                Vos élèves verront vos couleurs, votre logo et votre slogan sur leur portail d'apprentissage.
+                {t('brandingSubtitle')}
               </p>
 
               <div className="space-y-4 text-xs pt-2">
                 <div>
                   <label className="block text-slate-700 font-bold mb-1.5 flex items-center justify-between">
-                    <span>Logo de l'Auto-École</span>
-                    <span className="text-[10px] text-slate-500 font-normal">Importation directe ou URL</span>
+                    <span>{t('schoolLogo')}</span>
+                    <span className="text-[10px] text-slate-500 font-normal">{t('directImportOrUrl')}</span>
                   </label>
 
                   {/* Direct Terminal/Device File Dropzone */}
@@ -1488,10 +1488,10 @@ export const AutoEcoleDashboard: React.FC = () => {
                         <div className="text-left">
                           <p className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1">
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 inline mr-1" />
-                            <span>Logo chargé</span>
+                            <span>{t('logoLoaded')}</span>
                           </p>
                           <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                            Cliquez pour changer d'image depuis votre terminal
+                            {t('clickToChangeImage')}
                           </p>
                           <button
                             type="button"
@@ -1501,7 +1501,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                             }}
                             className="text-[10px] text-red-600 hover:underline font-bold mt-1"
                           >
-                            Supprimer le logo
+                            {t('deleteLogo')}
                           </button>
                         </div>
                       </div>
@@ -1510,10 +1510,10 @@ export const AutoEcoleDashboard: React.FC = () => {
                         <UploadCloud className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto" />
                         <div>
                           <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                            Importer une image depuis votre terminal / appareil
+                            {t('importFromDevice')}
                           </p>
                           <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                            Glissez-déposez votre logo ici ou cliquez pour parcourir vos fichiers (PNG, JPG, SVG, WebP)
+                            {t('dragDropLogoHelp')}
                           </p>
                         </div>
                       </div>
@@ -1524,7 +1524,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   <div className="mt-2.5">
                     <details className="text-[11px] text-slate-500 dark:text-slate-400">
                       <summary className="hover:text-slate-800 dark:hover:text-slate-200 cursor-pointer font-medium">
-                        Ou coller une URL Web directe...
+                        {t('orPasteDirectUrl')}
                       </summary>
                       <input
                         type="url"
@@ -1540,7 +1540,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-slate-700 font-bold mb-1">
-                      Couleur Primaire (Boutons & En-tête)
+                      {t('primaryColorHint')}
                     </label>
                     <div className="flex items-center space-x-2">
                       <input
@@ -1560,7 +1560,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
                   <div>
                     <label className="block text-slate-700 font-bold mb-1">
-                      Couleur Secondaire (Validation / Badges)
+                      {t('secondaryColorHint')}
                     </label>
                     <div className="flex items-center space-x-2">
                       <input
@@ -1581,11 +1581,11 @@ export const AutoEcoleDashboard: React.FC = () => {
 
                 <div>
                   <label className="block text-slate-700 font-bold mb-1">
-                    Slogan ou Message d'Accueil Élève
+                    {t('sloganOrWelcome')}
                   </label>
                   <textarea
                     rows={3}
-                    placeholder="Ex: Bienvenue sur l'espace d'entraînement théorique de notre auto-école !"
+                    placeholder={t('sloganWelcomePlaceholder')}
                     value={slogan}
                     onChange={(e) => setSlogan(e.target.value)}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600"
@@ -1597,14 +1597,14 @@ export const AutoEcoleDashboard: React.FC = () => {
                   onClick={handleSaveBranding}
                   className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-xs transition"
                 >
-                  Enregistrer et Appliquer la Charte
+                  {t('saveAndApplyBrand')}
                 </button>
               </div>
             </div>
 
             {/* Live Preview */}
             <div className="space-y-3">
-              <h3 className="text-sm font-bold text-slate-700">Aperçu en Direct</h3>
+              <h3 className="text-sm font-bold text-slate-700">{t('livePreview')}</h3>
               <BrandingPreviewCard
                 name={autoEcole?.name || 'Votre Auto-École'}
                 code={autoEcole?.codeAutoEcoleUnique || 'MATOA-AE-000'}
@@ -1621,7 +1621,7 @@ export const AutoEcoleDashboard: React.FC = () => {
         {activeTab === 'eleves' && (
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">{t('actions') === 'Actions' ? 'Gestion de vos Élèves Inscrits' : 'Student Management'}</h2>
+              <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">{t('studentsManagementTitle')}</h2>
 
               <div className="flex flex-wrap items-center gap-2.5">
                 {/* Text Search Input */}
@@ -1656,15 +1656,15 @@ export const AutoEcoleDashboard: React.FC = () => {
                   onChange={(e) => setPermitFilter(e.target.value)}
                   className="px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600 shadow-xs"
                 >
-                  <option value="ALL">Tous les Permis (Permis B)</option>
-                  <option value="B">Permis B (Voiture)</option>
+                  <option value="ALL">{t('allPermitsOption')}</option>
+                  <option value="B">{t('permisBOption')}</option>
                 </select>
 
                 <button
                   type="button"
                   onClick={handleExportStudentsCSV}
                   className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition shadow-xs flex items-center space-x-1.5"
-                  title="Exporter la liste filtrée au format CSV"
+                  title={t('exportFilteredCsv')}
                 >
                   <FileSpreadsheet className="w-4 h-4" />
                   <span>{t('exportExcel')}</span>
@@ -1698,56 +1698,56 @@ export const AutoEcoleDashboard: React.FC = () => {
               <div className="flex flex-wrap items-center gap-2.5">
                 <div className="flex items-center space-x-1.5 text-slate-700 dark:text-slate-300 font-bold pr-2 border-r border-slate-200 dark:border-slate-700">
                   <TrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                  <span>Filtres Avancés :</span>
+                  <span>{t('advancedFilters')}</span>
                 </div>
 
                 {/* Progression Filter */}
                 <div className="flex items-center space-x-1 bg-white dark:bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                   <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="font-semibold text-slate-500 dark:text-slate-400">Progression :</span>
+                  <span className="font-semibold text-slate-500 dark:text-slate-400">{t('progressionFilterLabel')}</span>
                   <select
                     value={progressionTierFilter}
                     onChange={(e) => setProgressionTierFilter(e.target.value as any)}
                     className="bg-transparent font-bold text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer"
                   >
-                    <option value="ALL">Toutes les progressions (0-100%)</option>
-                    <option value="NOT_STARTED">0% (Non démarré)</option>
-                    <option value="TIER_1_49">1% à 49% (Débutant)</option>
-                    <option value="TIER_50_99">50% à 99% (Avancé)</option>
-                    <option value="COMPLETED_100">100% (Terminé)</option>
+                    <option value="ALL">{t('allProgressionsOption')}</option>
+                    <option value="NOT_STARTED">{t('notStartedProgOption')}</option>
+                    <option value="TIER_1_49">{t('tier1to49Option')}</option>
+                    <option value="TIER_50_99">{t('tier50to99Option')}</option>
+                    <option value="COMPLETED_100">{t('completed100Option')}</option>
                   </select>
                 </div>
 
                 {/* Certificate Status Filter */}
                 <div className="flex items-center space-x-1 bg-white dark:bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                   <Award className="w-3.5 h-3.5 text-amber-500" />
-                  <span className="font-semibold text-slate-500 dark:text-slate-400">Certificat :</span>
+                  <span className="font-semibold text-slate-500 dark:text-slate-400">{t('certificateFilterLabel')}</span>
                   <select
                     value={certificatStatusFilter}
                     onChange={(e) => setCertificatStatusFilter(e.target.value as any)}
                     className="bg-transparent font-bold text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer"
                   >
-                    <option value="ALL">Tous les certificats</option>
-                    <option value="NOT_ELIGIBLE">En cours (&lt; 100%)</option>
-                    <option value="ELIGIBLE">Éligible (100% sans attestation)</option>
-                    <option value="GENERE">Certificat Généré</option>
-                    <option value="TELECHARGE">Certificat Téléchargé</option>
+                    <option value="ALL">{t('allCertificatesOption')}</option>
+                    <option value="NOT_ELIGIBLE">{t('notEligibleCertOption')}</option>
+                    <option value="ELIGIBLE">{t('eligibleCertOption')}</option>
+                    <option value="GENERE">{t('generatedCertOption')}</option>
+                    <option value="TELECHARGE">{t('downloadedCertOption')}</option>
                   </select>
                 </div>
 
                 {/* Sort By Filter */}
                 <div className="flex items-center space-x-1 bg-white dark:bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
-                  <span className="font-semibold text-slate-500 dark:text-slate-400">Trier par :</span>
+                  <span className="font-semibold text-slate-500 dark:text-slate-400">{t('sortByLabel')}</span>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as any)}
                     className="bg-transparent font-bold text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer"
                   >
-                    <option value="RECENT">Inscriptions récentes</option>
-                    <option value="PROG_DESC">Progression : Forte → Faible (100% → 0%)</option>
-                    <option value="PROG_ASC">Progression : Faible → Forte (0% → 100%)</option>
-                    <option value="NAME_ASC">Nom (A - Z)</option>
-                    <option value="NAME_DESC">Nom (Z - A)</option>
+                    <option value="RECENT">{t('recentEnrollmentsSort')}</option>
+                    <option value="PROG_DESC">{t('progDescSort')}</option>
+                    <option value="PROG_ASC">{t('progAscSort')}</option>
+                    <option value="NAME_ASC">{t('nameAscSort')}</option>
+                    <option value="NAME_DESC">{t('nameDescSort')}</option>
                   </select>
                 </div>
               </div>
@@ -1765,7 +1765,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   }}
                   className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center space-x-1 ml-auto"
                 >
-                  <span>Réinitialiser les filtres</span>
+                  <span>{t('resetFilters')}</span>
                 </button>
               )}
             </div>
@@ -1778,10 +1778,10 @@ export const AutoEcoleDashboard: React.FC = () => {
                     <tr>
                       <th className="p-3">{t('name')}</th>
                       <th className="p-3">{t('codeUnique')}</th>
-                      <th className="p-3">Permis</th>
-                      <th className="p-3">Période Formation</th>
+                      <th className="p-3">{t('permisPrefix')}</th>
+                      <th className="p-3">{t('trainingPeriodTh')}</th>
                       <th className="p-3">{t('progress')}</th>
-                      <th className="p-3">Attestation</th>
+                      <th className="p-3">{t('attestationTh')}</th>
                       <th className="p-3">{t('status')}</th>
                       <th className="p-3 text-right">{t('actions')}</th>
                     </tr>
@@ -1790,7 +1790,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                     {filteredAndSortedEleves.length === 0 ? (
                       <tr>
                         <td colSpan={8} className="p-8 text-center text-slate-500 font-medium">
-                          Aucun élève ne correspond aux critères de recherche et filtres sélectionnés.
+                          {t('noStudentMatched')}
                         </td>
                       </tr>
                     ) : (
@@ -1810,11 +1810,11 @@ export const AutoEcoleDashboard: React.FC = () => {
                             <td className="p-3 font-mono text-emerald-600 dark:text-emerald-400 font-bold">{el.codeEleveUnique}</td>
                             <td className="p-3 font-bold">
                               <span className="px-2.5 py-1 rounded-lg text-[11px] font-black uppercase bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                                Permis {el.typePermis || 'B'}
+                                {t('permisPrefix')} {el.typePermis || 'B'}
                               </span>
                             </td>
                             <td className="p-3 font-mono text-[11px] text-slate-600 dark:text-slate-400">
-                              Du {el.dateDebutFormation} au <strong className="text-slate-900 dark:text-white">{el.dateFinFormation}</strong>
+                              {t('dateFromTo', { start: el.dateDebutFormation, end: el.dateFinFormation })}
                             </td>
                             <td className="p-3">
                               <div className="flex items-center space-x-2">
@@ -1838,38 +1838,38 @@ export const AutoEcoleDashboard: React.FC = () => {
                                 cert.status === 'TELECHARGE' ? (
                                   <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center w-fit space-x-1">
                                     <FileCheck className="w-3 h-3 text-emerald-600" />
-                                    <span>Téléchargé</span>
+                                    <span>{t('downloaded')}</span>
                                   </span>
                                 ) : (
                                   <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 flex items-center w-fit space-x-1">
                                     <Award className="w-3 h-3 text-blue-600" />
-                                    <span>Généré</span>
+                                    <span>{t('generated')}</span>
                                   </span>
                                 )
                               ) : el.progressionGlobal === 100 ? (
                                 <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 flex items-center w-fit space-x-1">
                                   <Sparkles className="w-3 h-3 text-amber-500" />
-                                  <span>Éligible (100%)</span>
+                                  <span>{t('eligible100')}</span>
                                 </span>
                               ) : (
-                                <span className="text-[11px] text-slate-400 font-medium">Non éligible</span>
+                                <span className="text-[11px] text-slate-400 font-medium">{t('notEligible')}</span>
                               )}
                             </td>
                             <td className="p-3">
                               {el.isExpired ? (
                                 <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 flex items-center w-fit space-x-1">
                                   <Clock className="w-3 h-3" />
-                                  <span>Expiré</span>
+                                  <span>{t('expired')}</span>
                                 </span>
                               ) : el.isBlocked ? (
                                 <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800 flex items-center w-fit space-x-1">
                                   <UserX className="w-3 h-3" />
-                                  <span>Suspendu</span>
+                                  <span>{t('suspended')}</span>
                                 </span>
                               ) : (
                                 <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center w-fit space-x-1">
                                   <UserCheck className="w-3 h-3" />
-                                  <span>Accès Valide</span>
+                                  <span>{t('validAccess')}</span>
                                 </span>
                               )}
                             </td>
@@ -1877,9 +1877,9 @@ export const AutoEcoleDashboard: React.FC = () => {
                               <button
                                 onClick={() => handleInspectProgression(el)}
                                 className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-blue-700 dark:text-blue-300 rounded-lg transition text-xs font-bold border border-slate-200 dark:border-slate-700"
-                                title="Voir la progression"
+                                title={t('viewProgression')}
                               >
-                                Suivi
+                                {t('tracking')}
                               </button>
                               <button
                                 onClick={async () => {
@@ -1914,21 +1914,21 @@ export const AutoEcoleDashboard: React.FC = () => {
                                 }`}
                                 title={el.isBlocked ? 'Débloquer l\'accès élève' : 'Suspendre/Bloquer l\'accès élève'}
                               >
-                                {el.isBlocked ? 'Débloquer' : 'Bloquer'}
+                                {el.isBlocked ? t('unblock') : t('block')}
                               </button>
                               <button
                                 onClick={() => setSelectedEleveForEdit(el)}
                                 className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition text-xs font-bold border border-slate-200 dark:border-slate-700"
-                                title="Modifier"
+                                title={t('edit')}
                               >
-                                Modifier
+                                {t('edit')}
                               </button>
                               <button
                                 onClick={() => handleDeleteStudent(el._id)}
                                 className="px-2.5 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/60 dark:hover:bg-red-900/80 text-red-700 dark:text-red-300 rounded-lg transition text-xs font-bold border border-red-200 dark:border-red-800"
-                                title="Supprimer"
+                                title={t('delete')}
                               >
-                                Supprimer
+                                {t('delete')}
                               </button>
                             </td>
                           </tr>
@@ -1949,10 +1949,10 @@ export const AutoEcoleDashboard: React.FC = () => {
               <div>
                 <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center space-x-2">
                   <TrendingUp className="w-5 h-5 text-blue-600" />
-                  <span>Suivi de la Progression & Avancement des Cours</span>
+                  <span>{t('progressionCourseTrackingTitle')}</span>
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  Analyse détaillée de la réussite par module et du suivi individuel des élèves.
+                  {t('progressionCourseTrackingSub')}
                 </p>
               </div>
 
@@ -1960,19 +1960,19 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <button
                   onClick={() => exportCoursesToCSV(modules, `cours_modules_${autoEcole?.codeAutoEcoleUnique || 'ecole'}.csv`)}
                   className="px-3.5 py-2 bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-bold rounded-xl border border-blue-200 dark:border-blue-800 text-xs flex items-center space-x-1.5 transition shadow-2xs hover:bg-blue-100"
-                  title="Exporter la liste des cours au format CSV"
+                  title={t('exportCoursesCsv')}
                 >
                   <FileSpreadsheet className="w-4 h-4 text-blue-600" />
-                  <span>Export CSV Cours</span>
+                  <span>{t('exportCoursesCsv')}</span>
                 </button>
 
                 <button
                   onClick={() => exportStudentsToCSV(eleves, `eleves_${autoEcole?.codeAutoEcoleUnique || 'ecole'}.csv`)}
                   className="px-3.5 py-2 bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-bold rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs flex items-center space-x-1.5 transition shadow-2xs hover:bg-emerald-100"
-                  title="Exporter la liste des élèves au format CSV"
+                  title={t('exportStudentsCsv')}
                 >
                   <Download className="w-4 h-4 text-emerald-600" />
-                  <span>Export CSV Élèves</span>
+                  <span>{t('exportStudentsCsv')}</span>
                 </button>
               </div>
             </div>
@@ -1980,10 +1980,10 @@ export const AutoEcoleDashboard: React.FC = () => {
             {/* Visual Recharts Widget for Course Progression */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs">
               <h3 className="text-sm font-black text-slate-900 dark:text-white mb-1 uppercase tracking-wider">
-                Progression Globale des Modules Théoriques (Recharts Analytics)
+                {t('globalTheoreticalModuleProgression')}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-                Taux moyen d'avancement et de validation des questions par module de formation.
+                {t('globalTheoreticalModuleProgressionSub')}
               </p>
 
               <div className="h-64 w-full">
@@ -1993,7 +1993,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                     <XAxis dataKey="moduleTitle" tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#64748b' }} stroke={isDark ? '#475569' : '#cbd5e1'} />
                     <YAxis tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#64748b' }} stroke={isDark ? '#475569' : '#cbd5e1'} unit="%" domain={[0, 100]} />
                     <Tooltip
-                      formatter={(value: any) => [`${value}%`, 'Taux de réussite']}
+                      formatter={(value: any) => [`${value}%`, t('successRate')]}
                       contentStyle={{
                         backgroundColor: isDark ? '#0f172a' : '#1e293b',
                         borderColor: isDark ? '#334155' : '#0f172a',
@@ -2006,7 +2006,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                     />
                     <Bar
                       dataKey="completionRate"
-                      name="Taux de réussite (%)"
+                      name={t('successRate')}
                       fill={secondaryColor || (isDark ? '#10b981' : '#059669')}
                       radius={[8, 8, 0, 0]}
                       isAnimationActive={true}
@@ -2033,7 +2033,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
                   <div>
                     <h3 className="text-sm font-bold text-slate-900">{el.userDetail?.name}</h3>
-                    <p className="text-xs text-slate-500 font-medium">Fin de formation : {el.dateFinFormation}</p>
+                    <p className="text-xs text-slate-500 font-medium">{t('trainingEndLabel')} {el.dateFinFormation}</p>
                   </div>
 
                   <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
@@ -2044,7 +2044,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   </div>
 
                   <div className="text-[11px] text-blue-600 font-bold text-right">
-                    Voir détails des modules &rarr;
+                    {t('seeModulesDetails')}
                   </div>
                 </div>
               ))}
@@ -2059,10 +2059,10 @@ export const AutoEcoleDashboard: React.FC = () => {
               <div>
                 <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center space-x-2">
                   <Award className="w-6 h-6 text-amber-500" />
-                  <span>Gestion des Certificats de Formation</span>
+                  <span>{t('trainingCertificatesManagementTitle')}</span>
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
-                  Générez, suivez l'éligibilité et exportez les attestations officielles de réussite au Code de la Route au format PDF.
+                  {t('trainingCertificatesManagementSub')}
                 </p>
               </div>
 
@@ -2070,10 +2070,10 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <button
                   onClick={fetchCertificates}
                   className="px-3.5 py-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl border border-slate-200 dark:border-slate-700 text-xs flex items-center space-x-2 transition shadow-2xs"
-                  title="Rafraîchir la liste"
+                  title={t('refresh')}
                 >
                   <RefreshCw className="w-3.5 h-3.5 text-blue-500" />
-                  <span>Actualiser</span>
+                  <span>{t('refresh')}</span>
                 </button>
               </div>
             </div>
@@ -2082,7 +2082,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-2xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Générés</span>
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('generatedCertificatesCard')}</span>
                   <div className="p-2 bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-xl border border-blue-100 dark:border-blue-800">
                     <Award className="w-4 h-4" />
                   </div>
@@ -2090,12 +2090,12 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2">
                   {certificates.filter((c) => c.certificat && (c.certificat.status === 'GENERE' || c.certificat.status === 'TELECHARGE')).length}
                 </h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Certificats officiels attribués</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{t('officialCertificatesAwarded')}</p>
               </div>
 
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-2xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Téléchargés (PDF)</span>
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('downloadedCertificatesCard')}</span>
                   <div className="p-2 bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-xl border border-emerald-100 dark:border-emerald-800">
                     <Download className="w-4 h-4" />
                   </div>
@@ -2103,12 +2103,12 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2">
                   {certificates.filter((c) => c.certificat && c.certificat.status === 'TELECHARGE').length}
                 </h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Exportés par les élèves / auto-école</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{t('exportedByStudentsOrSchool')}</p>
               </div>
 
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-2xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Éligibles à Émettre</span>
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('eligibleToIssueCard')}</span>
                   <div className="p-2 bg-amber-50 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 rounded-xl border border-amber-100 dark:border-amber-800">
                     <Sparkles className="w-4 h-4" />
                   </div>
@@ -2116,12 +2116,12 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2">
                   {certificates.filter((c) => c.isEligible && (!c.certificat || c.certificat.status === 'EN_COURS')).length}
                 </h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">100% de progression validée</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{t('validated100Progress')}</p>
               </div>
 
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-2xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">En Formation</span>
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('inTrainingCard')}</span>
                   <div className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl border border-slate-200 dark:border-slate-700">
                     <Clock className="w-4 h-4" />
                   </div>
@@ -2129,7 +2129,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2">
                   {certificates.filter((c) => !c.isEligible).length}
                 </h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Progression en cours (&lt; 100%)</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{t('progressInProgressSub')}</p>
               </div>
             </div>
 
@@ -2139,7 +2139,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Rechercher par élève, email, code..."
+                  placeholder={t('searchCertPlaceholder')}
                   value={certSearch}
                   onChange={(e) => setCertSearch(e.target.value)}
                   className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -2155,7 +2155,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
-                  Tous ({certificates.length})
+                  {t('allCertsFilter')} ({certificates.length})
                 </button>
                 <button
                   onClick={() => setCertStatusFilter('GENERE')}
@@ -2165,7 +2165,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
-                  Générés
+                  {t('generatedCertsFilter')}
                 </button>
                 <button
                   onClick={() => setCertStatusFilter('TELECHARGE')}
@@ -2175,7 +2175,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
-                  Téléchargés
+                  {t('downloadedCertsFilter')}
                 </button>
                 <button
                   onClick={() => setCertStatusFilter('ELIGIBLE')}
@@ -2185,7 +2185,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
-                  Éligibles
+                  {t('eligibleCertsFilter')}
                 </button>
                 <button
                   onClick={() => setCertStatusFilter('NON_ELIGIBLE')}
@@ -2195,7 +2195,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
-                  En Cours
+                  {t('inProgressCertsFilter')}
                 </button>
               </div>
             </div>
@@ -2206,11 +2206,11 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                      <th className="p-3.5">Élève & Identifiant</th>
-                      <th className="p-3.5">Progression</th>
-                      <th className="p-3.5">Statut Certificat</th>
-                      <th className="p-3.5">Code & Émission</th>
-                      <th className="p-3.5 text-right">Actions</th>
+                      <th className="p-3.5">{t('studentAndIdTh')}</th>
+                      <th className="p-3.5">{t('progressTh')}</th>
+                      <th className="p-3.5">{t('certificateStatusTh')}</th>
+                      <th className="p-3.5">{t('codeAndIssueTh')}</th>
+                      <th className="p-3.5 text-right">{t('actions')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
@@ -2272,22 +2272,22 @@ export const AutoEcoleDashboard: React.FC = () => {
                               {cert?.status === 'TELECHARGE' ? (
                                 <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                                   <FileCheck className="w-3 h-3 text-emerald-600" />
-                                  <span>Téléchargé</span>
+                                  <span>{t('downloaded')}</span>
                                 </span>
                               ) : cert?.status === 'GENERE' ? (
                                 <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                                   <Award className="w-3 h-3 text-blue-600" />
-                                  <span>Généré (Prêt)</span>
+                                  <span>{t('generated')}</span>
                                 </span>
                               ) : item.isEligible ? (
                                 <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 animate-pulse">
                                   <Sparkles className="w-3 h-3 text-amber-600" />
-                                  <span>Éligible (À Générer)</span>
+                                  <span>{t('eligible100')}</span>
                                 </span>
                               ) : (
                                 <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
                                   <Clock className="w-3 h-3 text-slate-400" />
-                                  <span>En Cours (&lt;100%)</span>
+                                  <span>{t('inProgressCertsFilter')} (&lt;100%)</span>
                                 </span>
                               )}
                             </td>
@@ -2303,7 +2303,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                                   </div>
                                 </div>
                               ) : (
-                                <span className="text-[11px] text-slate-400 italic">Non émis</span>
+                                <span className="text-[11px] text-slate-400 italic">{t('notIssued')}</span>
                               )}
                             </td>
 
@@ -2316,7 +2316,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                                     title="Générer le certificat de formation"
                                   >
                                     <Sparkles className="w-3 h-3" />
-                                    <span>Générer</span>
+                                    <span>{t('generate')}</span>
                                   </button>
                                 )}
 
@@ -2328,7 +2328,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                                       title="Voir l'aperçu du diplôme"
                                     >
                                       <Eye className="w-3 h-3 text-slate-500" />
-                                      <span>Aperçu</span>
+                                      <span>{t('preview')}</span>
                                     </button>
 
                                     <button
@@ -2338,7 +2338,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                                       title="Télécharger l'attestation au format PDF"
                                     >
                                       <Download className="w-3 h-3" />
-                                      <span>PDF</span>
+                                      <span>{t('pdf')}</span>
                                     </button>
                                   </>
                                 )}
@@ -2358,7 +2358,7 @@ export const AutoEcoleDashboard: React.FC = () => {
         {activeTab === 'logs' && (
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <h2 className="text-lg font-black text-slate-900 tracking-tight">Journal des Actions de l'Auto-École</h2>
+              <h2 className="text-lg font-black text-slate-900 tracking-tight">{t('schoolActionsLogTitle')}</h2>
 
               <div className="flex items-center space-x-2 flex-wrap">
                 <button
@@ -2367,7 +2367,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   title="Exporter le journal d'activité en CSV"
                 >
                   <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Export CSV</span>
+                  <span>{t('exportCsv')}</span>
                 </button>
 
                 <button
@@ -2376,7 +2376,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   title="Exporter le journal d'activité en JSON"
                 >
                   <FileText className="w-3.5 h-3.5 text-blue-600" />
-                  <span>Export JSON</span>
+                  <span>{t('exportJson')}</span>
                 </button>
               </div>
             </div>
@@ -2411,15 +2411,15 @@ export const AutoEcoleDashboard: React.FC = () => {
       {showEleveModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 text-slate-900 space-y-4 shadow-2xl">
-            <h3 className="text-lg font-black text-slate-900">Inscrire un Nouvel Élève</h3>
+            <h3 className="text-lg font-black text-slate-900">{t('registerNewStudentModalTitle')}</h3>
 
             <form onSubmit={handleCreateStudent} className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-700 font-bold mb-1">Nom Complet Élève *</label>
+                <label className="block text-slate-700 font-bold mb-1">{t('studentFullNameRequired')}</label>
                 <input
                   type="text"
                   required
-                  placeholder="Ex: Jean Dupont"
+                  placeholder={t('studentNamePlaceholder')}
                   value={newStudentName}
                   onChange={(e) => setNewStudentName(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600"
@@ -2428,7 +2428,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Email Élève *</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('studentEmailRequired')}</label>
                   <input
                     type="email"
                     required
@@ -2439,7 +2439,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Téléphone</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('studentPhoneLabel')}</label>
                   <input
                     type="text"
                     placeholder="06 12 34 56 78"
@@ -2451,7 +2451,7 @@ export const AutoEcoleDashboard: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-slate-700 font-bold mb-1">Mot de passe initial *</label>
+                <label className="block text-slate-700 font-bold mb-1">{t('initialStudentPasswordRequired')}</label>
                 <input
                   type="password"
                   required
@@ -2463,7 +2463,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Catégorie Permis Visée *</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('targetPermisCategoryRequired')}</label>
                   <select
                     value={newStudentTypePermis}
                     onChange={(e) => {
@@ -2474,23 +2474,23 @@ export const AutoEcoleDashboard: React.FC = () => {
                     }}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
                   >
-                    <option value="B">Permis B (Voiture / V.L.)</option>
+                    <option value="B">{t('permisBOption')}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Programme de Formation</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('trainingProgramLabel')}</label>
                   <select
                     value={newStudentProgId}
                     onChange={(e) => setNewStudentProgId(e.target.value)}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
                   >
-                    <option value="">-- Programme Standard --</option>
+                    <option value="">{t('standardProgramDefault')}</option>
                     {programmesPermis
                       .filter((p) => !p.typePermis || p.typePermis === newStudentTypePermis)
                       .map((p) => (
                         <option key={p._id} value={p._id}>
-                          {p.titre} ({p.modulesCount || p.moduleIds?.length || 0} modules)
+                          {p.titre} ({p.modulesCount || p.moduleIds?.length || 0} {t('modulesCountSuffix')})
                         </option>
                       ))}
                   </select>
@@ -2499,7 +2499,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Date Début Formation *</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('startDateRequired')}</label>
                   <input
                     type="date"
                     required
@@ -2510,7 +2510,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-slate-700 font-bold mb-1">
-                    Date Fin (Blocage Auto) *
+                    {t('endDateRequired')}
                   </label>
                   <input
                     type="date"
@@ -2528,13 +2528,13 @@ export const AutoEcoleDashboard: React.FC = () => {
                   onClick={() => setShowEleveModal(false)}
                   className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl border border-slate-200"
                 >
-                  Annuler
+                  {t('cancel')}
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-xs"
                 >
-                  Générer Inscription
+                  {t('generateRegistrationBtn')}
                 </button>
               </div>
             </form>
@@ -2552,8 +2552,8 @@ export const AutoEcoleDashboard: React.FC = () => {
                   <UploadCloud className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-900 tracking-tight">Importation Groupée d'Élèves (CSV)</h3>
-                  <p className="text-xs text-slate-500 font-medium">Ajoutez rapidement plusieurs élèves à votre établissement</p>
+                  <h3 className="text-lg font-black text-slate-900 tracking-tight">{t('csvBulkImportModalTitle')}</h3>
+                  <p className="text-xs text-slate-500 font-medium">{t('csvBulkImportSubtitle')}</p>
                 </div>
               </div>
               <button
@@ -2568,7 +2568,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs">
               <div className="flex items-center space-x-2">
                 <FileText className="w-4 h-4 text-purple-600" />
-                <span className="font-bold text-slate-700">Format attendu : Nom, Email, Téléphone, Password, DateDébut, DateFin</span>
+                <span className="font-bold text-slate-700">{t('csvExpectedFormat')}</span>
               </div>
               <button
                 type="button"
@@ -2576,7 +2576,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 className="inline-flex items-center space-x-1 px-3 py-1.5 bg-white border border-slate-200 text-purple-700 hover:bg-purple-50 rounded-lg font-bold shadow-2xs"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>Télécharger Modèle CSV</span>
+                <span>{t('downloadCsvTemplateBtn')}</span>
               </button>
             </div>
 
@@ -2584,7 +2584,7 @@ export const AutoEcoleDashboard: React.FC = () => {
             <div className="space-y-3 text-xs">
               <div>
                 <label className="block text-slate-700 font-bold mb-1">
-                  1. Sélectionner un fichier .CSV
+                  {t('step1SelectCsvFile')}
                 </label>
                 <input
                   type="file"
@@ -2596,7 +2596,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div>
                 <label className="block text-slate-700 font-bold mb-1">
-                  Ou 2. Coller directement le contenu CSV
+                  {t('step2OrPasteCsv')}
                 </label>
                 <textarea
                   rows={4}
@@ -2615,10 +2615,10 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900">
-                      Aperçu des élèves détectés ({csvParsedRows.length})
+                      {t('previewDetectedStudents')} ({csvParsedRows.length})
                     </span>
                     <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                      Format Valide
+                      {t('validFormatBadge')}
                     </span>
                   </div>
 
@@ -2626,10 +2626,10 @@ export const AutoEcoleDashboard: React.FC = () => {
                     <table className="w-full text-left text-[11px] text-slate-700">
                       <thead className="bg-slate-100 text-slate-500 font-bold uppercase text-[9px] sticky top-0">
                         <tr>
-                          <th className="p-2">Nom</th>
-                          <th className="p-2">Email</th>
-                          <th className="p-2">Téléphone</th>
-                          <th className="p-2">Fin Formation</th>
+                          <th className="p-2">{t('name')}</th>
+                          <th className="p-2">{t('email')}</th>
+                          <th className="p-2">{t('studentPhoneLabel')}</th>
+                          <th className="p-2">{t('endOfTrainingTh')}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 bg-white">
@@ -2664,14 +2664,14 @@ export const AutoEcoleDashboard: React.FC = () => {
                     )}
                     <span>
                       {csvImportResult.importedCount !== undefined
-                        ? `Importation terminée : ${csvImportResult.importedCount} élèves créés avec succès.`
-                        : 'Résultat de l\'importation'}
+                        ? t('csvImportCompletedSuccess', { count: csvImportResult.importedCount })
+                        : t('csvImportResultTitle')}
                     </span>
                   </div>
 
                   {csvImportResult.errors && csvImportResult.errors.length > 0 && (
                     <div className="text-[11px] space-y-1">
-                      <p className="font-bold text-red-700">Alertes / Avertissements ({csvImportResult.errors.length}) :</p>
+                      <p className="font-bold text-red-700">{t('alertsAndWarnings')} ({csvImportResult.errors.length}) :</p>
                       <ul className="list-disc list-inside space-y-0.5 text-slate-700 font-mono">
                         {csvImportResult.errors.map((err: string, idx: number) => (
                           <li key={idx}>{err}</li>
@@ -2689,7 +2689,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 onClick={() => setShowCsvModal(false)}
                 className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl border border-slate-200 text-xs"
               >
-                Fermer
+                {t('close')}
               </button>
               <button
                 type="button"
@@ -2698,11 +2698,11 @@ export const AutoEcoleDashboard: React.FC = () => {
                 className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold rounded-xl shadow-xs text-xs flex items-center space-x-1.5"
               >
                 {csvImportLoading ? (
-                  <span>Importation en cours...</span>
+                  <span>{t('importingInProgress')}</span>
                 ) : (
                   <>
                     <UploadCloud className="w-4 h-4" />
-                    <span>Lancer L'Importation ({csvParsedRows.length})</span>
+                    <span>{t('launchImportBtn')} ({csvParsedRows.length})</span>
                   </>
                 )}
               </button>
@@ -2716,12 +2716,12 @@ export const AutoEcoleDashboard: React.FC = () => {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 text-slate-900 space-y-4 shadow-2xl">
             <h3 className="text-lg font-black text-slate-900">
-              Modifier l'Élève — {selectedEleveForEdit.codeEleveUnique}
+              {t('editStudentModalTitle')} {selectedEleveForEdit.codeEleveUnique}
             </h3>
 
             <form onSubmit={handleUpdateStudent} className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-700 font-bold mb-1">Nom Complet</label>
+                <label className="block text-slate-700 font-bold mb-1">{t('studentFullNameTh')}</label>
                 <input
                   type="text"
                   value={selectedEleveForEdit.userDetail?.name || ''}
@@ -2737,7 +2737,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Type de Permis</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('categoryPermisLabel')}</label>
                   <select
                     value={selectedEleveForEdit.typePermis || 'B'}
                     onChange={(e) =>
@@ -2748,12 +2748,12 @@ export const AutoEcoleDashboard: React.FC = () => {
                     }
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
                   >
-                    <option value="B">Permis B (Voiture / V.L.)</option>
+                    <option value="B">{t('permisBOption')}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Programme Associé</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('associatedProgramLabel')}</label>
                   <select
                     value={selectedEleveForEdit.programmePermisId || ''}
                     onChange={(e) =>
@@ -2764,12 +2764,12 @@ export const AutoEcoleDashboard: React.FC = () => {
                     }
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
                   >
-                    <option value="">-- Programme Standard --</option>
+                    <option value="">{t('standardProgramDefault')}</option>
                     {programmesPermis
                       .filter((p) => !p.typePermis || p.typePermis === (selectedEleveForEdit.typePermis || 'B'))
                       .map((p) => (
                         <option key={p._id} value={p._id}>
-                          {p.titre} ({p.modulesCount || p.moduleIds?.length || 0} modules)
+                          {p.titre} ({p.modulesCount || p.moduleIds?.length || 0} {t('modulesCountSuffix')})
                         </option>
                       ))}
                   </select>
@@ -2778,7 +2778,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Date Début</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('startDateRequired')}</label>
                   <input
                     type="date"
                     value={selectedEleveForEdit.dateDebutFormation}
@@ -2792,7 +2792,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Date Fin (Blocage Auto)</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('endDateRequired')}</label>
                   <input
                     type="date"
                     value={selectedEleveForEdit.dateFinFormation}
@@ -2821,7 +2821,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   className="w-4 h-4 rounded text-red-600 bg-slate-50 border-slate-300"
                 />
                 <label htmlFor="blockCheck" className="text-red-600 font-bold">
-                  Bloquer / Suspendre manuellement l'accès aux cours
+                  {t('manuallyBlockCheckbox')}
                 </label>
               </div>
 
@@ -2831,13 +2831,13 @@ export const AutoEcoleDashboard: React.FC = () => {
                   onClick={() => setSelectedEleveForEdit(null)}
                   className="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl border border-slate-200"
                 >
-                  Annuler
+                  {t('cancel')}
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-xs"
                 >
-                  Mettre à jour
+                  {t('updateBtn')}
                 </button>
               </div>
             </form>
@@ -2868,7 +2868,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
             <div className="space-y-3 text-xs">
               <p className="text-slate-600 font-medium">
-                Progression Globale :{' '}
+                {t('globalProgressLabel')}{' '}
                 <strong className="text-emerald-700 text-sm font-black">
                   {eleveProgressionData.eleve?.progressionGlobal}%
                 </strong>
@@ -2883,22 +2883,22 @@ export const AutoEcoleDashboard: React.FC = () => {
                     <div>
                       <p className="font-bold text-slate-900">{sp.module.title}</p>
                       <p className="text-slate-500 text-[11px] font-medium">
-                        Temps de vidéo vu : {sp.progression?.videoWatchTimeSeconds || 0}s / {sp.module.tempsMinimumVisionnage}s requis
+                        {t('videoWatchedDetails')} {sp.progression?.videoWatchTimeSeconds || 0}s / {sp.module.tempsMinimumVisionnage}{t('secondsRequired')}
                       </p>
                     </div>
 
                     <div className="text-right">
                       {sp.isValidated ? (
                         <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full font-bold text-[10px]">
-                          Module Validé ({sp.progression?.quizScore}%)
+                          {t('moduleValidatedBadge', { score: sp.progression?.quizScore })}
                         </span>
                       ) : sp.isLocked ? (
                         <span className="px-2.5 py-1 bg-slate-200 text-slate-600 rounded-full font-bold text-[10px]">
-                          Verrouillé
+                          {t('locked')}
                         </span>
                       ) : (
                         <span className="px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full font-bold text-[10px]">
-                          En Cours
+                          {t('inProgress')}
                         </span>
                       )}
                     </div>
@@ -2918,7 +2918,7 @@ export const AutoEcoleDashboard: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <Award className="w-5 h-5 text-amber-500" />
                 <h3 className="text-base font-black text-slate-900 dark:text-white">
-                  Aperçu du Certificat Officiel
+                  {t('officialCertPreviewTitle')}
                 </h3>
               </div>
               <button
@@ -2959,14 +2959,14 @@ export const AutoEcoleDashboard: React.FC = () => {
                       {selectedCertPreview.autoEcole?.name || autoEcole?.name}
                     </h4>
                     <p className="text-[10px] text-slate-500 font-bold">
-                      Code Établissement : {selectedCertPreview.autoEcole?.codeAutoEcoleUnique || autoEcole?.codeAutoEcoleUnique}
+                      {t('schoolCodeLabel')} {selectedCertPreview.autoEcole?.codeAutoEcoleUnique || autoEcole?.codeAutoEcoleUnique}
                     </p>
                   </div>
                 </div>
 
                 <div className="text-right">
                   <span className="bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-1 rounded-full border border-amber-300 uppercase tracking-wide">
-                    MATOA SaaS Certifié
+                    {t('matoaSaaSCertified')}
                   </span>
                 </div>
               </div>
@@ -2974,39 +2974,39 @@ export const AutoEcoleDashboard: React.FC = () => {
               {/* Title Header */}
               <div className="py-2 space-y-1">
                 <h1 className="text-2xl font-black tracking-tight text-slate-900 uppercase">
-                  ATTESTATION DE RÉUSSITE
+                  {t('certificateOfCompletionTitle')}
                 </h1>
                 <p className="text-xs font-bold text-slate-600 uppercase tracking-widest">
-                  Formation Théorique au Code de la Route
+                  {t('theoreticalDriverTrainingSub')}
                 </p>
               </div>
 
               {/* Recipient Details */}
               <div className="my-6 space-y-2">
-                <p className="text-xs text-slate-500 italic">Le présent certificat est décerné officiellement à :</p>
+                <p className="text-xs text-slate-500 italic">{t('certAwardedTo')}</p>
                 <div className="text-2xl font-black text-slate-900 underline decoration-amber-500 decoration-2 underline-offset-4 py-1">
-                  {selectedCertPreview.user?.name || 'Nom Élève'}
+                  {selectedCertPreview.user?.name || t('studentFallback')}
                 </div>
                 <p className="text-xs font-mono text-slate-600 font-bold">
-                  Code Unique Élève : {selectedCertPreview.eleve?.codeEleveUnique}
+                  {t('studentUniqueCodeLabel')} {selectedCertPreview.eleve?.codeEleveUnique}
                 </p>
               </div>
 
               {/* Verification Text */}
               <p className="text-xs text-slate-700 leading-relaxed max-w-lg mx-auto font-medium">
-                Pour avoir suivi et validé l'intégralité des modules de formation théorique de sécurité routière avec un score de validation global de <span className="font-bold text-emerald-700">100%</span>.
+                {t('certLegalValidationParagraph')} <span className="font-bold text-emerald-700">100%</span>.
               </p>
 
               {/* Code & Signatures */}
               <div className="pt-6 border-t border-slate-200 grid grid-cols-2 gap-4 text-left items-end">
                 <div className="space-y-1 text-[11px] text-slate-600">
                   <p className="font-mono font-bold text-slate-900">
-                    Code : {selectedCertPreview.certificat?.certificateCode}
+                    {t('certCodeLabel')} {selectedCertPreview.certificat?.certificateCode}
                   </p>
                   <p>
-                    Date d'émission :{' '}
+                    {t('emissionDateLabel')}{' '}
                     {selectedCertPreview.certificat?.dateEmission
-                      ? new Date(selectedCertPreview.certificat.dateEmission).toLocaleDateString('fr-FR')
+                      ? new Date(selectedCertPreview.certificat.dateEmission).toLocaleDateString(language === 'en' ? 'en-US' : 'fr-FR')
                       : 'N/A'}
                   </p>
                 </div>
@@ -3014,7 +3014,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 <div className="text-right space-y-1">
                   <div className="inline-block border-2 border-emerald-600 rounded-xl p-2 bg-emerald-50 text-emerald-800 text-[10px] font-bold text-center shadow-2xs">
                     <ShieldCheck className="w-4 h-4 mx-auto text-emerald-600 mb-0.5" />
-                    <span>CACHET NUMÉRIQUE VALIDÉ</span>
+                    <span>{t('digitalStampVerified')}</span>
                   </div>
                 </div>
               </div>
@@ -3026,7 +3026,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 onClick={() => setSelectedCertPreview(null)}
                 className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 transition"
               >
-                Fermer
+                {t('close')}
               </button>
 
               <button
@@ -3035,7 +3035,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-xl text-xs font-bold transition shadow-xs flex items-center space-x-2"
               >
                 <Download className="w-4 h-4" />
-                <span>Télécharger le PDF</span>
+                <span>{t('downloadPdfBtn')}</span>
               </button>
             </div>
           </div>
@@ -3048,7 +3048,7 @@ export const AutoEcoleDashboard: React.FC = () => {
           <div className="bg-white border border-slate-200 rounded-2xl max-w-xl w-full p-6 text-slate-900 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <h3 className="text-lg font-black text-slate-900">
-                {editingModule ? 'Éditer le Module de Formation' : 'Nouveau Module de Formation'}
+                {editingModule ? t('editModuleModalTitle') : t('createModuleModalTitle')}
               </h3>
               <button
                 onClick={() => setShowModuleModal(false)}
@@ -3073,11 +3073,11 @@ export const AutoEcoleDashboard: React.FC = () => {
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-slate-700 font-bold mb-1">Titre du Module *</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('moduleTitleRequired')}</label>
                   <input
                     type="text"
                     required
-                    placeholder="Ex: Signalisation et Règles de Circulation"
+                    placeholder={t('moduleTitlePlaceholder')}
                     value={modTitle}
                     onChange={(e) => setModTitle(e.target.value)}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-600"
@@ -3086,11 +3086,11 @@ export const AutoEcoleDashboard: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-slate-700 font-bold mb-1">Résumé & Objectifs Globaux *</label>
+                <label className="block text-slate-700 font-bold mb-1">{t('moduleDescLabel')}</label>
                 <textarea
                   rows={3}
                   required
-                  placeholder="Présentation des principales règles de priorité, panneaux routiers..."
+                  placeholder={t('moduleDescPlaceholder')}
                   value={modSummary}
                   onChange={(e) => setModSummary(e.target.value)}
                   className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-600"
@@ -3099,11 +3099,11 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div>
                 <label className="block text-slate-700 font-bold mb-1">
-                  Objectifs Pédagogiques (1 par ligne)
+                  {t('programDescAndGoals')}
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Comprenne les panneaux d'interdiction&#10;Maîtrise la priorité à droite&#10;Sache identifier les usagers vulnérables"
+                  placeholder={t('programDescPlaceholder')}
                   value={modObjectives}
                   onChange={(e) => setModObjectives(e.target.value)}
                   className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-600 font-mono text-[11px]"
@@ -3112,7 +3112,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">URL Vidéo Principale *</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('videoUrlRequired')}</label>
                   <input
                     type="url"
                     required
@@ -3124,7 +3124,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Ordre dans le Parcours *</label>
+                  <label className="block text-slate-700 font-bold mb-1">Ordre *</label>
                   <input
                     type="number"
                     min="1"
@@ -3138,7 +3138,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
               <div className="grid grid-cols-3 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Durée Vidéo (s)</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('durationSeconds')}</label>
                   <input
                     type="number"
                     min="30"
@@ -3149,7 +3149,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Visionnage Requis (%)</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('minWatchSeconds')}</label>
                   <input
                     type="number"
                     min="10"
@@ -3161,7 +3161,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Seuil Quiz (%)</label>
+                  <label className="block text-slate-700 font-bold mb-1">{t('minQuizPct')}</label>
                   <input
                     type="number"
                     min="50"
@@ -3179,13 +3179,13 @@ export const AutoEcoleDashboard: React.FC = () => {
                   onClick={() => setShowModuleModal(false)}
                   className="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl border border-slate-200"
                 >
-                  Annuler
+                  {t('cancel')}
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-xs"
                 >
-                  {editingModule ? 'Enregistrer les Modifications' : 'Créer le Module'}
+                  {editingModule ? t('saveModuleBtn') : t('createModuleModalTitle')}
                 </button>
               </div>
             </form>
@@ -3203,7 +3203,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   {selectedModForLessons.code}
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white mt-1">
-                  Consultation des Leçons — {selectedModForLessons.title}
+                  {t('viewLessonsModalTitle')} {selectedModForLessons.title}
                 </h3>
               </div>
               <button
@@ -3216,29 +3216,29 @@ export const AutoEcoleDashboard: React.FC = () => {
 
             <div className="bg-purple-50/80 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900/50 p-3.5 rounded-xl text-purple-900 dark:text-purple-200 text-xs font-medium flex items-center space-x-2">
               <Info className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
-              <span>Contenu officiel géré centralement par le Super Administrateur.</span>
+              <span>{t('lessonsSuperAdminManagedNotice')}</span>
             </div>
 
             {/* List of current lessons (Read-Only) */}
             <div className="space-y-4 text-xs">
               {lessonsList.length === 0 ? (
                 <div className="p-6 text-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 rounded-xl">
-                  Aucune leçon individuelle configurée pour ce module.
+                  {t('noLessonsConfiguredForModule')}
                 </div>
               ) : (
                 lessonsList.map((lec, lIdx) => (
                   <div key={lIdx} className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-4 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-slate-900 dark:text-white text-xs">
-                        Leçon #{lec.ordre || lIdx + 1} : {lec.title}
+                        {t('lessonNumberPrefix')}{lec.ordre || lIdx + 1} : {lec.title}
                       </span>
                       <span className="text-[10px] font-mono bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-300 px-2 py-0.5 rounded font-bold">
-                        Durée min : {lec.tempsMinimumVisionnageSeconds || 90}s
+                        {t('minDurationPrefix')} {lec.tempsMinimumVisionnageSeconds || 90}s
                       </span>
                     </div>
 
                     <p className="text-slate-600 dark:text-slate-300 text-xs">
-                      {lec.description || 'Aucune description fournie.'}
+                      {lec.description || t('noDescriptionProvided')}
                     </p>
 
                     {lec.videoUrl && (
@@ -3250,7 +3250,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                           className="inline-flex items-center space-x-1.5 text-blue-600 dark:text-blue-400 hover:underline font-bold text-xs"
                         >
                           <Video className="w-3.5 h-3.5" />
-                          <span>Ouvrir la vidéo de la leçon</span>
+                          <span>{t('openLessonVideoBtn')}</span>
                         </a>
                       </div>
                     )}
@@ -3264,7 +3264,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 onClick={() => setShowLessonModal(false)}
                 className="px-5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl border border-slate-200 dark:border-slate-700 text-xs transition"
               >
-                Fermer
+                {t('close')}
               </button>
             </div>
           </div>
@@ -3281,7 +3281,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                   {selectedModForQuiz.code}
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white mt-1">
-                  Aperçu du Quiz Officiel — {selectedModForQuiz.title}
+                  {t('quizOfficialPreviewTitle')} {selectedModForQuiz.title}
                 </h3>
               </div>
               <button
@@ -3295,16 +3295,16 @@ export const AutoEcoleDashboard: React.FC = () => {
             {/* Quiz Parameters Read-Only */}
             <div className="grid grid-cols-2 gap-4 bg-blue-50/60 dark:bg-blue-950/40 p-4 rounded-xl border border-blue-200 dark:border-blue-900/50 text-xs">
               <div>
-                <span className="block font-bold text-blue-900 dark:text-blue-200 mb-1">Durée Chrono Réglementaire</span>
+                <span className="block font-bold text-blue-900 dark:text-blue-200 mb-1">{t('regulatoryChronoDuration')}</span>
                 <p className="font-mono font-bold text-slate-900 dark:text-white text-sm">
-                  {Math.round(quizTimerSecs / 60)} minutes ({quizTimerSecs} secondes)
+                  {Math.round(quizTimerSecs / 60)} {t('minutesUnit')} ({quizTimerSecs} {t('secondsUnit')})
                 </p>
               </div>
 
               <div>
-                <span className="block font-bold text-blue-900 dark:text-blue-200 mb-1">Seuil Minimum Requis</span>
+                <span className="block font-bold text-blue-900 dark:text-blue-200 mb-1">{t('minimumRequiredScore')}</span>
                 <p className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-sm">
-                  {quizPassingScore}% de bonnes réponses
+                  {quizPassingScore}{t('goodAnswersPctSuffix')}
                 </p>
               </div>
             </div>
@@ -3312,18 +3312,18 @@ export const AutoEcoleDashboard: React.FC = () => {
             {/* Questions List Viewer */}
             <div className="space-y-4 text-xs">
               <h4 className="font-bold text-slate-800 dark:text-slate-200 text-xs uppercase tracking-wider">
-                Questions du Quiz ({quizQuestionsList.length})
+                {t('quizQuestionsListTitle')} ({quizQuestionsList.length})
               </h4>
 
               {quizQuestionsList.length === 0 ? (
-                <p className="text-slate-500 italic p-4 bg-slate-50 rounded-xl">Aucune question n'a été ajoutée pour l'instant.</p>
+                <p className="text-slate-500 italic p-4 bg-slate-50 rounded-xl">{t('noQuestionsAddedYet')}</p>
               ) : (
                 quizQuestionsList.map((q, qIdx) => (
                   <div key={qIdx} className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-4 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900 dark:text-white text-xs">Question #{qIdx + 1}</span>
+                      <span className="font-bold text-slate-900 dark:text-white text-xs">{t('questionNumberPrefix')}{qIdx + 1}</span>
                       <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
-                        Correction Incluse
+                        {t('correctionIncludedBadge')}
                       </span>
                     </div>
 
@@ -3348,7 +3348,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                             {isCorrect && (
                               <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/60 px-2 py-0.5 rounded-full flex items-center space-x-1">
                                 <Check className="w-3 h-3" />
-                                <span>Bonne Réponse</span>
+                                <span>{t('correctAnswerBadge')}</span>
                               </span>
                             )}
                           </div>
@@ -3358,7 +3358,7 @@ export const AutoEcoleDashboard: React.FC = () => {
 
                     {q.explanation && (
                       <div className="mt-2 p-2.5 bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 rounded-xl text-amber-900 dark:text-amber-200 text-xs">
-                        <span className="font-bold block mb-0.5 uppercase text-[10px] text-amber-800 dark:text-amber-300">Explication Pédagogique :</span>
+                        <span className="font-bold block mb-0.5 uppercase text-[10px] text-amber-800 dark:text-amber-300">{t('pedagogicalExplanationTitle')}</span>
                         {q.explanation}
                       </div>
                     )}
@@ -3372,7 +3372,7 @@ export const AutoEcoleDashboard: React.FC = () => {
                 onClick={() => setShowQuizModal(false)}
                 className="px-5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl border border-slate-200 dark:border-slate-700 text-xs transition"
               >
-                Fermer
+                {t('close')}
               </button>
             </div>
           </div>

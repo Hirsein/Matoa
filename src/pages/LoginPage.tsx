@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import { UserRole } from '../types';
 import { parseJsonResponse } from '../lib/api';
-import { ShieldCheck, School, GraduationCap, Key, ArrowRight, AlertCircle, Sun, Moon } from 'lucide-react';
+import { ShieldCheck, School, GraduationCap, Key, ArrowRight, AlertCircle, Sun, Moon, Globe } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
   
   // Determine initial login type from URL pathname
   const getInitialRole = (): UserRole => {
@@ -69,7 +71,7 @@ export const LoginPage: React.FC = () => {
 
       login(data);
     } catch (err: any) {
-      setError(err.message || 'Une erreur est survenue.');
+      setError(err.message || t('errorOccurred'));
     } finally {
       setLoading(false);
     }
@@ -77,12 +79,23 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
-      {/* Theme Toggle Top-Right */}
-      <div className="absolute top-4 right-4 z-20">
+      {/* Language & Theme Toggle Top-Right */}
+      <div className="absolute top-4 right-4 z-20 flex items-center space-x-2">
+        {/* Language selector */}
+        <button
+          onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+          className="px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-1.5 active:scale-95"
+          title={t('language')}
+        >
+          <Globe className="w-3.5 h-3.5 text-blue-500" />
+          <span>{language === 'fr' ? 'EN' : 'FR'}</span>
+        </button>
+
+        {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
           className="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 border border-slate-200 dark:border-slate-800 shadow-sm active:scale-90 flex items-center justify-center"
-          title={theme === 'dark' ? 'Basculer en mode clair' : 'Basculer en mode sombre'}
+          title={theme === 'dark' ? t('switchThemeToLight') : t('switchThemeToDark')}
           aria-label="Toggle dark mode"
         >
           {theme === 'dark' ? (
@@ -106,10 +119,10 @@ export const LoginPage: React.FC = () => {
         </div>
 
         <h2 className="mt-4 text-center text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-          Matoa
+          {t('appName')}
         </h2>
         <p className="mt-1 text-center text-xs text-slate-500 dark:text-slate-400 font-medium">
-          Plateforme SaaS Multi-Tenant réservée aux Auto-Écoles
+          {t('platformSubtitleLong')}
         </p>
       </div>
 
@@ -126,7 +139,7 @@ export const LoginPage: React.FC = () => {
               }`}
             >
               <GraduationCap className="w-4 h-4" />
-              <span>Élève</span>
+              <span>{t('loginStudentTab')}</span>
             </button>
 
             <button
@@ -138,7 +151,7 @@ export const LoginPage: React.FC = () => {
               }`}
             >
               <School className="w-4 h-4" />
-              <span>Auto-École</span>
+              <span>{t('loginSchoolTab')}</span>
             </button>
 
             <button
@@ -150,7 +163,7 @@ export const LoginPage: React.FC = () => {
               }`}
             >
               <ShieldCheck className="w-4 h-4" />
-              <span>Super Admin</span>
+              <span>{t('loginAdminTab')}</span>
             </button>
           </div>
 
@@ -158,22 +171,22 @@ export const LoginPage: React.FC = () => {
           {error && (
             <div
               className={`mb-5 p-4 rounded-2xl text-xs flex items-start space-x-3 font-medium shadow-sm transition-all duration-200 ${
-                error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué')
+                error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué') || error.toLowerCase().includes('suspended') || error.toLowerCase().includes('blocked')
                   ? 'bg-amber-50 dark:bg-amber-950/60 border-2 border-amber-500/60 text-amber-900 dark:text-amber-200'
                   : 'bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
               }`}
             >
               <AlertCircle
                 className={`w-5 h-5 mt-0.5 shrink-0 ${
-                  error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué')
+                  error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué') || error.toLowerCase().includes('suspended') || error.toLowerCase().includes('blocked')
                     ? 'text-amber-600 dark:text-amber-400'
                     : 'text-red-600 dark:text-red-400'
                 }`}
               />
               <div className="space-y-1">
-                {(error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué')) && (
+                {(error.toLowerCase().includes('suspendu') || error.toLowerCase().includes('bloqué') || error.toLowerCase().includes('suspended') || error.toLowerCase().includes('blocked')) && (
                   <p className="font-extrabold text-xs uppercase tracking-wider text-amber-700 dark:text-amber-300">
-                    ⛔ ACCÈS COMPTE SUSPENDU
+                    {t('loginSuspendedTitle')}
                   </p>
                 )}
                 <p className="leading-relaxed font-semibold">{error}</p>
@@ -188,29 +201,29 @@ export const LoginPage: React.FC = () => {
               <>
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                    Code Unique Auto-École *
+                    {t('loginAutoEcoleCode')}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="MATOA-AE-..."
+                    placeholder={t('loginAutoEcoleCodePlaceholder')}
                     value={codeAutoEcole}
                     onChange={(e) => setCodeAutoEcole(e.target.value)}
                     className="mt-1 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white dark:focus:bg-slate-800"
                   />
                   <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                    Fourni par votre auto-école lors de votre inscription.
+                    {t('loginAutoEcoleCodeHint')}
                   </p>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                    Code Élève (ou Email) *
+                    {t('loginStudentCodeOrEmail')}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Entrez votre code élève ou email"
+                    placeholder={t('loginStudentCodePlaceholder')}
                     value={codeEleveUnique}
                     onChange={(e) => setCodeEleveUnique(e.target.value)}
                     className="mt-1 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white dark:focus:bg-slate-800"
@@ -223,7 +236,7 @@ export const LoginPage: React.FC = () => {
             {loginType !== UserRole.ELEVE && (
               <div>
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                  Adresse Email Professionnelle *
+                  {t('loginEmailProfessional')}
                 </label>
                 <input
                   type="email"
@@ -241,7 +254,7 @@ export const LoginPage: React.FC = () => {
             {/* PASSWORD FIELD */}
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                Mot de passe *
+                {t('loginPassword')}
               </label>
               <div className="mt-1 relative">
                 <input
@@ -269,10 +282,10 @@ export const LoginPage: React.FC = () => {
               }`}
             >
               {loading ? (
-                <span>Connexion en cours...</span>
+                <span>{t('loginConnecting')}</span>
               ) : (
                 <>
-                  <span>Se connecter à mon espace</span>
+                  <span>{t('loginSubmit')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -282,7 +295,7 @@ export const LoginPage: React.FC = () => {
 
         {/* Footer info */}
         <p className="text-center text-xs text-slate-500 font-medium mt-6">
-          Matoa SaaS &copy; 2026 — Plateforme sécurisée de formation auto-école.
+          {t('copyrightFooter')}
         </p>
       </div>
     </div>
