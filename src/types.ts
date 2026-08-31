@@ -88,6 +88,7 @@ export interface Eleve {
 }
 
 export interface QuizQuestion {
+  _id?: string;
   _key?: string;
   questionText: string;
   image?: string; // Optional image URL (e.g. road sign)

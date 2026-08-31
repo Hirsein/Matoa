@@ -6,3415 +6,7879 @@ import { createClient } from "@sanity/client";
 
 // src/lib/permisBData.ts
 var PERMIS_B_PROGRAMME = {
-  _id: "prog-permis-b",
-  _type: "programmePermis",
-  typePermis: "B",
-  titreProgramme: "Programme complet Permis B \u2013 Conduite v\xE9hicule l\xE9ger",
-  descriptionProgramme: `Ce programme couvre l'ensemble des connaissances th\xE9oriques n\xE9cessaires pour pr\xE9parer le Permis B (v\xE9hicules l\xE9gers). Il permet \xE0 l'\xE9l\xE8ve de comprendre la voiture qu'il va conduire, de ma\xEEtriser les r\xE8gles de circulation, de lire et interpr\xE9ter la signalisation, de g\xE9rer les priorit\xE9s aux intersections, de respecter les limitations de vitesse et les distances de s\xE9curit\xE9, d'anticiper les risques (alcool, fatigue, m\xE9t\xE9o), et d'adopter un comportement responsable en tant que conducteur. Le programme se termine par des tests blancs simulant l'examen th\xE9orique officiel du Permis B.`,
-  modules: ["mod-1", "mod-2", "mod-3", "mod-4", "mod-5", "mod-6", "mod-7", "mod-8", "mod-9", "mod-10", "mod-11", "mod-12", "mod-13", "mod-14", "mod-15"],
-  isActive: true,
-  createdAt: "2026-01-01T00:00:00Z",
-  updatedAt: "2026-01-01T00:00:00Z"
+  "_id": "prog-permis-b",
+  "_type": "programmePermis",
+  "typePermis": "B",
+  "titreProgramme": "Programme officiel complet Permis B (15 Modules)",
+  "descriptionProgramme": "Programme officiel complet du Permis B structur\xE9 en 15 modules p\xE9dagogiques exhaustifs avec cours vid\xE9o, le\xE7ons s\xE9quentielles, mini-quiz d\u2019ancrage et \xE9valuations finales certifiantes de 10 questions.",
+  "modules": [
+    "mod-1",
+    "mod-2",
+    "mod-3",
+    "mod-4",
+    "mod-5",
+    "mod-6",
+    "mod-7",
+    "mod-8",
+    "mod-9",
+    "mod-10",
+    "mod-11",
+    "mod-12",
+    "mod-13",
+    "mod-14",
+    "mod-15"
+  ],
+  "isActive": true,
+  "createdAt": "2026-01-01T00:00:00Z",
+  "updatedAt": "2026-01-01T00:00:00Z"
 };
 var PERMIS_B_MODULES = [
-  // -------------------------------------------------------------
-  // MODULE 1 : Comprendre le véhicule (voiture)
-  // -------------------------------------------------------------
   {
-    _id: "mod-1",
-    _type: "moduleFormation",
-    code: "MOD-001",
-    title: "Module 1 : Comprendre le v\xE9hicule (voiture)",
-    summary: "Ce module pr\xE9sente les \xE9l\xE9ments principaux d'une voiture. L'\xE9l\xE8ve d\xE9couvre le vocabulaire de base (parties du v\xE9hicule), le poste de conduite et les organes de commande, le tableau de bord et ses t\xE9moins, ainsi que les \xE9quipements de s\xE9curit\xE9 (ceintures, airbags, ABS, pneus). L'objectif est que l'\xE9l\xE8ve comprenne concr\xE8tement l'outil qu'il va conduire, sait o\xF9 se trouvent les commandes essentielles et ce que signifient les principaux voyants, afin de manipuler le v\xE9hicule en s\xE9curit\xE9 d\xE8s les premi\xE8res heures de conduite.",
-    learningObjectives: [
+    "_id": "mod-1",
+    "_type": "moduleFormation",
+    "code": "MOD-001",
+    "title": "Module 1 \u2014 Comprendre le v\xE9hicule",
+    "summary": "D\xE9couverte des grandes parties d'un v\xE9hicule l\xE9ger, du poste de conduite et de ses commandes, des voyants d'alerte et des syst\xE8mes de s\xE9curit\xE9 active et passive.",
+    "learningObjectives": [
       "Identifier et nommer les parties principales de la carrosserie, du moteur et des essieux",
-      "Ma\xEEtriser l'installation au poste de conduite et l'ergonomie des commandes",
-      "Interpr\xE9ter instantan\xE9ment les t\xE9moins et voyants d'alerte du tableau de bord",
-      "Comprendre l'utilit\xE9 des syst\xE8mes de s\xE9curit\xE9 active et passive (ceintures, ABS, airbags, pneus)"
+      "Ma\xEEtriser les r\xE9glages ergonomiques et les commandes du poste de conduite",
+      "Comprendre la signification des t\xE9moins et voyants lumineux du tableau de bord",
+      "Conna\xEEtre les \xE9quipements de s\xE9curit\xE9 (ceintures, airbags, ABS, pneus, contr\xF4le technique)"
     ],
-    ordre: 1,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g&list=PLsr6X_3CMxXtgXoK8DzOY6wNeNpf7Sdgu",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 1,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=jnJH8szTGuM",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-1-1",
-        _type: "lecon",
-        title: "Le\xE7on 1.1 \u2013 Les parties principales de la voiture",
-        ordre: 1,
-        description: "Dans cette le\xE7on, l'\xE9l\xE8ve d\xE9couvre les grandes parties d'un v\xE9hicule l\xE9ger : carrosserie, moteur, habitacle, coffre, essieux, roues. La le\xE7on explique la fonction de chaque partie, le vocabulaire exact, et donne des exemples concrets (o\xF9 se trouve le moteur, pourquoi la carrosserie prot\xE8ge les occupants, etc.). L'\xE9l\xE8ve apprend \xE0 nommer correctement ce qu'il voit sur le v\xE9hicule afin de mieux comprendre les instructions des moniteurs et des documents officiels.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g&list=PLsr6X_3CMxXtgXoK8DzOY6wNeNpf7Sdgu",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-1-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 1.1 \u2014 Les parties principales de la voiture",
+        "ordre": 1,
+        "description": "D\xE9couverte des grandes parties d\u2019un v\xE9hicule l\xE9ger : carrosserie, moteur, habitacle, coffre, essieux, roues, leurs fonctions et le vocabulaire utilis\xE9.",
+        "videoUrl": "https://www.youtube.com/watch?v=jnJH8szTGuM",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "O\xF9 se situe g\xE9n\xE9ralement le moteur de la grande majorit\xE9 des v\xE9hicules l\xE9gers ?",
-            options: ["Dans le coffre arri\xE8re", "Sous le capot avant", "Sous les si\xE8ges passagers", "Dans les porti\xE8res"],
-            correctOptionIndex: 1,
-            explanation: "Le moteur thermique ou \xE9lectrique est g\xE9n\xE9ralement implant\xE9 sous le capot \xE0 l'avant du v\xE9hicule."
+            "_id": "q-lec-1-1-1",
+            "questionText": "O\xF9 se situe g\xE9n\xE9ralement le moteur de la plupart des voitures l\xE9g\xE8res ?",
+            "options": [
+              "Dans le coffre arri\xE8re",
+              "Sous le capot avant",
+              "Sous les si\xE8ges passagers",
+              "Dans les porti\xE8res"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le moteur est majoritairement plac\xE9 sous le capot \xE0 l\u2019avant du v\xE9hicule."
           },
           {
-            questionText: "Quelle est la fonction essentielle de la carrosserie moderne d'un v\xE9hicule ?",
-            options: ["Uniquement un r\xF4le esth\xE9tique", "Prot\xE9ger les passagers en absorbant l'\xE9nergie des chocs", "Augmenter le poids de la voiture", "Conserver le carburant au frais"],
-            correctOptionIndex: 1,
-            explanation: "La structure d\xE9formable de la carrosserie absorbe l'\xE9nergie d'un impact pour prot\xE9ger l'habitacle."
+            "_id": "q-lec-1-1-2",
+            "questionText": "Quelle est la fonction essentielle de la carrosserie moderne ?",
+            "options": [
+              "R\xF4le uniquement d\xE9coratif",
+              "Prot\xE9ger l\u2019habitacle en absorbant l\u2019\xE9nergie des chocs",
+              "Augmenter le poids",
+              "Conserver le moteur au froid"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La carrosserie absorbe l\u2019\xE9nergie des impacts pour prot\xE9ger les occupants."
           },
           {
-            questionText: "Comment appelle-t-on la partie de la voiture o\xF9 s'installent le conducteur et ses passagers ?",
-            options: ["Le ch\xE2ssis", "L'habitacle", "Le compartiment moteur", "La calandre"],
-            correctOptionIndex: 1,
-            explanation: "L'habitacle est l'espace int\xE9rieur d\xE9di\xE9 au confort et \xE0 la s\xE9curit\xE9 du conducteur et des passagers."
+            "_id": "q-lec-1-1-3",
+            "questionText": "Comment appelle-t-on l\u2019espace int\xE9rieur r\xE9serv\xE9 aux passagers et au conducteur ?",
+            "options": [
+              "Le ch\xE2ssis",
+              "L\u2019habitacle",
+              "Le compartiment moteur",
+              "Le coffre"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019habitacle est l\u2019espace de vie int\xE9rieur du v\xE9hicule."
           },
           {
-            questionText: "Que relie un essieu sur un v\xE9hicule automobile ?",
-            options: ["Le volant aux r\xE9troviseurs", "Les roues oppos\xE9es d'un m\xEAme train (avant ou arri\xE8re)", "Les phares \xE0 la batterie", "La bo\xEEte de vitesse au pot d'\xE9chappement"],
-            correctOptionIndex: 1,
-            explanation: "Un essieu est un axe transversal supportant les roues \xE0 ses extr\xE9mit\xE9s."
+            "_id": "q-lec-1-1-4",
+            "questionText": "Que relie un essieu sur une voiture ?",
+            "options": [
+              "Le volant aux r\xE9troviseurs",
+              "Les roues oppos\xE9es d\u2019un m\xEAme train",
+              "Les phares \xE0 la batterie",
+              "L\u2019\xE9chappement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019essieu supporte les roues oppos\xE9es d\u2019un m\xEAme axe."
           },
           {
-            questionText: "Pourquoi est-il indispensable de conna\xEEtre le vocabulaire technique des parties du v\xE9hicule ?",
-            options: ["Pour obtenir une r\xE9duction d'assurance", "Pour appliquer pr\xE9cis\xE9ment les v\xE9rifications de l'examen et les consignes du moniteur", "Pour pouvoir d\xE9monter le moteur soi-m\xEAme", "Ce n'est pas obligatoire pour l'examen"],
-            correctOptionIndex: 1,
-            explanation: "La ma\xEEtrise du vocabulaire est essentielle lors des v\xE9rifications int\xE9rieures/ext\xE9rieures de l'examen pratique."
+            "_id": "q-lec-1-1-5",
+            "questionText": "Pourquoi conna\xEEtre le vocabulaire des composants du v\xE9hicule ?",
+            "options": [
+              "Pour r\xE9duire l\u2019assurance",
+              "Pour r\xE9ussir les v\xE9rifications de l\u2019examen pratique",
+              "Pour r\xE9parer le moteur soi-m\xEAme",
+              "Ce n\u2019est pas utile"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Ce vocabulaire est directement \xE9valu\xE9 lors des v\xE9rifications au permis."
           }
         ]
       },
       {
-        _id: "lec-1-2",
-        _type: "lecon",
-        title: "Le\xE7on 1.2 \u2013 Le poste de conduite et les commandes",
-        ordre: 2,
-        description: "Cette le\xE7on pr\xE9sente le poste de conduite : volant, p\xE9dales (embrayage, frein, acc\xE9l\xE9rateur), levier de vitesses, frein \xE0 main, clignotants, essuie\u2011glaces, r\xE9glage des si\xE8ges et des r\xE9troviseurs. L'\xE9l\xE8ve apprend \xE0 reconna\xEEtre chaque commande, son r\xF4le, et les bonnes pratiques de r\xE9glage avant de d\xE9marrer (position du si\xE8ge, ceinture, angles de vision). L'objectif est qu'il puisse s'installer correctement et manipuler les commandes de base en s\xE9curit\xE9.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY&list=PL-kDknubECW4-gEwpco43ofPC5b4ptcYx",
-        durationSeconds: 660,
-        tempsMinimumVisionnageSeconds: 528,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-1-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 1.2 \u2014 Le poste de conduite et les commandes",
+        "ordre": 2,
+        "description": "Volant, p\xE9dales, levier de vitesses, frein \xE0 main, clignotants, essuie-glaces et r\xE9glages avant d\xE9part.",
+        "videoUrl": "https://www.youtube.com/watch?v=P9ZXwt5XvGk",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Dans quel ordre pr\xE9cis devez-vous effectuer les r\xE9glages en vous installant au poste de conduite ?",
-            options: ["R\xE9troviseurs, puis si\xE8ge, puis ceinture", "Si\xE8ge, r\xE9troviseurs, volant puis ceinture de s\xE9curit\xE9", "Ceinture en premier, puis si\xE8ge", "Peu importe l'ordre"],
-            correctOptionIndex: 1,
-            explanation: "On r\xE8gle d'abord sa position de conduite (si\xE8ge/dossier/volant), puis les r\xE9troviseurs, et enfin la ceinture."
+            "_id": "q-lec-1-2-1",
+            "questionText": "Dans quel ordre doit-on r\xE9gler son poste de conduite ?",
+            "options": [
+              "R\xE9troviseurs, si\xE8ge, ceinture",
+              "Si\xE8ge/dossier, r\xE9troviseurs, volant puis ceinture",
+              "Ceinture en premier, puis si\xE8ge",
+              "Peu importe"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On r\xE8gle l\u2019assise, puis les r\xE9troviseurs et le volant, et enfin la ceinture."
           },
           {
-            questionText: "Sur une voiture \xE0 bo\xEEte manuelle, avec quel pied doit-on actionner la p\xE9dale d'embrayage (\xE0 gauche) ?",
-            options: ["Le pied gauche uniquement", "Le pied droit", "Les deux pieds en m\xEAme temps", "La main gauche"],
-            correctOptionIndex: 0,
-            explanation: "Le pied gauche est exclusivement r\xE9serv\xE9 \xE0 la p\xE9dale d'embrayage."
+            "_id": "q-lec-1-2-2",
+            "questionText": "Quel pied actionne la p\xE9dale d\u2019embrayage sur bo\xEEte m\xE9canique ?",
+            "options": [
+              "Le pied gauche uniquement",
+              "Le pied droit",
+              "Les deux pieds",
+              "La main droite"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Le pied gauche est exclusivement r\xE9serv\xE9 \xE0 l\u2019embrayage."
           },
           {
-            questionText: "\xC0 quoi sert le levier de frein \xE0 main (ou frein de stationnement) ?",
-            options: ["\xC0 ralentir dans les virages serr\xE9s", "\xC0 maintenir le v\xE9hicule totalement immobilis\xE9 \xE0 l'arr\xEAt ou au stationnement", "\xC0 passer la marche arri\xE8re", "\xC0 augmenter la vitesse"],
-            correctOptionIndex: 1,
-            explanation: "Le frein \xE0 main immobilise durablement le v\xE9hicule \xE0 l'arr\xEAt ou en stationnement."
+            "_id": "q-lec-1-2-3",
+            "questionText": "\xC0 quoi sert le frein de stationnement (frein \xE0 main) ?",
+            "options": [
+              "\xC0 ralentir en virage",
+              "\xC0 maintenir le v\xE9hicule totalement immobilis\xE9 \xE0 l\u2019arr\xEAt",
+              "\xC0 passer la marche arri\xE8re",
+              "\xC0 freiner d\u2019urgence"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il bloque m\xE9caniquement les roues \xE0 l\u2019arr\xEAt ou au stationnement."
           },
           {
-            questionText: "Comment r\xE9gler correctement les r\xE9troviseurs ext\xE9rieurs ?",
-            options: ["Pour voir uniquement l'int\xE9rieur de sa voiture", "Pour apercevoir une tr\xE8s l\xE9g\xE8re poign\xE9e de la porti\xE8re arri\xE8re et maximiser la vision vers l'arri\xE8re", "Vers le ciel", "Vers les roues uniquement"],
-            correctOptionIndex: 1,
-            explanation: "Apercevoir un bord de la carrosserie sert de rep\xE8re visuel tout en r\xE9duisant l'angle mort au maximum."
+            "_id": "q-lec-1-2-4",
+            "questionText": "Quelle est la position id\xE9ale des mains sur le volant ?",
+            "options": [
+              "\xC0 12h00",
+              "\xC0 9h15 ou 10h10",
+              "\xC0 6h00",
+              "Une seule main en haut"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La position 9h15 ou 10h10 assure pr\xE9cision et s\xE9curit\xE9 airbag."
           },
           {
-            questionText: "Quelle doit \xEAtre la position id\xE9ale des mains sur le volant en conduite normale ?",
-            options: ["\xC0 12h00 une seule main", "\xC0 9h15 ou 10h10", "En bas du volant \xE0 6h00", "Les bras crois\xE9s"],
-            correctOptionIndex: 1,
-            explanation: "La position 9h15 ou 10h10 assure un contr\xF4le optimal du volant et une r\xE9action rapide en cas d'urgence."
+            "_id": "q-lec-1-2-5",
+            "questionText": "Comment r\xE9gler son r\xE9troviseur int\xE9rieur ?",
+            "options": [
+              "Pour voir son visage",
+              "Pour cadrer toute la lunette arri\xE8re",
+              "Vers le toit",
+              "Vers le bas"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il doit cadrer l\u2019int\xE9gralit\xE9 de la vitre arri\xE8re sans bouger la t\xEAte."
           }
         ]
       },
       {
-        _id: "lec-1-3",
-        _type: "lecon",
-        title: "Le\xE7on 1.3 \u2013 Tableaux de bord, voyants et t\xE9moins",
-        ordre: 3,
-        description: "La le\xE7on explique les principaux voyants du tableau de bord : feux, clignotants, niveau de carburant, pression d'huile, temp\xE9rature moteur, t\xE9moins d'alerte (freins, batterie, etc.). L'\xE9l\xE8ve apprend \xE0 reconna\xEEtre les pictogrammes, \xE0 distinguer les voyants d'information des voyants d'alerte, et \xE0 comprendre ce qu'il doit faire lorsqu'un voyant s'allume (v\xE9rification, arr\xEAt, appel au professionnel).",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g&list=PLsr6X_3CMxXtgXoK8DzOY6wNeNpf7Sdgu",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-1-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 1.3 \u2014 Tableau de bord, voyants et t\xE9moins",
+        "ordre": 3,
+        "description": "Voyants de feux, carburant, huile, temp\xE9rature moteur, freins et batterie ; conduite \xE0 tenir selon l\u2019alerte.",
+        "videoUrl": "https://www.youtube.com/watch?v=4T35JP22iPA",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Que signifie l'allumage d'un t\xE9moin lumineux de couleur ROUGE au tableau de bord en roulant ?",
-            options: ["Une simple information de confort", "Un danger grave : arr\xEAt imm\xE9diat obligatoire en s\xE9curit\xE9", "Le fonctionnement normal des clignotants", "Une incitation \xE0 acc\xE9l\xE9rer"],
-            correctOptionIndex: 1,
-            explanation: "Les voyants rouges signalent une urgence absolue exigeant l'arr\xEAt imm\xE9diat du v\xE9hicule."
+            "_id": "q-lec-1-3-1",
+            "questionText": "Que signifie l\u2019allumage d\u2019un voyant de couleur ROUGE en roulant ?",
+            "options": [
+              "Information simple",
+              "Danger grave : arr\xEAt imm\xE9diat obligatoire en s\xE9curit\xE9",
+              "Feux de route allum\xE9s",
+              "Rappel r\xE9vision"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les voyants rouges imposent un arr\xEAt imm\xE9diat pour \xE9viter un accident ou une casse moteur."
           },
           {
-            questionText: "De quelle couleur sont g\xE9n\xE9ralement les t\xE9moins d'\xE9clairage (feux de croisement, feux de position) ?",
-            options: ["Rouge ou violet", "Vert ou bleu", "Jaune uniquement", "Noir"],
-            correctOptionIndex: 1,
-            explanation: "Les t\xE9moins de feux de position et de croisement sont verts; le t\xE9moin de feux de route est bleu."
+            "_id": "q-lec-1-3-2",
+            "questionText": "Quelle couleur indique un voyant d\u2019avertissement ou de d\xE9faut non imm\xE9diat ?",
+            "options": [
+              "Rouge",
+              "Orange / Jaune",
+              "Bleu",
+              "Blanc"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019orange signale une anomalie \xE0 faire v\xE9rifier rapidement sans arr\xEAt d\u2019urgence."
           },
           {
-            questionText: "Si le voyant de pression d'huile moteur (voyant rouge en forme de burette) s'allume en roulant, vous devez :",
-            options: ["Continuer jusqu'\xE0 la maison", "Remettre de l'essence \xE0 la prochaine station", "Vous arr\xEAter imm\xE9diatement en s\xE9curit\xE9 et couper le moteur", "Allumer la climatisation"],
-            correctOptionIndex: 2,
-            explanation: "Un manque de pression d'huile risque de d\xE9truire le moteur en quelques secondes : l'arr\xEAt imm\xE9diat est imp\xE9ratif."
+            "_id": "q-lec-1-3-3",
+            "questionText": "Si le voyant rouge d\u2019huile s\u2019allume en circulation, vous devez :",
+            "options": [
+              "Acc\xE9l\xE9rer",
+              "Vous arr\xEAter d\xE8s que possible en s\xE9curit\xE9 et couper le moteur",
+              "Continuer le trajet",
+              "Mettre la climatisation"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le manque de pression d\u2019huile d\xE9truit le moteur en quelques secondes."
           },
           {
-            questionText: "Quelle couleur caract\xE9rise un voyant d'avertissement ou de dysfonctionnement non imm\xE9diat (ex: niveau lave-glace, usure plaquettes) ?",
-            options: ["Rouge clignotant", "Orange / Jaune", "Bleu vif", "Vert clair"],
-            correctOptionIndex: 1,
-            explanation: "L'orange ou le jaune alerte d'un d\xE9faut \xE0 faire contr\xF4ler rapidement sans n\xE9cessiter un arr\xEAt d'urgence."
+            "_id": "q-lec-1-3-4",
+            "questionText": "De quelle couleur est le t\xE9moin des feux de route ?",
+            "options": [
+              "Vert",
+              "Bleu",
+              "Orange",
+              "Rouge"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le t\xE9moin des feux de route (pleins phares) est toujours bleu."
           },
           {
-            questionText: "\xC0 quoi sert le compte-tours situ\xE9 sur le tableau de bord ?",
-            options: ["\xC0 mesurer la vitesse du v\xE9hicule en km/h", "\xC0 indiquer le nombre de tours que fait le moteur par minute (tr/min)", "\xC0 calculer le nombre de kilom\xE8tres parcourus", "\xC0 mesurer la pression des pneus"],
-            correctOptionIndex: 1,
-            explanation: "Le compte-tours indique le r\xE9gime moteur en tours par minute pour adapter le passage des vitesses."
+            "_id": "q-lec-1-3-5",
+            "questionText": "\xC0 quoi sert la jauge de temp\xE9rature du liquide de refroidissement ?",
+            "options": [
+              "\xC0 mesurer l\u2019air de l\u2019habitacle",
+              "\xC0 surveiller la temp\xE9rature de fonctionnement du moteur",
+              "\xC0 mesurer la vitesse",
+              "\xC0 r\xE9gler le chauffage"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Elle alerte en cas de surchauffe anormale du moteur."
           }
         ]
       },
       {
-        _id: "lec-1-4",
-        _type: "lecon",
-        title: "Le\xE7on 1.4 \u2013 Syst\xE8mes de s\xE9curit\xE9 du v\xE9hicule",
-        ordre: 4,
-        description: "Cette le\xE7on pr\xE9sente les syst\xE8mes de s\xE9curit\xE9 de la voiture : ceintures de s\xE9curit\xE9, airbags, ABS, qualit\xE9 des pneus, contr\xF4les techniques et v\xE9rifications r\xE9guli\xE8res. L'\xE9l\xE8ve comprend pourquoi ces \xE9quipements sont indispensables, comment les utiliser correctement (ceinture bien ajust\xE9e, ABS lors d'un freinage), et quelles v\xE9rifications simples il peut faire avant de prendre la route.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY&list=PL-kDknubECW4-gEwpco43ofPC5b4ptcYx",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-1-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 1.4 \u2014 Syst\xE8mes de s\xE9curit\xE9 du v\xE9hicule",
+        "ordre": 4,
+        "description": "Ceintures, airbags, ABS, pneus, contr\xF4le technique et v\xE9rifications avant de prendre la route.",
+        "videoUrl": "https://www.youtube.com/watch?v=mRT5Jyu9lG0",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quel est le r\xF4le principal du syst\xE8me ABS (Syst\xE8me Antiblocage des Roues) lors d'un freinage d'urgence ?",
-            options: ["Raccourcir automatiquement la distance de freinage de moiti\xE9", "Emp\xEAcher le blocage des roues pour maintenir le contr\xF4le de la trajectoire", "Allumer les feux de d\xE9tresse automatiquement", "Multiplier la puissance du moteur"],
-            correctOptionIndex: 1,
-            explanation: "L'ABS \xE9vite le blocage des roues lors d'un freinage appuy\xE9, permettant de continuer \xE0 diriger le v\xE9hicule."
+            "_id": "q-lec-1-4-1",
+            "questionText": "Quel est le r\xF4le principal du syst\xE8me ABS lors d\u2019un freinage d\u2019urgence ?",
+            "options": [
+              "Diviser la distance par deux",
+              "Emp\xEAcher le blocage des roues pour garder le pouvoir directionnel",
+              "Couper le moteur",
+              "Acc\xE9l\xE9rer"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019ABS \xE9vite le blocage des roues et permet de continuer \xE0 diriger la voiture."
           },
           {
-            questionText: "Quelle est la profondeur minimale l\xE9gale des sculptures d'un pneumatique pour voiture ?",
-            options: ["0,5 mm", "1,6 mm", "3,0 mm", "5,0 mm"],
-            correctOptionIndex: 1,
-            explanation: "La limite d'usure l\xE9gale en France est fix\xE9e \xE0 1,6 mm de profondeur sur toute la bande de roulement."
+            "_id": "q-lec-1-4-2",
+            "questionText": "Quelle est la profondeur minimale l\xE9gale des sculptures d\u2019un pneu ?",
+            "options": [
+              "0,5 mm",
+              "1,6 mm",
+              "3,0 mm",
+              "4,0 mm"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La limite l\xE9gale d\u2019usure est de 1,6 mm sur toute la bande de roulement."
           },
           {
-            questionText: "Est-il obligatoire pour tous les passagers d'attacher leur ceinture de s\xE9curit\xE9 en voiture ?",
-            options: ["Uniquement pour le conducteur", "Uniquement aux places avant", "Oui, pour tous les occupants du v\xE9hicule (avant et arri\xE8re)", "Non, si la vitesse est inf\xE9rieure \xE0 30 km/h"],
-            correctOptionIndex: 2,
-            explanation: "Le port de la ceinture de s\xE9curit\xE9 est obligatoire pour tous les occupants d'un v\xE9hicule en circulation."
+            "_id": "q-lec-1-4-3",
+            "questionText": "Le port de la ceinture de s\xE9curit\xE9 est obligatoire pour :",
+            "options": [
+              "Le conducteur seul",
+              "Les places avant",
+              "Tous les occupants du v\xE9hicule",
+              "Hors agglom\xE9ration seulement"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "La ceinture est obligatoire \xE0 toutes les places \xE9quip\xE9es."
           },
           {
-            questionText: `Peut-on installer un si\xE8ge b\xE9b\xE9 "dos \xE0 la route" sur le si\xE8ge passager avant si l'airbag passager est actif ?`,
-            options: ["Oui, sans condition", "Non, il faut obligatoirement d\xE9sactiver l'airbag passager avant", "Uniquement la nuit", "Oui, avec les feux de d\xE9tresse"],
-            correctOptionIndex: 1,
-            explanation: "Le d\xE9ploiement de l'airbag contre un si\xE8ge b\xE9b\xE9 dos \xE0 la route peut \xEAtre mortel : il faut d\xE9sactiver l'airbag."
+            "_id": "q-lec-1-4-4",
+            "questionText": "\xC0 quelle fr\xE9quence passe le contr\xF4le technique d\u2019une voiture de plus de 4 ans ?",
+            "options": [
+              "Tous les ans",
+              "Tous les 2 ans",
+              "Tous les 3 ans",
+              "Tous les 5 ans"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le contr\xF4le technique p\xE9riodique doit \xEAtre renouvel\xE9 tous les 2 ans."
           },
           {
-            questionText: "Tous les combien de temps un contr\xF4le technique est-il obligatoire pour un v\xE9hicule de plus de 4 ans ?",
-            options: ["Tous les ans", "Tous les 2 ans", "Tous les 5 ans", "Il n'y a plus de contr\xF4le obligatoire"],
-            correctOptionIndex: 1,
-            explanation: "Une fois le premier contr\xF4le effectu\xE9 \xE0 4 ans, le contr\xF4le technique p\xE9riodique a lieu tous les 2 ans."
+            "_id": "q-lec-1-4-5",
+            "questionText": "L\u2019airbag remplace-t-il la ceinture de s\xE9curit\xE9 ?",
+            "options": [
+              "Oui",
+              "Non, c\u2019est un compl\xE9ment indispensable \xE0 la ceinture",
+              "Uniquement en ville",
+              "Uniquement pour le passager"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019airbag fonctionne obligatoirement en symbiose avec la ceinture attach\xE9e."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 2 : Règles générales de circulation
-  // -------------------------------------------------------------
   {
-    _id: "mod-2",
-    _type: "moduleFormation",
-    code: "MOD-002",
-    title: "Module 2 : R\xE8gles g\xE9n\xE9rales de circulation",
-    summary: "Ce module explique les r\xE8gles g\xE9n\xE9rales de la circulation : sens de circulation, position sur la chauss\xE9e, changements de direction, insertion dans le trafic, arr\xEAt et stationnement, partage de la route avec les autres usagers. L'objectif est que l'\xE9l\xE8ve sache se placer correctement sur la route, utiliser les clignotants, respecter les zones d'arr\xEAt et de stationnement, et tenir compte des pi\xE9tons, cyclistes et v\xE9hicules lourds.",
-    learningObjectives: [
-      "Appliquer le principe de circulation \xE0 droite et l'usage des voies",
-      "Ma\xEEtriser la s\xE9quence des contr\xF4les visuels et l'usage du clignotant lors d'une insertion",
-      "Distinguer les r\xE8gles d'arr\xEAt et de stationnement g\xEAnant, dangereux ou interdit",
-      "Adopter une conduite pr\xE9venante vis-\xE0-vis des autres cat\xE9gories d'usagers"
+    "_id": "mod-2",
+    "_type": "moduleFormation",
+    "code": "MOD-002",
+    "title": "Module 2 \u2014 R\xE8gles g\xE9n\xE9rales de circulation",
+    "summary": "Ma\xEEtrise du sens de circulation, du positionnement sur la chauss\xE9e, des changements de direction, des arr\xEAts et stationnements, et du partage de la route.",
+    "learningObjectives": [
+      "Savoir se positionner sur la chauss\xE9e selon les voies et lignes",
+      "Ma\xEEtriser les contr\xF4les r\xE9troviseurs et angles morts pour changer de direction",
+      "Distinguer l'arr\xEAt du stationnement et identifier les zones interdites",
+      "Partager la route en s\xE9curit\xE9 avec les usagers vuln\xE9rables et poids lourds"
     ],
-    ordre: 2,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 600,
-    tempsMinimumVisionnage: 480,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 2,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-2-1",
-        _type: "lecon",
-        title: "Le\xE7on 2.1 \u2013 Sens de circulation et position sur la chauss\xE9e",
-        ordre: 1,
-        description: "Le\xE7on consacr\xE9e au sens de circulation (rouler \xE0 droite), \xE0 la diff\xE9rence entre lignes continues et pointill\xE9es, aux voies r\xE9serv\xE9es et \xE0 la bande d'arr\xEAt d'urgence. L'\xE9l\xE8ve apprend o\xF9 il doit se placer sur la chauss\xE9e selon le type de route, quand il peut changer de voie, et quelles zones sont strictement interdites.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-2-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 2.1 \u2014 Sens de circulation et position sur la chauss\xE9e",
+        "ordre": 1,
+        "description": "Circulation \xE0 droite, lignes continues et discontinues, voies r\xE9serv\xE9es, bande d\u2019arr\xEAt d\u2019urgence et positionnement.",
+        "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "En France, sur une route \xE0 double sens de circulation sans marquage au sol, vous devez rouler :",
-            options: ["Au milieu de la route", "Le plus pr\xE8s possible du bord droit de la chauss\xE9e", "Sur la gauche si personne ne vient", "Sur le trottoir"],
-            correctOptionIndex: 1,
-            explanation: "La r\xE8gle fondamentale impose de circuler pr\xE8s du bord droit de la chauss\xE9e."
+            "_id": "q-lec-2-1-1",
+            "questionText": "De quel c\xF4t\xE9 de la chauss\xE9e doit-on circuler en marche normale ?",
+            "options": [
+              "Au milieu",
+              "Le plus pr\xE8s possible du bord droit",
+              "\xC0 gauche",
+              "O\xF9 on veut"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En France, la circulation s\u2019effectue sur le c\xF4t\xE9 droit de la route."
           },
           {
-            questionText: "Est-il autoris\xE9 de franchir une ligne continue blanche pour d\xE9passer une voiture lente ?",
-            options: ["Oui, si la voie est libre", "Strictement interdit sous peine de perte de points et amende", "Oui, uniquement la nuit", "Oui, en klaxonnant"],
-            correctOptionIndex: 1,
-            explanation: "Le franchissement d'une ligne continue est une infraction grave formellement interdite."
+            "_id": "q-lec-2-1-2",
+            "questionText": "Peut-on franchir une ligne blanche continue ?",
+            "options": [
+              "Oui pour aller plus vite",
+              "Non, c\u2019est strictement interdit sauf exceptions r\xE9glementaires",
+              "Oui avec le clignotant",
+              "Oui la nuit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Franchir une ligne continue est une infraction grave (3 points)."
           },
           {
-            questionText: "\xC0 quoi sert la bande d'arr\xEAt d'urgence (BAU) sur autoroute ?",
-            options: ["\xC0 t\xE9l\xE9phoner ou se reposer", "Exclusivement aux arr\xEAts d'urgence absolue ou pannes", "\xC0 d\xE9passer par la droite", "\xC0 rouler en cas de bouchon"],
-            correctOptionIndex: 1,
-            explanation: "La BAU est strictement r\xE9serv\xE9e aux secours et aux immobilisations d'urgence absolue."
+            "_id": "q-lec-2-1-3",
+            "questionText": "\xC0 quoi sert la bande d\u2019arr\xEAt d\u2019urgence (BAU) ?",
+            "options": [
+              "\xC0 doubler les bouchons",
+              "Strictement aux arr\xEAts d\u2019urgence en cas de panne ou malaise",
+              "\xC0 t\xE9l\xE9phoner",
+              "\xC0 faire une pause"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La BAU est exclusivement r\xE9serv\xE9e aux urgences et aux secours."
           },
           {
-            questionText: "Sur une chauss\xE9e \xE0 3 voies dans le m\xEAme sens, quelle voie devez-vous occuper en conduite normale ?",
-            options: ["La voie du milieu", "La voie la plus \xE0 gauche", "La voie la plus \xE0 droite", "Celle de votre choix"],
-            correctOptionIndex: 2,
-            explanation: "On doit toujours rouler sur la voie de droite disponible et n'utiliser les voies de gauche que pour d\xE9passer."
+            "_id": "q-lec-2-1-4",
+            "questionText": "Sur autoroute \xE0 3 voies, quelle voie occuper en trafic fluide ?",
+            "options": [
+              "La voie du milieu",
+              "La voie de gauche",
+              "La voie de droite",
+              "Au choix"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "On roule toujours sur la voie de droite hors man\u0153uvre de d\xE9passement."
           },
           {
-            questionText: "Que signifie une ligne de dissuasion (pointill\xE9s resserr\xE9s) sur route \xE9troite ou sinueuse ?",
-            options: ["D\xE9passement totalement libre", "D\xE9passement d\xE9conseill\xE9 et r\xE9serv\xE9 uniquement aux v\xE9hicules tr\xE8s lents (ex: tracteurs)", "Obligation de demi-tour", "Interdiction de s'arr\xEAter"],
-            correctOptionIndex: 1,
-            explanation: "La ligne de dissuasion alerte sur le danger de d\xE9passer des v\xE9hicules roulant \xE0 vitesse normale."
+            "_id": "q-lec-2-1-5",
+            "questionText": "Peut-on circuler dans une voie r\xE9serv\xE9e aux bus ?",
+            "options": [
+              "Oui pour tourner",
+              "Non, c\u2019est strictement interdit aux voitures",
+              "Oui si on va vite",
+              "Le week-end oui"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les couloirs de bus sont r\xE9serv\xE9s aux transports collectifs autoris\xE9s."
           }
         ]
       },
       {
-        _id: "lec-2-2",
-        _type: "lecon",
-        title: "Le\xE7on 2.2 \u2013 Changements de direction et insertion",
-        ordre: 2,
-        description: "Cette le\xE7on traite des changements de direction (tourner \xE0 gauche/droite), de l'utilisation des clignotants, des contr\xF4les visuels (r\xE9troviseurs, angle mort) et de l'insertion sur voie rapide (autoroute, route \xE0 grande circulation). L'\xE9l\xE8ve voit des cas concrets d'insertion et de sortie, et apprend \xE0 signaler correctement ses intentions.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 660,
-        tempsMinimumVisionnageSeconds: 528,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-2-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 2.2 \u2014 Changements de direction et insertion",
+        "ordre": 2,
+        "description": "Utilisation des clignotants, contr\xF4les r\xE9troviseurs/angles morts et insertion sur voie rapide.",
+        "videoUrl": "https://www.youtube.com/watch?v=P9ZXwt5XvGk",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quelle est la m\xE9thode exacte d'observation avant de changer de voie ?",
-            options: ["Mettre le clignotant puis tourner directement", "R\xE9troviseur int\xE9rieur, r\xE9tro ext\xE9rieur, contr\xF4le de l'angle mort, clignotant", "Klaxonner puis tourner", "Attendre un appel de phares"],
-            correctOptionIndex: 1,
-            explanation: "La s\xE9quence r\xE9tro int\xE9rieur -> r\xE9tro ext\xE9rieur -> angle mort -> clignotant garantit un changement de voie s\xFBr."
+            "_id": "q-lec-2-2-1",
+            "questionText": "Avant de changer de direction, quelle est la premi\xE8re action ?",
+            "options": [
+              "Acc\xE9l\xE9rer",
+              "Contr\xF4ler r\xE9troviseurs et angle mort",
+              "Klaxonner",
+              "Freiner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019observation visuelle compl\xE8te pr\xE9c\xE8de toujours le clignotant."
           },
           {
-            questionText: "Sur une voie d'insertion d'autoroute, qui poss\xE8de la priorit\xE9 de passage ?",
-            options: ["Le v\xE9hicule qui s'ins\xE8re", "Les v\xE9hicules circulant d\xE9j\xE0 sur la chauss\xE9e principale de l'autoroute", "Le v\xE9hicule le plus rapide", "Les deux en alternance obligatoire"],
-            correctOptionIndex: 1,
-            explanation: "Les usagers s'ins\xE9rant doivent c\xE9der le passage aux v\xE9hicules d\xE9j\xE0 engag\xE9s sur l'autoroute."
+            "_id": "q-lec-2-2-2",
+            "questionText": "Le clignotant donne-t-il la priorit\xE9 ?",
+            "options": [
+              "Oui toujours",
+              "Non, il avertit de l\u2019intention sans donner la priorit\xE9",
+              "Oui sur autoroute",
+              "Oui en ville"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le clignotant pr\xE9vient mais ne conf\xE8re aucun droit de priorit\xE9."
           },
           {
-            questionText: "Quand devez-vous allumer votre clignotant pour avertir d'un changement de direction ?",
-            options: ["Pendant qu'on tourne le volant", "Suffisamment t\xF4t avant d'effectuer la man\u0153uvre", "Apr\xE8s avoir tourn\xE9", "Uniquement s'il y a une voiture derri\xE8re"],
-            correctOptionIndex: 1,
-            explanation: "Le clignotant avertit \xE0 l'avance les autres usagers de votre intention."
+            "_id": "q-lec-2-2-3",
+            "questionText": "Qu\u2019est-ce que l\u2019angle mort ?",
+            "options": [
+              "Une route sombre",
+              "Une zone masqu\xE9e hors du champ des r\xE9troviseurs",
+              "Un virage serr\xE9",
+              "L\u2019arri\xE8re du v\xE9hicule"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est la zone invisible sans un coup d\u2019\u0153il direct par-dessus l\u2019\xE9paule."
           },
           {
-            questionText: "Qu'est-ce que l'angle mort d'un v\xE9hicule ?",
-            options: ["La zone arri\xE8re couverte par le r\xE9troviseur central", "La zone non visible par le conducteur via les r\xE9troviseurs", "Le dessous du moteur", "Le coffre"],
-            correctOptionIndex: 1,
-            explanation: "L'angle mort est la zone masqu\xE9e par les montants de la voiture et hors du champ des r\xE9troviseurs."
+            "_id": "q-lec-2-2-4",
+            "questionText": "Sur une voie d\u2019insertion, que doit-on faire ?",
+            "options": [
+              "S\u2019arr\xEAter au d\xE9but",
+              "Acc\xE9l\xE9rer pour atteindre la vitesse du trafic et s\u2019ins\xE9rer",
+              "Forcer le passage",
+              "Rouler \xE0 30 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La voie d\u2019insertion sert \xE0 synchroniser sa vitesse pour s\u2019int\xE9grer fluidement."
           },
           {
-            questionText: "Pour tourner \xE0 gauche sur une rue \xE0 double sens, o\xF9 devez-vous vous placer ?",
-            options: ["Compl\xE8tement \xE0 gauche sur la voie inverse", "Le long de la ligne axiale de s\xE9paration des sens sans la franchir", "Sur le trottoir de droite", "Sur le bas-c\xF4t\xE9"],
-            correctOptionIndex: 1,
-            explanation: "On serre l'axe central de la chauss\xE9e sans mordre sur la voie oppos\xE9e."
+            "_id": "q-lec-2-2-5",
+            "questionText": "Pour tourner \xE0 gauche dans une rue \xE0 sens unique, on se place :",
+            "options": [
+              "\xC0 droite",
+              "Le plus \xE0 gauche possible avant le carrefour",
+              "Au milieu",
+              "Peu importe"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En sens unique, on serre compl\xE8tement \xE0 gauche pour tourner \xE0 gauche."
           }
         ]
       },
       {
-        _id: "lec-2-3",
-        _type: "lecon",
-        title: "Le\xE7on 2.3 \u2013 Arr\xEAt, stationnement et immobilisation",
-        ordre: 3,
-        description: "La le\xE7on explique la diff\xE9rence entre arr\xEAt (immobilisation temporaire) et stationnement (immobilisation plus longue), les zones o\xF9 l'arr\xEAt ou le stationnement sont interdits (devant les passages pi\xE9tons, sur les trottoirs, etc.), et les r\xE8gles de bon sens pour ne pas g\xEAner la circulation ou mettre les autres usagers en danger.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-2-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 2.3 \u2014 Arr\xEAt, stationnement et immobilisation",
+        "ordre": 3,
+        "description": "Diff\xE9rence entre arr\xEAt et stationnement, zones interdites, r\xE8gles pour ne pas g\xEAner les usagers.",
+        "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: 'Quelle est la diff\xE9rence fondamentale entre un "arr\xEAt" et un "stationnement" ?',
-            options: ["Aucune diff\xE9rence", "L'arr\xEAt implique que le conducteur reste \xE0 proximit\xE9 imm\xE9diate pr\xEAt \xE0 d\xE9placer le v\xE9hicule", "Le stationnement dure moins de 1 minute", "L'arr\xEAt se fait moteur \xE9teint"],
-            correctOptionIndex: 1,
-            explanation: "L'arr\xEAt est une immobilisation tr\xE8s courte (chargement/d\xE9chargement, mont\xE9e de passagers) avec le conducteur tout pr\xE8s."
+            "_id": "q-lec-2-3-1",
+            "questionText": "Quelle est la d\xE9finition l\xE9gale d\u2019un arr\xEAt ?",
+            "options": [
+              "Une pause de 10 min",
+              "Immobilisation temporaire avec conducteur \xE0 proximit\xE9 pour monter/descendre ou charger",
+              "Stationner moteur allum\xE9",
+              "Bloquer la route"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "\xC0 l\u2019arr\xEAt, le conducteur reste au volant ou \xE0 port\xE9e pour d\xE9placer la voiture."
           },
           {
-            questionText: "Est-il autoris\xE9 de stationner son v\xE9hicule sur un passage pour pi\xE9tons ?",
-            options: ["Oui, si ce n'est que 5 minutes", "Non, c'est un stationnement tr\xE8s g\xEAnant strictly interdit", "Oui, avec les feux de d\xE9tresse", "Uniquement le dimanche"],
-            correctOptionIndex: 1,
-            explanation: "Bloquer un passage pi\xE9ton est une infraction grave qualifi\xE9e de stationnement tr\xE8s g\xEAnant."
+            "_id": "q-lec-2-3-2",
+            "questionText": "Le stationnement sur un passage pi\xE9ton est :",
+            "options": [
+              "Autoris\xE9 5 minutes",
+              "Tr\xE8s g\xEAnant et dangereux (amende et fourri\xE8re)",
+              "Gratuit",
+              "Tol\xE9r\xE9 la nuit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est une infraction grave qui masque la visibilit\xE9 des pi\xE9tons."
           },
           {
-            questionText: "\xC0 quelle distance minimale d'un virage masqu\xE9 ou d'un sommet de c\xF4te le stationnement est-il consid\xE9r\xE9 dangereux ?",
-            options: ["Moins de 5 m\xE8tres", "En pleine zone sans visibilit\xE9 \xE0 proximit\xE9 imm\xE9diate", "\xC0 500 m\xE8tres", "Jamais"],
-            correctOptionIndex: 1,
-            explanation: "Tout arr\xEAt ou stationnement masquant la visibilit\xE9 dans un virage ou sommet de c\xF4te est qualifi\xE9 de dangereux."
+            "_id": "q-lec-2-3-3",
+            "questionText": "Une ligne jaune continue le long du trottoir indique :",
+            "options": [
+              "Stationnement gratuit",
+              "Arr\xEAt et stationnement strictement interdits",
+              "Arr\xEAt autoris\xE9",
+              "R\xE9serv\xE9 aux livraisons"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La ligne jaune continue prohibe tout arr\xEAt et stationnement."
           },
           {
-            questionText: "Que risque un conducteur pour stationnement tr\xE8s g\xEAnant ou dangereux ?",
-            options: ["Un simple avertissement verbal", "Une amende de 135 \u20AC, un retrait de points et la mise en fourri\xE8re", "Une m\xE9daille de courtoisie", "Rien du tout"],
-            correctOptionIndex: 1,
-            explanation: "Les stationnements tr\xE8s g\xEAnants ou dangereux entra\xEEnent amende forfaitaire, retrait de 3 points et enl\xE8vement fourri\xE8re."
+            "_id": "q-lec-2-3-4",
+            "questionText": "Une ligne jaune discontinue en pointill\xE9s indique :",
+            "options": [
+              "Stationnement libre",
+              "Arr\xEAt autoris\xE9, stationnement interdit",
+              "Arr\xEAt et stationnement interdits",
+              "Parking payant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les pointill\xE9s jaunes autorisent l\u2019arr\xEAt rapide mais interdisent le stationnement."
           },
           {
-            questionText: "Comment devez-vous stationner le long d'un trottoir en agglom\xE9ration sur une rue \xE0 double sens ?",
-            options: ["Dans le sens contraire de la circulation", "Dans le sens de la circulation du c\xF4t\xE9 droit", "En travers du trottoir", "Au milieu de la chauss\xE9e"],
-            correctOptionIndex: 1,
-            explanation: "Le stationnement s'effectue toujours dans le sens de la marche sur le c\xF4t\xE9 droit de la voie."
+            "_id": "q-lec-2-3-5",
+            "questionText": "En stationnement en descente, comment braquer les roues ?",
+            "options": [
+              "Vers la chauss\xE9e",
+              "Vers le trottoir",
+              "Tout droit",
+              "Peu importe"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Braquer vers le trottoir cale le v\xE9hicule en cas de d\xE9faillance du frein."
           }
         ]
       },
       {
-        _id: "lec-2-4",
-        _type: "lecon",
-        title: "Le\xE7on 2.4 \u2013 Partage de la route avec les autres usagers",
-        ordre: 4,
-        description: "La le\xE7on montre comment partager la route avec les pi\xE9tons, cyclistes, motocyclistes et v\xE9hicules lourds. L'\xE9l\xE8ve apprend \xE0 respecter les distances lat\xE9rales, \xE0 anticiper les comportements des usagers vuln\xE9rables, et \xE0 adapter sa conduite \xE0 proximit\xE9 des transports en commun (bus, taxis) et des camions.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-2-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 2.4 \u2014 Partage de la route avec les autres usagers",
+        "ordre": 4,
+        "description": "Cohabitation avec pi\xE9tons, cyclistes, motocyclistes et poids lourds ; distances lat\xE9rales et anticipation.",
+        "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quelle distance lat\xE9rale minimale devez-vous laisser pour d\xE9passer un cycliste HORS AGGLOM\xC9RATION ?",
-            options: ["0,5 m\xE8tre", "1,0 m\xE8tre", "1,5 m\xE8tre", "3,0 m\xE8tres"],
-            correctOptionIndex: 2,
-            explanation: "La distance l\xE9gale de d\xE9passement d'un usager vuln\xE9rable est de 1,5m hors agglom\xE9ration (1,0m en agglom\xE9ration)."
+            "_id": "q-lec-2-4-1",
+            "questionText": "Distance lat\xE9rale minimale pour d\xE9passer un cycliste en ville ?",
+            "options": [
+              "0,5 m",
+              "1,0 m",
+              "1,5 m",
+              "2,0 m"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En agglom\xE9ration, l\u2019\xE9cart minimal de s\xE9curit\xE9 est de 1 m\xE8tre."
           },
           {
-            questionText: "Lorsqu'un pi\xE9ton s'engage ou manifeste clairement l'intention de s'engager sur un passage pi\xE9ton, vous devez :",
-            options: ["Acc\xE9l\xE9rer pour passer avant lui", "Klaxonner pour qu'il s'arr\xEAte", "C\xE9der obligatoirement le passage en vous arr\xEAtant", "Appeler la police"],
-            correctOptionIndex: 2,
-            explanation: "Le pi\xE9ton qui s'engage a une priorit\xE9 absolue d'acc\xE8s \xE0 la chauss\xE9e."
+            "_id": "q-lec-2-4-2",
+            "questionText": "Face \xE0 un pi\xE9ton engag\xE9 ou manifestant l\u2019intention de traverser :",
+            "options": [
+              "Klaxonner",
+              "Lui c\xE9der obligatoirement le passage",
+              "Acc\xE9l\xE9rer",
+              "Passer \xE0 c\xF4t\xE9"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le pi\xE9ton a la priorit\xE9 absolue d\xE8s qu\u2019il manifeste l\u2019intention de traverser."
           },
           {
-            questionText: "Pourquoi devez-vous redoubler de prudence \xE0 proximit\xE9 des autobus \xE0 l'arr\xEAt ?",
-            options: ["Car des pi\xE9tons peuvent surgir soudainement devant ou derri\xE8re le bus", "Parce que les bus roulent tr\xE8s vite", "Pour d\xE9passer par la droite", "Les bus n'ont pas de clignotants"],
-            correctOptionIndex: 0,
-            explanation: "Un bus masquant la vision peut cacher des pi\xE9tons traversant la chauss\xE9e."
+            "_id": "q-lec-2-4-3",
+            "questionText": "Pourquoi redoubler de vigilance pr\xE8s des poids lourds ?",
+            "options": [
+              "Ils roulent trop vite",
+              "Ils ont d\u2019immenses angles morts autour de leur cabine",
+              "Leurs freins sont faibles",
+              "Ils n\u2019ont pas de phares"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Leurs grands angles morts masquent compl\xE8tement les voitures et deux-roues."
           },
           {
-            questionText: "Que devez-vous anticiper en pr\xE9sence d'un camion poids lourd qui s'appr\xEAte \xE0 tourner \xE0 droite ?",
-            options: ["Le camion tourne sur place sans se d\xE9porter", "Le camion peut se d\xE9porter vers la gauche pour balayer sa remorque", "Le camion va reculer", "Le camion s'arr\xEAte net"],
-            correctOptionIndex: 1,
-            explanation: "En raison du grand gabarit, les camions se d\xE9portent vers l'ext\xE9rieur avant de braquer."
+            "_id": "q-lec-2-4-4",
+            "questionText": "Qu\u2019est-ce qu\u2019un sas v\xE9lo devant un feu ?",
+            "options": [
+              "Un parking",
+              "Une zone r\xE9serv\xE9e aux cyclistes pour \xEAtre vus et d\xE9marrer en s\xE9curit\xE9",
+              "Un passage pi\xE9ton",
+              "Une voie rapide"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les automobilistes doivent s\u2019arr\xEAter avant la premi\xE8re ligne du sas v\xE9lo."
           },
           {
-            questionText: "Face \xE0 un deux-roues motoris\xE9 (moto/scooter), quelle est l'une des causes principales d'accident \xE0 anticiper ?",
-            options: ["Les motos roulent toujours trop lentement", "Leur silhouette \xE9troite est facilement masqu\xE9e dans les angles morts", "Ils n'ont pas de freins", "Ils roulent uniquement sur le bas-c\xF4t\xE9"],
-            correctOptionIndex: 1,
-            explanation: "Les deux-roues ont un gabarit r\xE9duit tr\xE8s facile \xE0 manquer lors d'un simple coup d'\u0153il dans le r\xE9troviseur."
+            "_id": "q-lec-2-4-5",
+            "questionText": "Quelle attitude avoir envers les deux-roues motoris\xE9s ?",
+            "options": [
+              "Les bloquer",
+              "V\xE9rifier ses angles morts et faciliter leur passage",
+              "Klaxonner",
+              "Freiner brusquement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les motards sont vuln\xE9rables : une vigilance accrue est indispensable."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 3 : Signalisation routière (panneaux, marquages, feux)
-  // -------------------------------------------------------------
   {
-    _id: "mod-3",
-    _type: "moduleFormation",
-    code: "MOD-003",
-    title: "Module 3 : Signalisation routi\xE8re (panneaux, marquages, feux)",
-    summary: "Ce module couvre la signalisation routi\xE8re : panneaux de danger, d'interdiction, d'obligation, d'indication et de direction, marquages au sol et feux tricolores. L'\xE9l\xE8ve apprend \xE0 interpr\xE9ter correctement les symboles, \xE0 comprendre la hi\xE9rarchie entre panneaux, feux et marquages, et \xE0 appliquer ces r\xE8gles dans des situations concr\xE8tes.",
-    learningObjectives: [
-      "Reconna\xEEtre et interpr\xE9ter la signalisation verticale (danger, interdiction, obligation)",
-      "D\xE9chiffrer la signalisation d'indication et de direction",
-      "Comprendre les lignes et marquages au sol (lignes de dissuasion, bandes jaunes)",
-      "Appliquer la hi\xE9rarchie entre les signaux des agents, les feux, les panneaux et la priorit\xE9 \xE0 droite"
+    "_id": "mod-3",
+    "_type": "moduleFormation",
+    "code": "MOD-003",
+    "title": "Module 3 \u2014 Signalisation routi\xE8re",
+    "summary": "Apprentissage des familles de panneaux (danger, interdiction, obligation, indication), des marquages au sol et des feux de circulation.",
+    "learningObjectives": [
+      "Identifier instantan\xE9ment la forme et la couleur de chaque famille de panneaux",
+      "Appliquer les r\xE8gles associ\xE9es aux panneaux de danger, interdiction et obligation",
+      "Lire et suivre la signalisation d'indication, de direction et de localisation",
+      "Comprendre la hi\xE9rarchie de la signalisation routi\xE8re (agents, feux, panneaux, marquage)"
     ],
-    ordre: 3,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 600,
-    tempsMinimumVisionnage: 480,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 3,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=7NVFko6lwKY",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-3-1",
-        _type: "lecon",
-        title: "Le\xE7on 3.1 \u2013 Panneaux de danger",
-        ordre: 1,
-        description: "Pr\xE9sentation des panneaux de danger : forme triangulaire, fond blanc ou jaune, bordure rouge. La le\xE7on montre diff\xE9rents panneaux (virage dangereux, route glissante, chauss\xE9e r\xE9tr\xE9cie, etc.), leur signification et l'attitude \xE0 adopter. L'objectif est que l'\xE9l\xE8ve rep\xE8re rapidement les signaux de danger et adapte sa conduite.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-3-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 3.1 \u2014 Panneaux de danger",
+        "ordre": 1,
+        "description": "Panneaux triangulaires \xE0 bord rouge : virages, chauss\xE9e glissante, r\xE9tr\xE9cissement et comportement adapt\xE9.",
+        "videoUrl": "https://www.youtube.com/watch?v=7NVFko6lwKY",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quelle est la forme caract\xE9ristique d'un panneau de danger permanent ?",
-            options: ["Ronde \xE0 bordure bleue", "Triangulaire \xE0 fond blanc et bordure rouge", "Carr\xE9e \xE0 fond jaune", "Octogonale rouge"],
-            correctOptionIndex: 1,
-            explanation: "Les panneaux de danger permanent sont des triangles bord\xE9s de rouge sur fond blanc."
+            "_id": "q-lec-3-1-1",
+            "questionText": "\xC0 quelle distance est implant\xE9 un panneau de danger hors agglom\xE9ration ?",
+            "options": [
+              "\xC0 50 m",
+              "\xC0 150 m du danger",
+              "\xC0 500 m",
+              "Au niveau du danger"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Hors agglom\xE9ration, la vitesse impose de signaler le danger 150 m en amont."
           },
           {
-            questionText: "\xC0 quelle distance du danger un panneau triangulaire est-il implant\xE9 en agglom\xE9ration ?",
-            options: ["Au niveau exact du danger", "\xC0 environ 50 m\xE8tres", "\xC0 environ 150 m\xE8tres", "\xC0 300 m\xE8tres"],
-            correctOptionIndex: 1,
-            explanation: "En ville (agglom\xE9ration), le panneau est plac\xE9 50 m\xE8tres avant le danger."
+            "_id": "q-lec-3-1-2",
+            "questionText": "Quelle est la forme caract\xE9ristique d\u2019un panneau de danger ?",
+            "options": [
+              "Rond \xE0 bord rouge",
+              "Triangulaire avec bordure rouge",
+              "Carr\xE9 \xE0 fond bleu",
+              "Octogonal"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les signaux de danger sont triangulaires point\xE9s vers le haut avec bordure rouge."
           },
           {
-            questionText: "\xC0 quelle distance du danger un panneau triangulaire est-il situ\xE9 HORS agglom\xE9ration ?",
-            options: ["50 m\xE8tres", "100 m\xE8tres", "150 m\xE8tres", "500 m\xE8tres"],
-            correctOptionIndex: 2,
-            explanation: "Hors agglom\xE9ration, la vitesse \xE9tant plus \xE9lev\xE9e, le pr\xE9avis est de 150 m\xE8tres."
+            "_id": "q-lec-3-1-3",
+            "questionText": "Que faire \xE0 la vue d\u2019un panneau de virage dangereux ?",
+            "options": [
+              "Acc\xE9l\xE9rer",
+              "Ralentir et adapter son allure avant d\u2019aborder la courbe",
+              "Klaxonner",
+              "Allumer les feux de d\xE9tresse"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le ralentissement doit \xEAtre op\xE9r\xE9 avant l\u2019inscription dans le virage."
           },
           {
-            questionText: "Quelle est la signification d'un panneau triangulaire \xE0 FOND JAUNE ?",
-            options: ["Danger permanent", "Danger temporaire (chantiers, d\xE9viations)", "Zone touristique", "Signalisation nocturne"],
-            correctOptionIndex: 1,
-            explanation: "Le fond jaune est syst\xE9matiquement r\xE9serv\xE9 \xE0 la signalisation temporaire."
+            "_id": "q-lec-3-1-4",
+            "questionText": "\xC0 quelle distance est implant\xE9 un panneau de danger en ville ?",
+            "options": [
+              "\xC0 15 m",
+              "\xC0 50 m",
+              "\xC0 150 m",
+              "\xC0 300 m"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En agglom\xE9ration, l\u2019implantation standard est \xE0 50 m\xE8tres du danger."
           },
           {
-            questionText: "Que signale un panneau triangulaire avec deux fl\xE8ches en boucle oppos\xE9e (deux fl\xE8ches rondes) ?",
-            options: ["Sens interdit", "Intersection avec carrefour \xE0 sens giratoire", "Demi-tour obligatoire", "Route \xE0 sens unique"],
-            correctOptionIndex: 1,
-            explanation: "Le panneau A25 annonce l'approche d'un carrefour giratoire."
+            "_id": "q-lec-3-1-5",
+            "questionText": "Que signifie un panneau de danger \xE0 fond JAUNE ?",
+            "options": [
+              "Danger permanent",
+              "Danger temporaire (travaux/chantier)",
+              "Obligation",
+              "Information"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le fond jaune caract\xE9rise les signaux temporaires de chantier."
           }
         ]
       },
       {
-        _id: "lec-3-2",
-        _type: "lecon",
-        title: "Le\xE7on 3.2 \u2013 Panneaux d'interdiction et d'obligation",
-        ordre: 2,
-        description: "La le\xE7on pr\xE9sente les panneaux ronds rouges (interdiction) et bleus (obligation), avec des exemples fr\xE9quents (interdiction de tourner \xE0 gauche, obligation de tourner \xE0 droite, limitation de vitesse, interdiction de d\xE9passer). L'\xE9l\xE8ve voit comment ces panneaux influencent son comportement et quelles sanctions il risque en cas de non\u2011respect.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-3-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 3.2 \u2014 Panneaux d\u2019interdiction et d\u2019obligation",
+        "ordre": 2,
+        "description": "Panneaux rouges d\u2019interdiction et bleus d\u2019obligation : vitesses, d\xE9passement et directions impos\xE9es.",
+        "videoUrl": "https://www.youtube.com/watch?v=SkdobnZSqIE",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "O\xF9 commence l'effet d'un panneau d'interdiction (rond \xE0 bordure rouge) ?",
-            options: ["150 m\xE8tres apr\xE8s le panneau", "Imm\xE9diatement \xE0 la hauteur du panneau", "\xC0 la prochaine station-service", "\xC0 l'entr\xE9e de l'autoroute"],
-            correctOptionIndex: 1,
-            explanation: "Les panneaux de prescription (interdiction et obligation) prennent effet \xE0 leur hauteur exacte."
+            "_id": "q-lec-3-2-1",
+            "questionText": "\xC0 partir de quel endroit s\u2019applique un panneau d\u2019interdiction ?",
+            "options": [
+              "\xC0 150 m",
+              "Imm\xE9diatement \xE0 hauteur du panneau",
+              "Le lendemain",
+              "Au prochain virage"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les interdictions prennent effet d\xE8s la hauteur du panneau."
           },
           {
-            questionText: 'Que signifie un panneau rond bleu comportant le nombre "30" ?',
-            options: ["Vitesse maximale 30 km/h", "Vitesse minimale obligatoire de 30 km/h", "Conseil de rouler \xE0 30 km/h", "Fin de zone 30"],
-            correctOptionIndex: 1,
-            explanation: "Un panneau rond bleu fixe une obligation, ici la vitesse minimale obligatoire."
+            "_id": "q-lec-3-2-2",
+            "questionText": "Quelle est la forme et couleur des panneaux d\u2019obligation ?",
+            "options": [
+              "Carr\xE9 vert",
+              "Rond \xE0 fond bleu avec symbole blanc",
+              "Triangulaire rouge",
+              "Rectangle blanc"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les panneaux d\u2019obligation sont ronds \xE0 fond bleu."
           },
           {
-            questionText: "Jusqu'o\xF9 s'applique une limitation de vitesse indiqu\xE9e par un panneau rond B14 (ex: 70) ?",
-            options: ["Jusqu'\xE0 la prochaine intersection ou panneau de fin de limitation", "Sur 10 kilom\xE8tres", "Pendant 2 minutes", "Sur toute la r\xE9gion"],
-            correctOptionIndex: 0,
-            explanation: "Une interdiction cesse \xE0 la premi\xE8re intersection rencontr\xE9e ou au panneau de fin d'interdiction."
+            "_id": "q-lec-3-2-3",
+            "questionText": "Que signifie un panneau rond blanc barr\xE9 d\u2019une bande noire ?",
+            "options": [
+              "Interdiction",
+              "Fin de toutes les interdictions pr\xE9c\xE9demment notifi\xE9es",
+              "Route barr\xE9e",
+              "P\xE9age"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il indique la fin des prescriptions de vitesse et de d\xE9passement."
           },
           {
-            questionText: "Que signifie le panneau B0 (rond blanc entour\xE9 de rouge sans symbole au centre) ?",
-            options: ["Sens interdit", "Circulation interdite \xE0 tout v\xE9hicule dans les deux sens", "Acc\xE8s r\xE9serv\xE9 aux riverains", "Stationnement payant"],
-            correctOptionIndex: 1,
-            explanation: "Le panneau B0 interdit la circulation de tout v\xE9hicule dans les 2 sens."
+            "_id": "q-lec-3-2-4",
+            "questionText": "Un panneau rond bleu avec fl\xE8che \xE0 droite impose :",
+            "options": [
+              "Interdiction \xE0 droite",
+              "Obligation de tourner \xE0 droite",
+              "Impasse",
+              "Sens unique"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La fl\xE8che blanche sur fond bleu oblige \xE0 emprunter la direction indiqu\xE9e."
           },
           {
-            questionText: "Un panneau rond bleu affichant une fl\xE8che contournant par la droite impose de :",
-            options: ["Tourner la t\xEAte \xE0 droite", "Contourner l'obstacle par la droite", "Allumer les feux de d\xE9tresse", "S'arr\xEAter sur le bas-c\xF4t\xE9"],
-            correctOptionIndex: 1,
-            explanation: "C'est un panneau d'obligation de contournement par le c\xF4t\xE9 indiqu\xE9 par la fl\xE8che."
+            "_id": "q-lec-3-2-5",
+            "questionText": "Le panneau d\u2019interdiction de d\xE9passer (deux voitures rouge/noire) s\u2019applique :",
+            "options": [
+              "Aux camions seulement",
+              "\xC0 tous les v\xE9hicules \xE0 moteur de plus de 2 roues",
+              "Aux v\xE9los",
+              "Aux pi\xE9tons"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il interdit le d\xE9passement de tous les v\xE9hicules \xE0 moteur \xE0 3 ou 4 roues."
           }
         ]
       },
       {
-        _id: "lec-3-3",
-        _type: "lecon",
-        title: "Le\xE7on 3.3 \u2013 Panneaux d'indication et de direction",
-        ordre: 3,
-        description: "Le\xE7on sur les panneaux d'information, de services (station\u2011service, parking, h\xF4pital), et les panneaux de direction (noms de villes, routes, num\xE9ros). L'\xE9l\xE8ve apprend \xE0 se rep\xE9rer gr\xE2ce \xE0 la signalisation, \xE0 suivre un itin\xE9raire et \xE0 trouver les services utiles.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-3-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 3.3 \u2014 Panneaux d\u2019indication et de direction",
+        "ordre": 3,
+        "description": "Panneaux de services, informations et directions pour suivre un itin\xE9raire.",
+        "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quelle est la forme des panneaux apportant une simple indication ou information ?",
-            options: ["Triangulaire", "Ronde", "Carr\xE9e ou rectangulaire", "Hexagonale"],
-            correctOptionIndex: 2,
-            explanation: "Les panneaux carr\xE9s ou rectangulaires transmettent des indications utiles."
+            "_id": "q-lec-3-3-1",
+            "questionText": "Quelle est la forme des panneaux d\u2019indication ?",
+            "options": [
+              "Triangulaire",
+              "Carr\xE9e ou rectangulaire",
+              "Ronde",
+              "Ovale"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les signaux d\u2019indication sont carr\xE9s ou rectangulaires."
           },
           {
-            questionText: "Quelle couleur caract\xE9rise les panneaux de direction d'itin\xE9raire de grande liaison (autoroutes) en France ?",
-            options: ["Fond vert", "Fond bleu", "Fond jaune", "Fond blanc"],
-            correctOptionIndex: 1,
-            explanation: "Le bleu est exclusivement r\xE9serv\xE9 au r\xE9seau autoroutier."
+            "_id": "q-lec-3-3-2",
+            "questionText": "Quelle est la couleur des panneaux autoroutiers en France ?",
+            "options": [
+              "Vert",
+              "Bleu",
+              "Jaune",
+              "Blanc"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le bleu est la couleur exclusive du r\xE9seau autoroutier."
           },
           {
-            questionText: "Un panneau de direction de couleur VERTE indique un itin\xE9raire reliant :",
-            options: ["Des petites communes rurales", "Des grandes villes par routes principales ou nationales", "Des chantiers temporaires", "Des zones pi\xE9tonnes"],
-            correctOptionIndex: 1,
-            explanation: "Le vert guide vers les agglom\xE9rations importantes sur le r\xE9seau principal non autoroutier."
+            "_id": "q-lec-3-3-3",
+            "questionText": "Quelle couleur indique un itin\xE9raire important hors autoroute ?",
+            "options": [
+              "Bleu",
+              "Vert",
+              "Blanc",
+              "Marron"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le vert relie les grandes villes sur le r\xE9seau routier principal."
           },
           {
-            questionText: "Un panneau de direction blanc guide vers :",
-            options: ["Les autoroutes", "Les grands axes", "Le r\xE9seau local et les destinations de proximit\xE9", "Les h\xF4pitaux uniquement"],
-            correctOptionIndex: 2,
-            explanation: "Le blanc signale les itin\xE9raires secondaires et de proximit\xE9 locale."
+            "_id": "q-lec-3-3-4",
+            "questionText": "Que signalent les panneaux \xE0 fond MARRON ?",
+            "options": [
+              "Des dangers",
+              "Des sites d\u2019int\xE9r\xEAt touristique ou culturel",
+              "Des interdictions",
+              "Des h\xF4pitaux"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le fond marron est r\xE9serv\xE9 \xE0 la signalisation touristique et historique."
           },
           {
-            questionText: `Que signale un panneau rectangulaire bleu marqu\xE9 d'un "P" blanc ?`,
-            options: ["Un poste de police", "Un emplacement de parking r\xE9serv\xE9 ou public", "Une zone de p\xE9age", "Une pharmacie"],
-            correctOptionIndex: 1,
-            explanation: "La lettre P signale une zone am\xE9nag\xE9e pour le stationnement."
+            "_id": "q-lec-3-3-5",
+            "questionText": "Un panneau carr\xE9 bleu avec un pictogramme de lit indique :",
+            "options": [
+              "Une aire de jeux",
+              "Un h\xF4tel ou h\xE9bergement",
+              "Une aire de repos",
+              "Un h\xF4pital"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est un signal de service indiquant un h\xF4tel."
           }
         ]
       },
       {
-        _id: "lec-3-4",
-        _type: "lecon",
-        title: "Le\xE7on 3.4 \u2013 Marquages au sol et feux de circulation",
-        ordre: 4,
-        description: "Cette le\xE7on traite des marquages au sol (lignes continues/en pointill\xE9s, z\xE9bras, passages pi\xE9tons, fl\xE8ches directionnelles) et des feux de circulation (rouge, orange, vert, feux pour pi\xE9tons, signaux compl\xE9mentaires). L'\xE9l\xE8ve apprend la hi\xE9rarchie entre panneaux, feux et marquages, et comment r\xE9agir dans les diff\xE9rents cas (feu orange, feu clignotant, etc.).",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 660,
-        tempsMinimumVisionnageSeconds: 528,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-3-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 3.4 \u2014 Marquages au sol et feux de circulation",
+        "ordre": 4,
+        "description": "Lignes, z\xE9bras, passages pi\xE9tons, fl\xE8ches et feux tricolores ; hi\xE9rarchie de la signalisation.",
+        "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quelle est la r\xE8gle absolue face \xE0 un FEU JAUNE / ORANGE FIXE ?",
-            options: ["Acc\xE9l\xE9rer fortement pour passer", "S'arr\xEAter sauf si l'arr\xEAt pr\xE9sente un danger pour les v\xE9hicules qui suivent", "Klaxonner et passer", "Consid\xE9rer que c'est vert"],
-            correctOptionIndex: 1,
-            explanation: "Le feu orange impose l'arr\xEAt. On ne franchit que si l'arr\xEAt est dangereux pour la s\xE9curit\xE9."
+            "_id": "q-lec-3-4-1",
+            "questionText": "En cas de contradiction, quelle autorit\xE9 pr\xE9vaut absolument ?",
+            "options": [
+              "Les panneaux",
+              "Les feux tricolores",
+              "Les agents r\xE9glant la circulation",
+              "Le marquage"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Les ordres des agents de police pr\xE9valent sur toute autre signalisation."
           },
           {
-            questionText: "En cas de contradiction entre un panneau de signalisation et un feu tricolore en fonctionnement :",
-            options: ["Le panneau pr\xE9vaut sur le feu", "Le feu tricolore pr\xE9vaut sur le panneau", "La priorit\xE9 \xE0 droite s'applique", "Le conducteur choisit"],
-            correctOptionIndex: 1,
-            explanation: "Dans la hi\xE9rarchie : l'agent > le feu tricolore > le panneau > la r\xE8gle par d\xE9faut (priorit\xE9 \xE0 droite)."
+            "_id": "q-lec-3-4-2",
+            "questionText": "Que faire \xE0 l\u2019approche d\u2019un feu jaune (orange) fixe ?",
+            "options": [
+              "Acc\xE9l\xE9rer",
+              "S\u2019arr\xEAter sauf en cas d\u2019impossibilit\xE9 de le faire en s\xE9curit\xE9",
+              "Klaxonner",
+              "Faire demi-tour"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019arr\xEAt est obligatoire au feu orange fixe sauf danger imm\xE9diat \xE0 l\u2019arri\xE8re."
           },
           {
-            questionText: "Que signifie un FEU JAUNE CLIGNOTANT en bas du feu tricolore ?",
-            options: ["Panne totale de courant", "Appel \xE0 la prudence : le carrefour s'envisage selon les panneaux ou la priorit\xE9 \xE0 droite", "Arr\xEAt obligatoire", "Sens interdit"],
-            correctOptionIndex: 1,
-            explanation: "Le feu jaune clignotant signale que le feu n'est pas actif et invite \xE0 appliquer les r\xE8gles de priorit\xE9 ordinaires."
+            "_id": "q-lec-3-4-3",
+            "questionText": "Que signifient des z\xE9bras au sol ?",
+            "options": [
+              "Stationnement rapide",
+              "Zone strictement interdite \xE0 la circulation, l\u2019arr\xEAt et le stationnement",
+              "Piste cyclable",
+              "Passage pi\xE9ton"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les z\xE9bras sont sanctuaris\xE9s : interdiction totale d\u2019y p\xE9n\xE9trer."
           },
           {
-            questionText: "Peut-on rouler ou s'arr\xEAter sur des zones z\xE9br\xE9es peintes au sol (hachures blanches) ?",
-            options: ["Oui pour stationner", "Strictement interdit d'y circuler, de s'y arr\xEAter ou d'y stationner", "Uniquement pour d\xE9passer", "Oui en cas d'embouteillage"],
-            correctOptionIndex: 1,
-            explanation: "Les z\xE9bras sont assimil\xE9s \xE0 un terre-plein central : le franchissement y est interdit."
+            "_id": "q-lec-3-4-4",
+            "questionText": "Que signifie un feu jaune clignotant ?",
+            "options": [
+              "Feu en panne : respecter les panneaux sous le feu ou la priorit\xE9 \xE0 droite",
+              "Arr\xEAt obligatoire",
+              "Rouler \xE0 90 km/h",
+              "Passer sans regarder"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Le clignotant jaune invite \xE0 la prudence et renvoie aux r\xE8gles de priorit\xE9."
           },
           {
-            questionText: "\xC0 quoi servent les fl\xE8ches de rabattement peintes au sol au milieu d'une ligne discontinue ?",
-            options: ["Indiquer d'acc\xE9l\xE9rer", "Annoncer la fin d'autorisation de d\xE9passement et le retour d'une ligne continue", "Indiquer un virage serr\xE9", "Indiquer la pr\xE9sence d'une station-service"],
-            correctOptionIndex: 1,
-            explanation: "Les fl\xE8ches de rabattement intiment l'ordre de rejoindre la voie de droite avant la ligne continue."
+            "_id": "q-lec-3-4-5",
+            "questionText": "Des fl\xE8ches de rabattement au sol annoncent :",
+            "options": [
+              "Un virage",
+              "L\u2019imminence d\u2019une ligne continue obligeant \xE0 se rabattre",
+              "Une station-service",
+              "Une sortie"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Trois fl\xE8ches successives signalent la fermeture de la voie de d\xE9passement."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 4 : Priorités de passage et intersections
-  // -------------------------------------------------------------
   {
-    _id: "mod-4",
-    _type: "moduleFormation",
-    code: "MOD-004",
-    title: "Module 4 : Priorit\xE9s de passage et intersections",
-    summary: "Les intersections sont les zones de croisement les plus d\xE9licates de la circulation routi\xE8re. Ce module \xE9tudie la priorit\xE9 \xE0 droite, le panneau STOP, le C\xE9der le passage, les rond-points et les carrefours \xE0 sens giratoire, ainsi que le comportement \xE0 adopter face aux v\xE9hicules d'urgence prioritaires.",
-    learningObjectives: [
-      "Appliquer sans h\xE9sitation la priorit\xE9 \xE0 droite",
-      "Identifier la ligne de marquer d'arr\xEAt au STOP et c\xE9der le passage",
-      "Placer son v\xE9hicule correctement dans un carrefour giratoire \xE0 2 voies",
-      "D\xE9gager la voie imm\xE9diatement face aux v\xE9hicules de secours"
+    "_id": "mod-4",
+    "_type": "moduleFormation",
+    "code": "MOD-004",
+    "title": "Module 4 \u2014 Feux et priorit\xE9s",
+    "summary": "R\xE8gles de priorit\xE9 \xE0 droite, panneaux Stop et C\xE9dez le passage, feux tricolores, v\xE9hicules prioritaires et cas particuliers.",
+    "learningObjectives": [
+      "Appliquer la r\xE8gle de la priorit\xE9 \xE0 droite en l'absence de signalisation",
+      "Respecter l'arr\xEAt absolu au Stop et l'obligation du C\xE9dez le passage",
+      "Ma\xEEtriser les feux tricolores, fl\xE8ches directionnelles et feux clignotants",
+      "Faciliter le passage des v\xE9hicules d'urgence prioritaires (SAMU, Police, Pompiers)"
     ],
-    ordre: 4,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 4,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=dzvWPuT3aLw",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-4-1",
-        _type: "lecon",
-        title: "Le\xE7on 4.1 \u2013 Priorit\xE9 \xE0 droite et intersections simples",
-        ordre: 1,
-        description: "Exploration d\xE9taill\xE9e du principe de la priorit\xE9 \xE0 droite en l'absence de panneaux. Savoir d\xE9tecter les rues d\xE9bouchant sur sa droite, adapter sa vitesse et anticiper les franchissements de carrefours sans signalisation.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-4-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 4.1 \u2014 La r\xE8gle de la priorit\xE9 \xE0 droite",
+        "ordre": 1,
+        "description": "Application de la priorit\xE9 \xE0 droite en l\u2019absence de signalisation et cas particuliers.",
+        "videoUrl": "https://www.youtube.com/watch?v=dzvWPuT3aLw",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "En l'absence de toute signalisation \xE0 un croisement, quel usager est prioritaire ?",
-            options: ["Le plus rapide", "L'usager venant de droite", "L'usager venant de gauche", "Le v\xE9hicule le plus lourd"],
-            correctOptionIndex: 1,
-            explanation: "En l'absence de panneaux ou marquages, la priorit\xE9 appartient aux v\xE9hicules venant de droite."
+            "_id": "q-lec-4-1-1",
+            "questionText": "Quand s\u2019applique la r\xE8gle de la priorit\xE9 \xE0 droite ?",
+            "options": [
+              "Uniquement sur autoroute",
+              "\xC0 toute intersection d\xE9pourvue de signalisation de priorit\xE9",
+              "Quand le feu est vert",
+              "Sur route prioritaire"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En l\u2019absence de panneau ou de feu, la priorit\xE9 \xE0 droite est la r\xE8gle g\xE9n\xE9rale."
           },
           {
-            questionText: "Un v\xE9hicule sortant d'une voie priv\xE9e, d'un garage ou d'un chemin de terre est-il prioritaire ?",
-            options: ["Oui, il applique la priorit\xE9 \xE0 droite", "Non, il doit c\xE9der le passage \xE0 tous les usagers de la chauss\xE9e publique", "Uniquement s'il klaxonne", "Uniquement s'il tourne \xE0 droite"],
-            correctOptionIndex: 1,
-            explanation: "Sortir d'une propri\xE9t\xE9 priv\xE9e ou d'un chemin non carrossable impose de c\xE9der la priorit\xE9 \xE0 tous."
+            "_id": "q-lec-4-1-2",
+            "questionText": "Un v\xE9hicule sort d\u2019une cour priv\xE9e ou d\u2019un chemin de terre :",
+            "options": [
+              "Il a la priorit\xE9 \xE0 droite",
+              "Il doit c\xE9der le passage \xE0 tous les usagers de la route",
+              "Il passe en premier s\u2019il va vite",
+              "Il a priorit\xE9 sur les pi\xE9tons"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les sorties de propri\xE9t\xE9s priv\xE9es et chemins de terre n\u2019ont jamais la priorit\xE9 \xE0 droite."
           },
           {
-            questionText: "Comment aborder une intersection o\xF9 s'applique la priorit\xE9 \xE0 droite sans visibilit\xE9 ?",
-            options: ["Acc\xE9l\xE9rer pour passer vite", "Ralentir, r\xE9trograder et placer le pied au-dessus du frein pr\xEAt \xE0 stopper", "Faire des appels de phares et passer", "Klaxonner sans ralentir"],
-            correctOptionIndex: 1,
-            explanation: "Placer le pied au-dessus du frein r\xE9duit le temps de r\xE9action en cas de survenue d'un v\xE9hicule \xE0 droite."
+            "_id": "q-lec-4-1-3",
+            "questionText": "\xC0 l\u2019approche d\u2019une priorit\xE9 \xE0 droite sans visibilit\xE9, vous devez :",
+            "options": [
+              "Acc\xE9l\xE9rer",
+              "Ralentir et pr\xE9parer le pied au-dessus du frein",
+              "Klaxonner",
+              "Allumer les feux de d\xE9tresse"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il faut ralentir et v\xE9rifier l\u2019absence de v\xE9hicule arrivant sur votre droite."
           },
           {
-            questionText: "Dans une impasse (voie sans issue) d\xE9bouchant \xE0 votre droite sans panneau :",
-            options: ["La priorit\xE9 \xE0 droite ne s'applique pas", "La priorit\xE9 \xE0 droite s'applique normalement", "Elle est r\xE9serv\xE9e aux pi\xE9tons", "Le plus lourd passe"],
-            correctOptionIndex: 1,
-            explanation: "Une impasse publique fait partie du r\xE9seau routier et applique la r\xE8gle de la priorit\xE9 \xE0 droite."
+            "_id": "q-lec-4-1-4",
+            "questionText": "Dans une intersection \xE0 4 branches toutes r\xE9gies par la priorit\xE9 \xE0 droite, qui passe ?",
+            "options": [
+              "Le plus gros v\xE9hicule",
+              "La courtoisie et un signe mutuel d\xE9bloquent la situation",
+              "Le plus rapide",
+              "Personne ne passe jamais"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La courtoisie et la communication visuelle permettent de d\xE9bloquer l\u2019intersection."
           },
           {
-            questionText: "Dans les parkings de centres commerciaux sans signalisation :",
-            options: ["Le code de la route ne s'applique pas", "La priorit\xE9 \xE0 droite s'applique comme sur chauss\xE9e publique", "Chacun fait ce qu'il veut", "Priorit\xE9 au v\xE9hicule le plus cher"],
-            correctOptionIndex: 1,
-            explanation: "Le code de la route s'applique pleinement dans tous les parkings ouverts \xE0 la circulation publique."
+            "_id": "q-lec-4-1-5",
+            "questionText": "Le panneau \xAB Croix de Saint-Andr\xE9 \xBB (X rouge sur triangle) annonce :",
+            "options": [
+              "Un h\xF4pital",
+              "Une intersection o\xF9 s\u2019applique la priorit\xE9 \xE0 droite",
+              "Un passage pi\xE9ton",
+              "Une interdiction"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Ce panneau triangulaire rappelle explicitement la priorit\xE9 \xE0 droite \xE0 la prochaine intersection."
           }
         ]
       },
       {
-        _id: "lec-4-2",
-        _type: "lecon",
-        title: "Le\xE7on 4.2 \u2013 Panneaux STOP et C\xE9der le Passage",
-        ordre: 2,
-        description: "Cette le\xE7on d\xE9taille la diff\xE9rence entre le Stop et le C\xE9der le passage. L'\xE9l\xE8ve apprend o\xF9 marquer l'arr\xEAt complet des roues au Stop (\xE0 la ligne blanche) et comment aborder un C\xE9der le passage.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-4-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 4.2 \u2014 Panneaux Stop et C\xE9dez le passage",
+        "ordre": 2,
+        "description": "Arr\xEAt obligatoire au Stop et obligation de c\xE9der le passage lorsqu\u2019il y a lieu.",
+        "videoUrl": "https://www.youtube.com/watch?v=KBTd5Vh-smw",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Au panneau STOP, o\xF9 devez-vous marquer l'arr\xEAt complet du v\xE9hicule ?",
-            options: ["Au niveau du panneau", "\xC0 la ligne blanche continue peinte au sol", "Au milieu du carrefour", "10 m\xE8tres avant"],
-            correctOptionIndex: 1,
-            explanation: "L'arr\xEAt des roues doit se faire exactement \xE0 la ligne d'arr\xEAt peinte au sol."
+            "_id": "q-lec-4-2-1",
+            "questionText": "Face \xE0 un panneau STOP, o\xF9 doit-on marquer l\u2019arr\xEAt ?",
+            "options": [
+              "Au niveau du panneau",
+              "\xC0 la ligne blanche continue peinte au sol",
+              "Au milieu du carrefour",
+              "10 m avant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019arr\xEAt complet se fait au niveau de la ligne blanche transversale du Stop."
           },
           {
-            questionText: "Au C\xE9der le passage, devez-vous obligatoirement marquer un temps d'arr\xEAt si la voie est totalement libre ?",
-            options: ["Oui, au moins 3 secondes", "Non, si la visibilit\xE9 est parfaite et qu'aucun v\xE9hicule n'arrive, l'arr\xEAt n'est pas obligatoire", "Oui, toujours", "Uniquement s'il pleut"],
-            correctOptionIndex: 1,
-            explanation: "\xC0 la diff\xE9rence du Stop, le C\xE9der le passage permet de franchir sans s'arr\xEAter si la voie est d\xE9gag\xE9e."
+            "_id": "q-lec-4-2-2",
+            "questionText": "Si la voie est totalement libre au panneau STOP, l\u2019arr\xEAt est-il obligatoire ?",
+            "options": [
+              "Non, un simple ralentissement suffit",
+              "Oui, l\u2019arr\xEAt complet et net des roues est strictement obligatoire",
+              "Seulement de nuit",
+              "Seulement si un policier est pr\xE9sent"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le Stop impose un temps d\u2019arr\xEAt complet m\xEAme en l\u2019absence totale d\u2019usager."
           },
           {
-            questionText: 'Un panneau STOP comporte un panonceau "150 m". Cela signifie :',
-            options: ["Stop imm\xE9diat", "Signal avanc\xE9 : le panneau STOP se situe \xE0 150 m\xE8tres", "Arr\xEAt pendant 150 secondes", "Interdiction de rouler \xE0 plus de 150 km/h"],
-            correctOptionIndex: 1,
-            explanation: "C'est une signalisation avanc\xE9e annon\xE7ant un Stop \xE0 150m."
+            "_id": "q-lec-4-2-3",
+            "questionText": "\xC0 un C\xE9dez le passage, si aucun v\xE9hicule n\u2019arrive \xE0 droite ni \xE0 gauche :",
+            "options": [
+              "L\u2019arr\xEAt complet est obligatoire",
+              "Je peux passer sans m\u2019arr\xEAter en ralentissant par prudence",
+              "Je dois klaxonner",
+              "Je fais demi-tour"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Au C\xE9dez le passage, l\u2019arr\xEAt n\u2019est obligatoire que si un usager prioritaire approche."
           },
           {
-            questionText: "\xC0 un Stop, si le marquage au sol est effac\xE9, o\xF9 devez-vous marquer l'arr\xEAt ?",
-            options: ["Au niveau du panneau Stop", "\xC0 la limite de la chauss\xE9e abord\xE9e permettant une visibilit\xE9 optimale", "Vous n'\xEAtes plus oblig\xE9 de vous arr\xEAter", "Au milieu de la voie"],
-            correctOptionIndex: 1,
-            explanation: "En l'absence de ligne, on marque l'arr\xEAt \xE0 la fronti\xE8re de la chauss\xE9e prioritaire sans s'y engager."
+            "_id": "q-lec-4-2-4",
+            "questionText": "Le panneau carr\xE9 jaune bord\xE9 de blanc indique :",
+            "options": [
+              "Une zone de travaux",
+              "Une route \xE0 caract\xE8re prioritaire \xE0 toutes les intersections",
+              "Une fin d\u2019interdiction",
+              "Un p\xE9age"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il conf\xE8re la priorit\xE9 de passage sur tout l\u2019itin\xE9raire jusqu\u2019au panneau barr\xE9."
           },
           {
-            questionText: "Est-il autoris\xE9 de red\xE9marrer imm\xE9diatement derri\xE8re une voiture qui s'\xE9tait arr\xEAt\xE9e au Stop ?",
-            options: ["Oui s'il n'y a personne", "Non, chaque v\xE9hicule doit marquer son propre temps d'arr\xEAt marquant la ligne", "Oui en suivant son pare-chocs", "Uniquement en agglom\xE9ration"],
-            correctOptionIndex: 1,
-            explanation: "Chaque conducteur doit marquer un arr\xEAt complet individuel \xE0 la ligne de Stop."
+            "_id": "q-lec-4-2-5",
+            "questionText": "Quelle sanction encourt le non-respect d\u2019un panneau STOP ?",
+            "options": [
+              "Une amende sans perte de point",
+              "Une amende de 135 \u20AC et un retrait de 4 points sur le permis",
+              "La prison ferme",
+              "Aucune sanction"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le refus de priorit\xE9 au Stop est puni d\u2019un retrait de 4 points."
           }
         ]
       },
       {
-        _id: "lec-4-3",
-        _type: "lecon",
-        title: "Le\xE7on 4.3 \u2013 Carrefours \xE0 sens giratoire et rond-points",
-        ordre: 3,
-        description: "Comprendre la diff\xE9rence entre carrefour \xE0 sens giratoire (C\xE9der le passage \xE0 l'entr\xE9e, usagers sur l'anneau prioritaires) et rond-point classique (priorit\xE9 \xE0 droite). Placement des voies et clignotants \xE0 l'entr\xE9e et \xE0 la sortie.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-4-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 4.3 \u2014 Priorit\xE9s aux feux tricolores",
+        "ordre": 3,
+        "description": "Feu vert, orange, rouge, fl\xE8ches directionnelles, feux clignotants et feux pi\xE9tons.",
+        "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Dans un carrefour \xE0 sens giratoire en France (signal\xE9 par un C\xE9der le passage) :",
-            options: ["Les usagers entrant sont prioritaires", "Les usagers engag\xE9s sur l'anneau sont prioritaires", "Le plus rapide a la priorit\xE9", "La priorit\xE9 est \xE0 droite"],
-            correctOptionIndex: 1,
-            explanation: "Dans un carrefour giratoire, la priorit\xE9 appartient aux usagers circulant sur l'anneau."
+            "_id": "q-lec-4-3-1",
+            "questionText": "Au feu vert, pour tourner \xE0 gauche, \xE0 qui devez-vous c\xE9der le passage ?",
+            "options": [
+              "\xC0 personne",
+              "Aux v\xE9hicules arrivant en face et aux pi\xE9tons traversant la rue s\xE9cante",
+              "Aux voitures derri\xE8re vous",
+              "Aux bus uniquement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En tournant \xE0 gauche, on coupe la trajectoire des v\xE9hicules d\u2019en face et des pi\xE9tons engag\xE9s."
           },
           {
-            questionText: "Pour prendre la PREMI\xC8RE SORTIE \xC0 DROITE d'un giratoire, quand devez-vous allumer le clignotant droit ?",
-            options: ["Apr\xE8s la sortie", "Avant d'entrer sur le giratoire", "Au milieu de l'anneau", "Jamais"],
-            correctOptionIndex: 1,
-            explanation: "Pour tourner \xE0 droite d\xE8s la 1\xE8re sortie, on allume le clignotant droit avant m\xEAme de s'engager."
+            "_id": "q-lec-4-3-2",
+            "questionText": "Que permet une fl\xE8che verte directionnelle orient\xE9e vers la droite sous un feu rouge ?",
+            "options": [
+              "Tourner \xE0 droite imm\xE9diatement sans c\xE9der le passage",
+              "Tourner \xE0 droite en c\xE9dant le passage aux pi\xE9tons et v\xE9hicules prioritaires",
+              "Aller tout droit",
+              "Stationner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La fl\xE8che clignotante ou fixe autorise \xE0 tourner dans la direction indiqu\xE9e en c\xE9dant le passage."
           },
           {
-            questionText: "Pour faire un demi-tour ou aller en face sur un giratoire \xE0 2 voies, quelle voie pouvez-vous emprunter ?",
-            options: ["La voie de droite obligatoirement pour sortir, ou la voie de gauche pour serrer l'anneau avant de se rabattre", "Le trottoir central", "La bande d'arr\xEAt d'urgence", "Au milieu \xE0 cheval"],
-            correctOptionIndex: 0,
-            explanation: "On peut emprunter la voie de gauche pour faire le tour, mais il faut obligatoirement contr\xF4ler et se rabattre \xE0 droite avant la sortie."
+            "_id": "q-lec-4-3-3",
+            "questionText": "Si les feux sont \xE9teints ou clignotent en jaune au milieu :",
+            "options": [
+              "J\u2019applique la priorit\xE9 des panneaux plac\xE9s sur le poteau ou la priorit\xE9 \xE0 droite",
+              "Je passe \xE0 toute vitesse",
+              "Je m\u2019arr\xEAte 5 minutes",
+              "Je fais demi-tour"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Les panneaux sous les feux prennent le relais d\xE8s que les feux cessent de fonctionner."
           },
           {
-            questionText: `Dans un "Rond-Point" classique sans panneau C\xE9der le passage \xE0 l'entr\xE9e (ex: Place de l'\xC9toile \xE0 Paris) :`,
-            options: ["Ceux qui sont sur l'anneau ont la priorit\xE9", "La r\xE8gle de la priorit\xE9 \xE0 droite s'applique aux v\xE9hicules qui entrent", "La priorit\xE9 est au centre", "C'est un feu vert permanent"],
-            correctOptionIndex: 1,
-            explanation: "En l'absence de panneau C\xE9der le passage, c'est la priorit\xE9 \xE0 droite qui s'applique \xE0 l'entr\xE9e."
+            "_id": "q-lec-4-3-4",
+            "questionText": "Le franchissement d\u2019un feu rouge est sanctionn\xE9 par :",
+            "options": [
+              "Retrait de 1 point",
+              "Retrait de 4 points et 135 \u20AC d\u2019amende",
+              "Une simple lettre",
+              "Un stage de 1 heure"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Griller un feu rouge co\xFBte 4 points sur le permis de conduire."
           },
           {
-            questionText: "Quand devez-vous allumer le clignotant DROIT pour quitter un carrefour giratoire ?",
-            options: ["D\xE8s l'entr\xE9e", "Juste apr\xE8s avoir d\xE9pass\xE9 la sortie pr\xE9c\xE9dant celle que vous voulez prendre", "Une fois engag\xE9 dans la rue de sortie", "Jamais"],
-            correctOptionIndex: 1,
-            explanation: "Le clignotant droit signale votre sortie imm\xE9diate au niveau de la sortie vis\xE9e."
+            "_id": "q-lec-4-3-5",
+            "questionText": "Si la circulation est bloqu\xE9e au-del\xE0 du carrefour alors que le feu est vert :",
+            "options": [
+              "Je m\u2019engage quand m\xEAme et je bloque l\u2019intersection",
+              "Je reste avant la ligne pour ne pas encombrer le carrefour",
+              "Je klaxonne fort",
+              "Je monte sur le trottoir"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il est interdit de s\u2019engager dans une intersection si on risque d\u2019y rester bloqu\xE9."
           }
         ]
       },
       {
-        _id: "lec-4-4",
-        _type: "lecon",
-        title: "Le\xE7on 4.4 \u2013 V\xE9hicules prioritaires et feux tricolores",
-        ordre: 4,
-        description: "Identifier les v\xE9hicules d'urgence prioritaires (SAMU, Pompiers, Police avec gyrophares bleus et sir\xE8ne 2 tons) et savoir faciliter leur passage imm\xE9diatement.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-4-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 4.4 \u2014 V\xE9hicules et situations prioritaires",
+        "ordre": 4,
+        "description": "Comportement envers les secours en intervention, bus et convois exceptionnels.",
+        "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Comment reconna\xEEtre un v\xE9hicule de secours d'urgence b\xE9n\xE9ficiant de la priorit\xE9 absolue ?",
-            options: ["Gyrophares bleus et avertisseur sonore \xE0 deux tons en fonctionnement", "Simple warning", "Phares jaunes", "Bande adh\xE9sive rouge"],
-            correctOptionIndex: 0,
-            explanation: "Les signaux lumineux bleus ET sonores 2 tons caract\xE9risent l'urgence prioritaire."
+            "_id": "q-lec-4-4-1",
+            "questionText": "Quels v\xE9hicules sont prioritaires avec gyrophare bleu et sir\xE8ne deux-tons ?",
+            "options": [
+              "Les taxis et VTC",
+              "Police, Gendarmerie, Pompiers, SAMU/SMUR et douanes",
+              "Les camions poubelles",
+              "Tous les bus"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Ces services de secours et forces de l\u2019ordre sont prioritaires en intervention."
           },
           {
-            questionText: "Face \xE0 une ambulance en intervention d'urgence arrivant derri\xE8re vous, vous devez :",
-            options: ["Acc\xE9l\xE9rer et d\xE9passer la limite de vitesse", "Faciliter imm\xE9diatement le passage en vous serrant \xE0 droite ou en vous arr\xEAtant", "Rester au milieu sans bouger", "Freiner brusquement"],
-            correctOptionIndex: 1,
-            explanation: "Vous devez imm\xE9diatement c\xE9der le passage et cr\xE9er un espace libre."
+            "_id": "q-lec-4-4-2",
+            "questionText": "\xC0 l\u2019approche d\u2019un v\xE9hicule de secours avec avertisseurs sonores et lumineux activ\xE9s, vous devez :",
+            "options": [
+              "Acc\xE9l\xE9rer pour ne pas le g\xEAner",
+              "Ralentir, serrer \xE0 droite ou vous arr\xEAter pour lui ouvrir la voie",
+              "Conserver votre vitesse au milieu",
+              "Klaxonner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il faut faciliter imm\xE9diatement le passage des v\xE9hicules d\u2019urgence."
           },
           {
-            questionText: "Un v\xE9hicule d'intervention du gaz (GRDF) avec gyrophare bleu SANS sir\xE8ne est-il un v\xE9hicule prioritaire ?",
-            options: ["Oui, toujours", "Non, c'est un v\xE9hicule b\xE9n\xE9ficiant de facilit\xE9s de passage mais non prioritaire", "Oui la nuit", "Non, c'est un v\xE9hicule interdit"],
-            correctOptionIndex: 1,
-            explanation: "Sans l'avertisseur sonore \xE0 2 tons, le v\xE9hicule n'a que des facilit\xE9s de passage."
+            "_id": "q-lec-4-4-3",
+            "questionText": "En agglom\xE9ration, quelle est la r\xE8gle envers un bus qui quitte son arr\xEAt ?",
+            "options": [
+              "Je le double en klaxonnant",
+              "Je ralentis et je lui facilite le d\xE9part",
+              "Je lui coupe la route",
+              "Le bus n\u2019a aucun droit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En ville, les usagers doivent faciliter l\u2019insertion des bus quittant leur arr\xEAt."
           },
           {
-            questionText: "\xC0 un feu rouge, si un v\xE9hicule de pompier en sir\xE8ne d'urgence est bloqu\xE9 derri\xE8re vous :",
-            options: ["Vous devez attendre le feu vert quoi qu'il arrive", "Vous devez vous avancer prudemment avec pr\xE9caution pour lui faire de la place", "Vous coupez le moteur", "Vous faites demi-tour"],
-            correctOptionIndex: 1,
-            explanation: "On d\xE9gage l'intersection avec prudence pour laisser passer les secours d'urgence."
+            "_id": "q-lec-4-4-4",
+            "questionText": "Les ambulances priv\xE9es avec feu bleu clignotant sans deux-tons sont :",
+            "options": [
+              "Prioritaires absolues",
+              "Des v\xE9hicules d\u2019int\xE9r\xEAt g\xE9n\xE9ral b\xE9n\xE9ficiant de facilit\xE9 de passage (non prioritaires)",
+              "Des v\xE9hicules interdits",
+              "Des taxis"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Elles b\xE9n\xE9ficient d\u2019une facilit\xE9 de passage mais n\u2019ont pas la priorit\xE9 absolue."
           },
           {
-            questionText: "Un bus quittant son arr\xEAt en agglom\xE9ration a-t-il la priorit\xE9 de r\xE9insertion ?",
-            options: ["Oui, les automobilistes doivent ralentir et lui faciliter la sortie d'arr\xEAt", "Non, le bus attend que la rue soit vide", "Uniquement s'il roule \xE0 80 km/h", "Jamais"],
-            correctOptionIndex: 0,
-            explanation: "En agglom\xE9ration, on doit faciliter le d\xE9part des bus indiquant leur clignotant."
+            "_id": "q-lec-4-4-5",
+            "questionText": "Face \xE0 un convoi exceptionnel escort\xE9 :",
+            "options": [
+              "Je le double par la droite",
+              "Je r\xE9duis ma vitesse et serre \xE0 droite pour faciliter son croisement",
+              "Je m\u2019arr\xEAte au milieu",
+              "J\u2019acc\xE9l\xE8re"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les convois volumineux n\xE9cessitent un \xE9cart et une r\xE9duction de vitesse pour croiser en s\xE9curit\xE9."
+          }
+        ]
+      },
+      {
+        "_id": "lec-4-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 4.5 \u2014 Cas particuliers de priorit\xE9",
+        "ordre": 5,
+        "description": "Giratoires, sorties de propri\xE9t\xE9, passages pi\xE9tons et travers\xE9es de pistes cyclables.",
+        "videoUrl": "https://www.youtube.com/watch?v=KBTd5Vh-smw",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-4-5-1",
+            "questionText": "Sur un carrefour \xE0 sens giratoire (panneau rond avec 3 fl\xE8ches + C\xE9dez le passage) :",
+            "options": [
+              "La priorit\xE9 est \xE0 ceux qui entrent",
+              "La priorit\xE9 est \xE0 ceux qui circulent d\xE9j\xE0 sur l\u2019anneau",
+              "Priorit\xE9 au plus gros",
+              "Priorit\xE9 \xE0 droite"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Sur un rond-point giratoire moderne, les v\xE9hicules sur l\u2019anneau sont prioritaires."
+          },
+          {
+            "_id": "q-lec-4-5-2",
+            "questionText": "En tournant \xE0 droite, je croise une piste cyclable parall\xE8le :",
+            "options": [
+              "J\u2019ai la priorit\xE9 sur les v\xE9los",
+              "Je dois c\xE9der le passage aux cyclistes qui continuent tout droit",
+              "Je klaxonne",
+              "Les v\xE9los doivent s\u2019arr\xEAter"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un v\xE9hicule qui change de direction doit c\xE9der le passage aux usagers circulant tout droit sur leur voie."
+          },
+          {
+            "_id": "q-lec-4-5-3",
+            "questionText": "Sur un rond-point classique SANS panneau de priorit\xE9 (tr\xE8s rare) :",
+            "options": [
+              "Priorit\xE9 \xE0 gauche",
+              "La r\xE8gle de la priorit\xE9 \xE0 droite s\u2019applique (ceux qui entrent sont prioritaires)",
+              "Personne n\u2019a la priorit\xE9",
+              "Priorit\xE9 aux bus"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Sans panneau C\xE9dez le passage, le rond-point applique la priorit\xE9 \xE0 droite."
+          },
+          {
+            "_id": "q-lec-4-5-4",
+            "questionText": "Qui a la priorit\xE9 sur un passage \xE0 niveau sans barri\xE8re ?",
+            "options": [
+              "La voiture",
+              "Le train dans tous les cas",
+              "Le premier arriv\xE9",
+              "Le camion"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le train a toujours la priorit\xE9 absolue en raison de sa distance de freinage."
+          },
+          {
+            "_id": "q-lec-4-5-5",
+            "questionText": "Un tramway circulant sur sa voie propre :",
+            "options": [
+              "Doit s\u2019arr\xEAter pour les voitures",
+              "A toujours la priorit\xE9 de passage",
+              "Respecte la priorit\xE9 \xE0 droite",
+              "S\u2019arr\xEAte aux passages pi\xE9tons"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le tramway est prioritaire sur tous les autres usagers."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 5 : Vitesse, distances de sécurité et freinage
-  // -------------------------------------------------------------
   {
-    _id: "mod-5",
-    _type: "moduleFormation",
-    code: "MOD-005",
-    title: "Module 5 : Vitesse, distances de s\xE9curit\xE9 et freinage",
-    summary: "Ce module aborde l'ensemble des r\xE8gles relatives aux limitations de vitesse sur le r\xE9seau routier fran\xE7ais, le calcul de la distance de s\xE9curit\xE9, le temps de r\xE9action, la distance de freinage et les facteurs d'adh\xE9rence.",
-    learningObjectives: [
-      "Conna\xEEtre par c\u0153ur les limitations de vitesse selon le type de route et les conditions m\xE9t\xE9o",
-      "Calculer mentalement le temps de r\xE9action et la distance d'arr\xEAt",
-      "\xC9valuer l'impact de la chauss\xE9e mouill\xE9e ou glissante sur le freinage",
-      "Comprendre la notion d'\xE9nergie cin\xE9tique et les cons\xE9quences de la vitesse sur les chocs"
+    "_id": "mod-5",
+    "_type": "moduleFormation",
+    "code": "MOD-005",
+    "title": "Module 5 \u2014 Intersections et carrefours",
+    "summary": "Circulation dans les carrefours \xE0 sens giratoire, carrefours \xE0 feux complexes, passages \xE0 niveau, zones de danger et communication.",
+    "learningObjectives": [
+      "Circuler avec assurance dans les carrefours \xE0 sens giratoire \xE0 voies multiples",
+      "Comprendre la lecture des carrefours \xE0 feux complexes et tourne-\xE0-gauche",
+      "Conna\xEEtre les r\xE8gles de s\xE9curit\xE9 absolue aux passages \xE0 niveau",
+      "Communiquer clairement avec clignotants et regard aux carrefours"
     ],
-    ordre: 5,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 600,
-    tempsMinimumVisionnage: 480,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 5,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=dzvWPuT3aLw",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-5-1",
-        _type: "lecon",
-        title: "Le\xE7on 5.1 \u2013 Limitations de vitesse par r\xE9seau et m\xE9t\xE9o",
-        ordre: 1,
-        description: "Pr\xE9sentation des vitesses maximales autoris\xE9es : 50 km/h en agglom\xE9ration, 80 km/h sur route \xE0 double sens sans s\xE9parateur central, 110 km/h sur voie rapide et 130 km/h sur autoroute par temps sec (abaiss\xE9es \xE0 110 km/h et 100 km/h par pluie).",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-5-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 5.1 \u2014 Circuler dans un giratoire",
+        "ordre": 1,
+        "description": "Entr\xE9e, circulation dans l\u2019anneau, sortie et usage des clignotants.",
+        "videoUrl": "https://www.youtube.com/watch?v=dzvWPuT3aLw",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quelle est la vitesse maximale autoris\xE9e sur autoroute par TEMPS DE PLUIE pour un conducteur confirm\xE9 ?",
-            options: ["130 km/h", "110 km/h", "100 km/h", "90 km/h"],
-            correctOptionIndex: 1,
-            explanation: "En cas de pluie, la vitesse sur autoroute est abaiss\xE9e de 130 km/h \xE0 110 km/h."
+            "_id": "q-lec-5-1-1",
+            "questionText": "Pour aller tout droit dans un giratoire \xE0 2 voies, quelle voie choisir ?",
+            "options": [
+              "La voie de gauche",
+              "La voie de droite d\xE8s l\u2019entr\xE9e",
+              "Au milieu des deux",
+              "Peu importe"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Pour aller \xE0 droite ou tout droit, on reste sur la voie de droite de l\u2019anneau."
           },
           {
-            questionText: "Pour un jeune conducteur en PERMIS PROBATOIRE, quelle est la vitesse maximale sur autoroute par temps sec ?",
-            options: ["130 km/h", "110 km/h", "100 km/h", "90 km/h"],
-            correctOptionIndex: 1,
-            explanation: "En p\xE9riode probatoire, la vitesse sur autoroute est limit\xE9e \xE0 110 km/h."
+            "_id": "q-lec-5-1-2",
+            "questionText": "Pour tourner \xE0 gauche ou faire demi-tour dans un giratoire :",
+            "options": [
+              "On peut se placer sur la voie de gauche de l\u2019anneau avec clignotant gauche",
+              "On reste obligatoirement \xE0 droite",
+              "On roule \xE0 contresens",
+              "On coupe au milieu"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "On utilise la voie int\xE9rieure (gauche) avec clignotant gauche avant de se rabattre."
           },
           {
-            questionText: "En pr\xE9sence d'un brouillard r\xE9duisant la visibilit\xE9 \xE0 MOINS DE 50 M\xC8TRES, la vitesse est limit\xE9e \xE0 :",
-            options: ["80 km/h sur autoroute", "50 km/h sur l'ensemble du r\xE9seau routier", "70 km/h", "30 km/h"],
-            correctOptionIndex: 1,
-            explanation: "D\xE8s que la visibilit\xE9 descend sous 50 m, la vitesse maximale absolue est de 50 km/h partout."
+            "_id": "q-lec-5-1-3",
+            "questionText": "Quand doit-on actionner le clignotant droit pour sortir du giratoire ?",
+            "options": [
+              "D\xE8s l\u2019entr\xE9e",
+              "\xC0 hauteur de la sortie qui pr\xE9c\xE8de celle qu\u2019on veut emprunter",
+              "Apr\xE8s \xEAtre sorti",
+              "Jamais"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On met le clignotant droit d\xE8s qu\u2019on a d\xE9pass\xE9 la sortie pr\xE9c\xE9dant la sienne."
           },
           {
-            questionText: "Quelle est la vitesse maximale par d\xE9faut en agglom\xE9ration sauf indication contraire ?",
-            options: ["30 km/h", "50 km/h", "70 km/h", "80 km/h"],
-            correctOptionIndex: 1,
-            explanation: "La vitesse l\xE9gale par d\xE9faut en ville est de 50 km/h."
+            "_id": "q-lec-5-1-4",
+            "questionText": "Avant de se rabattre vers la droite pour sortir du giratoire, on doit :",
+            "options": [
+              "Acc\xE9l\xE9rer sans regarder",
+              "Contr\xF4ler le r\xE9troviseur droit et l\u2019angle mort droit",
+              "Freiner fort",
+              "Klaxonner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il faut imp\xE9rativement v\xE9rifier qu\u2019aucun usager ne circule \xE0 notre droite."
           },
           {
-            questionText: "Quelle est la vitesse maximale sur une route \xE0 double sens sans s\xE9parateur central hors agglom\xE9ration ?",
-            options: ["80 km/h", "90 km/h", "100 km/h", "110 km/h"],
-            correctOptionIndex: 0,
-            explanation: "La vitesse maximale est de 80 km/h sur ces tron\xE7ons."
+            "_id": "q-lec-5-1-5",
+            "questionText": "Si on a rat\xE9 sa sortie dans un giratoire :",
+            "options": [
+              "On fait marche arri\xE8re",
+              "On refait un tour complet de l\u2019anneau en s\xE9curit\xE9",
+              "On s\u2019arr\xEAte au milieu",
+              "On coupe par l\u2019\xEElot central"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il suffit de faire un tour suppl\xE9mentaire pour se repositionner correctement."
           }
         ]
       },
       {
-        _id: "lec-5-2",
-        _type: "lecon",
-        title: "Le\xE7on 5.2 \u2013 Distance de s\xE9curit\xE9 et calcul du temps de r\xE9action",
-        ordre: 2,
-        description: "Apprendre \xE0 \xE9valuer l'intervalle de s\xE9curit\xE9 de 2 secondes. Formule simplifi\xE9e pour calculer la distance parcourue pendant le temps de r\xE9action (environ 1 seconde) : multiplier le chiffre des dizaines de la vitesse par 3.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-5-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 5.2 \u2014 Carrefours \xE0 feux multiples et complexes",
+        "ordre": 2,
+        "description": "Lecture de plusieurs feux, tourne-\xE0-gauche prot\xE9g\xE9, voies r\xE9serv\xE9es et anticipation urbaine.",
+        "videoUrl": "https://www.youtube.com/watch?v=vsP_Zn-GM_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quel intervalle de temps minimal de s\xE9curit\xE9 devez-vous maintenir avec le v\xE9hicule devant vous ?",
-            options: ["0,5 seconde", "1 seconde", "Au moins 2 secondes", "5 secondes"],
-            correctOptionIndex: 2,
-            explanation: "L'article R412-9 du code de la route impose un intervalle d'au moins 2 secondes."
+            "_id": "q-lec-5-2-1",
+            "questionText": "Qu\u2019est-ce qu\u2019un feu de tourne-\xE0-gauche direct ?",
+            "options": [
+              "Un feu pour les v\xE9los",
+              "Une fl\xE8che lumineuse verte garantissant la priorit\xE9 sans trafic en face",
+              "Un feu d\u2019alerte",
+              "Un feu pi\xE9ton"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La fl\xE8che directionnelle verte assure que la voie d\u2019en face est retenue au rouge."
           },
           {
-            questionText: "\xC0 90 km/h, quelle distance parcourez-vous approximativement pendant 1 seconde de temps de r\xE9action ?",
-            options: ["9 m\xE8tres", "18 m\xE8tres", "27 m\xE8tres (9 x 3)", "45 m\xE8tres"],
-            correctOptionIndex: 2,
-            explanation: "Pour trouver la distance parcourue en 1 sec : 9 x 3 = 27 m\xE8tres."
+            "_id": "q-lec-5-2-2",
+            "questionText": "Comment s\u2019effectue un croisement \xAB \xE0 l\u2019indon\xE9sienne \xBB \xE0 un carrefour ?",
+            "options": [
+              "Par l\u2019arri\xE8re",
+              "Les v\xE9hicules tournant \xE0 gauche se croisent l\u2019un devant l\u2019autre",
+              "En se contournant",
+              "Par la droite"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le croisement \xE0 l\u2019indon\xE9sienne permet de tourner \xE0 gauche face \xE0 face sans contournement."
           },
           {
-            questionText: "Sur autoroute, quel rep\xE8re visuel garantit une distance de s\xE9curit\xE9 suffisante sur sol sec ?",
-            options: ["Laisser 1 bande blanche de la ligne de rive droite", "Laisser au moins 2 bandes blanches de la ligne de rive droite", "Compter jusqu'\xE0 10", "Suivre les feux du camion"],
-            correctOptionIndex: 1,
-            explanation: "Sur autoroute, 2 bandes de la ligne de rive correspondent \xE0 l'intervalle r\xE9glementaire."
+            "_id": "q-lec-5-2-3",
+            "questionText": "Quelle est la pr\xE9caution majeure lors d\u2019un croisement \xE0 l\u2019indon\xE9sienne ?",
+            "options": [
+              "Acc\xE9l\xE9rer",
+              "Faire attention au v\xE9hicule masqu\xE9 arrivant tout droit en face",
+              "Klaxonner",
+              "Fermer les yeux"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le v\xE9hicule en face masque la vue sur les usagers arrivant tout droit derri\xE8re lui."
           },
           {
-            questionText: "La fatigue ou la consommation d'alcool a pour effet sur le temps de r\xE9action de :",
-            options: ["Le diminuer (r\xE9action plus rapide)", "L'augmenter (r\xE9action plus lente)", "Ne rien changer", "Rendre le freinage plus court"],
-            correctOptionIndex: 1,
-            explanation: "L'alcool, les drogues et la fatigue allongent le temps de r\xE9action de mani\xE8re importante."
+            "_id": "q-lec-5-2-4",
+            "questionText": "Si plusieurs feux tricolores r\xE9gissent diff\xE9rentes voies, quel feu regarder ?",
+            "options": [
+              "Le plus haut",
+              "Celui situ\xE9 au-dessus ou \xE0 droite de votre voie de circulation",
+              "Le feu pi\xE9ton",
+              "N\u2019importe lequel"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Chaque voie est gouvern\xE9e par le signal lumineux qui lui est affect\xE9."
           },
           {
-            questionText: "\xC0 50 km/h en ville, quelle distance parcourez-vous pendant le temps de r\xE9action (1 sec) ?",
-            options: ["5 m\xE8tres", "15 m\xE8tres (5 x 3)", "25 m\xE8tres", "50 m\xE8tres"],
-            correctOptionIndex: 1,
-            explanation: "Calcul : 5 x 3 = 15 m\xE8tres parcourus avant m\xEAme de toucher la p\xE9dale de frein."
+            "_id": "q-lec-5-2-5",
+            "questionText": "\xC0 quoi servent les lignes d\u2019effet des feux en pointill\xE9s ?",
+            "options": [
+              "\xC0 d\xE9corer",
+              "\xC0 indiquer o\xF9 s\u2019arr\xEAter pour laisser le champ de vision libre et activer les boucles de d\xE9tection",
+              "\xC0 stationner",
+              "\xC0 doubler"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Elles marquent l\u2019emplacement pr\xE9cis d\u2019arr\xEAt avant le feu."
           }
         ]
       },
       {
-        _id: "lec-5-3",
-        _type: "lecon",
-        title: "Le\xE7on 5.3 \u2013 Distance de freinage, adh\xE9rence et arr\xEAt complet",
-        ordre: 3,
-        description: "La distance d'arr\xEAt totale = distance de r\xE9action + distance de freinage. \xC9valuation du freinage sur chauss\xE9e mouill\xE9e (distance doubl\xE9e) ou sur verglas (multipli\xE9e par 10).",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-5-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 5.3 \u2014 Passages \xE0 niveau",
+        "ordre": 3,
+        "description": "Barri\xE8res, feux rouges clignotants, absence d\u2019engagement si la sortie est bloqu\xE9e et priorit\xE9 absolue du train.",
+        "videoUrl": "https://www.youtube.com/watch?v=7NVFko6lwKY",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Sur sol mouill\xE9, par combien est multipli\xE9e la distance de freinage d'un v\xE9hicule ?",
-            options: ["Elle ne change pas", "Elle est multipli\xE9e par 2 (doubl\xE9e)", "Elle est multipli\xE9e par 5", "Elle est divis\xE9e par 2"],
-            correctOptionIndex: 1,
-            explanation: "La pr\xE9sence d'eau diminue l'adh\xE9rence des pneus et double la distance de freinage."
+            "_id": "q-lec-5-3-1",
+            "questionText": "Face \xE0 un feu rouge clignotant et une sonnerie \xE0 un passage \xE0 niveau :",
+            "options": [
+              "J\u2019acc\xE9l\xE8re pour passer avant les barri\xE8res",
+              "L\u2019arr\xEAt absolu est obligatoire avant la barri\xE8re",
+              "Je fais demi-tour sur la voie",
+              "Je contourne les barri\xE8res"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "D\xE8s que le signal sonore et lumineux s\u2019active, l\u2019arr\xEAt est imm\xE9diat et imp\xE9ratif."
           },
           {
-            questionText: "Si vous doublez votre vitesse (de 50 km/h \xE0 100 km/h), votre distance de freinage est :",
-            options: ["Doubl\xE9e (x 2)", "Tripl\xE9e (x 3)", "Quadrupl\xE9e (x 4)", "Identique"],
-            correctOptionIndex: 2,
-            explanation: "La distance de freinage varie avec le carr\xE9 de la vitesse : 2\xB2 = 4 fois plus longue !"
+            "_id": "q-lec-5-3-2",
+            "questionText": "Si la circulation est dense au-del\xE0 du passage \xE0 niveau :",
+            "options": [
+              "Je m\u2019engage sur les rails",
+              "Je m\u2019arr\xEAte avant le passage \xE0 niveau pour ne pas \xEAtre coinc\xE9 sur les voies",
+              "Je klaxonne",
+              "Je double la file"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On ne s\u2019engage JAMAIS sur une voie ferr\xE9e sans certitude de pouvoir la quitter aussit\xF4t."
           },
           {
-            questionText: "Par temps de verglas, la distance de freinage peut \xEAtre multipli\xE9e par :",
-            options: ["2", "4", "10", "100"],
-            correctOptionIndex: 2,
-            explanation: "L'absence quasi totale d'adh\xE9rence sur verglas multiplie la distance par 10."
+            "_id": "q-lec-5-3-3",
+            "questionText": "Si la voiture tombe en panne et se bloque sur les voies ferr\xE9es :",
+            "options": [
+              "Je reste dedans et j\u2019attends",
+              "Je fais \xE9vacuer imm\xE9diatement les passagers et j\u2019utilise le t\xE9l\xE9phone d\u2019urgence SNCF",
+              "Je cherche \xE0 la r\xE9parer seul",
+              "Je m\u2019endors"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La mise en s\xE9curit\xE9 des personnes et l\u2019alerte imm\xE9diate par la borne d\u2019urgence sont vitales."
           },
           {
-            questionText: "Qu'est-ce que le ph\xE9nom\xE8ne d'aquaplaning (ou aquaplanage) ?",
-            options: ["Une perte d'huile sous la voiture", "Une pellicule d'eau qui s'intercale entre le pneu et la route faisant flotter le v\xE9hicule", "Un freinage brusque sur sol sec", "Un nettoyage des phares"],
-            correctOptionIndex: 1,
-            explanation: "Le pneu n'\xE9vacue plus l'eau et perd tout contact avec l'asphalte."
+            "_id": "q-lec-5-3-4",
+            "questionText": "Combien de temps faut-il \xE0 un train pour s\u2019arr\xEAter d\u2019urgence ?",
+            "options": [
+              "10 m\xE8tres",
+              "50 m\xE8tres",
+              "800 \xE0 1500 m\xE8tres selon sa vitesse",
+              "5 secondes"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Un train lourd n\xE9cessite plus d\u2019un kilom\xE8tre pour s\u2019immobiliser."
           },
           {
-            questionText: "Comment calculer la distance d'arr\xEAt TOTALE approximative sur sol sec \xE0 50 km/h ?",
-            options: ["5 x 5 = 25 m\xE8tres", "5 x 3 = 15 m\xE8tres", "5 x 10 = 50 m\xE8tres", "50 x 2 = 100 m\xE8tres"],
-            correctOptionIndex: 0,
-            explanation: "Formule d'arr\xEAt total approximatif : (dizaine de la vitesse) x (dizaine de la vitesse) -> 5 x 5 = 25m."
+            "_id": "q-lec-5-3-5",
+            "questionText": "Franchir un passage \xE0 niveau ferm\xE9 ou en fermeture est sanctionn\xE9 par :",
+            "options": [
+              "Un avertissement",
+              "135 \u20AC d\u2019amende, 4 points en moins et suspension de permis",
+              "10 \u20AC d\u2019amende",
+              "Rien"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est une faute d\u2019une gravit\xE9 exceptionnelle passible de suspension judiciaire."
           }
         ]
       },
       {
-        _id: "lec-5-4",
-        _type: "lecon",
-        title: "Le\xE7on 5.4 \u2013 Dangers de la vitesse excessive et \xE9nergie cin\xE9tique",
-        ordre: 4,
-        description: "Comprendre les lois physiques en jeu : l'\xE9nergie cin\xE9tique emmagasin\xE9e par la masse du v\xE9hicule cro\xEEt avec le carr\xE9 de la vitesse.Cons\xE9quences d\xE9vastatrices lors d'une collision.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-5-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 5.4 \u2014 Intersections sans visibilit\xE9 et zones de danger",
+        "ordre": 4,
+        "description": "R\xE9duction de la vitesse, prudence accrue, progression progressive pour am\xE9liorer la visibilit\xE9.",
+        "videoUrl": "https://www.youtube.com/watch?v=7NVFko6lwKY",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Un choc frontal \xE0 50 km/h sans ceinture \xE9quivaut pour les occupants \xE0 une chute de quel \xE9tage d'un immeuble ?",
-            options: ["1er \xE9tage", "3\xE8me \xE9tage", "10\xE8me \xE9tage", "20\xE8me \xE9tage"],
-            correctOptionIndex: 1,
-            explanation: "Un choc \xE0 50 km/h subit la m\xEAme violence qu'une chute du 3\xE8me \xE9tage (environ 10 m\xE8tres de hauteur)."
+            "_id": "q-lec-5-4-1",
+            "questionText": "\xC0 une intersection sans visibilit\xE9 \xE0 cause d\u2019un mur ou d\u2019une haie :",
+            "options": [
+              "Je passe vite",
+              "J\u2019avance \xE0 tr\xE8s faible allure pour voir et \xEAtre vu progressivement",
+              "Je klaxonne en continu",
+              "Je ferme les yeux"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019avanc\xE9e progressive permet d\u2019\xE9largir l\u2019angle de vue sans danger."
           },
           {
-            questionText: "Si l'on augmente sa vitesse, le champ visuel du conducteur :",
-            options: ["S'\xE9largit consid\xE9rablement", "Se r\xE9tr\xE9cit (effet de vision en tunnel)", "Devient flou uniquement \xE0 droite", "Ne change pas"],
-            correctOptionIndex: 1,
-            explanation: "Plus la vitesse augmente, plus le champ visuel lat\xE9ral se r\xE9duit."
+            "_id": "q-lec-5-4-2",
+            "questionText": "Que signale un miroir convexe plac\xE9 \xE0 un carrefour sans visibilit\xE9 ?",
+            "options": [
+              "Une cam\xE9ra",
+              "Il aide \xE0 d\xE9tecter les usagers approchant mais ne dispense pas de c\xE9der le passage",
+              "Un panneau Stop",
+              "Une d\xE9coration"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le miroir est une aide visuelle mais ne donne aucune priorit\xE9."
           },
           {
-            questionText: "Quelle est la premi\xE8re cause de mortalit\xE9 routi\xE8re chez les jeunes conducteurs ?",
-            options: ["Les pannes d'essence", "La vitesse excessive ou inadapt\xE9e et l'alcool", "Les feux de brouillard", "Les crevaisons"],
-            correctOptionIndex: 1,
-            explanation: "La vitesse combin\xE9e aux facteurs d'inattention/alcool est la cause majeure des accidents mortels."
+            "_id": "q-lec-5-4-3",
+            "questionText": "Dans une intersection \xE9troite en ville, o\xF9 regarder en premier ?",
+            "options": [
+              "Le t\xE9l\xE9phone",
+              "Les trottoirs pour les pi\xE9tons, puis les angles morts et la rue prioritaire",
+              "Le ciel",
+              "La radio"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La d\xE9tection des pi\xE9tons et cyclistes est primordiale en milieu urbain dense."
           },
           {
-            questionText: "L'\xE9nergie cin\xE9tique d'un v\xE9hicule d\xE9pend de :",
-            options: ["La couleur de la carrosserie", "La masse du v\xE9hicule et du carr\xE9 de sa vitesse", "La marque des pneumatiques", "La hauteur du volant"],
-            correctOptionIndex: 1,
-            explanation: "\xC9nergie cin\xE9tique E = 1/2 m v\xB2. La vitesse a un impact quadratique majeur."
+            "_id": "q-lec-5-4-4",
+            "questionText": "Si un v\xE9hicule venant en face tourne \xE0 gauche en m\xEAme temps que vous :",
+            "options": [
+              "Vous klaxonnez",
+              "Vous adaptez votre trajectoire selon la configuration du carrefour",
+              "Vous passez en force",
+              "Vous reculez"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On adapte sa vitesse et sa trajectoire avec courtoisie."
           },
           {
-            questionText: "R\xE9duire sa vitesse de 130 km/h \xE0 110 km/h sur un trajet de 100 km permet de :",
-            options: ["\xC9conomiser du carburant tout en ne perdant que quelques minutes", "Doubler son temps de trajet", "User pr\xE9matur\xE9ment les freins", "Ne rien changer"],
-            correctOptionIndex: 0,
-            explanation: "Baisser sa vitesse \xE9conomise jusqu'\xE0 20% de carburant pour une perte de temps n\xE9gligeable (~5 min)."
+            "_id": "q-lec-5-4-5",
+            "questionText": "Quelle est la distance de visibilit\xE9 minimale recommand\xE9e avant de s\u2019engager ?",
+            "options": [
+              "5 m\xE8tres",
+              "Suffisante pour voir arriver les usagers roulant \xE0 la vitesse maximale autoris\xE9e",
+              "1 m\xE8tre",
+              "Aucune"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il faut s\u2019assurer que le temps de d\xE9gagement est compatible avec la vitesse de la voie."
+          }
+        ]
+      },
+      {
+        "_id": "lec-5-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 5.5 \u2014 Communication et anticipation aux carrefours",
+        "ordre": 5,
+        "description": "Clignotants, observation des autres usagers, contact visuel et conduite courtoise.",
+        "videoUrl": "https://www.youtube.com/watch?v=P9ZXwt5XvGk",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-5-5-1",
+            "questionText": "Pourquoi le contact visuel avec les autres usagers est-il crucial ?",
+            "options": [
+              "Pour les intimider",
+              "Pour s\u2019assurer qu\u2019ils vous ont bien vu et ont compris votre intention",
+              "Pour discuter",
+              "Ce n\u2019est pas utile"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Croiser le regard confirme la prise en compte mutuelle avant de s\u2019engager."
+          },
+          {
+            "_id": "q-lec-5-5-2",
+            "questionText": "Oublier d\u2019\xE9teindre son clignotant apr\xE8s un changement de direction :",
+            "options": [
+              "Est sans danger",
+              "Peut induire en erreur un usager qui risque de vous couper la route",
+              "Fait \xE9conomiser la batterie",
+              "Est obligatoire"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un clignotant laiss\xE9 par erreur peut provoquer un accident grave par fausse interpr\xE9tation."
+          },
+          {
+            "_id": "q-lec-5-5-3",
+            "questionText": "\xC0 l\u2019approche d\u2019un carrefour, quand doit-on d\xE9buter l\u2019observation ?",
+            "options": [
+              "Au milieu de l\u2019intersection",
+              "Le plus t\xF4t possible d\xE8s que l\u2019intersection devient visible",
+              "Apr\xE8s avoir tourn\xE9",
+              "Jamais"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019anticipation pr\xE9coce permet d\u2019adapter son allure en toute s\xE9r\xE9nit\xE9."
+          },
+          {
+            "_id": "q-lec-5-5-4",
+            "questionText": "L\u2019utilisation d\u2019un appel de phares de jour sert \xE0 :",
+            "options": [
+              "Insulter un usager",
+              "Avertir d\u2019un danger imm\xE9diat ou signaler sa pr\xE9sence en s\xE9curit\xE9",
+              "\xC9blouir",
+              "Rouler plus vite"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019appel de phare est un signal d\u2019avertissement bref de s\xE9curit\xE9."
+          },
+          {
+            "_id": "q-lec-5-5-5",
+            "questionText": "La courtoisie au volant consiste \xE0 :",
+            "options": [
+              "C\xE9der son passage m\xEAme quand cela cr\xE9e un danger impr\xE9vu",
+              "Faciliter l\u2019insertion des autres usagers lorsque la s\xE9curit\xE9 le permet",
+              "Ne jamais laisser passer personne",
+              "Rouler au pas partout"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La conduite apais\xE9e et coop\xE9rative am\xE9liore la s\xE9curit\xE9 globale."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 6 : Conduite dans des conditions difficiles
-  // -------------------------------------------------------------
   {
-    _id: "mod-6",
-    _type: "moduleFormation",
-    code: "MOD-006",
-    title: "Module 6 : Conduite dans des conditions difficiles",
-    summary: "Ce module forme l'\xE9l\xE8ve \xE0 la conduite nocturne et aux intemp\xE9ries (pluie torrentielle, brouillard, neige, verglas, vent violent) ainsi qu'au passage des tunnels et zones de montagne.",
-    learningObjectives: [
-      "Ma\xEEtriser le choix des feux du v\xE9hicule (croisement, route, brouillard avant/arri\xE8re)",
-      "Adapter la conduite sur chauss\xE9e glissante, verglac\xE9e ou enneig\xE9e",
-      "R\xE9agir correctement en cas d'aquaplaning ou de fort vent lat\xE9ral",
-      "Respecter les r\xE8gles sp\xE9cifiques de s\xE9curit\xE9 en tunnel et en montagne"
+    "_id": "mod-6",
+    "_type": "moduleFormation",
+    "code": "MOD-006",
+    "title": "Module 6 \u2014 Vitesse, freinage et distances",
+    "summary": "Limitations de vitesse en France, calculs de distance de freinage et d'arr\xEAt, distance de s\xE9curit\xE9 (2 secondes), effets de la vitesse sur le corps et adaptation.",
+    "learningObjectives": [
+      "Conna\xEEtre toutes les limitations de vitesse selon le type de route, la m\xE9t\xE9o et le permis probatoire",
+      "Calculer et diff\xE9rencier distance de r\xE9action, distance de freinage et distance d'arr\xEAt",
+      "Appliquer la r\xE8gle des 2 secondes pour maintenir l'intervalle de s\xE9curit\xE9",
+      "Comprendre la r\xE9duction du champ visuel et l'\xE9nergie cin\xE9tique li\xE9e \xE0 la vitesse"
     ],
-    ordre: 6,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 6,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=_ANzCH4C4JM",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-6-1",
-        _type: "lecon",
-        title: "Le\xE7on 6.1 \u2013 Conduite de nuit et \xE9clairage du v\xE9hicule",
-        ordre: 1,
-        description: "Utilisation des feux de position, feux de croisement et feux de route. Savoir passer en feux de croisement d\xE8s qu'on croise ou qu'on suit un autre usager pour \xE9viter l'\xE9blouissement.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-6-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 6.1 \u2014 Limitations de vitesse en France",
+        "ordre": 1,
+        "description": "Vitesses autoris\xE9es selon la route, la m\xE9t\xE9o, le permis probatoire et les situations particuli\xE8res.",
+        "videoUrl": "https://www.youtube.com/watch?v=_ANzCH4C4JM",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Lorsque vous croisez un autre v\xE9hicule la nuit sur route non \xE9clair\xE9e, vous devez :",
-            options: ["Rester en feux de route (pleins phares)", "Passer imm\xE9diatement en feux de croisement", "\xC9teindre tous vos feux", "Mettre les feux de d\xE9tresse"],
-            correctOptionIndex: 1,
-            explanation: "Il est obligatoire d'interrompre les feux de route pour ne pas \xE9blouir le conducteur crois\xE9."
+            "_id": "q-lec-6-1-1",
+            "questionText": "Quelle est la limitation g\xE9n\xE9rale de vitesse sur autoroute par temps sec (permis confirm\xE9) ?",
+            "options": [
+              "110 km/h",
+              "120 km/h",
+              "130 km/h",
+              "140 km/h"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Par temps sec, la vitesse maximale sur autoroute est de 130 km/h."
           },
           {
-            questionText: "\xC0 quelle distance minimale vers l'avant doivent \xE9clairer les feux de croisement ?",
-            options: ["10 m\xE8tres", "30 m\xE8tres", "100 m\xE8tres", "200 m\xE8tres"],
-            correctOptionIndex: 1,
-            explanation: "Les feux de croisement doivent \xE9clairer la chauss\xE9e sur une distance minimale de 30 m\xE8tres."
+            "_id": "q-lec-6-1-2",
+            "questionText": "Par temps de pluie, quelle est la vitesse maximale sur autoroute ?",
+            "options": [
+              "100 km/h",
+              "110 km/h",
+              "120 km/h",
+              "130 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En cas de pluie ou pr\xE9cipitations, la vitesse est r\xE9duite \xE0 110 km/h sur autoroute."
           },
           {
-            questionText: "\xC0 quelle distance minimale doivent \xE9clairer les feux de route (pleins phares) ?",
-            options: ["30 m\xE8tres", "50 m\xE8tres", "100 m\xE8tres", "300 m\xE8tres"],
-            correctOptionIndex: 2,
-            explanation: "Les feux de route doivent \xE9clairer \xE0 au moins 100 m\xE8tres vers l'avant."
+            "_id": "q-lec-6-1-3",
+            "questionText": "Pour un jeune conducteur en p\xE9riode probatoire, la vitesse sur autoroute par temps sec est de :",
+            "options": [
+              "110 km/h",
+              "120 km/h",
+              "130 km/h",
+              "100 km/h"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Les permis probatoires sont limit\xE9s \xE0 110 km/h sur autoroute."
           },
           {
-            questionText: "En agglom\xE9ration bien \xE9clair\xE9e la nuit, quels feux devez-vous utiliser ?",
-            options: ["Feux de route", "Feux de croisement", "Feux de brouillard arri\xE8re uniquement", "Aucun feu"],
-            correctOptionIndex: 1,
-            explanation: "En ville \xE9clair\xE9e, on circule avec les feux de croisement."
+            "_id": "q-lec-6-1-4",
+            "questionText": "En agglom\xE9ration, quelle est la limitation de vitesse par d\xE9faut ?",
+            "options": [
+              "30 km/h",
+              "50 km/h",
+              "70 km/h",
+              "80 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La vitesse en ville est fix\xE9e \xE0 50 km/h sauf signalisation contraire (ex: zone 30)."
           },
           {
-            questionText: "Si vous \xEAtes \xE9bloui par les pleins phares d'un usager venant en sens inverse, vous devez :",
-            options: ["Regarder fixement ses phares", "Porter votre regard vers le bord droit de la chauss\xE9e et ralentir", "Fermer les yeux", "Acc\xE9l\xE9rer"],
-            correctOptionIndex: 1,
-            explanation: "Fixer la ligne blanche du bord droit permet d'\xE9viter l'aveuglement tout en conservant sa trajectoire."
+            "_id": "q-lec-6-1-5",
+            "questionText": "En cas de brouillard avec une visibilit\xE9 inf\xE9rieure \xE0 50 m\xE8tres, la vitesse est limit\xE9e \xE0 :",
+            "options": [
+              "30 km/h",
+              "50 km/h sur tout le r\xE9seau",
+              "70 km/h",
+              "80 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "D\xE8s que la visibilit\xE9 descend sous 50 m, la vitesse maximale est de 50 km/h partout."
           }
         ]
       },
       {
-        _id: "lec-6-2",
-        _type: "lecon",
-        title: "Le\xE7on 6.2 \u2013 Pluie, aquaplaning et chauss\xE9e glissante",
-        ordre: 2,
-        description: "R\xE9duire sa vitesse d\xE8s les premi\xE8res gouttes de pluie (verglas d'\xE9t\xE9). R\xE9agir sereinement sans braquer brusquement ni piler en cas de perte d'adh\xE9rence par aquaplaning.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-6-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 6.2 \u2014 Distance de freinage et distance d\u2019arr\xEAt",
+        "ordre": 2,
+        "description": "Diff\xE9rence entre distance de r\xE9action, distance de freinage et distance totale d\u2019arr\xEAt ; influence de la vitesse, de la m\xE9t\xE9o et de la fatigue.",
+        "videoUrl": "https://www.youtube.com/watch?v=lNR3X4rEaZE",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Peut-on utiliser les feux de brouillard ARRI\xC8RE en cas de forte pluie ?",
-            options: ["Oui, toujours", "Non, ils sont strictement interdits sous la pluie car ils \xE9blouissent fortement", "Oui sur autoroute", "Uniquement le jour"],
-            correctOptionIndex: 1,
-            explanation: "Le brouillard arri\xE8re est interdit par temps de pluie car il est trop \xE9blouissant."
+            "_id": "q-lec-6-2-1",
+            "questionText": "La distance totale d\u2019arr\xEAt correspond \xE0 :",
+            "options": [
+              "Distance de freinage seule",
+              "Distance parcourue pendant le temps de r\xE9action + Distance de freinage",
+              "Temps de r\xE9action seul",
+              "Longueur de la voiture"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Distance d\u2019arr\xEAt = Distance de r\xE9action + Distance de freinage."
           },
           {
-            questionText: "Quels feux avant devez-vous allumer en cas de forte pluie de jour ?",
-            options: ["Feux de position seuls", "Feux de croisement (et \xE9ventuellement feux de brouillard avant)", "Feux de route", "Aucun"],
-            correctOptionIndex: 1,
-            explanation: "La pluie r\xE9duit la visibilit\xE9 : les feux de croisement sont obligatoires."
+            "_id": "q-lec-6-2-2",
+            "questionText": "Comment estimer rapidement la distance parcourue pendant le temps de r\xE9action (1 seconde) ?",
+            "options": [
+              "Multiplier le chiffre des dizaines de la vitesse par 3",
+              "Multiplier la vitesse par 10",
+              "Diviser par 2",
+              "Multiplier les dizaines par 6"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "\xC0 50 km/h : 5 x 3 = 15 m\xE8tres ; \xE0 90 km/h : 9 x 3 = 27 m\xE8tres."
           },
           {
-            questionText: "Si votre v\xE9hicule commence \xE0 faire de l'aquaplaning sur une flaque d'eau sur autoroute :",
-            options: ["Piler de toutes vos forces sur le frein", "Maintenir le volant droit, rel\xE2cher doucement l'acc\xE9l\xE9rateur sans freiner brusquement", "Tirer le frein \xE0 main", "Braquer le volant \xE0 fond"],
-            correctOptionIndex: 1,
-            explanation: "Conserver les roues droites et d\xE9c\xE9l\xE9rer progressivement permet de retrouver l'adh\xE9rence d\xE8s la sortie de la flaque."
+            "_id": "q-lec-6-2-3",
+            "questionText": "Comment estimer la distance totale d\u2019arr\xEAt sur sol sec ?",
+            "options": [
+              "Dizaine multipli\xE9e par 3",
+              "Dizaine multipli\xE9e par elle-m\xEAme (au carr\xE9)",
+              "Vitesse divis\xE9e par 10",
+              "Dizaine multipli\xE9e par 6"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "\xC0 50 km/h : 5 x 5 = 25 m ; \xE0 90 km/h : 9 x 9 = 81 m ; \xE0 130 km/h : 13 x 13 = 169 m."
           },
           {
-            questionText: `Qu'appelle-t-on le "verglas d'\xE9t\xE9" ?`,
-            options: ["De la neige en juillet", "La chauss\xE9e rendue tr\xE8s glissante par la pluie fine se m\xE9langeant aux poussi\xE8res et huiles d\xE9pos\xE9es sur la route", "Des morceaux de glace tombant du ciel", "Le givre de climatisation"],
-            correctOptionIndex: 1,
-            explanation: "Apr\xE8s une longue p\xE9riode s\xE8che, les premi\xE8res gouttes cr\xE9ent une pellicule visqueuse tr\xE8s glissante."
+            "_id": "q-lec-6-2-4",
+            "questionText": "Sur chauss\xE9e mouill\xE9e, que devient la distance de freinage par rapport au sec ?",
+            "options": [
+              "Elle est divis\xE9e par deux",
+              "Elle est multipli\xE9e par deux",
+              "Elle reste identique",
+              "Elle est tripl\xE9e"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019adh\xE9rence \xE9tant divis\xE9e par deux sur sol mouill\xE9, le freinage est deux fois plus long."
           },
           {
-            questionText: "Par temps de forte pluie, comment devez-vous adapter vos distances de s\xE9curit\xE9 ?",
-            options: ["Les r\xE9duire", "Les augmenter significativement", "Garder 1 m\xE8tre", "Aucune adaptation n\xE9cessaire"],
-            correctOptionIndex: 1,
-            explanation: "Le freinage \xE9tant doubl\xE9 sur route mouill\xE9e, il faut augmenter la marge de s\xE9curit\xE9."
+            "_id": "q-lec-6-2-5",
+            "questionText": "Quelle est la dur\xE9e moyenne du temps de r\xE9action d\u2019un conducteur attentif en bonne sant\xE9 ?",
+            "options": [
+              "0,1 seconde",
+              "1 seconde environ",
+              "3 secondes",
+              "5 secondes"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le temps de r\xE9action incompressible est en moyenne d\u2019environ 1 seconde."
           }
         ]
       },
       {
-        _id: "lec-6-3",
-        _type: "lecon",
-        title: "Le\xE7on 6.3 \u2013 Brouillard, neige et verglas",
-        ordre: 3,
-        description: "Utilisation des feux de brouillard avant et arri\xE8re. R\xE8gles de conduite sur neige ou verglas (conduite tr\xE8s souple, sans coup de volant ni freinage sec, usage d'\xE9quipements sp\xE9ciaux).",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-6-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 6.3 \u2014 Distance de s\xE9curit\xE9 entre v\xE9hicules",
+        "ordre": 3,
+        "description": "R\xE8gle des deux secondes, adaptation par mauvais temps et dangers du talonnage.",
+        "videoUrl": "https://www.youtube.com/watch?v=_oLFumNga1c",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Dans quelles conditions pr\xE9cises l'utilisation des feux de BROUILLARD ARRI\xC8RE est-elle autoris\xE9e ?",
-            options: ["Brouillard et chute de neige uniquement", "Pluie et nuit", "Vent fort", "En ville la nuit"],
-            correctOptionIndex: 0,
-            explanation: "Le feu de brouillard arri\xE8re est autoris\xE9 uniquement par brouillard ou chute de neige (interdit sous la pluie)."
+            "_id": "q-lec-6-3-1",
+            "questionText": "Quel est l\u2019intervalle de temps minimal de s\xE9curit\xE9 \xE0 respecter avec le v\xE9hicule qui pr\xE9c\xE8de ?",
+            "options": [
+              "0,5 seconde",
+              "1 seconde",
+              "2 secondes au moins",
+              "5 secondes"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "La r\xE8gle des 2 secondes couvre 1 s de r\xE9action + 1 s de marge de s\xE9curit\xE9."
           },
           {
-            questionText: "Par temps de neige ou verglas, pour \xE9viter le patinage au d\xE9marrage, il est conseill\xE9 de :",
-            options: ["Acc\xE9l\xE9rer \xE0 fond en 1\xE8re vitesse", "D\xE9marrer en douceur, \xE9ventuellement en passant la 2\xE8me vitesse", "Tirer le frein \xE0 main", "Gonfler les pneus au maximum"],
-            correctOptionIndex: 1,
-            explanation: "D\xE9marrer en 2\xE8me limite le couple aux roues et r\xE9duit le patinage sur neige."
+            "_id": "q-lec-6-3-2",
+            "questionText": "Comment calculer la distance de s\xE9curit\xE9 minimale sur sol sec ?",
+            "options": [
+              "Dizaine multipli\xE9e par 3",
+              "Dizaine de la vitesse multipli\xE9e par 6",
+              "Vitesse au carr\xE9",
+              "Longueur du v\xE9hicule"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "\xC0 50 km/h : 5 x 6 = 30 m ; \xE0 90 km/h : 9 x 6 = 54 m ; \xE0 130 km/h : 13 x 6 = 78 m."
           },
           {
-            questionText: "La loi Montagne impose dans certaines zones montagneuses en p\xE9riode hivernale (du 1er nov au 31 mars) :",
-            options: ["La possession de cha\xEEnes/chaussettes \xE0 neige ou 4 pneus hiver", "Un moteur V6", "De rouler \xE0 30 km/h maxi", "Le port d'un casque"],
-            correctOptionIndex: 0,
-            explanation: "Les \xE9quipements hivernaux sont obligatoires dans les communes d\xE9finies par les pr\xE9fets en zone de montagne."
+            "_id": "q-lec-6-3-3",
+            "questionText": "Sur autoroute, quel rep\xE8re visuel garantit les 2 secondes de distance de s\xE9curit\xE9 ?",
+            "options": [
+              "Un trait de bande d\u2019arr\xEAt d\u2019urgence",
+              "Deux traits de la ligne de droite de bande d\u2019arr\xEAt d\u2019urgence",
+              "La borne kilom\xE9trique",
+              "Les panneaux publicitaires"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "\xAB 1 trait = danger, 2 traits = s\xE9curit\xE9 \xBB le long de la ligne de rive autorouti\xE8re."
           },
           {
-            questionText: "Si vous d\xE9rapez du train arri\xE8re sur du verglas, vous devez :",
-            options: ["Piler sur les freins et fermer les yeux", "D\xE9brayer ou rel\xE2cher les p\xE9dales et regarder vers la trajectoire de sortie souhait\xE9e sans coup de volant violent", "Acc\xE9l\xE9rer au maximum", "Tirer le frein \xE0 main"],
-            correctOptionIndex: 1,
-            explanation: "Guider le regard vers la zone de d\xE9gagement aide \xE0 corriger la trajectoire en douceur."
+            "_id": "q-lec-6-3-4",
+            "questionText": "Si les conditions m\xE9t\xE9orologiques sont d\xE9grad\xE9es (pluie, neige), la distance de s\xE9curit\xE9 doit \xEAtre :",
+            "options": [
+              "Maintenue",
+              "Doubl\xE9e",
+              "Diminu\xE9e",
+              "Divis\xE9e par deux"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Par mauvais temps, on augmente significativement l\u2019intervalle pour parer au risque de glissade."
           },
           {
-            questionText: "Que signale un panneau triangulaire affichant un flocon de neige ?",
-            options: ["Station de ski proche", "Risque de chauss\xE9e glissante par verglas ou neige", "Changement de saison", "Distribution de cha\xEEnes"],
-            correctOptionIndex: 1,
-            explanation: "C'est le panneau de danger A14 signalant le risque de verglas ou neige fr\xE9quente."
+            "_id": "q-lec-6-3-5",
+            "questionText": "Coller le v\xE9hicule qui pr\xE9c\xE8de (talonnage) est puni de :",
+            "options": [
+              "Une r\xE9primande",
+              "135 \u20AC d\u2019amende et retrait de 3 points sur le permis",
+              "Aucune sanction",
+              "1 point"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le non-respect des distances de s\xE9curit\xE9 retire 3 points."
           }
         ]
       },
       {
-        _id: "lec-6-4",
-        _type: "lecon",
-        title: "Le\xE7on 6.4 \u2013 Conduite en montagne, tunnels et zones de travaux",
-        ordre: 4,
-        description: "Sp\xE9cificit\xE9s de la circulation en tunnel (respect des distances de s\xE9curit\xE9 signal\xE9es par les lumi\xE8res bleues, comportement en cas d'incendie) et croisement en forte pente.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-6-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 6.4 \u2014 Effets de la vitesse sur le corps et la conduite",
+        "ordre": 4,
+        "description": "R\xE9duction du champ visuel, augmentation de la gravit\xE9 des chocs et dangers de la vitesse excessive.",
+        "videoUrl": "https://www.youtube.com/watch?v=_ANzCH4C4JM",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Dans un tunnel, quelle est la distance de s\xE9curit\xE9 \xE0 respecter entre deux v\xE9hicules en circulation ?",
-            options: ["10 m\xE8tres", "La distance mat\xE9rialis\xE9e au sol ou par des diodes bleues (souvent au moins 2 lumi\xE8res bleues)", "Il n'y en a pas", "2 m\xE8tres"],
-            correctOptionIndex: 1,
-            explanation: "Dans les tunnels, les diodes bleues sur les parois indiquent l'\xE9cart minimal de s\xE9curit\xE9."
+            "_id": "q-lec-6-4-1",
+            "questionText": "\xC0 mesure que la vitesse augmente, qu\u2019arrive-t-il au champ visuel du conducteur ?",
+            "options": [
+              "Il s\u2019\xE9largit",
+              "Il se r\xE9tr\xE9cit en \xAB vision en tunnel \xBB",
+              "Il reste identique",
+              "Il devient flou uniquement la nuit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "\xC0 130 km/h, le champ visuel se r\xE9duit \xE0 environ 30 degr\xE9s contre 180 degr\xE9s \xE0 l\u2019arr\xEAt."
           },
           {
-            questionText: "Si de la fum\xE9e ou un incendie se d\xE9clare dans le tunnel devant vous :",
-            options: ["Rester dans sa voiture en fermant les fen\xEAtres", "Immobiliser le v\xE9hicule sur le c\xF4t\xE9, couper le moteur et rejoindre imm\xE9diatement une niche d'\xE9vacuation/issue de secours \xE0 pied", "Faire demi-tour en roulant vite", "Acc\xE9l\xE9rer \xE0 travers les fum\xE9es"],
-            correctOptionIndex: 1,
-            explanation: "Il faut quitter le v\xE9hicule et gagner au plus vite les abris/issues de secours enfum\xE9s."
+            "_id": "q-lec-6-4-2",
+            "questionText": "Si vous doublez votre vitesse (ex: passage de 50 \xE0 100 km/h), l\u2019\xE9nergie cin\xE9tique du choc est :",
+            "options": [
+              "Doubl\xE9e",
+              "Multipli\xE9e par 4",
+              "Multipli\xE9e par 8",
+              "Inchang\xE9e"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019\xE9nergie cin\xE9tique est proportionnelle au carr\xE9 de la vitesse (E = 1/2 mv\xB2)."
           },
           {
-            questionText: "Sur une route de montagne \xE9troite o\xF9 le croisement est impossible, qui doit reculer entre un v\xE9hicule seul et un ensemble de v\xE9hicules (ex: bus/camion) ?",
-            options: ["Le v\xE9hicule seul (le plus l\xE9ger/maniable)", "Le bus ou le camion", "Le plus rapide", "Aucun des deux"],
-            correctOptionIndex: 0,
-            explanation: "Le v\xE9hicule le plus l\xE9ger et maniable doit faire la man\u0153uvre de marche arri\xE8re."
+            "_id": "q-lec-6-4-3",
+            "questionText": "Un choc frontal \xE0 50 km/h sans ceinture \xE9quivaut \xE0 une chute de :",
+            "options": [
+              "1 m\xE8tre",
+              "3 \xE9tages d\u2019un immeuble (environ 10 m\xE8tres)",
+              "10 \xE9tages",
+              "Un trottoir"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019impact \xE0 50 km/h correspond \xE0 une chute du 3\xE8me \xE9tage d\u2019un b\xE2timent."
           },
           {
-            questionText: "Entre un v\xE9hicule descendant et un v\xE9hicule montant sur pente raide de m\xEAme cat\xE9gorie, qui a la priorit\xE9 pour passer ?",
-            options: ["Le v\xE9hicule descendant", "Le v\xE9hicule qui monte (car le red\xE9marrage en c\xF4te est plus difficile)", "Celui qui klaxonne", "Le plus vieux"],
-            correctOptionIndex: 1,
-            explanation: "Le v\xE9hicule montant est prioritaire car s'arr\xEAter en c\xF4te est plus d\xE9licat."
+            "_id": "q-lec-6-4-4",
+            "questionText": "La vitesse excessive ou inadapt\xE9e est pr\xE9sente dans quelle proportion des accidents mortels ?",
+            "options": [
+              "Moins de 5%",
+              "Pr\xE8s d\u2019un accident mortel sur trois",
+              "Uniquement la nuit",
+              "100% des cas"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La vitesse est la 1\xE8re ou 2\xE8me cause principale de mortalit\xE9 sur les routes fran\xE7aises."
           },
           {
-            questionText: "Que devez-vous faire \xE0 l'approche d'un chantier routier signal\xE9 par des panneaux jaunes ?",
-            options: ["Conserver la vitesse maximale", "Ralentir significativement et respecter la vitesse r\xE9duite affich\xE9e pour prot\xE9ger les agents de chantier", "D\xE9passer les camions de chantier par la droite", "Klaxonner"],
-            correctOptionIndex: 1,
-            explanation: "La pr\xE9sence d'hommes en travail exige une r\xE9duction stricte de la vitesse."
+            "_id": "q-lec-6-4-5",
+            "questionText": "La fatigue au volant combin\xE9e \xE0 la vitesse provoque :",
+            "options": [
+              "Une meilleure concentration",
+              "Une augmentation drastique du temps de r\xE9action et du risque d\u2019endormissement",
+              "Une r\xE9duction des distances",
+              "Aucun effet"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La vitesse use l\u2019attention du cerveau et acc\xE9l\xE8re l\u2019\xE9puisement."
+          }
+        ]
+      },
+      {
+        "_id": "lec-6-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 6.5 \u2014 Adapter sa vitesse aux circonstances",
+        "ordre": 5,
+        "description": "Adapter l\u2019allure \xE0 la visibilit\xE9, \xE0 la circulation, aux \xE9coles, \xE0 la chauss\xE9e et \xE0 la m\xE9t\xE9o, m\xEAme si la limite l\xE9gale autorise une vitesse plus \xE9lev\xE9e.",
+        "videoUrl": "https://www.youtube.com/watch?v=cHlvKr08BDs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-6-5-1",
+            "questionText": "La vitesse maximale autoris\xE9e est-elle une vitesse obligatoire \xE0 atteindre en toutes circonstances ?",
+            "options": [
+              "Oui toujours",
+              "Non, c\u2019est un plafond limite, la vitesse doit \xEAtre r\xE9duite d\xE8s que les conditions l\u2019exigent",
+              "Oui sur autoroute",
+              "Oui en ligne droite"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La vitesse doit \xEAtre modul\xE9e en permanence selon la m\xE9t\xE9o, l\u2019\xE9tat de la route et les usagers."
+          },
+          {
+            "_id": "q-lec-6-5-2",
+            "questionText": "\xC0 l\u2019approche d\u2019une \xE9cole aux heures d\u2019entr\xE9e ou sortie de classe, vous devez :",
+            "options": [
+              "Rouler \xE0 50 km/h",
+              "Ralentir tr\xE8s fortement (20-30 km/h) et placer le pied au-dessus du frein",
+              "Klaxonner pour faire ranger les enfants",
+              "Acc\xE9l\xE9rer"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019impr\xE9visibilit\xE9 totale des enfants exige une allure au pas et une vigilance maximale."
+          },
+          {
+            "_id": "q-lec-6-5-3",
+            "questionText": "Sur une chauss\xE9e \xE9troite avec des croisements difficiles :",
+            "options": [
+              "Maintenir sa vitesse",
+              "Ralentir et pr\xE9parer le croisement en serrant \xE0 droite",
+              "Acc\xE9l\xE9rer pour passer le premier",
+              "Klaxonner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019adaptation de l\u2019allure pr\xE9vient les accrochages lat\xE9raux."
+          },
+          {
+            "_id": "q-lec-6-5-4",
+            "questionText": "En cas de fort vent lat\xE9ral sur un viaduc ou \xE0 la sortie d\u2019un tunnel, vous devez :",
+            "options": [
+              "Augmenter la vitesse",
+              "Ralentir et tenir fermement le volant \xE0 deux mains pour parer aux embard\xE9es",
+              "L\xE2cher le volant",
+              "Freiner brusquement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "R\xE9duire l\u2019allure limite l\u2019impact des rafales sur la trajectoire."
+          },
+          {
+            "_id": "q-lec-6-5-5",
+            "questionText": "Conduire \xE0 une allure anormalement r\xE9duite sans motif valable cr\xE9ant un danger pour les autres :",
+            "options": [
+              "Est conseill\xE9",
+              "Est une infraction passible d\u2019une amende forfaitaire",
+              "Est obligatoire",
+              "Est autoris\xE9 sur la voie de gauche"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Une lenteur excessive et injustifi\xE9e sur voie rapide g\xE9n\xE8re un risque d\u2019accident par l\u2019arri\xE8re."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 7 : Éco-conduite et entretien du véhicule
-  // -------------------------------------------------------------
   {
-    _id: "mod-7",
-    _type: "moduleFormation",
-    code: "MOD-007",
-    title: "Module 7 : \xC9co-conduite et entretien du v\xE9hicule",
-    summary: "Ce module enseigne les r\xE8gles d'\xE9co-conduite permettant de diminuer sa consommation de carburant de 15 \xE0 20 %, la gestion de l'entretien r\xE9gulier (huile, liquide de frein, pression des pneus) et le respect de l'environnement.",
-    learningObjectives: [
-      "Adopter un comportement d'\xE9co-conduite souple et anticipatif",
-      "Passer les rapports de vitesse au r\xE9gime optimal (2000 tr/min diesel, 2500 tr/min essence)",
-      "V\xE9rifier r\xE9guli\xE8rement les niveaux de fluides et la pression des pneus",
-      "R\xE9duire les \xE9missions de gaz \xE0 effet de serre et le bruit en agglom\xE9ration"
+    "_id": "mod-7",
+    "_type": "moduleFormation",
+    "code": "MOD-007",
+    "title": "Module 7 \u2014 Croisement et d\xE9passement",
+    "summary": "R\xE8gles de croisement, conditions indispensables pour d\xE9passer en toute s\xE9curit\xE9, interdictions formelles, comportement quand on est d\xE9pass\xE9 et v\xE9hicules sp\xE9ciaux.",
+    "learningObjectives": [
+      "Ma\xEEtriser les priorit\xE9s de croisement en pente et sur chauss\xE9e r\xE9tr\xE9cie",
+      "V\xE9rifier les 5 conditions indispensables avant d'entamer un d\xE9passement",
+      "Conna\xEEtre toutes les zones et situations o\xF9 le d\xE9passement est formellement interdit",
+      "Appliquer les distances lat\xE9rales obligatoires pour d\xE9passer deux-roues et pi\xE9tons"
     ],
-    ordre: 7,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 7,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=3NsXYxLakZM",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-7-1",
-        _type: "lecon",
-        title: "Le\xE7on 7.1 \u2013 Principes de l'\xE9co-conduite et changement de rapports",
-        ordre: 1,
-        description: "Passer les vitesses sans monter inutilement dans les tours. Anticiper les ralentissements pour utiliser le frein moteur qui coupe totalement l'injection de carburant.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-7-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 7.1 \u2014 R\xE8gles de croisement",
+        "ordre": 1,
+        "description": "Croisement sur routes \xE9troites, gestion des obstacles, v\xE9hicules volumineux et r\xE8gles de prudence.",
+        "videoUrl": "https://www.youtube.com/watch?v=3NsXYxLakZM",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "\xC0 quel r\xE9gime moteur est-il recommand\xE9 de passer au rapport sup\xE9rieur sur un v\xE9hicule ESSENCE pour adopter l'\xE9co-conduite ?",
-            options: ["Vers 1500 tr/min", "Vers 2000 - 2500 tr/min", "\xC0 4000 tr/min", "Au rupteur"],
-            correctOptionIndex: 1,
-            explanation: "Passer les rapports vers 2000-2500 tr/min \xE9vite les r\xE9gimes \xE9nergivores."
+            "_id": "q-lec-7-1-1",
+            "questionText": "Sur route \xE9troite avec un obstacle sur votre voie, qui doit s\u2019arr\xEAter ?",
+            "options": [
+              "Le v\xE9hicule venant en face",
+              "Vous, car l\u2019obstacle se trouve sur votre c\xF4t\xE9",
+              "Le premier qui klaxonne",
+              "Le plus rapide"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Celui qui a l\u2019obstacle sur sa voie doit c\xE9der le passage \xE0 l\u2019usager arrivant en face."
           },
           {
-            questionText: "En rel\xE2chant totalement la p\xE9dale d'acc\xE9l\xE9rateur avec une vitesse enclench\xE9e (frein moteur), la consommation est de :",
-            options: ["0,0 Litre / 100 km (coupure d'injection)", "5 Litres / 100 km", "Maximale", "Identique \xE0 la vitesse maximale"],
-            correctOptionIndex: 0,
-            explanation: "L'injection de carburant est int\xE9gralement coup\xE9e sur le frein moteur."
+            "_id": "q-lec-7-1-2",
+            "questionText": "Sur une route de montagne en pente o\xF9 le croisement est impossible entre deux voitures de m\xEAme gabarit :",
+            "options": [
+              "Le v\xE9hicule montant recule",
+              "Le v\xE9hicule descendant doit s\u2019arr\xEAter et reculer si n\xE9cessaire",
+              "Les deux coupent le moteur",
+              "Le plus lourd recule"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le v\xE9hicule qui descend recule car il est plus facile de red\xE9marrer en descente qu\u2019en mont\xE9e."
           },
           {
-            questionText: "L'\xE9co-conduite permet de r\xE9duire la consommation moyenne de carburant de :",
-            options: ["1 \xE0 2 %", "15 \xE0 20 %", "50 %", "Elle augmente la consommation"],
-            correctOptionIndex: 1,
-            explanation: "Une conduite souple et anticip\xE9e permet d'\xE9conomiser de 15 \xE0 20 % de carburant."
+            "_id": "q-lec-7-1-3",
+            "questionText": "Entre un v\xE9hicule l\xE9ger et un v\xE9hicule lourd (poids lourd/bus) en forte pente :",
+            "options": [
+              "Le camion recule toujours",
+              "C\u2019est toujours le v\xE9hicule l\xE9ger qui recule, qu\u2019il monte ou qu\u2019il descende",
+              "Le camion fait demi-tour",
+              "Personne ne recule"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le v\xE9hicule le plus maniable (voiture) doit reculer face au poids lourd."
           },
           {
-            questionText: "Quelle attitude \xE0 l'approche d'un feu rouge est conforme \xE0 l'\xE9co-conduite ?",
-            options: ["Acc\xE9l\xE9rer jusqu'au feu puis piler", "Anticiper de loin en rel\xE2chant l'acc\xE9l\xE9rateur pour laisser rouler le v\xE9hicule sur le frein moteur", "Mettre le point mort", "Couper les phares"],
-            correctOptionIndex: 1,
-            explanation: "Anticiper permet souvent de conserver de l'\xE9lan si le feu repasse au vert sans s'arr\xEAter."
+            "_id": "q-lec-7-1-4",
+            "questionText": "La nuit lors du croisement d\u2019un autre v\xE9hicule, vous devez :",
+            "options": [
+              "Garder les feux de route",
+              "Passer en feux de croisement pour ne pas \xE9blouir l\u2019autre conducteur",
+              "\xC9teindre les feux",
+              "Allumer les antibrouillards"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le passage en feux de croisement est obligatoire d\xE8s qu\u2019on croise un autre v\xE9hicule."
           },
           {
-            questionText: "L'utilisation abusive de la climatisation en ville entra\xEEne une surconsommation de carburant de l'ordre de :",
-            options: ["0 %", "Jusqu'\xE0 10 \xE0 25 %", "50 %", "100 %"],
-            correctOptionIndex: 1,
-            explanation: "La climatisation sollicite fortement le moteur et augmente nettement la consommation."
+            "_id": "q-lec-7-1-5",
+            "questionText": "O\xF9 porter son regard lors du croisement de nuit pour ne pas \xEAtre \xE9bloui ?",
+            "options": [
+              "Directement dans les phares du v\xE9hicule d\u2019en face",
+              "Vers le bord droit de la chauss\xE9e (la ligne de rive)",
+              "Vers le ciel",
+              "Vers son r\xE9troviseur"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Fixer la ligne blanche de droite \xE9vite l\u2019\xE9blouissement tout en maintenant la trajectoire."
           }
         ]
       },
       {
-        _id: "lec-7-2",
-        _type: "lecon",
-        title: "Le\xE7on 7.2 \u2013 Entretien r\xE9gulier (niveaux, pneus, freins)",
-        ordre: 2,
-        description: "Contr\xF4le mensuel de la pression des pneumatiques (\xE0 froid). V\xE9rification r\xE9guli\xE8re sous le capot : niveau d'huile moteur, liquide de refroidissement, liquide de frein, lave-glace.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-7-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 7.2 \u2014 Conditions pour d\xE9passer en s\xE9curit\xE9",
+        "ordre": 2,
+        "description": "V\xE9rification de la visibilit\xE9, de la voie libre, des distances, de la vitesse et signalisation avec le clignotant.",
+        "videoUrl": "https://www.youtube.com/watch?v=3NsXYxLakZM",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Comment et quand doit-on v\xE9rifier la pression des pneumatiques d'un v\xE9hicule ?",
-            options: ["Apr\xE8s 200 km d'autoroute \xE0 chaud", "\xC0 froid (v\xE9hicule arr\xEAt\xE9 depuis au moins 1 heure ou ayant roul\xE9 moins de 3 km) au moins 1 fois par mois", "Une fois tous les 5 ans", "Uniquement lors de la r\xE9vision"],
-            correctOptionIndex: 1,
-            explanation: "La pression exacte se contr\xF4le \xE0 froid mensuellement."
+            "_id": "q-lec-7-2-1",
+            "questionText": "Combien de conditions indispensables doit-on v\xE9rifier avant d\u2019entamer un d\xE9passement ?",
+            "options": [
+              "Aucune",
+              "Signalisation autoris\xE9e, visibilit\xE9 suffisante, voie libre devant/derri\xE8re, r\xE9serve de vitesse, possibilit\xE9 de se rabattre",
+              "Avoir le clignotant allum\xE9 seul",
+              "Klaxonner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Toutes les conditions de s\xE9curit\xE9 visuelle, dynamique et r\xE9glementaire doivent \xEAtre r\xE9unies."
           },
           {
-            questionText: "Un sous-gonflage des pneumatiques de 0,5 bar entra\xEEne :",
-            options: ["Une \xE9conomie d'essence", "Une surconsommation de carburant et un risque d'\xE9chauffement/\xE9clatement du pneu", "Une meilleure adh\xE9rence", "Une usure moins rapide"],
-            correctOptionIndex: 1,
-            explanation: "Le sous-gonflage d\xE9forme le pneu, augmente la r\xE9sistance au roulement et favorise l'\xE9clatement."
+            "_id": "q-lec-7-2-2",
+            "questionText": "Pour d\xE9passer en s\xE9curit\xE9, quelle diff\xE9rence de vitesse minimale est recommand\xE9e avec le v\xE9hicule d\xE9pass\xE9 ?",
+            "options": [
+              "2 km/h",
+              "Au moins 20 km/h de r\xE9serve sans d\xE9passer la vitesse maximale autoris\xE9e",
+              "50 km/h",
+              "Aucune"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un diff\xE9rentiel d\u2019environ 20 km/h permet un d\xE9passement net et rapide."
           },
           {
-            questionText: "O\xF9 v\xE9rifie-t-on le niveau d'huile moteur ?",
-            options: ["\xC0 la jauge manuelle situ\xE9e sous le capot moteur (\xE0 froid et sur sol plat)", "Dans le r\xE9servoir \xE0 carburant", "Dans le coffre", "Sous la voiture"],
-            correctOptionIndex: 0,
-            explanation: "Le niveau se contr\xF4le \xE0 l'aide de la jauge sur sol plat, moteur froid."
+            "_id": "q-lec-7-2-3",
+            "questionText": "A-t-on le droit de d\xE9passer la vitesse maximale autoris\xE9e pendant un d\xE9passement ?",
+            "options": [
+              "Oui de 20 km/h",
+              "Non, la vitesse maximale autoris\xE9e ne doit jamais \xEAtre d\xE9pass\xE9e",
+              "Oui sur autoroute",
+              "Oui pour doubler un camion"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Aucune d\xE9rogation de vitesse n\u2019est accord\xE9e pour effectuer un d\xE9passement."
           },
           {
-            questionText: 'Si le niveau du liquide de FREIN est en dessous du rep\xE8re "MINI", cela indique :',
-            options: ["Un fonctionnement parfait", "Une usure prononc\xE9e des plaquettes de frein ou une fuite grave du circuit", "Un trop-plein de carburant", "Une panne de batterie"],
-            correctOptionIndex: 1,
-            explanation: "Une baisse du liquide de frein traduit une usure importante ou une fuite \xE0 contr\xF4ler imm\xE9diatement."
+            "_id": "q-lec-7-2-4",
+            "questionText": "Dans le r\xE9troviseur int\xE9rieur, \xE0 quel moment peut-on se rabattre apr\xE8s avoir doubl\xE9 ?",
+            "options": [
+              "D\xE8s qu\u2019on a d\xE9pass\xE9 le pare-chocs",
+              "Quand on aper\xE7oit nettement les deux phares ou la face avant du v\xE9hicule doubl\xE9",
+              "Apr\xE8s 1 kilom\xE8tre",
+              "Imm\xE9diatement en braquant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Voir la face avant enti\xE8re dans le miroir central garantit une distance de rabattement s\xFBre."
           },
           {
-            questionText: "Peut-on remplacer le liquide de refroidissement du moteur par de l'eau du robinet en hiver ?",
-            options: ["Oui sans probl\xE8me", "Non, l'eau g\xE8le \xE0 0\xB0C et risque d'\xE9clater le bloc moteur", "Oui, c'est conseill\xE9", "Uniquement le soir"],
-            correctOptionIndex: 1,
-            explanation: "Le liquide de refroidissement contient un antigel indispensable en hiver."
+            "_id": "q-lec-7-2-5",
+            "questionText": "Doit-on maintenir le clignotant gauche pendant toute la dur\xE9e o\xF9 l\u2019on est sur la voie de d\xE9passement ?",
+            "options": [
+              "Non, on l\u2019\xE9teint aussit\xF4t d\xE9port\xE9",
+              "Oui, sur chauss\xE9e \xE0 double sens on le laisse jusqu\u2019au moment de se rabattre",
+              "On met les feux de d\xE9tresse",
+              "Jamais de clignotant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Sur route \xE0 double sens, le clignotant gauche avertit que la man\u0153uvre est en cours."
           }
         ]
       },
       {
-        _id: "lec-7-3",
-        _type: "lecon",
-        title: "Le\xE7on 7.3 \u2013 Contr\xF4le technique et \xE9co-mobilit\xE9",
-        ordre: 3,
-        description: "Organisation du contr\xF4le technique en France (d\xE9fauts majeurs n\xE9cessitant une contre-visite sous 2 mois). Sensibilisation \xE0 l'\xE9co-mobilit\xE9 (covoiturage, transports doux).",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-7-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 7.3 \u2014 Interdictions de d\xE9passement",
+        "ordre": 3,
+        "description": "Interdiction sur ligne continue, sommet de c\xF4te, virage sans visibilit\xE9, passage \xE0 niveau et certaines intersections.",
+        "videoUrl": "https://www.youtube.com/watch?v=FZF94If-Rsk",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "En cas de d\xE9faillance majeure constat\xE9e lors du contr\xF4le technique, quel est le d\xE9lai pour faire effectuer la contre-visite ?",
-            options: ["24 heures", "2 mois", "6 mois", "1 an"],
-            correctOptionIndex: 1,
-            explanation: "Le propri\xE9taire dispose d'un d\xE9lai l\xE9gal de 2 mois pour faire r\xE9parer et pr\xE9senter le v\xE9hicule \xE0 la contre-visite."
+            "_id": "q-lec-7-3-1",
+            "questionText": "Peut-on d\xE9passer un v\xE9hicule \xE0 moteur en sommet de c\xF4te sur route \xE0 double sens \xE0 2 voies ?",
+            "options": [
+              "Oui avec le clignotant",
+              "Non, l\u2019absence de visibilit\xE9 vers l\u2019avant rend le d\xE9passement strictement interdit",
+              "Oui la nuit",
+              "Oui si on roule vite"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le manque de visibilit\xE9 frontale interdit formellement de se d\xE9porter sur la voie oppos\xE9e."
           },
           {
-            questionText: "Que risque un automobiliste roulant sans contr\xF4le technique \xE0 jour ?",
-            options: ["Une amende de 135 \u20AC et l'immobilisation possible du v\xE9hicule", "Rien", "Un simple retrait de permis d\xE9finitif", "Une suspension d'assurance automatique de 10 ans"],
-            correctOptionIndex: 0,
-            explanation: "Le d\xE9faut de contr\xF4le technique est sanctionn\xE9 par une amende de 135 \u20AC."
+            "_id": "q-lec-7-3-2",
+            "questionText": "\xC0 un passage \xE0 niveau sans barri\xE8re, le d\xE9passement est :",
+            "options": [
+              "Autoris\xE9 pour les voitures",
+              "Strictement interdit pour tout v\xE9hicule \xE0 moteur",
+              "Autoris\xE9 \xE0 30 km/h",
+              "Conseill\xE9"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il est interdit de d\xE9passer aux passages \xE0 niveau non prot\xE9g\xE9s par des barri\xE8res."
           },
           {
-            questionText: "Qu'est-ce que le covoiturage ?",
-            options: ["Acheter une voiture \xE0 deux", "Partager son v\xE9hicule avec d'autres usagers effectuant le m\xEAme trajet pour r\xE9duire les co\xFBts et la pollution", "Louer son v\xE9hicule", "Utiliser un taxi"],
-            correctOptionIndex: 1,
-            explanation: "Le covoiturage optimise l'occupation des voitures et r\xE9duit l'empreinte carbone."
+            "_id": "q-lec-7-3-3",
+            "questionText": "\xC0 une intersection o\xF9 l\u2019on doit c\xE9der le passage ou appliquer la priorit\xE9 \xE0 droite :",
+            "options": [
+              "Le d\xE9passement est interdit",
+              "Le d\xE9passement est autoris\xE9",
+              "On peut doubler par la droite",
+              "Seulement les camions"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "On ne peut d\xE9passer \xE0 une intersection que si l\u2019on b\xE9n\xE9ficie d\u2019une priorit\xE9 absolue signal\xE9e."
           },
           {
-            questionText: "L'utilisation d'un coffre de toit non d\xE9mont\xE9 apr\xE8s les vacances augmente la consommation de :",
-            options: ["0 %", "10 \xE0 15 % en raison de la d\xE9gradation de l'a\xE9rodynamisme", "50 %", "100 %"],
-            correctOptionIndex: 1,
-            explanation: "La r\xE9sistance \xE0 l'air cr\xE9\xE9e par les barres et coffres de toit entra\xEEne une surconsommation notable."
+            "_id": "q-lec-7-3-4",
+            "questionText": "\xC0 l\u2019approche d\u2019un passage pi\xE9ton sans feu o\xF9 des pi\xE9tons s\u2019engagent :",
+            "options": [
+              "On double le v\xE9hicule arr\xEAt\xE9",
+              "Il est strictement interdit de d\xE9passer un v\xE9hicule qui ralentit ou s\u2019arr\xEAte",
+              "On klaxonne",
+              "On acc\xE9l\xE8re"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un v\xE9hicule arr\xEAt\xE9 devant un passage pi\xE9ton masque un pi\xE9ton en cours de travers\xE9e."
           },
           {
-            questionText: "Quelle vignette environnementale est obligatoire en France pour circuler dans les ZFE (Zones \xE0 Faibles \xC9missions) ?",
-            options: ["La vignette Crit'Air", "La vignette Autoroute", "La carte grise", "Le macaron d'assurance"],
-            correctOptionIndex: 0,
-            explanation: "Le certificat qualit\xE9 de l'air Crit'Air classifie les v\xE9hicules selon leurs \xE9missions polluantes."
+            "_id": "q-lec-7-3-5",
+            "questionText": "Peut-on d\xE9passer par la DROITE sur route ou autoroute ?",
+            "options": [
+              "Oui toujours",
+              "Non, c\u2019est strictement interdit sauf si le v\xE9hicule devant tourne \xE0 gauche ou en files ininterrompues",
+              "Oui si la voie est libre",
+              "Oui la nuit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le d\xE9passement par la droite est une infraction grave passible d\u2019une perte de 3 points."
           }
         ]
       },
       {
-        _id: "lec-7-4",
-        _type: "lecon",
-        title: "Le\xE7on 7.4 \u2013 Pollution, \xE9missions de CO2 et choix de v\xE9hicule",
-        ordre: 4,
-        description: "Comprendre les gaz polluants (CO2, particules fines, oxydes d'azote NOx) et l'impact environnemental du choix de motorisation (essence, diesel, hybride, \xE9lectrique).",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-7-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 7.4 \u2014 \xCAtre d\xE9pass\xE9 et laisser d\xE9passer",
+        "ordre": 4,
+        "description": "Maintenir une allure stable, ne pas acc\xE9l\xE9rer et faciliter la man\u0153uvre d\u2019un autre v\xE9hicule.",
+        "videoUrl": "https://www.youtube.com/watch?v=3NsXYxLakZM",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quel gaz \xE9mis par la combustion des moteurs thermiques est le principal responsable de l'effet de serre et du r\xE9chauffement climatique ?",
-            options: ["L'oxyg\xE8ne (O2)", "Le dioxyde de carbone (CO2)", "L'azote (N2)", "L'h\xE9lium"],
-            correctOptionIndex: 1,
-            explanation: "Le CO2 est le principal gaz \xE0 effet de serre rejet\xE9 par les carburants fossiles."
+            "_id": "q-lec-7-4-1",
+            "questionText": "Lorsqu\u2019un v\xE9hicule commence \xE0 vous d\xE9passer, quelle doit \xEAtre votre r\xE9action ?",
+            "options": [
+              "Acc\xE9l\xE9rer pour ne pas vous laisser doubler",
+              "Maintenir votre vitesse ou ralentir l\xE9g\xE8rement et serrer \xE0 droite",
+              "Klaxonner",
+              "Mettre le clignotant gauche"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La loi interdit formellement d\u2019acc\xE9l\xE9rer lorsqu\u2019on est en train d\u2019\xEAtre d\xE9pass\xE9."
           },
           {
-            questionText: "Les filtres \xE0 particules (FAP) sur les moteurs Diesel modernes servent \xE0 retenir :",
-            options: ["L'eau de pluie", "Les particules fines canc\xE9rig\xE8nes pr\xE9sentes dans les gaz d'\xE9chappement", "L'huile de moteur", "Le bruit du pot"],
-            correctOptionIndex: 1,
-            explanation: "Le FAP pi\xE8ge les particules de suie extr\xEAmement fines toxiques pour les poumons."
+            "_id": "q-lec-7-4-2",
+            "questionText": "La nuit, lorsqu\u2019un v\xE9hicule vous d\xE9passe et arrive \xE0 votre hauteur :",
+            "options": [
+              "Vous \xE9teignez vos phares",
+              "Vous passez de feux de route en feux de croisement pour ne pas l\u2019\xE9blouir dans ses r\xE9troviseurs",
+              "Vous gardez les pleins phares",
+              "Vous allumez l\u2019antibrouillard"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On commute en feux de croisement d\xE8s que le v\xE9hicule arrive \xE0 notre hauteur."
           },
           {
-            questionText: "En ville, couper son moteur lors d'un arr\xEAt prolong\xE9 sup\xE9rieur \xE0 10 secondes (ou syst\xE8me Stop & Start) :",
-            options: ["Ab\xEEme le moteur", "Permet d'\xE9conomiser du carburant et de r\xE9duire les \xE9missions polluantes \xE0 l'arr\xEAt", "Consomme deux fois plus d'essence", "Bloque le volant"],
-            correctOptionIndex: 1,
-            explanation: "Couper le moteur d\xE8s 10 sec d'immobilit\xE9 r\xE9duit les \xE9missions toxiques en agglom\xE9ration."
+            "_id": "q-lec-7-4-3",
+            "questionText": "Si le conducteur qui vous d\xE9passe se rabat en urgence face \xE0 un danger en face :",
+            "options": [
+              "Vous acc\xE9l\xE9rez pour le bloquer",
+              "Vous ralentissez imm\xE9diatement pour lui cr\xE9er un espace de s\xE9curit\xE9",
+              "Vous klaxonnez sans bouger",
+              "Vous le percutez"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La coop\xE9ration et le ralentissement \xE9vitent une collision frontale mortelle."
           },
           {
-            questionText: "Un entretien d\xE9fectueux de son v\xE9hicule (filtre \xE0 air encrass\xE9, bougies us\xE9es) provoque :",
-            options: ["Une baisse de consommation", "Une hausse de la pollution et de la consommation", "Une augmentation de puissance", "Aucun changement"],
-            correctOptionIndex: 1,
-            explanation: "Un mauvais m\xE9lange air/carburant augmente la pollution et d\xE9t\xE9riore le rendement."
+            "_id": "q-lec-7-4-4",
+            "questionText": "Acc\xE9l\xE9rer lorsqu\u2019on est en train d\u2019\xEAtre d\xE9pass\xE9 est sanctionn\xE9 par :",
+            "options": [
+              "Une amende de 135 \u20AC et retrait de 2 points",
+              "Rien du tout",
+              "Un avertissement oral",
+              "10 \u20AC"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "C\u2019est une infraction au code de la route punie d\u2019un retrait de 2 points."
           },
           {
-            questionText: "Quelle \xE9tiquette \xE9nergie/climat permet de conna\xEEtre les rejets de CO2 lors de l'achat d'une voiture neuve ?",
-            options: ["L'\xE9tiquette \xE9nergie A \xE0 G", "Le permis de conduire", "Le carnet d'entretien", "La plaque d'immatriculation"],
-            correctOptionIndex: 0,
-            explanation: "L'\xE9tiquette \xE9nergie classe les voitures de A (tr\xE8s faible \xE9mission) \xE0 G (tr\xE8s forte \xE9mission)."
+            "_id": "q-lec-7-4-5",
+            "questionText": "Sur autoroute, si vous roulez sur la voie du milieu et qu\u2019un v\xE9hicule arrive derri\xE8re vous :",
+            "options": [
+              "Vous restez au milieu",
+              "Vous vous rabattez sur la voie de droite d\xE8s que possible",
+              "Vous freinez fort",
+              "Vous acc\xE9l\xE9rez \xE0 150 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On doit lib\xE9rer les voies de gauche et du milieu pour rouler \xE0 droite."
+          }
+        ]
+      },
+      {
+        "_id": "lec-7-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 7.5 \u2014 D\xE9passement des v\xE9hicules sp\xE9ciaux",
+        "ordre": 5,
+        "description": "D\xE9passement des cyclistes, motos, engins agricoles et convois en gardant une distance de s\xE9curit\xE9 suffisante (1m en ville, 1,5m hors agglo).",
+        "videoUrl": "https://www.youtube.com/watch?v=7j0ZiEQy5aY",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-7-5-1",
+            "questionText": "Pour d\xE9passer un cycliste, quelle distance lat\xE9rale minimale devez-vous laisser ?",
+            "options": [
+              "0,5 m partout",
+              "1 m en agglom\xE9ration et 1,50 m hors agglom\xE9ration",
+              "2 m en ville",
+              "0,2 m"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est l\u2019\xE9cart r\xE9glementaire vital pour parer \xE0 un \xE9cart ou coup de vent."
+          },
+          {
+            "_id": "q-lec-7-5-2",
+            "questionText": "Est-il autoris\xE9 de chevaucher une ligne continue pour d\xE9passer un cycliste sur route \xE0 double sens ?",
+            "options": [
+              "Non, jamais",
+              "Oui, le chevauchement (sans franchissement total) est exceptionnellement autoris\xE9 si la visibilit\xE9 est bonne",
+              "Oui en virage aveugle",
+              "Oui la nuit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le code autorise le chevauchement d\u2019une ligne continue pour doubler un v\xE9lo en s\xE9curit\xE9."
+          },
+          {
+            "_id": "q-lec-7-5-3",
+            "questionText": "Pour d\xE9passer un engin agricole lent et large :",
+            "options": [
+              "On double sans visibilit\xE9",
+              "On attend d\u2019avoir une parfaite visibilit\xE9 et un espace suffisant",
+              "On le colle \xE0 1 m\xE8tre",
+              "On klaxonne fort"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le gabarit des engins agricoles exige une visibilit\xE9 d\xE9gag\xE9e sur une longue distance."
+          },
+          {
+            "_id": "q-lec-7-5-4",
+            "questionText": "Peut-on d\xE9passer un chasse-neige en action de d\xE9neigement sur autoroute ?",
+            "options": [
+              "Oui par la droite",
+              "Non, il est strictement interdit de d\xE9passer un engin de service hivernal en action",
+              "Oui \xE0 plus de 130 km/h",
+              "Oui en le collant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le d\xE9passement d\u2019un chasse-neige en fonctionnement est interdit par la loi."
+          },
+          {
+            "_id": "q-lec-7-5-5",
+            "questionText": "Face \xE0 un convoi militaire ou exceptionnel :",
+            "options": [
+              "On s\u2019ins\xE8re au milieu du convoi",
+              "On ne doit jamais couper ni s\u2019intercaler dans un convoi organis\xE9",
+              "On les double tous d\u2019un coup",
+              "On les bloque"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il est formellement interdit de s\u2019interposer dans une colonne militaire ou un convoi officiel."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 8 : Prise de conscience des risques
-  // -------------------------------------------------------------
   {
-    _id: "mod-8",
-    _type: "moduleFormation",
-    code: "MOD-008",
-    title: "Module 8 : Prise de conscience des risques (alcool, drogues, fatigue, t\xE9l\xE9phone)",
-    summary: "Ce module sensibilise le candidat aux facteurs majeurs d'accidents de la route : consommation d'alcool et de stup\xE9fiants, fatigue au volant, somnolence, usage du t\xE9l\xE9phone portable et distracteurs.",
-    learningObjectives: [
-      "Conna\xEEtre le taux d'alcool\xE9mie l\xE9gal (0,2 g/L en probatoire, 0,5 g/L en permis d\xE9finitif)",
-      "Comprendre l'\xE9limination lente de l'alcool par le foie (~0,10 \xE0 0,15 g/L par heure)",
-      "Identifier les sympt\xF4mes de somnolence et l'obligation de pause toutes les 2 heures",
-      "Mesurer le danger mortel de l'usage du t\xE9l\xE9phone et de l'envoi de SMS au volant"
+    "_id": "mod-8",
+    "_type": "moduleFormation",
+    "code": "MOD-008",
+    "title": "Module 8 \u2014 Autoroutes et voies rapides",
+    "summary": "Insertion, circulation, choix des voies, distances \xE0 grande vitesse, aires de repos, sorties, voies rapides urbaines et proc\xE9dure d'urgence en cas de panne.",
+    "learningObjectives": [
+      "Ma\xEEtriser l'insertion fluide et prioritaire sur autoroute",
+      "Savoir se positionner sur les voies et respecter les distances \xE0 130 km/h",
+      "Anticiper les sorties, bifurcations et zones de p\xE9age",
+      "Appliquer rigoureusement la proc\xE9dure de s\xE9curit\xE9 en cas de panne sur autoroute (gilet, passagers, glissi\xE8re)"
     ],
-    ordre: 8,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 600,
-    tempsMinimumVisionnage: 480,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 8,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=C4lnJxLXX6s",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-8-1",
-        _type: "lecon",
-        title: "Le\xE7on 8.1 \u2013 Alcool\xE9mie, drogues et sanctions l\xE9gales",
-        ordre: 1,
-        description: "Taux l\xE9gaux d'alcool\xE9mie en France. 0,2 g/L de sang pour les jeunes conducteurs en permis probatoire (tol\xE9rance z\xE9ro). \xC9limination naturelle par le foie uniquement.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-8-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 8.1 \u2014 S\u2019ins\xE9rer et circuler sur autoroute",
+        "ordre": 1,
+        "description": "Bretelle et voie d\u2019insertion, adaptation \xE0 la vitesse du trafic, positionnement sur les voies et usage de la voie de gauche pour d\xE9passer.",
+        "videoUrl": "https://www.youtube.com/watch?v=C4lnJxLXX6s",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quel est le taux maximal d'alcool\xE9mie autoris\xE9 par la loi pour un JEUNE CONDUCTEUR en permis probatoire ?",
-            options: ["0,0 g/L de sang", "0,2 g/L de sang (strictement moins de 1 verre)", "0,5 g/L de sang", "0,8 g/L de sang"],
-            correctOptionIndex: 1,
-            explanation: "Le taux limite en permis probatoire est de 0,2 g/L (ce qui interdit la consommation de tout verre d'alcool)."
+            "_id": "q-lec-8-1-1",
+            "questionText": "Sur une voie d\u2019insertion, qui a la priorit\xE9 ?",
+            "options": [
+              "Le v\xE9hicule qui entre",
+              "Les v\xE9hicules circulant d\xE9j\xE0 sur l\u2019autoroute",
+              "Le plus rapide",
+              "Priorit\xE9 \xE0 droite"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La voie d\u2019insertion comporte un C\xE9dez le passage : priorit\xE9 au trafic autoroutier."
           },
           {
-            questionText: "\xC0 quelle vitesse moyenne l'organisme d'un adulte \xE9limine-t-il l'alcool ing\xE9r\xE9 ?",
-            options: ["1 g/L par heure", "Environ 0,10 \xE0 0,15 g/L de sang par heure", "En buvant du caf\xE9 noir en 10 minutes", "En prenant une douche froide"],
-            correctOptionIndex: 1,
-            explanation: `Seul le temps permet d'\xE9liminer l'alcool, \xE0 raison d'environ 0,10 \xE0 0,15 g/L par heure. Aucun "truc" n'acc\xE9l\xE8re ce processus.`
+            "_id": "q-lec-8-1-2",
+            "questionText": "Sur autoroute, quelle voie devez-vous occuper en circulation fluide ?",
+            "options": [
+              "La voie du milieu",
+              "La voie de gauche",
+              "La voie la plus \xE0 droite",
+              "Celle que l\u2019on pr\xE9f\xE8re"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "La circulation se fait toujours sur la voie de droite, les autres servant aux d\xE9passements."
           },
           {
-            questionText: "La conduite apr\xE8s avoir consomm\xE9 des stup\xE9fiants (cannabis, coca\xEFne...) est punie par :",
-            options: ["Une amende de 15 \u20AC", "Un d\xE9lit passible de 2 ans de prison, 4500 \u20AC d'amende et la perte de 6 points", "Un simple rappel \xE0 la loi", "Rien si on roule lentement"],
-            correctOptionIndex: 1,
-            explanation: "La conduite sous stup\xE9fiants est un d\xE9lit grave entra\xEEnant retrait de 6 points, lourde amende et peine de prison."
+            "_id": "q-lec-8-1-3",
+            "questionText": "A-t-on le droit de faire demi-tour ou marche arri\xE8re sur autoroute ?",
+            "options": [
+              "Oui au p\xE9age",
+              "Non, c\u2019est strictement interdit et puni d\u2019un retrait de 4 points et suspension de permis",
+              "Oui si on a rat\xE9 la sortie",
+              "Oui sur la BAU"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Faire demi-tour ou marche arri\xE8re sur autoroute est un comportement d\u2019une dangerosit\xE9 extr\xEAme."
           },
           {
-            questionText: "Combien de verres d'alcool standard faut-il g\xE9n\xE9ralement pour atteindre 0,5 g/L chez un conducteur confirm\xE9 ?",
-            options: ["1 verre", "Environ 2 verres standard", "5 verres", "10 verres"],
-            correctOptionIndex: 1,
-            explanation: "En moyenne, 2 doses d'alcool standard servies dans un bar suffisent pour atteindre ou d\xE9passer 0,5 g/L."
+            "_id": "q-lec-8-1-4",
+            "questionText": "Quelle est la vitesse minimale obligatoire sur autoroute sur la voie la plus \xE0 gauche par temps sec et fluide ?",
+            "options": [
+              "60 km/h",
+              "80 km/h",
+              "100 km/h",
+              "110 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Sur la voie la plus \xE0 gauche, il est interdit de rouler \xE0 moins de 80 km/h en conditions normales."
           },
           {
-            questionText: "Le m\xE9lange d'alcool et de cannabis multiplie le risque d'accident mortel par environ :",
-            options: ["2", "5", "29", "100"],
-            correctOptionIndex: 2,
-            explanation: "Le cocktail alcool + cannabis cumule les effets toxiques et multiplie par 29 le risque d'accident mortel !"
+            "_id": "q-lec-8-1-5",
+            "questionText": "Sur voie d\u2019insertion, pour faciliter l\u2019entr\xE9e d\u2019un v\xE9hicule, un conducteur sur la voie de droite peut :",
+            "options": [
+              "Piler",
+              "Se d\xE9porter sur la voie du milieu si elle est totalement libre en s\xE9curit\xE9",
+              "Klaxonner",
+              "Acc\xE9l\xE9rer fort"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Changer de voie pour lib\xE9rer la voie de droite est une excellente mesure de courtoisie."
           }
         ]
       },
       {
-        _id: "lec-8-2",
-        _type: "lecon",
-        title: "Le\xE7on 8.2 \u2013 Fatigue, somnolence et pauses sur trajet",
-        ordre: 2,
-        description: "Identifier les premiers signes de fatigue (picotements des yeux, raideur dans la nuque, baillements r\xE9p\xE9t\xE9s). La seule solution efficace : s'arr\xEAter au moins 15 \xE0 20 minutes pour dormir.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-8-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 8.2 \u2014 Files, distances et changement de voie sur autoroute",
+        "ordre": 2,
+        "description": "Distances de s\xE9curit\xE9 \xE0 vitesse \xE9lev\xE9e, v\xE9rification des angles morts et changement de voie progressif et signal\xE9.",
+        "videoUrl": "https://www.youtube.com/watch?v=pS_OLzKKimY",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Tous les combien de temps est-il vivement recommand\xE9 d'effectuer une pause lors d'un long trajet routier ?",
-            options: ["Toutes les 30 minutes", "Toutes les 2 heures de conduite au maximum", "Toutes les 6 heures", "Uniquement quand le r\xE9servoir est vide"],
-            correctOptionIndex: 1,
-            explanation: "Une pause d'au moins 15 \xE0 20 minutes s'impose toutes les 2 heures de conduite."
+            "_id": "q-lec-8-2-1",
+            "questionText": "\xC0 130 km/h, quelle distance parcourt-on en 1 seule seconde de temps de r\xE9action ?",
+            "options": [
+              "15 m\xE8tres",
+              "26 m\xE8tres",
+              "39 m\xE8tres environ",
+              "80 m\xE8tres"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Formule : 13 x 3 = 39 m\xE8tres parcourus en un clin d\u2019\u0153il."
           },
           {
-            questionText: "Quel est le premier facteur de mortalit\xE9 sur les autoroutes fran\xE7aises ?",
-            options: ["Les pannes m\xE9caniques", "La somnolence et la fatigue au volant", "Le manque d'essence", "Les animaux sauvages"],
-            correctOptionIndex: 1,
-            explanation: "La somnolence est responsable d'un accident mortel sur trois sur autoroute."
+            "_id": "q-lec-8-2-2",
+            "questionText": "Combien de m\xE8tres d\u2019intervalle de s\xE9curit\xE9 doit-on laisser \xE0 130 km/h sur autoroute ?",
+            "options": [
+              "30 m\xE8tres",
+              "50 m\xE8tres",
+              "Au moins 78 m\xE8tres (2 traits de bande d\u2019arr\xEAt d\u2019urgence)",
+              "150 m\xE8tres"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Formule : 13 x 6 = 78 m\xE8tres, mat\xE9rialis\xE9s par 2 bandes blanches de BAU."
           },
           {
-            questionText: "Lorsque vous ressentez les yeux qui picotent et des baillements r\xE9p\xE9t\xE9s en roulant :",
-            options: ["Montez le son de la radio et ouvrez la fen\xEAtre", "Arr\xEAtez-vous d\xE8s que possible sur une aire s\xE9curis\xE9e pour faire une sieste de 15-20 min", "Buvez une boisson gazeuse en acc\xE9l\xE9rant", "Faites des appels de phares"],
-            correctOptionIndex: 1,
-            explanation: "Aucune astuce ne remplace le sommeil : la sieste d'\xE9tape est la seule r\xE9ponse efficace."
+            "_id": "q-lec-8-2-3",
+            "questionText": "Avant de changer de voie \xE0 130 km/h, quelle est la r\xE8gle ?",
+            "options": [
+              "Braquer vite",
+              "R\xE9troviseurs central et gauche, coup d\u2019\u0153il angle mort, clignotant, puis d\xE9port progressif",
+              "Klaxonner",
+              "Freiner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "\xC0 vitesse \xE9lev\xE9e, toute man\u0153uvre doit \xEAtre souple et anticip\xE9e."
           },
           {
-            questionText: "\xC0 quel moment de la journ\xE9e l'horloge biologique humaine enregistre-t-elle un pic naturel de somnolence ?",
-            options: ["\xC0 8h du matin", "Entre 13h et 16h et entre 2h et 5h du matin", "\xC0 20h pile", "\xC0 midi"],
-            correctOptionIndex: 1,
-            explanation: "Les heures du d\xE9but d'apr\xE8s-midi et du milieu de nuit connaissent une baisse de vigilance physiologique."
+            "_id": "q-lec-8-2-4",
+            "questionText": "En cas de ralentissement soudain ou bouchon sur autoroute, vous devez imm\xE9diatement :",
+            "options": [
+              "Faire demi-tour",
+              "Allumer les feux de d\xE9tresse pour avertir les v\xE9hicules qui vous suivent",
+              "Rouler sur la BAU",
+              "Klaxonner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les feux de d\xE9tresse pr\xE9viennent le risque de collision en cha\xEEne par l\u2019arri\xE8re."
           },
           {
-            questionText: "Un conducteur priv\xE9 de sommeil depuis 17 heures pr\xE9sente des r\xE9flexes \xE9quivalents \xE0 une alcool\xE9mie de :",
-            options: ["0,0 g/L", "0,5 g/L de sang", "2,0 g/L", "5,0 g/L"],
-            correctOptionIndex: 1,
-            explanation: "17h d'\xE9veil continu d\xE9gradent les r\xE9flexes autant qu'un taux de 0,5 g/L d'alcool dans le sang."
+            "_id": "q-lec-8-2-5",
+            "questionText": "Le louvoiement ou zigzag d\u2019une voie \xE0 l\u2019autre dans les bouchons :",
+            "options": [
+              "Fait gagner 1 heure",
+              "Est dangereux, interdit et ne fait gagner aucun temps significatif",
+              "Est conseill\xE9",
+              "Est obligatoire"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Changer constamment de file perturbe le trafic et augmente le risque d\u2019accrochage."
           }
         ]
       },
       {
-        _id: "lec-8-3",
-        _type: "lecon",
-        title: "Le\xE7on 8.3 \u2013 Distracteurs au volant (t\xE9l\xE9phone, GPS, \xE9crans)",
-        ordre: 3,
-        description: "L'usage du t\xE9l\xE9phone tenu en main ou avec oreillette/casque est interdit en conduite. Lire ou \xE9crire un SMS multiplie le risque d'accident par 23.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-8-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 8.3 \u2014 Aires de repos, sorties et signalisation autorouti\xE8re",
+        "ordre": 3,
+        "description": "Signalisation verte, aires de repos et de service, anticipation des sorties et placement suffisamment t\xF4t \xE0 droite.",
+        "videoUrl": "https://www.youtube.com/watch?v=pS_OLzKKimY",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Est-il autoris\xE9 d'utiliser des \xE9couteurs, un casque audio ou une oreillette Bluetooth en conduisant une voiture ?",
-            options: ["Oui, si c'est pour le travail", "Strictement interdit par le code de la route", "Oui, d'une seule oreille", "Oui le dimanche"],
-            correctOptionIndex: 1,
-            explanation: "Le port de tout dispositif \xE9mettant du son \xE0 l'oreille (oreillettes, casque, \xE9couteurs) est interdit."
+            "_id": "q-lec-8-3-1",
+            "questionText": "Tous les combien de kilom\xE8tres trouve-t-on en moyenne une aire de repos sur autoroute ?",
+            "options": [
+              "Tous les 5 km",
+              "Tous les 15 \xE0 20 km environ",
+              "Tous les 100 km",
+              "Une seule par d\xE9partement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les aires de repos sont r\xE9parties r\xE9guli\xE8rement pour permettre la pause des 2 heures."
           },
           {
-            questionText: "Lire ou \xE9crire un SMS en conduisant multiplie le risque d'accident par :",
-            options: ["2", "5", "23", "100"],
-            correctOptionIndex: 2,
-            explanation: "La r\xE9daction d'un SMS quitte la route des yeux pendant 5 secondes en moyenne, multipliant le risque par 23."
+            "_id": "q-lec-8-3-2",
+            "questionText": "Pour emprunter une sortie d\u2019autoroute, o\xF9 doit-on commencer \xE0 freiner ?",
+            "options": [
+              "Sur la voie de droite de l\u2019autoroute",
+              "Uniquement une fois totalement engag\xE9 sur la voie de d\xE9c\xE9l\xE9ration",
+              "Sur la voie de gauche",
+              "Dans le virage serr\xE9"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On ne ralentit jamais sur les voies de circulation rapide : on freine sur la voie de sortie."
           },
           {
-            questionText: "Quelle est la sanction pour t\xE9l\xE9phone tenu en main au volant en France ?",
-            options: ["Une amende de 35 \u20AC sans retrait de point", "Une amende de 135 \u20AC et un retrait de 3 points sur le permis", "La prison ferme", "Un avertissement"],
-            correctOptionIndex: 1,
-            explanation: "L'usage du t\xE9l\xE9phone en main est puni de 135 \u20AC d'amende et du retrait de 3 points."
+            "_id": "q-lec-8-3-3",
+            "questionText": "Les panneaux d\u2019annonce de bifurcation ou sortie sont plac\xE9s \xE0 :",
+            "options": [
+              "10 m\xE8tres",
+              "2000 m, 1000 m, 500 m et au niveau de la bretelle",
+              "100 m\xE8tres seulement",
+              "50 m\xE8tres"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La signalisation autorouti\xE8re est tr\xE8s en amont pour laisser le temps de se rabattre."
           },
           {
-            questionText: "Si l'usage du t\xE9l\xE9phone en main est constat\xE9 en m\xEAme temps qu'une autre infraction au code de la route :",
-            options: ["Le permis peut \xEAtre imm\xE9diatement suspendu par les forces de l'ordre", "Rien de plus", "Le t\xE9l\xE9phone est confisqu\xE9 \xE0 vie", "L'amende est divis\xE9e par 2"],
-            correctOptionIndex: 0,
-            explanation: "Le cumul t\xE9l\xE9phone + autre infraction entra\xEEne la r\xE9tention imm\xE9diate du permis de conduire."
+            "_id": "q-lec-8-3-4",
+            "questionText": "\xC0 une gare de p\xE9age, les voies signal\xE9es par une fl\xE8che verte autorisent :",
+            "options": [
+              "Tous les v\xE9hicules pour paiement carte, esp\xE8ces ou t\xE9l\xE9p\xE9age",
+              "Uniquement les camions",
+              "Uniquement le t\xE9l\xE9p\xE9age sans arr\xEAt",
+              "Les motos seulement"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "La fl\xE8che verte indique que la voie est ouverte \xE0 tous les modes de paiement standard."
           },
           {
-            questionText: "O\xF9 devez-vous programmer votre destination sur le GPS ?",
-            options: ["En roulant sur l'autoroute", "\xC0 l'arr\xEAt complet du v\xE9hicule avant de prendre la route", "\xC0 130 km/h", "En tenant le t\xE9l\xE9phone de la main gauche"],
-            correctOptionIndex: 1,
-            explanation: "Toute programmation d'itin\xE9raire doit s'effectuer v\xE9hicule stationn\xE9 en s\xE9curit\xE9."
+            "_id": "q-lec-8-3-5",
+            "questionText": "Les voies de p\xE9age marqu\xE9es d\u2019un \xAB t \xBB orange r\xE9servent le passage \xE0 :",
+            "options": [
+              "Tous les v\xE9hicules",
+              "Exclusivement aux abonn\xE9s au t\xE9l\xE9p\xE9age \xE9lectronique",
+              "Aux transports de fonds",
+              "Aux taxis"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Ces voies sont r\xE9serv\xE9es aux v\xE9hicules \xE9quip\xE9s d\u2019un badge Liber-t actif."
           }
         ]
       },
       {
-        _id: "lec-8-4",
-        _type: "lecon",
-        title: "Le\xE7on 8.4 \u2013 Pression sociale, vitesse et courtoisie au volant",
-        ordre: 4,
-        description: "R\xE9sister \xE0 la pression des passagers ou d'autres usagers agressifs. Adopter un comportement calme, courtois et pr\xE9venant au volant (charte du conducteur responsable).",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-8-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 8.4 \u2014 Conduite en cas de panne ou d\u2019accident sur autoroute",
+        "ordre": 4,
+        "description": "Bande d\u2019arr\xEAt d\u2019urgence, feux de d\xE9tresse, gilet, sortie c\xF4t\xE9 droit et mise \xE0 l\u2019abri derri\xE8re la glissi\xE8re.",
+        "videoUrl": "https://www.youtube.com/watch?v=yEuJJut8Jmg",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Si un automobiliste derri\xE8re vous colle votre pare-chocs de mani\xE8re agressive pour vous inciter \xE0 d\xE9passer la vitesse :",
-            options: ["Acc\xE9l\xE9rer pour lui faire plaisir", "Piler brusquement", "Garder son calme, maintenir sa vitesse l\xE9gale et faciliter son d\xE9passement d\xE8s que possible", "Faire des gestes d'insulte"],
-            correctOptionIndex: 2,
-            explanation: "Garder son sang-froid et ne pas c\xE9der \xE0 la provocation garantit la s\xE9curit\xE9."
+            "_id": "q-lec-8-4-1",
+            "questionText": "En cas de panne sur autoroute, quel est l\u2019ordre chronologique vital \xE0 respecter ?",
+            "options": [
+              "Sortir \xE0 gauche, poser le triangle \xE0 100 m, attendre dans la voiture",
+              "Allumer feux de d\xE9tresse, serrer sur la BAU, enfiler le gilet \xE0 bord, faire sortir tous les passagers par la droite et se r\xE9fugier derri\xE8re la glissi\xE8re",
+              "Pousser la voiture vers la sortie",
+              "T\xE9l\xE9phoner au volant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La mise \xE0 l\u2019abri imm\xE9diate de tous les passagers derri\xE8re la glissi\xE8re de s\xE9curit\xE9 est vitale."
           },
           {
-            questionText: "La courtoisie au volant consiste notamment \xE0 :",
-            options: ["Forcer le passage aux intersections", "Faciliter l'insertion des autres usagers et remercier d'un signe de main", "Klaxonner les pi\xE9tons lents", "Rouler au milieu de la route"],
-            correctOptionIndex: 1,
-            explanation: "La courtoisie apaise la circulation et pr\xE9vient l'agressivit\xE9 au volant."
+            "_id": "q-lec-8-4-2",
+            "questionText": "Doit-on poser le triangle de pr\xE9signalisation sur la chauss\xE9e d\u2019une autoroute ?",
+            "options": [
+              "Oui obligatoirement \xE0 150 m",
+              "Non, sur autoroute la pose du triangle n\u2019est pas obligatoire si elle met en danger la vie du conducteur",
+              "Oui au milieu de la voie",
+              "Oui sur le toit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Remonter l\u2019autoroute \xE0 pied pour poser le triangle pr\xE9sente un risque mortel et n\u2019est pas requis."
           },
           {
-            questionText: "Si vos amis passagers vous incitent \xE0 prendre des risques ou \xE0 rouler trop vite :",
-            options: ["Accepter pour ne pas perdre la face", "Affirmer votre responsabilit\xE9 de conducteur et refuser fermement de prendre le moindre risque", "Leur donner le volant en roulant", "\xC9teindre les phares"],
-            correctOptionIndex: 1,
-            explanation: "Le conducteur est ma\xEEtre \xE0 bord et responsable de la vie de tous ses passagers."
+            "_id": "q-lec-8-4-3",
+            "questionText": "Pour appeler les secours d\u2019autoroute en cas d\u2019accident ou panne, que privil\xE9gier ?",
+            "options": [
+              "Faire du stop",
+              "Utiliser une borne d\u2019appel d\u2019urgence orange (tous les 2 km) ou l\u2019application officielle SOS",
+              "Appeler un ami",
+              "Attendre le passage des gendarmes"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La borne d\u2019urgence g\xE9olocalise instantan\xE9ment votre position exacte pour les patrouilleurs."
           },
           {
-            questionText: "Qu'est-ce que la d\xE9tection d'indice en conduite pr\xE9ventive ?",
-            options: ["Rechercher la police", "Observer activement son environnement pour anticiper les comportements dangereux des autres usagers", "Regarder le capot", "Compter les arbres"],
-            correctOptionIndex: 1,
-            explanation: "Anticiper les erreurs potentielles des autres permet d'\xE9viter l'accident."
+            "_id": "q-lec-8-4-4",
+            "questionText": "Quelle est la dur\xE9e de vie moyenne d\u2019un pi\xE9ton sur la bande d\u2019arr\xEAt d\u2019urgence d\u2019une autoroute ?",
+            "options": [
+              "Plusieurs heures",
+              "Moins de 20 minutes",
+              "Une journ\xE9e",
+              "Aucun danger"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La BAU est extr\xEAmement dangereuse : il faut imm\xE9diatement passer derri\xE8re les glissi\xE8res."
           },
           {
-            questionText: "En cas de conflit verbal lors d'un accrochage l\xE9ger :",
-            options: ["Envenir aux mains", "Rester calme, remplir sereinement le constat amiable et noter les t\xE9moignages", "Fuir les lieux sans s'arr\xEAter", "Casser le r\xE9troviseur adverse"],
-            correctOptionIndex: 1,
-            explanation: "Le calme et le remplissage rigoureux du constat amiable r\xE8glent les litiges en s\xE9curit\xE9."
+            "_id": "q-lec-8-4-5",
+            "questionText": "O\xF9 doivent attendre les passagers pendant le d\xE9pannage sur autoroute ?",
+            "options": [
+              "Dans l\u2019habitacle assis avec ceinture",
+              "Debout sur la BAU",
+              "Derri\xE8re la glissi\xE8re de s\xE9curit\xE9 m\xE9tallique ou sur le talus",
+              "Au bord de la route"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Personne ne doit rester \xE0 l\u2019int\xE9rieur du v\xE9hicule immobilis\xE9 sur la BAU."
+          }
+        ]
+      },
+      {
+        "_id": "lec-8-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 8.5 \u2014 Voies rapides urbaines et p\xE9riph\xE9riques",
+        "ordre": 5,
+        "description": "Particularit\xE9s des voies rapides urbaines : insertions fr\xE9quentes, vitesse r\xE9glement\xE9e, demi-tour et arr\xEAt interdits hors urgence.",
+        "videoUrl": "https://www.youtube.com/watch?v=pS_OLzKKimY",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-8-5-1",
+            "questionText": "Quelle est la limitation de vitesse sur le boulevard p\xE9riph\xE9rique parisien et de nombreuses rocades urbaines ?",
+            "options": [
+              "90 km/h",
+              "70 km/h ou 80 km/h selon la signalisation locale",
+              "130 km/h",
+              "110 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les voies rapides urbaines ont des limitations abaiss\xE9es (ex: 70 ou 80 km/h)."
+          },
+          {
+            "_id": "q-lec-8-5-2",
+            "questionText": "Sur le p\xE9riph\xE9rique parisien historique, quelle est la particularit\xE9 des voies d\u2019insertion ?",
+            "options": [
+              "Les v\xE9hicules sur l\u2019anneau sont prioritaires",
+              "Les v\xE9hicules entrants b\xE9n\xE9ficient de la priorit\xE9 \xE0 droite",
+              "Priorit\xE9 aux camions",
+              "Feu vert permanent"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le p\xE9riph\xE9rique parisien applique historiquement la priorit\xE9 \xE0 droite aux bretelles d\u2019acc\xE8s."
+          },
+          {
+            "_id": "q-lec-8-5-3",
+            "questionText": "Sur une voie rapide urbaine \xE0 fort trafic, les changements fr\xE9quents de file :",
+            "options": [
+              "Font gagner beaucoup de temps",
+              "Provoquent des ralentissements en accord\xE9on et augmentent le risque d\u2019accrochage",
+              "Sont obligatoires",
+              "Sont autoris\xE9s sans clignotant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Garder sa file stabilise la circulation et \xE9vite l\u2019effet accord\xE9on."
+          },
+          {
+            "_id": "q-lec-8-5-4",
+            "questionText": "Les deux-roues motoris\xE9s en circulation inter-files sur voies rapides urbaines :",
+            "options": [
+              "Doivent rouler \xE0 130 km/h",
+              "Peuvent circuler entre les 2 voies les plus \xE0 gauche \xE0 vitesse mod\xE9r\xE9e (max 50 km/h) lorsque le trafic est congestionn\xE9",
+              "Sont prioritaires sur tout",
+              "N\u2019ont aucun droit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019exp\xE9rimentation encadre l\u2019inter-files entre les voies de gauche \xE0 50 km/h max en cas d\u2019embouteillage."
+          },
+          {
+            "_id": "q-lec-8-5-5",
+            "questionText": "En cas de panne sur voie rapide urbaine sans BAU :",
+            "options": [
+              "On abandonne la voiture au milieu",
+              "On allume les feux de d\xE9tresse, serre au maximum le trottoir/glissi\xE8re et prot\xE8ge les occupants",
+              "On fait marche arri\xE8re",
+              "On klaxonne"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On s\xE9curise au maximum le v\xE9hicule et on fait \xE9vacuer les passagers vers un lieu s\xFBr."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 9 : Partage de la route et usagers vulnérables
-  // -------------------------------------------------------------
   {
-    _id: "mod-9",
-    _type: "moduleFormation",
-    code: "MOD-009",
-    title: "Module 9 : Partage de la route et usagers vuln\xE9rables",
-    summary: "Ce module apprend \xE0 cohabiter en toute s\xE9curit\xE9 avec l'ensemble des usagers de l'espace public : pi\xE9tons, PMR (personnes \xE0 mobilit\xE9 r\xE9duite), cyclistes, engins de d\xE9placement personnel motoris\xE9s (EDPM/trottinettes), motards et convois exceptionnels.",
-    learningObjectives: [
-      "Identifier les zones apais\xE9es (Zone 30, Zone de rencontre 20 km/h, Aire pi\xE9tonne 6 km/h)",
-      "Respecter les sas v\xE9lo aux feux et les distances de d\xE9passement des cycles",
-      "Anticiper les angles morts importants des poids lourds et bus",
-      "Distinguer les r\xE8gles applicables aux trottinettes \xE9lectriques et EDPM"
+    "_id": "mod-9",
+    "_type": "moduleFormation",
+    "code": "MOD-009",
+    "title": "Module 9 \u2014 Conduite de nuit et m\xE9t\xE9o difficile",
+    "summary": "Conduite nocturne, utilisation optimale des feux, adh\xE9rence et aquaplaning sous la pluie, brouillard, neige, verglas et vent fort.",
+    "learningObjectives": [
+      "Ma\xEEtriser l'usage r\xE9glementaire de tous les feux (position, croisement, route, brouillard)",
+      "Comprendre et pr\xE9venir le ph\xE9nom\xE8ne dangereux d'aquaplaning sous la pluie",
+      "Conduire en s\xE9curit\xE9 par brouillard dense et respecter la r\xE8gle des 50 km/h",
+      "Adapter la conduite sur neige et verglas avec \xE9quipements sp\xE9ciaux (cha\xEEnes, chaussettes, pneus hiver)"
     ],
-    ordre: 9,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 9,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=cHlvKr08BDs",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-9-1",
-        _type: "lecon",
-        title: "Le\xE7on 9.1 \u2013 Protection des pi\xE9tons et zones pi\xE9tonnes / de rencontre",
-        ordre: 1,
-        description: "D\xE9couverte des diff\xE9rentes zones de circulation apais\xE9e. Dans une zone de rencontre (limit\xE9e \xE0 20 km/h), les pi\xE9tons sont prioritaires sur toute la chauss\xE9e.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-9-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 9.1 \u2014 Conduite de nuit et usage des feux",
+        "ordre": 1,
+        "description": "Feux de croisement et feux de route, pr\xE9vention de l\u2019\xE9blouissement, visibilit\xE9 r\xE9duite et vigilance accrue.",
+        "videoUrl": "https://www.youtube.com/watch?v=cHlvKr08BDs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Quelle est la vitesse maximale autoris\xE9e dans une ZONE DE RENCONTRE en agglom\xE9ration ?",
-            options: ["10 km/h", "20 km/h", "30 km/h", "50 km/h"],
-            correctOptionIndex: 1,
-            explanation: "Dans une zone de rencontre, la vitesse est limit\xE9e \xE0 20 km/h et le pi\xE9ton est prioritaire partout."
+            "_id": "q-lec-9-1-1",
+            "questionText": "La nuit sur route non \xE9clair\xE9e sans aucun v\xE9hicule devant ni en face, vous roulez en :",
+            "options": [
+              "Feux de position seuls",
+              "Feux de croisement",
+              "Feux de route (pleins phares)",
+              "Feux de d\xE9tresse"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Les feux de route \xE9clairent \xE0 au moins 100 m\xE8tres et sont requis hors agglom\xE9ration sans g\xEAne pour autrui."
           },
           {
-            questionText: "Dans une AIRE PI\xC9TONNE, quelle est la r\xE8gle concernant les v\xE9hicules autoris\xE9s \xE0 y p\xE9n\xE9trer au pas ?",
-            options: ["Ils roulent \xE0 50 km/h", "Les pi\xE9tons sont prioritaires et les v\xE9hicules doivent rouler au pas (max 6 km/h)", "Les pi\xE9tons doivent s'\xE9carter", "Les voitures y stationnent librement"],
-            correctOptionIndex: 1,
-            explanation: "L'aire pi\xE9tonne est r\xE9serv\xE9e aux pi\xE9tons. Les rares v\xE9hicules autoris\xE9s roulent au pas sans g\xEAner les pi\xE9tons."
+            "_id": "q-lec-9-1-2",
+            "questionText": "\xC0 quelle distance minimale \xE9clairent les feux de croisement ?",
+            "options": [
+              "10 m\xE8tres",
+              "30 m\xE8tres",
+              "100 m\xE8tres",
+              "200 m\xE8tres"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les feux de croisement \xE9clairent \xE0 au moins 30 m\xE8tres vers l\u2019avant sans \xE9blouir."
           },
           {
-            questionText: "\xC0 l'approche d'une personne malvoyante traversant la rue avec une canne blanche :",
-            options: ["Klaxonner pour l'avertir", "Lui c\xE9der la priorit\xE9 absolue en arr\xEAtant totalement le v\xE9hicule", "Acc\xE9l\xE9rer avant qu'elle s'engage", "Faire des appels de phares"],
-            correctOptionIndex: 1,
-            explanation: "Les personnes vuln\xE9rables (handicap, canne blanche) exigent une attention et un arr\xEAt bienveillant."
+            "_id": "q-lec-9-1-3",
+            "questionText": "En agglom\xE9ration bien \xE9clair\xE9e la nuit, quels feux devez-vous utiliser ?",
+            "options": [
+              "Feux de route",
+              "Feux de croisement",
+              "Feux \xE9teints",
+              "Feux antibrouillard"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En ville \xE9clair\xE9e, on circule en feux de croisement pour \xEAtre vu et voir la chauss\xE9e."
           },
           {
-            questionText: "Peut-on chevaucher une ligne continue pour d\xE9passer un cycliste si la visibilit\xE9 est parfaite ?",
-            options: ["Non jamais", "Oui, le code de la route autorise le chevauchement de la ligne continue pour d\xE9passer un v\xE9lo si la s\xE9curit\xE9 le permet", "Uniquement la nuit", "Oui en klaxonnant"],
-            correctOptionIndex: 1,
-            explanation: "Le chevauchement (sans franchissement total) est tol\xE9r\xE9 pour doubler un cycliste avec l'\xE9cart lat\xE9ral de s\xE9curit\xE9."
+            "_id": "q-lec-9-1-4",
+            "questionText": "D\xE8s que vous croisez ou suivez un autre v\xE9hicule de nuit, vous devez :",
+            "options": [
+              "Garder les feux de route",
+              "Passer en feux de croisement",
+              "\xC9teindre les feux",
+              "Faire des appels de phares"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le passage en feux de croisement \xE9vite d\u2019\xE9blouir les autres conducteurs."
           },
           {
-            questionText: "Dans une Zone 30, la circulation des cyclistes s'effectue :",
-            options: ["Uniquement \xE0 droite", "En double-sens cyclable sur toutes les rues sauf d\xE9cision contraire du maire", "Interdite", "Sur le trottoir"],
-            correctOptionIndex: 1,
-            explanation: "Les rues en Zone 30 sont par d\xE9faut \xE0 double-sens pour les v\xE9los."
+            "_id": "q-lec-9-1-5",
+            "questionText": "Pour r\xE9duire l\u2019\xE9blouissement caus\xE9 par un v\xE9hicule derri\xE8re vous, vous pouvez :",
+            "options": [
+              "Acc\xE9l\xE9rer",
+              "Basculer le r\xE9troviseur int\xE9rieur en position nuit",
+              "Fermer les yeux",
+              "Freiner brusquement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La languette anti-\xE9blouissement ou le miroir \xE9lectrochrome att\xE9nue le reflet des phares."
           }
         ]
       },
       {
-        _id: "lec-9-2",
-        _type: "lecon",
-        title: "Le\xE7on 9.2 \u2013 Cohabitation avec les cyclistes et trottinettes",
-        ordre: 2,
-        description: "Respect des sas v\xE9los aux feux tricolores (interdit aux voitures). R\xE8gles sp\xE9cifiques applicables aux trottinettes \xE9lectriques (EDPM) : interdiction de rouler sur les trottoirs.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-9-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 9.2 \u2014 Conduite sous la pluie",
+        "ordre": 2,
+        "description": "Adh\xE9rence r\xE9duite, aquaplaning, essuie-glaces, feux, distances de freinage et r\xE9duction de vitesse.",
+        "videoUrl": "https://www.youtube.com/watch?v=cHlvKr08BDs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: `Qu'est-ce qu'un "sas v\xE9lo" situ\xE9 devant un feu tricolore ?`,
-            options: ["Un parking v\xE9lo", "Un espace r\xE9serv\xE9 aux cyclistes au feu pour se placer devant les voitures et \xEAtre bien vus", "Une zone de livraison", "Un espace r\xE9serv\xE9 aux motos"],
-            correctOptionIndex: 1,
-            explanation: "Le sas v\xE9lo permet aux cyclistes de d\xE9marrer en toute s\xE9curit\xE9 devant les voitures au feu vert."
+            "_id": "q-lec-9-2-1",
+            "questionText": "Quels feux allumer obligatoirement lorsqu\u2019il pleut ?",
+            "options": [
+              "Feux de position seuls",
+              "Feux de croisement (avec essuie-glaces)",
+              "Feux de route",
+              "Feux de brouillard arri\xE8re"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "D\xE8s qu\u2019il pleut, les feux de croisement sont obligatoires pour \xEAtre visible."
           },
           {
-            questionText: "Une voiture s'arr\xEAtant dans un sas v\xE9lo au feu rouge risque :",
-            options: ["Rien du tout", "Une amende de 35 \u20AC (ou 135 \u20AC) et un retrait de points", "Un compliment", "La saisie du v\xE9hicule"],
-            correctOptionIndex: 1,
-            explanation: "Refuser le sas v\xE9lo aux cyclistes constitue une infraction au code de la route."
+            "_id": "q-lec-9-2-2",
+            "questionText": "Les feux de brouillard arri\xE8re sont-ils autoris\xE9s sous une forte pluie ?",
+            "options": [
+              "Oui toujours",
+              "Non, c\u2019est strictement interdit car ils \xE9blouissent fortement les usagers qui suivent",
+              "Oui sur autoroute",
+              "Oui la nuit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les feux de brouillard arri\xE8re sont interdits sous la pluie (r\xE9serv\xE9s \xE0 brouillard et neige)."
           },
           {
-            questionText: "O\xF9 une trottinette \xE9lectrique (EDPM) a-t-elle l'obligation de circuler en agglom\xE9ration ?",
-            options: ["Sur les trottoirs \xE0 30 km/h", "Sur les pistes et bandes cyclables (ou sur la chauss\xE9e si pas de piste)", "Sur les autoroutes", "En sens interdit libre"],
-            correctOptionIndex: 1,
-            explanation: "Les EDPM doivent emprunter les voies cyclables ou la chauss\xE9e (trottoir interdit sauf si moteur coup\xE9 au pas)."
+            "_id": "q-lec-9-2-3",
+            "questionText": "Qu\u2019est-ce que le ph\xE9nom\xE8ne d\u2019aquaplaning (ou aquaplanage) ?",
+            "options": [
+              "Un nettoyage automatique des pneus",
+              "La perte totale de contact entre le pneu et la route \xE0 cause d\u2019un film d\u2019eau non \xE9vacu\xE9",
+              "Un freinage puissant",
+              "Une acc\xE9l\xE9ration soudaine"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le pneu flotte sur l\u2019eau, entra\xEEnant la perte totale du contr\xF4le directionnel et des freins."
           },
           {
-            questionText: "Quelle est la vitesse maximale par construction d'un engin de d\xE9placement personnel motoris\xE9 (EDPM) ?",
-            options: ["15 km/h", "25 km/h", "45 km/h", "80 km/h"],
-            correctOptionIndex: 1,
-            explanation: "La vitesse maximale l\xE9gale par construction d'un EDPM est brid\xE9e \xE0 25 km/h."
+            "_id": "q-lec-9-2-4",
+            "questionText": "Que faire en cas d\u2019amorce d\u2019aquaplaning ?",
+            "options": [
+              "Freiner de toutes ses forces et tourner le volant",
+              "Maintenir le volant droit, rel\xE2cher doucement l\u2019acc\xE9l\xE9rateur sans freiner brusquement",
+              "Acc\xE9l\xE9rer",
+              "Tirer le frein \xE0 main"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On d\xE9braye ou rel\xE2che l\u2019acc\xE9l\xE9rateur en gardant les roues droites pour retrouver l\u2019adh\xE9rence."
           },
           {
-            questionText: "Quelle distance lat\xE9rale minimale de s\xE9curit\xE9 devez-vous laisser pour d\xE9passer un cycliste EN AGGLOM\xC9RATION ?",
-            options: ["0,5 m\xE8tre", "1,0 m\xE8tre", "1,5 m\xE8tre", "2,0 m\xE8tres"],
-            correctOptionIndex: 1,
-            explanation: "En ville (agglom\xE9ration), la distance minimale est de 1,0 m\xE8tre (1,5 m hors agglo)."
+            "_id": "q-lec-9-2-5",
+            "questionText": "Sous la pluie, la vitesse sur autoroute est r\xE9duite de 130 km/h \xE0 :",
+            "options": [
+              "120 km/h",
+              "110 km/h",
+              "100 km/h",
+              "90 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La vitesse passe de 130 \xE0 110 km/h sur autoroute par temps pluvieux."
           }
         ]
       },
       {
-        _id: "lec-9-3",
-        _type: "lecon",
-        title: "Le\xE7on 9.3 \u2013 Sp\xE9cificit\xE9s des deux-roues motoris\xE9s (motos, scooters)",
-        ordre: 3,
-        description: "Comprendre la conduite des deux-roues motoris\xE9s : acc\xE9l\xE9ration rapide, trajectoire de s\xE9curit\xE9 en virage, circulation inter-files (CIF) exp\xE9riment\xE9e sur autoroutes encombr\xE9es.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-9-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 9.3 \u2014 Conduite par brouillard",
+        "ordre": 3,
+        "description": "R\xE9duction de l\u2019allure, feux adapt\xE9s, interdiction pratique des feux de route \xE0 cause de la r\xE9verb\xE9ration et distances accrues.",
+        "videoUrl": "https://www.youtube.com/watch?v=cHlvKr08BDs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Dans les d\xE9partements autorisant la Circulation Inter-Files (CIF) des motos en cas de bouchon sur autoroute :",
-            options: ["Les motos roulent sur la bande d'arr\xEAt d'urgence", "Les motos peuvent circuler entre les 2 voies les plus \xE0 gauche \xE0 50 km/h max", "Les motos roulent \xE0 130 km/h", "Les voitures doivent bloquer les motos"],
-            correctOptionIndex: 1,
-            explanation: "La CIF s'effectue entre les deux voies les plus \xE0 gauche lorsque le trafic est fortement ralenti."
+            "_id": "q-lec-9-3-1",
+            "questionText": "Par temps de brouillard, pourquoi ne doit-on PAS allumer les feux de route ?",
+            "options": [
+              "Ils s\u2019usent trop vite",
+              "La lumi\xE8re se refl\xE8te sur les gouttelettes d\u2019eau en formant un \xAB mur blanc \xBB opaque et \xE9blouissant",
+              "Ils sont interdits le matin",
+              "Ils chauffent trop"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les feux de route cr\xE9ent un mur opaque \xE9blouissant par r\xE9verb\xE9ration sur le brouillard."
           },
           {
-            questionText: "Lorsque vous ouvrez votre porti\xE8re c\xF4t\xE9 rue apr\xE8s vous \xEAtre gar\xE9, quelle technique \xE9vite de percuter un motard ou cycliste ?",
-            options: ["Ouvrir la porte d'un coup sec", "Ouvrir la porti\xE8re avec la main oppos\xE9e (main droite) pour tourner le buste et regarder vers l'arri\xE8re", "Fermer les yeux", "Sortir par la fen\xEAtre"],
-            correctOptionIndex: 1,
-            explanation: "La poign\xE9e hollandaise (ouvrir avec la main oppos\xE9e) force le regard vers l'angle mort arri\xE8re."
+            "_id": "q-lec-9-3-2",
+            "questionText": "Quels feux utiliser par temps de brouillard ?",
+            "options": [
+              "Feux de croisement et feux antibrouillard avant/arri\xE8re si le v\xE9hicule en est \xE9quip\xE9",
+              "Feux de position seuls",
+              "Feux de route",
+              "Feux de d\xE9tresse seuls"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Feux de croisement compl\xE9t\xE9s par les antibrouillards avant et arri\xE8re."
           },
           {
-            questionText: `Pourquoi une moto semble-t-elle parfois "arriver plus vite" qu'on ne le pense \xE0 une intersection ?`,
-            options: ["Parce qu'elle n'a pas de feux", "En raison de sa forte capacit\xE9 d'acc\xE9l\xE9ration et de sa faible surface visuelle", "Car les motos n'ont pas de freins", "C'est une illusion optique sans r\xE9alit\xE9"],
-            correctOptionIndex: 1,
-            explanation: "Le gabarit \xE9troit trompe le jugement de la vitesse et de la distance d'approche."
+            "_id": "q-lec-9-3-3",
+            "questionText": "Lorsque la visibilit\xE9 est inf\xE9rieure \xE0 50 m\xE8tres par brouillard dense, la vitesse est limit\xE9e \xE0 :",
+            "options": [
+              "30 km/h",
+              "50 km/h sur toutes les routes et autoroutes",
+              "70 km/h",
+              "90 km/h"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La vitesse maximale est de 50 km/h partout d\xE8s que la visibilit\xE9 tombe sous 50 m."
           },
           {
-            questionText: "Si une moto vous suit de pr\xE8s, vous devez :",
-            options: ["Piler pour lui faire peur", "\xC9viter les freinages brusques et lui faciliter le d\xE9passement d\xE8s que possible", "Mettre les essuie-glaces", "Acc\xE9l\xE9rer au maximum"],
-            correctOptionIndex: 1,
-            explanation: "Une moto a un risque de chute \xE9lev\xE9 en cas de freinage intempestif de l'usager qui la pr\xE9c\xE8de."
+            "_id": "q-lec-9-3-4",
+            "questionText": "Quel rep\xE8re visuel peut aider \xE0 maintenir sa trajectoire dans un brouillard \xE9pais ?",
+            "options": [
+              "Regarder le ciel",
+              "La ligne de rive peinte sur le bord droit de la chauss\xE9e",
+              "Le milieu de la route",
+              "Les panneaux publicitaires"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La ligne blanche de droite guide le conducteur le long du bas-c\xF4t\xE9."
           },
           {
-            questionText: "Par temps de pluie, quelle zone de marquage au sol pr\xE9sente un risque de glissade majeur pour un deux-roues ?",
-            options: ["Les bandes blanches peintes au sol (passages pi\xE9tons, fl\xE8ches) et plaques d'\xE9gout", "Le bitume noir", "L'herbe du bas-c\xF4t\xE9", "Les panneaux de signalisation"],
-            correctOptionIndex: 0,
-            explanation: "La peinture routi\xE8re mouill\xE9e et le m\xE9tal des plaques deviennent d'authentiques patinoires pour les deux-roues."
+            "_id": "q-lec-9-3-5",
+            "questionText": "D\xE8s que l\u2019on sort de la nappe de brouillard, quelle est l\u2019obligation imm\xE9diate ?",
+            "options": [
+              "Acc\xE9l\xE9rer \xE0 fond",
+              "\xC9teindre imm\xE9diatement les feux de brouillard arri\xE8re pour ne pas \xE9blouir",
+              "Allumer les feux de d\xE9tresse",
+              "Couper le moteur"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les feux antibrouillard arri\xE8re doivent \xEAtre \xE9teints d\xE8s que le brouillard dispara\xEEt."
           }
         ]
       },
       {
-        _id: "lec-9-4",
-        _type: "lecon",
-        title: "Le\xE7on 9.4 \u2013 Camions, bus, convoi exceptionnel et angles morts",
-        ordre: 4,
-        description: `Visualiser les grands angles morts d'un poids lourd (\xE0 l'arri\xE8re, sur les c\xF4t\xE9s et directement sous la cabine). Signalisation "Attention Angles Morts" sur v\xE9hicules lourds.`,
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-9-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 9.4 \u2014 Conduite sur neige et verglas",
+        "ordre": 4,
+        "description": "\xC9quipements adapt\xE9s, conduite souple, anticipation, freinage progressif et augmentation importante des distances.",
+        "videoUrl": "https://www.youtube.com/watch?v=cHlvKr08BDs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Si vous \xEAtes plac\xE9 au ras du pare-chocs arri\xE8re d'un semi-remorque, le chauffeur dans ses r\xE9troviseurs :",
-            options: ["Vous voit parfaitement", "Ne vous voit absolument pas (vous \xEAtes dans son angle mort arri\xE8re)", "Vous voit gr\xE2ce \xE0 sa cam\xE9ra", "Vous entend parler"],
-            correctOptionIndex: 1,
-            explanation: "Rester coll\xE9 derri\xE8re un camion vous rend totalement invisible pour son conducteur."
+            "_id": "q-lec-9-4-1",
+            "questionText": "Sur une chauss\xE9e enneig\xE9e ou verglac\xE9e, la distance de freinage peut \xEAtre multipli\xE9e par :",
+            "options": [
+              "2",
+              "Jusqu\u2019\xE0 4 ou 10 fois par rapport au sol sec",
+              "Elle est divis\xE9e par 2",
+              "Inchang\xE9e"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019absence d\u2019adh\xE9rence allonge consid\xE9rablement la distance d\u2019arr\xEAt."
           },
           {
-            questionText: "\xC0 l'approche d'un Convoi Exceptionnel pr\xE9c\xE9d\xE9 d'un v\xE9hicule d'accompagnement \xE0 gyrophare jaune :",
-            options: ["Forcer le passage", "R\xE9duire sa vitesse, se serrer \xE0 droite et c\xE9der le passage si n\xE9cessaire", "D\xE9passer le convoi par la droite", "Acc\xE9l\xE9rer"],
-            correctOptionIndex: 1,
-            explanation: "Un convoi exceptionnel occupant une largeur importante exige la plus grande prudence et le d\xE9gagement de la voie."
+            "_id": "q-lec-9-4-2",
+            "questionText": "Quelle est la r\xE8gle de conduite fondamentale sur neige ou verglas ?",
+            "options": [
+              "Conduite agressive",
+              "Conduite ultra-souple : acc\xE9l\xE9rations tr\xE8s progressives, frein moteur, gestes mesur\xE9s",
+              "Freiner fort dans les virages",
+              "Rouler en surr\xE9gime"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Tout geste brusque provoque un d\xE9crochage instantan\xE9 du v\xE9hicule."
           },
           {
-            questionText: `Que signale l'autocollant jaune et rouge "Attention Angles Morts" appos\xE9 sur les bus et camions ?`,
-            options: ["Une publicit\xE9", "L'avertissement des zones aveugles autour du v\xE9hicule o\xF9 les usagers risquent de ne pas \xEAtre vus", "Une interdiction de d\xE9passer", "Une marque de fabricant"],
-            correctOptionIndex: 1,
-            explanation: "Cet autocollant signale aux pi\xE9tons, cyclistes et automobilistes les zones mortes visuelles du poids lourd."
+            "_id": "q-lec-9-4-3",
+            "questionText": "Que signifie le panneau rond bleu B26 repr\xE9sentant un pneu avec des cha\xEEnes ?",
+            "options": [
+              "Pneus neige interdits",
+              "Obligation de circuler avec des cha\xEEnes \xE0 neige sur au moins deux roues motrices",
+              "Zone de ski",
+              "Garage proche"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le panneau B26 rend obligatoire le port de cha\xEEnes ou chaussettes homologu\xE9es."
           },
           {
-            questionText: "Lors d'un d\xE9passement d'un camion poids lourd par vent fort, vous devez anticiper :",
-            options: ["Aucun effet", "Un effet d'aspiration lors du d\xE9passement puis une pouss\xE9e de vent lat\xE9ral en sortant de son ombre", "Une panne de moteur", "Une augmentation de vitesse du camion"],
-            correctOptionIndex: 1,
-            explanation: "L'\xE9cran form\xE9 par le camion abrite du vent, puis sa sortie provoque un coup de vent lat\xE9ral au volant."
+            "_id": "q-lec-9-4-4",
+            "questionText": "En cas de d\xE9marrage sur neige ou verglas avec patinage des roues, on peut :",
+            "options": [
+              "Acc\xE9l\xE9rer \xE0 fond en 1\xE8re",
+              "D\xE9marrer en 2\xE8me vitesse \xE0 tr\xE8s bas r\xE9gime avec un filet de gaz",
+              "Tirer le frein \xE0 main",
+              "Couper le contact"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "D\xE9marrer en 2\xE8me vitesse r\xE9duit le couple aux roues et limite le patinage."
           },
           {
-            questionText: "Peut-on s'ins\xE9rer entre les v\xE9hicules d'un convoi militaire ou d'un cort\xE8ge officiel en marche ?",
-            options: ["Oui librement", "Strictement interdit d'interrompre la continuit\xE9 d'un convoi constitu\xE9", "Uniquement le week-end", "Oui en klaxonnant"],
-            correctOptionIndex: 1,
-            explanation: "Il est interdit de couper ou de s'immiscer au milieu d'un convoi prioritaire ou militaire en d\xE9placement."
+            "_id": "q-lec-9-4-5",
+            "questionText": "Par temps de neige, quels feux sont autoris\xE9s pour circuler ?",
+            "options": [
+              "Feux de croisement et feux de brouillard avant et arri\xE8re",
+              "Feux de position seuls",
+              "Feux de route en continu",
+              "Feux de d\xE9tresse"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "La neige autorise l\u2019usage des antibrouillards avant et arri\xE8re avec les feux de croisement."
+          }
+        ]
+      },
+      {
+        "_id": "lec-9-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 9.5 \u2014 Vent fort et autres conditions difficiles",
+        "ordre": 5,
+        "description": "Risques de vent lat\xE9ral sur les ponts et zones d\xE9gag\xE9es, \xE9carts de trajectoire et d\xE9cision de reporter un trajet en cas de conditions extr\xEAmes.",
+        "videoUrl": "https://www.youtube.com/watch?v=cHlvKr08BDs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-9-5-1",
+            "questionText": "Sur un viaduc ou en sortant d\u2019une zone bois\xE9e abrit\xE9e par vent violent, le risque majeur est :",
+            "options": [
+              "Une panne de batterie",
+              "Une violente embard\xE9e lat\xE9rale de trajectoire pouvant d\xE9porter le v\xE9hicule",
+              "L\u2019aquaplaning",
+              "L\u2019\xE9blouissement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La bourrasque de vent lat\xE9ral pousse brutalement le v\xE9hicule sur le c\xF4t\xE9."
+          },
+          {
+            "_id": "q-lec-9-5-2",
+            "questionText": "Face \xE0 un vent fort lat\xE9ral, que devez-vous faire ?",
+            "options": [
+              "Acc\xE9l\xE9rer pour couper le vent",
+              "R\xE9duire la vitesse, tenir fermement le volant \xE0 deux mains et anticiper les zones expos\xE9es",
+              "L\xE2cher le volant",
+              "Mettre les antibrouillards"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "R\xE9duire l\u2019allure diminue la prise au vent et redonne du contr\xF4le au conducteur."
+          },
+          {
+            "_id": "q-lec-9-5-3",
+            "questionText": "Que signale une manche \xE0 air sur le bord d\u2019une voie rapide ?",
+            "options": [
+              "Un a\xE9roport",
+              "La pr\xE9sence d\u2019une zone expos\xE9e \xE0 de forts vents lat\xE9raux ainsi que la force et direction du vent",
+              "Une zone de repos",
+              "Une station m\xE9t\xE9o priv\xE9e"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La manche \xE0 air indique l\u2019intensit\xE9 et le sens des rafales de vent."
+          },
+          {
+            "_id": "q-lec-9-5-4",
+            "questionText": "Quel type de v\xE9hicule est le plus vuln\xE9rable au vent violent ?",
+            "options": [
+              "Les voitures basses",
+              "Les deux-roues, v\xE9hicules tractant une caravane, camping-cars et fourgons hauts",
+              "Les poids lourds charg\xE9s",
+              "Les trains"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Leur grande surface lat\xE9rale ou leur \xE9quilibre pr\xE9caire les rend tr\xE8s sensibles au vent."
+          },
+          {
+            "_id": "q-lec-9-5-5",
+            "questionText": "Si les conditions m\xE9t\xE9o deviennent extr\xEAmes (temp\xEAte, pluies torrentielles inondant la route) :",
+            "options": [
+              "Il faut rouler \xE0 130 km/h pour arriver plus vite",
+              "La meilleure d\xE9cision de s\xE9curit\xE9 est de reporter son trajet ou de s\u2019arr\xEAter en lieu s\xFBr",
+              "Rouler sur la BAU",
+              "Couper les phares"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Savoir renoncer \xE0 prendre la route est un comportement responsable fondamental."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 10 : Examen blanc & Révisions théoriques du Permis B
-  // -------------------------------------------------------------
   {
-    _id: "mod-10",
-    _type: "moduleFormation",
-    code: "MOD-010",
-    title: "Module 10 : Examen blanc & R\xE9visions th\xE9oriques du Permis B",
-    summary: "Ce module final pr\xE9pare l'\xE9l\xE8ve aux conditions r\xE9elles de l'\xC9preuve Th\xE9orique G\xE9n\xE9rale (ETG) du Permis B. Il passe en revue les pi\xE8ges classiques des questions, la m\xE9thodologie d'analyse des visuels et propose des s\xE9ries de tests blancs officiels.",
-    learningObjectives: [
-      "Ma\xEEtriser la grille d'analyse des questions ETG (Qui ? O\xF9 ? Que faire ?)",
-      "D\xE9jouer les pi\xE8ges li\xE9s aux d\xE9tails d'arri\xE8re-plan (r\xE9troviseurs, feux, voyants)",
-      "Obtenir au moins 35 bonnes r\xE9ponses sur 40 aux tests blancs officiels",
-      "Valider l'int\xE9gralit\xE9 du parcours th\xE9orique pour l'obtention de l'attestation Matoa"
+    "_id": "mod-10",
+    "_type": "moduleFormation",
+    "code": "MOD-010",
+    "title": "Module 10 \u2014 Alcool, drogues, fatigue et capacit\xE9s",
+    "summary": "Impacts de l'alcool et stup\xE9fiants, pictogrammes m\xE9dicaments, somnolence, t\xE9l\xE9phone au volant et aptitudes physiques \xE0 la conduite.",
+    "learningObjectives": [
+      "Conna\xEEtre les seuils l\xE9gaux d'alcool\xE9mie (0,2 g/l en permis probatoire, 0,5 g/l en confirm\xE9)",
+      "Comprendre les effets des stup\xE9fiants, drogues et m\xE9langes avec l'alcool",
+      "Identifier les pictogrammes de niveau de risque des m\xE9dicaments (Niveaux 1, 2, 3)",
+      "Reconna\xEEtre les signes pr\xE9curseurs de somnolence et respecter la pause obligatoire de 2 heures"
     ],
-    ordre: 10,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-    durationSeconds: 600,
-    tempsMinimumVisionnage: 480,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 10,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=16HL4VTbHf8",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-10-1",
-        _type: "lecon",
-        title: "Le\xE7on 10.1 \u2013 Pi\xE8ges classiques et erreurs fr\xE9quentes \xE0 l'examen ETG",
-        ordre: 1,
-        description: `Analyse d\xE9cortiqu\xE9e des pi\xE8ges r\xE9currents de l'examen : distinction entre "Je peux" et "Je dois", observation fine du r\xE9troviseur int\xE9rieur avant de ralentir ou de doubler.`,
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-10-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 10.1 \u2014 Alcool et conduite",
+        "ordre": 1,
+        "description": "Seuils d\u2019alcool\xE9mie, baisse des r\xE9flexes et du jugement, risques, d\xE9pistage et sanctions.",
+        "videoUrl": "https://www.youtube.com/watch?v=16HL4VTbHf8",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: `Dans l'intitul\xE9 d'une question \xE0 l'examen, quelle est la nuance capitale entre "Je peux d\xE9passer" et "Je dois d\xE9passer" ?`,
-            options: ["Aucune nuance", '"Je peux" exprime une autorisation sans obligation, alors que "Je dois" rend la man\u0153uvre obligatoire', "C'est la m\xEAme chose", '"Je dois" est interdit'],
-            correctOptionIndex: 1,
-            explanation: "V\xE9rifiez toujours si l'action est une simple possibilit\xE9 ou une obligation impos\xE9e par le code."
+            "_id": "q-lec-10-1-1",
+            "questionText": "Quel est le taux maximal l\xE9gal d\u2019alcool\xE9mie pour un jeune conducteur en permis probatoire ?",
+            "options": [
+              "0,0 g/l",
+              "0,2 g/l de sang (soit 0,10 mg/l d\u2019air expir\xE9 = 0 verre)",
+              "0,5 g/l",
+              "0,8 g/l"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La limite est de 0,2 g/l en permis probatoire, ce qui \xE9quivaut \xE0 tol\xE9rance z\xE9ro."
           },
           {
-            questionText: "\xC0 l'examen du code, si une voiture vous colle de tr\xE8s pr\xE8s dans votre r\xE9troviseur int\xE9rieur et que vous approchez d'un feu orange :",
-            options: ["Piler sur les freins", "Franchir prudemment le feu orange car l'arr\xEAt d'urgence ferait percuter le v\xE9hicule suiveur", "Faire marche arri\xE8re", "Tirer le frein \xE0 main"],
-            correctOptionIndex: 1,
-            explanation: "L'observation du r\xE9troviseur modifie la d\xE9cision : si piler cr\xE9e un choc arri\xE8re garanti, le franchissement au orange est justifi\xE9."
+            "_id": "q-lec-10-1-2",
+            "questionText": "Quel est le taux maximal autoris\xE9 pour un conducteur confirm\xE9 ?",
+            "options": [
+              "0,2 g/l",
+              "0,5 g/l de sang (ou 0,25 mg/l d\u2019air expir\xE9)",
+              "0,8 g/l",
+              "1,0 g/l"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le seuil contraventionnel d\xE9bute \xE0 0,5 g/l de sang."
           },
           {
-            questionText: "Combien de fautes maximum sont autoris\xE9es sur l'\xE9preuve officielle de 40 questions du Permis B (ETG) ?",
-            options: ["0 faute", "5 fautes maximum (score min : 35/40)", "10 fautes", "20 fautes"],
-            correctOptionIndex: 1,
-            explanation: "L'examen officiel exige au moins 35 bonnes r\xE9ponses sur 40 (soit 5 fautes max)."
+            "_id": "q-lec-10-1-3",
+            "questionText": "\xC0 partir de quel taux d\u2019alcool\xE9mie l\u2019infraction devient-elle un D\xC9LIT p\xE9nal (tribunal correctionnel) ?",
+            "options": [
+              "0,5 g/l",
+              "0,8 g/l de sang (ou 0,40 mg/l d\u2019air)",
+              "1,5 g/l",
+              "2,0 g/l"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "D\xE8s 0,8 g/l, il s\u2019agit d\u2019un d\xE9lit passible de 2 ans de prison, 4500 \u20AC d\u2019amende et 6 points."
           },
           {
-            questionText: "\xC0 l'examen, si la question comporte deux propositions A/B et C/D ind\xE9pendantes :",
-            options: ["Il n'y a toujours qu'une seule bonne r\xE9ponse", "Il peut y avoir plusieurs bonnes r\xE9ponses simultan\xE9es (ex: A et C)", "Il faut toujours tout cocher", "On ne coche rien"],
-            correctOptionIndex: 1,
-            explanation: "Beaucoup de questions QCM de l'examen comportent 2 choix exacts simultan\xE9s."
+            "_id": "q-lec-10-1-4",
+            "questionText": "En moyenne, combien de temps faut-il \xE0 l\u2019organisme pour \xE9liminer un verre d\u2019alcool standard ?",
+            "options": [
+              "15 minutes",
+              "1 heure \xE0 2 heures par verre",
+              "5 minutes en buvant du caf\xE9",
+              "24 heures"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019alcool s\u2019\xE9limine au rythme moyen de 0,10 \xE0 0,15 g/l par heure. Aucun rem\xE8de miracle n\u2019acc\xE9l\xE8re l\u2019\xE9limination."
           },
           {
-            questionText: "Quelle est la dur\xE9e impartie pour r\xE9pondre \xE0 chaque question lors de l'examen officiel sur tablette ?",
-            options: ["5 secondes", "20 secondes", "1 minute", "Illimit\xE9e"],
-            correctOptionIndex: 1,
-            explanation: "Le candidat dispose de 20 secondes apr\xE8s la lecture du son pour valider son choix."
+            "_id": "q-lec-10-1-5",
+            "questionText": "Quels sont les premiers effets de l\u2019alcool sur le comportement du conducteur ?",
+            "options": [
+              "Meilleurs r\xE9flexes",
+              "Surestimation de ses capacit\xE9s, euphorie, r\xE9tr\xE9cissement du champ visuel et temps de r\xE9action allong\xE9",
+              "Vue parfaite",
+              "Sommeil instantan\xE9"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019alcool d\xE9sinhibe, fausse le jugement et ralentit les r\xE9flexes c\xE9r\xE9braux."
           }
         ]
       },
       {
-        _id: "lec-10-2",
-        _type: "lecon",
-        title: "Le\xE7on 10.2 \u2013 M\xE9thodologie d'analyse d'une photo / question ETG",
-        ordre: 2,
-        description: "M\xE9thode syst\xE9matique en 4 \xE9tapes pour analyser une image : 1. Signalisation et marquages, 2. Usagers environnants, 3. R\xE9troviseurs, 4. Voyants du tableau de bord.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 540,
-        tempsMinimumVisionnageSeconds: 432,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-10-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 10.2 \u2014 Drogues et m\xE9dicaments",
+        "ordre": 2,
+        "description": "Effets des stup\xE9fiants, d\xE9pistage, pictogrammes des m\xE9dicaments et danger du m\xE9lange alcool-m\xE9dicaments.",
+        "videoUrl": "https://www.youtube.com/watch?v=16HL4VTbHf8",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Lorsqu'une photo montre l'aiguille du compteur de vitesse \xE0 45 km/h en agglom\xE9ration :",
-            options: ["Vous devez acc\xE9l\xE9rer", "Vous \xEAtes dans la limite l\xE9gale de 50 km/h", "Vous \xEAtes en exc\xE8s de vitesse", "Le compteur est en panne"],
-            correctOptionIndex: 1,
-            explanation: "45 km/h respecte la limitation de 50 km/h en ville."
+            "_id": "q-lec-10-2-1",
+            "questionText": "La conduite apr\xE8s usage de stup\xE9fiants (cannabis, coca\xEFne, etc.) est-elle tol\xE9r\xE9e ?",
+            "options": [
+              "Tol\xE9rance pour 1 joint",
+              "Strictement interdite (tol\xE9rance z\xE9ro), d\xE9pist\xE9e par test salivaire et passible de 2 ans de prison et 6 points",
+              "Autoris\xE9e le week-end",
+              "Autoris\xE9e hors autoroute"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La conduite sous stup\xE9fiants est un d\xE9lit r\xE9prim\xE9 s\xE9v\xE8rement d\xE8s la moindre trace."
           },
           {
-            questionText: "Si une question montre des gouttes de pluie sur le pare-brise sans panneau de vitesse :",
-            options: ["La vitesse maximale autoris\xE9e est la vitesse par temps de pluie (ex: 110 sur autoroute)", "Les limitations ne s'appliquent plus", "On doit rouler \xE0 10 km/h", "On met les pleins phares"],
-            correctOptionIndex: 0,
-            explanation: "L'indice visuel de la pluie sur le pare-brise implique d'appliquer les limites m\xE9t\xE9o."
+            "_id": "q-lec-10-2-2",
+            "questionText": "Que signifie un pictogramme de m\xE9dicament repr\xE9sentant un triangle ROUGE avec une voiture (Niveau 3) ?",
+            "options": [
+              "Conduite autoris\xE9e",
+              "Conduite formellement d\xE9conseill\xE9e / interdite pendant le traitement",
+              "Prendre l\u2019autoroute",
+              "Aucun danger"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le niveau 3 (rouge) interdit la conduite automobile pendant la dur\xE9e du traitement."
           },
           {
-            questionText: 'Que devez-vous syst\xE9matiquement v\xE9rifier sur la photo avant de r\xE9pondre \xE0 la question "Je d\xE9passe" ?',
-            options: ["Les panneaux, la ligne au sol, la voie en face ET le r\xE9troviseur int\xE9rieur pour v\xE9rifier qu me d\xE9passe pas", "Uniquement la couleur de la voiture", "Le paysage \xE0 droite", "L'heure de la journ\xE9e"],
-            correctOptionIndex: 0,
-            explanation: "Un d\xE9passement exige la v\xE9rification compl\xE8te de la cha\xEEne d'indices (panneau + ligne + face + arri\xE8re)."
+            "_id": "q-lec-10-2-3",
+            "questionText": "Le pictogramme JAUNE (Niveau 1) sur une bo\xEEte de m\xE9dicaments indique :",
+            "options": [
+              "Danger mortel",
+              "Soyez prudent, lisez attentivement la notice avant de prendre le volant",
+              "Interdiction de conduire",
+              "Prendre le volant vite"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le niveau 1 appelle \xE0 la prudence et \xE0 la lecture de la notice."
           },
           {
-            questionText: `\xC0 l'examen, si la question demande "Je suis bien plac\xE9 pour... ?" et que vous roulez sur la voie du milieu sur autoroute sans d\xE9passer :`,
-            options: ["Oui", "Non, la r\xE8gle impose de rouler sur la voie la plus \xE0 droite", "Peu importe", "Uniquement le soir"],
-            correctOptionIndex: 1,
-            explanation: "En dehors d'un d\xE9passement actif, squatter la voie centrale est une mauvaise position."
+            "_id": "q-lec-10-2-4",
+            "questionText": "Le m\xE9lange alcool + m\xE9dicaments ou stup\xE9fiants a pour cons\xE9quence :",
+            "options": [
+              "D\u2019annuler les effets",
+              "De multiplier de fa\xE7on exponentielle les risques d\u2019accident et la somnolence",
+              "D\u2019am\xE9liorer la vision",
+              "Aucun effet"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le cocktail alcool-substances d\xE9multiplie les effets toxiques et destructeurs."
           },
           {
-            questionText: "Si une photo montre un feu vert ET un pi\xE9ton engag\xE9 sur le passage pi\xE9ton \xE0 droite :",
-            options: ["Le feu vert donne la priorit\xE9 \xE0 la voiture, le pi\xE9ton doit attendre", "Vous devez c\xE9der le passage au pi\xE9ton engag\xE9", "Vous klaxonnez", "Vous passez en acc\xE9l\xE9rant"],
-            correctOptionIndex: 1,
-            explanation: "Le pi\xE9ton engag\xE9 prime sur la signalisation lumineuse pour des raisons \xE9vidents de s\xE9curit\xE9 humaine."
+            "_id": "q-lec-10-2-5",
+            "questionText": "Le cannabis alt\xE8re les capacit\xE9s du conducteur pendant combien de temps apr\xE8s la prise ?",
+            "options": [
+              "10 minutes",
+              "Plusieurs heures voire plusieurs jours pour certaines facult\xE9s de r\xE9flexes",
+              "Aucun effet",
+              "1 minute"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les principes actifs restent pr\xE9sents dans l\u2019organisme et perturbent l\u2019attention sur une longue dur\xE9e."
           }
         ]
       },
       {
-        _id: "lec-10-3",
-        _type: "lecon",
-        title: "Le\xE7on 10.3 \u2013 Test blanc officiel Permis B \u2013 Partie 1 (Concepts & Signalisation)",
-        ordre: 3,
-        description: "Premi\xE8re s\xE9rie de test blanc portant sur la signalisation routi\xE8re, les r\xE8gles de priorit\xE9 et les commandes du v\xE9hicule.",
-        videoUrl: "https://www.youtube.com/watch?v=lHEFMztZu0g",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-10-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 10.3 \u2014 Fatigue et somnolence au volant",
+        "ordre": 3,
+        "description": "Signes de fatigue, danger de l\u2019endormissement, pauses r\xE9guli\xE8res et sieste courte.",
+        "videoUrl": "https://www.youtube.com/watch?v=bpg9a-uvp8U",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Un panneau carr\xE9 \xE0 fond bleu montrant une silhouette d'autoroute blanche indique :",
-            options: ["Entr\xE9e d'une autoroute o\xF9 la vitesse est limit\xE9e \xE0 130 km/h par temps sec", "Une route de campagne", "Un parking payant", "Fin d'autoroute"],
-            correctOptionIndex: 0,
-            explanation: "C'est le panneau C13a d'entr\xE9e d'autoroute."
+            "_id": "q-lec-10-3-1",
+            "questionText": "Tous les combien de temps est-il imp\xE9ratif de faire une pause lors d\u2019un long trajet ?",
+            "options": [
+              "Toutes les 5 heures",
+              "Toutes les 2 heures au moins, pendant 15 \xE0 20 minutes",
+              "Une seule pause \xE0 l\u2019arriv\xE9e",
+              "Tous les 1000 km"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La r\xE8gle des 2 heures permet de reposer le syst\xE8me nerveux et les yeux."
           },
           {
-            questionText: "Face \xE0 un feu rouge fixe avec une fl\xE8che verte pointant vers la droite :",
-            options: ["Vous pouvez tourner \xE0 droite en c\xE9der le passage aux usagers de la voie abord\xE9e", "Vous devez vous arr\xEAter obligatoirement", "Vous devez aller tout droit", "Vous faites demi-tour"],
-            correctOptionIndex: 0,
-            explanation: "La fl\xE8che verte de virage autorise le mouvement \xE0 droite malgr\xE9 le feu rouge direct."
+            "_id": "q-lec-10-3-2",
+            "questionText": "Quels sont les premiers signaux d\u2019alerte de la fatigue au volant ?",
+            "options": [
+              "B\xE2illements r\xE9p\xE9t\xE9s, paupi\xE8res lourdes, picotements des yeux, raideur dans la nuque",
+              "Une grande \xE9nergie",
+              "Faim de sucre",
+              "La radio trop forte"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Ces signes pr\xE9curseurs imposent de s\u2019arr\xEAter imm\xE9diatement sur la prochaine aire."
           },
           {
-            questionText: "\xC0 quelle fr\xE9quence minimale devez-vous contr\xF4ler les miroirs r\xE9troviseurs en conduite urbaine ?",
-            options: ["Toutes les 10 \xE0 15 secondes et avant chaque freinage/changement de voie", "Une fois par jour", "Uniquement au feu rouge", "Jamais"],
-            correctOptionIndex: 0,
-            explanation: "Le balayage visuel r\xE9gulier des r\xE9troviseurs maintient la conscience de la situation arri\xE8re."
+            "_id": "q-lec-10-3-3",
+            "questionText": "Quel est le seul moyen r\xE9ellement efficace pour lutter contre une somnolence install\xE9e ?",
+            "options": [
+              "Ouvrir la fen\xEAtre et monter la musique",
+              "Boire 3 caf\xE9s",
+              "S\u2019arr\xEAter pour faire une courte sieste de 15 \xE0 20 minutes",
+              "Manger du chewing-gum"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Seul le sommeil r\xE9el (micro-sieste) recharge les capacit\xE9s de vigilance du cerveau."
           },
           {
-            questionText: "Un panneau rond rouge barr\xE9 d'un trait blanc horizontal (sens interdit) interdit :",
-            options: ["L'acc\xE8s \xE0 tous les v\xE9hicules dans ce sens de circulation", "Le stationnement uniquement", "Les v\xE9los seulement", "La marche arri\xE8re"],
-            correctOptionIndex: 0,
-            explanation: "Le panneau B1 interdit l'acc\xE8s au tron\xE7on de voie dans le sens consid\xE9r\xE9."
+            "_id": "q-lec-10-3-4",
+            "questionText": "\xC0 quelle p\xE9riode de la journ\xE9e le risque d\u2019endormissement est-il statistiquement le plus \xE9lev\xE9 ?",
+            "options": [
+              "\xC0 midi",
+              "Entre 2h et 6h du matin, et entre 13h et 16h (creux circadien)",
+              "\xC0 18h",
+              "\xC0 10h du matin"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Ces cr\xE9neaux correspondent aux baisses physiologiques de la temp\xE9rature corporelle."
           },
           {
-            questionText: "Sur un rond-point sans panneau de priorit\xE9 \xE0 l'entr\xE9e :",
-            options: ["Vous c\xE9der le passage \xE0 droite aux v\xE9hicules qui entrent", "Vous passez sans regarder", "Ceux qui sont sur l'anneau sont prioritaires", "Vous klaxonnez"],
-            correctOptionIndex: 0,
-            explanation: "Sans panneau C\xE9der le passage, la priorit\xE9 \xE0 droite s'applique \xE0 l'entr\xE9e."
+            "_id": "q-lec-10-3-5",
+            "questionText": "La somnolence au volant est la premi\xE8re cause de mortalit\xE9 sur :",
+            "options": [
+              "Les routes de campagne",
+              "Les autoroutes",
+              "Les parkings",
+              "Les ronds-points"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Sur autoroute, 1 accident mortel sur 3 est d\xFB \xE0 l\u2019endormissement."
           }
         ]
       },
       {
-        _id: "lec-10-4",
-        _type: "lecon",
-        title: "Le\xE7on 10.4 \u2013 Test blanc officiel Permis B \u2013 Partie 2 (Priorit\xE9s, Risques & Secourisme)",
-        ordre: 4,
-        description: "Deuxi\xE8me partie du test blanc g\xE9n\xE9ral int\xE9grant les comportements de secourisme (PAS : Prot\xE9ger, Alerter, Secourir) et l'\xE9valuation finale des risques.",
-        videoUrl: "https://www.youtube.com/watch?v=TpD4ZzcmQGY",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
+        "_id": "lec-10-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 10.4 \u2014 T\xE9l\xE9phone et distractions au volant",
+        "ordre": 4,
+        "description": "T\xE9l\xE9phone tenu en main, GPS, \xE9crans, passagers, attention d\xE9tourn\xE9e et sanctions.",
+        "videoUrl": "https://www.youtube.com/watch?v=16HL4VTbHf8",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
           {
-            questionText: "Sur le lieu d'un accident de la route, quel est l'ordre exact des trois actions de secours (protocole PAS) ?",
-            options: ["Secourir, Alerter, Prot\xE9ger", "Prot\xE9ger le suraccident, Alerter les secours, Secourir les victimes", "Alerter, Courir, Partir", "Appeler les assurances"],
-            correctOptionIndex: 1,
-            explanation: "Le protocole universel est P.A.S. : Prot\xE9ger (baliser), Alerter (112/18/15), Secourir."
+            "_id": "q-lec-10-4-1",
+            "questionText": "L\u2019utilisation d\u2019un t\xE9l\xE9phone tenu en main au volant est sanctionn\xE9e par :",
+            "options": [
+              "35 \u20AC sans point",
+              "135 \u20AC d\u2019amende et retrait de 3 points sur le permis",
+              "1 point",
+              "La confiscation de la voiture"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019usage du t\xE9l\xE9phone au volant retire 3 points et co\xFBte 135 \u20AC d\u2019amende forfaitaire."
           },
           {
-            questionText: "Quel est le num\xE9ro d'appel d'urgence europ\xE9en gratuit accessible depuis tout t\xE9l\xE9phone ?",
-            options: ["112", "18", "15", "17"],
-            correctOptionIndex: 0,
-            explanation: "Le 112 est le num\xE9ro d'urgence valide dans toute l'Union Europ\xE9enne."
+            "_id": "q-lec-10-4-2",
+            "questionText": "Le port d\u2019oreillettes, \xE9couteurs ou casques audio en conduisant (m\xEAme pour t\xE9l\xE9phoner) est-il autoris\xE9 ?",
+            "options": [
+              "Oui si le son est bas",
+              "Non, c\u2019est strictement interdit pour tous les conducteurs (voitures, motos, v\xE9los, trottinettes)",
+              "Oui pour les motards",
+              "Oui sur autoroute"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Tout dispositif dans l\u2019oreille est interdit pour garantir l\u2019audition des bruits ext\xE9rieurs."
           },
           {
-            questionText: "Devant un bless\xE9 inconscient qui respire sur la chauss\xE9e, quelle position de s\xE9curit\xE9 devez-vous adopter ?",
-            options: ["Le faire asseoir", "La Position Lat\xE9rale de S\xE9curit\xE9 (PLS) sur le c\xF4t\xE9 pour \xE9viter l'\xE9touffement", "Le faire boire de l'eau", "Le relever debout"],
-            correctOptionIndex: 1,
-            explanation: "La PLS maintient les voies a\xE9riennes libres chez une personne inconsciente qui respire."
+            "_id": "q-lec-10-4-3",
+            "questionText": "Lire ou \xE9crire un SMS en conduisant multiplie le risque d\u2019accident par :",
+            "options": [
+              "2",
+              "23 fois",
+              "Aucune augmentation",
+              "5 fois"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Quitter la route des yeux pendant 5 secondes \xE0 90 km/h \xE9quivaut \xE0 125 m \xE0 l\u2019aveugle."
           },
           {
-            questionText: "Faut-il retirer le casque d'un motard bless\xE9 \xE0 terre apr\xE8s un accident ?",
-            options: ["Oui imm\xE9diatement", "Strictement NON, sauf urgence vitale par des secouristes entra\xEEn\xE9s (risque de paralysie cervicale)", "Oui pour lui donner \xE0 boire", "Oui s'il le demande"],
-            correctOptionIndex: 1,
-            explanation: "Retirer le casque d'un motard risque d'aggraver irr\xE9versiblement une l\xE9sion des vert\xE8bres cervicales."
+            "_id": "q-lec-10-4-4",
+            "questionText": "Si vous commettez une infraction avec un t\xE9l\xE9phone en main (ex: oubli de clignotant ou refus de priorit\xE9) :",
+            "options": [
+              "Une amende simple",
+              "Le permis peut \xEAtre retenu et suspendu imm\xE9diatement sur le champ",
+              "Rien",
+              "Un avertissement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le cumul t\xE9l\xE9phone + autre infraction entra\xEEne la r\xE9tention imm\xE9diate du permis."
           },
           {
-            questionText: "Que devez-vous placer en priorit\xE9 pour baliser un accident de nuit sur route hors agglom\xE9ration ?",
-            options: ["Allumer les feux de d\xE9tresse de votre v\xE9hicule et poser le triangle de pr\xE9signalisation \xE0 au moins 30 m\xE8tres en amont", "Attendre le jour", "Agiter un chiffon", "Rester au milieu de la route"],
-            correctOptionIndex: 0,
-            explanation: "Feux de d\xE9tresse + gilet haute visibilit\xE9 + triangle \xE0 30m minimisent le risque de suraccident."
+            "_id": "q-lec-10-4-5",
+            "questionText": "R\xE9gler son GPS ou changer la playlist sur son \xE9cran tactile doit se faire :",
+            "options": [
+              "En roulant \xE0 130 km/h",
+              "\xC0 l\u2019arr\xEAt avant de d\xE9marrer ou lors d\u2019une pause s\xE9curis\xE9e",
+              "En doublant",
+              "Par la voix en criant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Toute manipulation d\u2019\xE9cran en mouvement d\xE9tourne l\u2019attention visuelle et cognitive."
+          }
+        ]
+      },
+      {
+        "_id": "lec-10-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 10.5 \u2014 \xC9tat physique et aptitude \xE0 la conduite",
+        "ordre": 5,
+        "description": "Vision, audition, aptitude m\xE9dicale, port des lunettes prescrites, effets du stress et de l\u2019\xE9tat \xE9motionnel.",
+        "videoUrl": "https://www.youtube.com/watch?v=bpg9a-uvp8U",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-10-5-1",
+            "questionText": "Si la mention \xAB 01 \xBB (port obligatoire de verres correcteurs) figure sur votre permis :",
+            "options": [
+              "Les lunettes sont facultatives de jour",
+              "Le port de lunettes ou lentilles de contact est strictement obligatoire au volant",
+              "Seulement pour les personnes \xE2g\xE9es",
+              "Seulement la nuit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Conduire sans ses verres correcteurs obligatoires constitue une infraction sanctionn\xE9e de 3 points."
+          },
+          {
+            "_id": "q-lec-10-5-2",
+            "questionText": "Une forte col\xE8re ou un \xE9tat d\u2019anxi\xE9t\xE9 intense :",
+            "options": [
+              "Am\xE9liore la vitesse",
+              "Augmente l\u2019agressivit\xE9 au volant, la prise de risque et diminue la vigilance",
+              "Est sans effet",
+              "Permet d\u2019\xEAtre plus attentif"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019\xE9tat \xE9motionnel alt\xE8re consid\xE9rablement la lucidit\xE9 et la perception des risques."
+          },
+          {
+            "_id": "q-lec-10-5-3",
+            "questionText": "Quelle acuit\xE9 visuelle minimale globale (avec correction \xE9ventuelle) est exig\xE9e pour le permis B ?",
+            "options": [
+              "2/10",
+              "5/10 au moins pour l\u2019ensemble des deux yeux",
+              "10/10 obligatoire",
+              "8/10"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le seuil r\xE9glementaire minimal d\u2019acuit\xE9 visuelle est de 5/10."
+          },
+          {
+            "_id": "q-lec-10-5-4",
+            "questionText": "En cas de probl\xE8me de sant\xE9 grave (\xE9pilepsie, AVC, troubles visuels majeurs) :",
+            "options": [
+              "On continue \xE0 conduire",
+              "On doit passer une visite m\xE9dicale aupr\xE8s de la commission pr\xE9fectorale pour valider l\u2019aptitude",
+              "On n\u2019en parle \xE0 personne",
+              "On conduit uniquement le jour"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Certaines affections imposent un contr\xF4le m\xE9dical officiel d\u2019aptitude \xE0 la conduite."
+          },
+          {
+            "_id": "q-lec-10-5-5",
+            "questionText": "Avoir une paire de lunettes de secours dans la bo\xEEte \xE0 gants est :",
+            "options": [
+              "Interdit",
+              "Fortement recommand\xE9, notamment pour les porteurs de lentilles de contact",
+              "Inutile",
+              "Payant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Une paire de lunettes de secours \xE9vite d\u2019\xEAtre bloqu\xE9 en cas de perte de lentille."
           }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // -------------------------------------------------------------
-  // MODULE 11 : Usagers vulnérables (piétons, cyclistes, deux-roues)
-  // -------------------------------------------------------------
   {
-    _id: "mod-11",
-    _type: "moduleFormation",
-    code: "MOD-011",
-    title: "Module 11 : Usagers vuln\xE9rables (pi\xE9tons, cyclistes, deux-roues)",
-    summary: "Ce module se concentre sur la protection des usagers vuln\xE9rables : pi\xE9tons, cyclistes et motocyclistes.",
-    learningObjectives: [
-      "Prot\xE9ger les pi\xE9tons sur et hors des passages pi\xE9tons",
-      "Respecter les cyclistes, sas v\xE9lo et distances de d\xE9passement",
-      "Anticiper la pr\xE9sence des deux-roues motoris\xE9s et leurs angles morts",
-      "Adopter une conduite courtoise et s\xE9curis\xE9e envers tous les usagers"
+    "_id": "mod-11",
+    "_type": "moduleFormation",
+    "code": "MOD-011",
+    "title": "Module 11 \u2014 Usagers vuln\xE9rables",
+    "summary": "Protection et cohabitation avec pi\xE9tons, cyclistes (sas v\xE9lo, angles morts), motocyclistes, enfants et personnes \xE0 mobilit\xE9 r\xE9duite.",
+    "learningObjectives": [
+      "Conna\xEEtre les droits et la priorit\xE9 absolue accord\xE9e aux pi\xE9tons",
+      "Appliquer les r\xE8gles de s\xE9curit\xE9 avec les cyclistes (sas v\xE9lo, distances de d\xE9passement)",
+      "Identifier les risques sp\xE9cifiques li\xE9s aux deux-roues motoris\xE9s",
+      "Adopter un comportement ultra-prudent envers enfants, seniors et personnes \xE0 mobilit\xE9 r\xE9duite"
     ],
-    ordre: 11,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/@codesrousseau",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 11,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=EPL8PQweWlc",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-11-1",
-        _type: "lecon",
-        title: "Le\xE7on 11.1 \u2013 Les pi\xE9tons : droits et comportements \xE0 adopter",
-        ordre: 1,
-        description: "Priorit\xE9 aux passages pi\xE9tons et zones de rencontre.",
-        videoUrl: "https://www.youtube.com/@EnVoitureSimone",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Un pi\xE9ton engag\xE9 sur un passage prot\xE9g\xE9 a :", options: ["Toujours priorit\xE9", "Jamais", "Jour uniquement", "Rien"], correctOptionIndex: 0, explanation: "Priorit\xE9 absolue." },
-          { questionText: "Dans une zone de rencontre, la vitesse est limit\xE9e \xE0 :", options: ["50 km/h", "20 km/h", "30 km/h", "10 km/h"], correctOptionIndex: 1, explanation: "20 km/h max." },
-          { questionText: "Pr\xE8s d'une \xE9cole aux heures de sortie, il faut :", options: ["Rien", "Redoubler de prudence", "Acc\xE9l\xE9rer", "Rien"], correctOptionIndex: 1, explanation: "Prudence accrue." },
-          { questionText: "Un pi\xE9ton s'appr\xEAtant \xE0 traverser doit \xEAtre :", options: ["Ignor\xE9", "Anticip\xE9 avec prudence", "Klaxonn\xE9", "Rien"], correctOptionIndex: 1, explanation: "Anticip\xE9." },
-          { questionText: "Klaxonner un pi\xE9ton sur un passage prot\xE9g\xE9 est :", options: ["Autoris\xE9", "D\xE9conseill\xE9 et dangereux", "Recommand\xE9", "Rien"], correctOptionIndex: 1, explanation: "Inutile et dangereux." }
+        "_id": "lec-11-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 11.1 \u2014 Les pi\xE9tons : droits et comportements \xE0 adopter",
+        "ordre": 1,
+        "description": "Priorit\xE9 aux passages pi\xE9tons, zones de rencontre, vigilance pr\xE8s des \xE9coles et comportement en zones r\xE9sidentielles.",
+        "videoUrl": "https://www.youtube.com/watch?v=EPL8PQweWlc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-11-1-1",
+            "questionText": "Quelle est la priorit\xE9 d\u2019un pi\xE9ton engag\xE9 ou manifestant l\u2019intention de traverser ?",
+            "options": [
+              "Priorit\xE9 secondaire",
+              "Priorit\xE9 absolue : tout v\xE9hicule doit obligatoirement s\u2019arr\xEAter pour le laisser passer",
+              "Uniquement s\u2019il court",
+              "Uniquement le jour"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le refus de priorit\xE9 \xE0 un pi\xE9ton est sanctionn\xE9 d\u2019un retrait de 6 points."
+          },
+          {
+            "_id": "q-lec-11-1-2",
+            "questionText": "Dans une \xAB Zone de rencontre \xBB, quelle est la vitesse maximale et qui a la priorit\xE9 ?",
+            "options": [
+              "30 km/h, priorit\xE9 aux voitures",
+              "20 km/h, priorit\xE9 absolue aux pi\xE9tons sur toute la chauss\xE9e",
+              "50 km/h",
+              "10 km/h r\xE9serv\xE9 aux v\xE9los"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En zone de rencontre, la vitesse est limit\xE9e \xE0 20 km/h et les pi\xE9tons sont prioritaires partout."
+          },
+          {
+            "_id": "q-lec-11-1-3",
+            "questionText": "\xC0 proximit\xE9 d\u2019un arr\xEAt de bus ou tramway avec des voyageurs qui descendent :",
+            "options": [
+              "On acc\xE9l\xE8re pour d\xE9passer",
+              "On ralentit fortement car des pi\xE9tons peuvent surgir devant ou derri\xE8re le bus",
+              "On klaxonne",
+              "On ne fait rien"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les passagers descendant d\u2019un transport collectif traversent souvent sans regarder."
+          },
+          {
+            "_id": "q-lec-11-1-4",
+            "questionText": "Dans une \xAB Aire pi\xE9tonne \xBB :",
+            "options": [
+              "Les voitures peuvent rouler \xE0 50 km/h",
+              "Seuls les v\xE9hicules autoris\xE9s (livraisons, secours) peuvent rouler au pas (max 20 km/h)",
+              "Le stationnement est libre",
+              "Les v\xE9los sont interdits"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019aire pi\xE9tonne est r\xE9serv\xE9e aux pi\xE9tons, les v\xE9hicules autoris\xE9s y roulent \xE0 l\u2019allure du pas."
+          },
+          {
+            "_id": "q-lec-11-1-5",
+            "questionText": "Quelle sanction risque un conducteur refusant la priorit\xE9 \xE0 un pi\xE9ton r\xE9guli\xE8rement engag\xE9 ?",
+            "options": [
+              "1 point",
+              "135 \u20AC d\u2019amende et retrait de 6 points avec suspension de permis possible",
+              "Aucune sanction",
+              "35 \u20AC"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le refus de priorit\xE9 pi\xE9ton est l\u2019une des infractions les plus s\xE9v\xE8rement punies (6 points)."
+          }
         ]
       },
       {
-        _id: "lec-11-2",
-        _type: "lecon",
-        title: "Le\xE7on 11.2 \u2013 Cyclistes : cohabitation et zones r\xE9serv\xE9es",
-        ordre: 2,
-        description: "Pistes cyclables, sas v\xE9lo, zones 30 et distances de d\xE9passement.",
-        videoUrl: "https://www.youtube.com/@prepacode",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Le sas v\xE9lo \xE0 un feu rouge sert \xE0 :", options: ["Rien", "Permettre aux cyclistes de se positionner en s\xE9curit\xE9", "Stationner", "Rien"], correctOptionIndex: 1, explanation: "Positionnement v\xE9lo." },
-          { questionText: "En tournant \xE0 droite, il faut v\xE9rifier particuli\xE8rement :", options: ["Rien", "La pr\xE9sence d'un cycliste dans l'angle mort", "La radio", "Rien"], correctOptionIndex: 1, explanation: "Angle mort \xE0 droite." },
-          { questionText: "Franchir une piste cyclable impose de :", options: ["Rien", "C\xE9der le passage aux cyclistes", "Acc\xE9l\xE9rer", "Rien"], correctOptionIndex: 1, explanation: "C\xE9der le passage." },
-          { questionText: "En zone 30, la cohabitation avec les cyclistes est :", options: ["Facilit\xE9e par la vitesse r\xE9duite", "Impossible", "Interdite", "Rien"], correctOptionIndex: 0, explanation: "Vitesse apais\xE9e." },
-          { questionText: "Ouvrir sa porti\xE8re sans regarder peut :", options: ["Sans risque", "Blesser un cycliste (m\xE9thode hollandaise)", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Risque d'impact." }
+        "_id": "lec-11-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 11.2 \u2014 Cyclistes : cohabitation et zones r\xE9serv\xE9es",
+        "ordre": 2,
+        "description": "Pistes cyclables, sas v\xE9lo, zones 30, angle mort, d\xE9passement et ouverture s\xE9curis\xE9e de porti\xE8re.",
+        "videoUrl": "https://www.youtube.com/watch?v=EPL8PQweWlc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-11-2-1",
+            "questionText": "Quelle technique d\u2019ouverture de porti\xE8re \xE9vite de percuter un cycliste arrivant par l\u2019arri\xE8re ?",
+            "options": [
+              "Ouvrir d\u2019un coup sec",
+              "L\u2019ouverture \xAB \xE0 la hollandaise \xBB avec la main oppos\xE9e pour forcer le buste \xE0 pivoter et v\xE9rifier l\u2019angle mort",
+              "Fermer les yeux",
+              "Klaxonner avant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Ouvrir avec la main droite (c\xF4t\xE9 conducteur) oriente naturellement le regard vers l\u2019arri\xE8re."
+          },
+          {
+            "_id": "q-lec-11-2-2",
+            "questionText": "Quelle distance lat\xE9rale minimale devez-vous respecter pour doubler un cycliste ?",
+            "options": [
+              "0,5 m partout",
+              "1 m\xE8tre en agglom\xE9ration et 1,50 m\xE8tre hors agglom\xE9ration",
+              "2 m\xE8tres en ville",
+              "0,2 m"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Ces distances prot\xE8gent le cycliste des rafales et des d\xE9s\xE9quilibres."
+          },
+          {
+            "_id": "q-lec-11-2-3",
+            "questionText": "Dans une rue en \xAB double sens cyclable \xBB (zone 30 ou zone de rencontre) :",
+            "options": [
+              "Les v\xE9los roulent \xE0 contresens de mani\xE8re ill\xE9gale",
+              "Les cyclistes sont l\xE9galement autoris\xE9s \xE0 circuler dans les deux sens",
+              "Les voitures sont prioritaires",
+              "Les v\xE9los doivent rouler sur le trottoir"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En zone 30, les rues \xE0 sens unique pour les voitures sont \xE0 double sens pour les cyclistes."
+          },
+          {
+            "_id": "q-lec-11-2-4",
+            "questionText": "Sur un sas v\xE9lo devant un feu rouge, les voitures doivent :",
+            "options": [
+              "S\u2019arr\xEAter au milieu du sas",
+              "S\u2019arr\xEAter imp\xE9rativement avant la premi\xE8re ligne pour laisser le sas libre aux v\xE9los",
+              "Stationner",
+              "Acc\xE9l\xE9rer"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le sas v\xE9lo positionne les cyclistes en t\xEAte pour \xEAtre vus et d\xE9marrer en s\xE9curit\xE9."
+          },
+          {
+            "_id": "q-lec-11-2-5",
+            "questionText": "Avant de tourner \xE0 droite \xE0 une intersection, vous devez :",
+            "options": [
+              "Couper la route",
+              "Contr\xF4ler votre r\xE9troviseur droit et l\u2019angle mort pour c\xE9der le passage \xE0 un cycliste longeant votre droite",
+              "Acc\xE9l\xE9rer",
+              "Freiner sans regarder"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le cycliste circulant tout droit sur la piste a la priorit\xE9 sur le v\xE9hicule qui tourne."
+          }
         ]
       },
       {
-        _id: "lec-11-3",
-        _type: "lecon",
-        title: "Le\xE7on 11.3 \u2013 Motocyclistes et deux-roues motoris\xE9s",
-        ordre: 3,
-        description: "Visibilit\xE9 r\xE9duite des deux-roues et distances de s\xE9curit\xE9.",
-        videoUrl: "https://www.youtube.com/@codesrousseau",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Les deux-roues motoris\xE9s sont :", options: ["Toujours bien visibles", "Souvent moins visibles \xE0 cause de leur gabarit", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Gabarit mince." },
-          { questionText: "Avant de tourner, il faut v\xE9rifier :", options: ["Rien", "L'absence de deux-roues remontant la file", "La radio", "Rien"], correctOptionIndex: 1, explanation: "Contr\xF4ler les r\xE9tros." },
-          { questionText: "La distance de s\xE9curit\xE9 avec un deux-roues doit \xEAtre :", options: ["R\xE9duite", "Au moins \xE9quivalente \xE0 celle d'une voiture", "Nulle", "Rien"], correctOptionIndex: 1, explanation: "Distance \xE9quivalente." },
-          { questionText: "La circulation inter-files des motos est :", options: ["Jamais", "Autoris\xE9e sous conditions dans certaines zones", "Toujours libre", "Rien"], correctOptionIndex: 1, explanation: "Exp\xE9riment\xE9e sous conditions." },
-          { questionText: "Ouvrir une porti\xE8re sans regarder met en danger :", options: ["Rien", "Un motard/cycliste qui approche", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Choc direct." }
+        "_id": "lec-11-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 11.3 \u2014 Motocyclistes et deux-roues motoris\xE9s",
+        "ordre": 3,
+        "description": "Visibilit\xE9 r\xE9duite des deux-roues, v\xE9rification avant de tourner, distances de s\xE9curit\xE9 et risques aux intersections.",
+        "videoUrl": "https://www.youtube.com/watch?v=EPL8PQweWlc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-11-3-1",
+            "questionText": "Pourquoi les deux-roues motoris\xE9s sont-ils particuli\xE8rement difficiles \xE0 d\xE9tecter ?",
+            "options": [
+              "Ils sont silencieux",
+              "Leur silhouette \xE9troite se dissimule facilement dans les angles morts et leur acc\xE9l\xE9ration est vive",
+              "Ils ont des phares \xE9teints",
+              "Ils roulent sur les trottoirs"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Leur profil \xE9troit masque leur pr\xE9sence dans les r\xE9troviseurs et derri\xE8re les montants de vitre."
+          },
+          {
+            "_id": "q-lec-11-3-2",
+            "questionText": "En cas de chute d\u2019un motard sur la chauss\xE9e, que ne devez-vous JAMAIS faire sauf urgence vitale ?",
+            "options": [
+              "Baliser la zone",
+              "Lui retirer son casque",
+              "Appeler le 15 ou 112",
+              "Couper le contact de sa moto"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Retirer le casque risque de provoquer une paralysie ou l\xE9sion irr\xE9versible de la moelle \xE9pini\xE8re."
+          },
+          {
+            "_id": "q-lec-11-3-3",
+            "questionText": "Quelle est la principale cause d\u2019accident mortel impliquant une voiture et une moto \xE0 une intersection ?",
+            "options": [
+              "Une panne de phare",
+              "Le refus de priorit\xE9 de la voiture qui n\u2019a pas vu ou a mal estim\xE9 la vitesse de la moto qui arrivait",
+              "Une chauss\xE9e s\xE8che",
+              "L\u2019absence de casque"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019automobiliste estime mal la vitesse d\u2019approche d\u2019un deux-roues lors d\u2019un tourne-\xE0-gauche."
+          },
+          {
+            "_id": "q-lec-11-3-4",
+            "questionText": "Lorsque des motards circulent en inter-files sur voie rapide congestionn\xE9e, vous devez :",
+            "options": [
+              "Leur barrer la route",
+              "\xC9largir l\u2019espace en serrant sur le c\xF4t\xE9 de votre voie pour leur faciliter le passage",
+              "Klaxonner",
+              "Ouvrir votre porti\xE8re"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Faciliter le passage des deux-roues en inter-files est un geste de s\xE9curit\xE9 partag\xE9e."
+          },
+          {
+            "_id": "q-lec-11-3-5",
+            "questionText": "\xC0 quel \xE9quipement obligatoire doit \xEAtre attentif un motocycliste ?",
+            "options": [
+              "Casque homologu\xE9 attach\xE9 et gants certifi\xE9s",
+              "Des lunettes de soleil seules",
+              "Un short",
+              "Une \xE9charpe"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Casque et gants homologu\xE9s sont les \xE9quipements minimaux strictement obligatoires par la loi."
+          }
         ]
       },
       {
-        _id: "lec-11-4",
-        _type: "lecon",
-        title: "Le\xE7on 11.4 \u2013 Enfants et personnes \xE0 mobilit\xE9 r\xE9duite",
-        ordre: 4,
-        description: "Comportements impr\xE9visibles des enfants et vigilance envers les PMR.",
-        videoUrl: "https://www.youtube.com/@ornikar",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Les enfants ont un comportement :", options: ["Toujours pr\xE9visible", "Souvent impr\xE9visible", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Comportement spontan\xE9." },
-          { questionText: "Pr\xE8s d'une aire de jeux, il faut :", options: ["Rien", "R\xE9duire sa vitesse et rester attentif", "Acc\xE9l\xE9rer", "Rien"], correctOptionIndex: 1, explanation: "Vigilance accrue." },
-          { questionText: "Une PMR qui traverse doit b\xE9n\xE9ficier de :", options: ["Rien", "Temps suppl\xE9mentaire et de patience", "Klaxon", "Rien"], correctOptionIndex: 1, explanation: "Patience et temps." },
-          { questionText: "Un ballon qui roule annonce :", options: ["Rien", "Un enfant qui surgit derri\xE8re", "Une f\xEAte", "Rien"], correctOptionIndex: 1, explanation: "Pr\xE9sence d'un enfant." },
-          { questionText: "Les zones scolaires sont souvent signal\xE9es par :", options: ["Rien", "Panneaux sp\xE9cifiques et limitation de vitesse", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Panneaux sp\xE9cifiques." }
+        "_id": "lec-11-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 11.4 \u2014 Enfants et personnes \xE0 mobilit\xE9 r\xE9duite",
+        "ordre": 4,
+        "description": "Risques li\xE9s \xE0 l\u2019impr\xE9visibilit\xE9 des enfants, zones scolaires, aires de jeux et vigilance envers les personnes \xE0 mobilit\xE9 r\xE9duite.",
+        "videoUrl": "https://www.youtube.com/watch?v=EPL8PQweWlc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-11-4-1",
+            "questionText": "Pourquoi les jeunes enfants ont-ils un comportement \xE0 tr\xE8s haut risque pr\xE8s de la chauss\xE9e ?",
+            "options": [
+              "Ils connaissent le code",
+              "Leur champ visuel est restreint, ils n\u2019\xE9valuent pas les distances et peuvent surgir brutalement apr\xE8s un ballon",
+              "Ils courent vite",
+              "Ils sont prudents"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Leur perception du danger est immature et leur comportement totalement impr\xE9visible."
+          },
+          {
+            "_id": "q-lec-11-4-2",
+            "questionText": "Un pi\xE9ton portant une canne blanche ou accompagn\xE9 d\u2019un chien-guide :",
+            "options": [
+              "Est une personne malvoyante ou non-voyante qui a la priorit\xE9 absolue en toutes circonstances",
+              "Doit c\xE9der le passage",
+              "Doit courir",
+              "Est interdit de traverser"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "La canne blanche conf\xE8re la priorit\xE9 absolue au pi\xE9ton malvoyant sur tout son parcours."
+          },
+          {
+            "_id": "q-lec-11-4-3",
+            "questionText": "\xC0 la vue d\u2019un ballon qui roule sur la chauss\xE9e, quelle doit \xEAtre votre r\xE9action imm\xE9diate ?",
+            "options": [
+              "Acc\xE9l\xE9rer pour passer dessus",
+              "Freiner imm\xE9diatement et vous attendre \xE0 voir surgir un enfant derri\xE8re le ballon",
+              "Klaxonner en gardant la m\xEAme vitesse",
+              "Ignorer le ballon"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un ballon roulant est le signe pr\xE9curseur quasi certain de l\u2019irruption d\u2019un enfant."
+          },
+          {
+            "_id": "q-lec-11-4-4",
+            "questionText": "En pr\xE9sence d\u2019une personne \xE2g\xE9e ou \xE0 mobilit\xE9 r\xE9duite traversant lentement sur un passage pi\xE9ton :",
+            "options": [
+              "On klaxonne pour qu\u2019elle se d\xE9p\xEAche",
+              "On patiente calmement sans mettre la pression ni donner de coups d\u2019acc\xE9l\xE9rateur",
+              "On passe en la fr\xF4lant",
+              "On la contourne par le trottoir"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le respect du rythme des personnes vuln\xE9rables est une r\xE8gle \xE9l\xE9mentaire de civisme et de loi."
+          },
+          {
+            "_id": "q-lec-11-4-5",
+            "questionText": "\xC0 l\u2019approche d\u2019un car scolaire \xE0 l\u2019arr\xEAt feux clignotants allum\xE9s :",
+            "options": [
+              "On double \xE0 80 km/h",
+              "On ralentit au pas en surveillant l\u2019apparition d\u2019enfants cach\xE9s par le bus",
+              "On klaxonne",
+              "On s\u2019arr\xEAte 1 heure"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les enfants peuvent traverser masqu\xE9s par l\u2019avant ou l\u2019arri\xE8re du car scolaire."
+          }
         ]
       },
       {
-        _id: "lec-11-5",
-        _type: "lecon",
-        title: "Le\xE7on 11.5 \u2013 Bonnes pratiques g\xE9n\xE9rales usagers vuln\xE9rables",
-        ordre: 5,
-        description: "Anticipation, courtoisie et partage apais\xE9 de la route.",
-        videoUrl: "https://www.youtube.com/@EnVoitureSimone",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "La courtoisie envers les usagers vuln\xE9rables contribue \xE0 :", options: ["Rien", "Une route plus s\xFBre pour tous", "Ralentir", "Rien"], correctOptionIndex: 1, explanation: "S\xE9curit\xE9 partag\xE9e." },
-          { questionText: "Anticiper les intentions d'un usager vuln\xE9rable permet :", options: ["Rien", "De r\xE9agir plus t\xF4t et en s\xE9curit\xE9", "Perdre du temps", "Rien"], correctOptionIndex: 1, explanation: "Marge de r\xE9action." },
-          { questionText: "Il est recommand\xE9 de toujours garder :", options: ["Une distance de s\xE9curit\xE9 suffisante", "Rien", "Vitesse max", "Rien"], correctOptionIndex: 0, explanation: "Distance de s\xE9curit\xE9." },
-          { questionText: "Le partage apais\xE9 de la route repose sur :", options: ["La rapidit\xE9", "Le respect mutuel entre usagers", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Respect r\xE9ciproque." },
-          { questionText: "En cas de doute sur la trajectoire d'un pi\xE9ton, il faut :", options: ["Acc\xE9l\xE9rer", "Ralentir et marquer l'arr\xEAt si besoin", "Klaxonner fort", "Rien"], correctOptionIndex: 1, explanation: "Ralentir." }
+        "_id": "lec-11-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 11.5 \u2014 Bonnes pratiques g\xE9n\xE9rales envers les usagers vuln\xE9rables",
+        "ordre": 5,
+        "description": "Anticipation, courtoisie, r\xE9duction de vitesse, distances de s\xE9curit\xE9 et partage apais\xE9 de la route.",
+        "videoUrl": "https://www.youtube.com/watch?v=EPL8PQweWlc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-11-5-1",
+            "questionText": "Dans la hi\xE9rarchie de la vuln\xE9rabilit\xE9 routi\xE8re, quel usager est le plus fragile et sans protection m\xE9canique ?",
+            "options": [
+              "Le conducteur de SUV",
+              "Le pi\xE9ton",
+              "Le camionneur",
+              "Le motard avec gilet airbag"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le pi\xE9ton absorbe directement 100% de l\u2019\xE9nergie de l\u2019impact lors d\u2019un choc."
+          },
+          {
+            "_id": "q-lec-11-5-2",
+            "questionText": "Quelle est la chance de survie d\u2019un pi\xE9ton heurt\xE9 par une voiture \xE0 30 km/h par rapport \xE0 50 km/h ?",
+            "options": [
+              "Identique",
+              "Environ 90% de survie \xE0 30 km/h contre seulement 20% \xE0 50 km/h",
+              "100% de mortalit\xE9 \xE0 30 km/h",
+              "Aucune chance"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La vitesse de 30 km/h r\xE9duit drastiquement les risques de blessures mortelles."
+          },
+          {
+            "_id": "q-lec-11-5-3",
+            "questionText": "Le concept de \xAB conducteur citoyen \xBB et bienveillant repose sur :",
+            "options": [
+              "Faire valoir sa priorit\xE9 quoi qu\u2019il en co\xFBte",
+              "L\u2019anticipation, la protection des plus faibles et le partage courtois de l\u2019espace public",
+              "Rouler le plus vite possible",
+              "Ne jamais utiliser ses clignotants"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La s\xE9curit\xE9 routi\xE8re collective d\xE9pend du comportement protecteur des conducteurs."
+          },
+          {
+            "_id": "q-lec-11-5-4",
+            "questionText": "En pr\xE9sence d\u2019une flaque d\u2019eau importante le long d\u2019un trottoir o\xF9 marchent des pi\xE9tons :",
+            "options": [
+              "On acc\xE9l\xE8re pour les \xE9clabousser",
+              "On ralentit pour ne pas projeter d\u2019eau et ne pas risquer l\u2019aquaplaning",
+              "On klaxonne",
+              "On ferme les vitres"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le respect des pi\xE9tons et la ma\xEEtrise du v\xE9hicule imposent une vitesse tr\xE8s r\xE9duite."
+          },
+          {
+            "_id": "q-lec-11-5-5",
+            "questionText": "Face \xE0 un utilisateur d\u2019engin de d\xE9placement personnel motoris\xE9 (trottinette \xE9lectrique) :",
+            "options": [
+              "On le serre",
+              "On applique les m\xEAmes r\xE8gles d\u2019\xE9cart et de prudence qu\u2019envers les cyclistes (1 m en ville, 1,5 m hors agglo)",
+              "On le double sans regarder",
+              "On le bloque"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les trottinettes sont des usagers vuln\xE9rables n\xE9cessitant les m\xEAmes distances de s\xE9curit\xE9."
+          }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // MODULE 12
   {
-    _id: "mod-12",
-    _type: "moduleFormation",
-    code: "MOD-012",
-    title: "Module 12 : Premiers secours et comportement en cas d'accident",
-    summary: "Ce module pr\xE9sente les gestes essentiels de premiers secours et la conduite \xE0 tenir en cas d'accident : prot\xE9ger, alerter, secourir.",
-    learningObjectives: [
-      "Appliquer la cha\xEEne de secours P.A.S. (Prot\xE9ger, Alerter, Secourir)",
-      "Alerter les secours avec les num\xE9ros 112, 15, 17, 18",
-      "Placer une personne inconsciente qui respire en PLS",
-      "S\xE9curiser la zone d'accident pour \xE9viter le suraccident"
+    "_id": "mod-12",
+    "_type": "moduleFormation",
+    "code": "MOD-012",
+    "title": "Module 12 \u2014 Premiers secours et accident",
+    "summary": "Proc\xE9dure PAS (Prot\xE9ger, Alerter, Secourir), num\xE9ros d'urgence (15, 17, 18, 112), gestes de premiers secours, constat amiable et sur-accidents.",
+    "learningObjectives": [
+      "Appliquer dans l'ordre strict la proc\xE9dure vitale PAS (Prot\xE9ger, Alerter, Secourir)",
+      "Conna\xEEtre par c\u0153ur les num\xE9ros d'urgence (15 SAMU, 17 Police, 18 Pompiers, 112 Europe, 114 Sourds)",
+      "Ma\xEEtriser les gestes de premiers secours (PLS, massage cardiaque, utilisation du DAE)",
+      "R\xE9diger correctement un constat amiable d'accident sans d\xE9lit de fuite"
     ],
-    ordre: 12,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/@prepacode",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 12,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=VcOPgmOW3Zc",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-12-1",
-        _type: "lecon",
-        title: "Le\xE7on 12.1 \u2013 La proc\xE9dure PAS (Prot\xE9ger, Alerter, Secourir)",
-        ordre: 1,
-        description: "Ordre des priorit\xE9s sur un lieu d'accident et s\xE9curisation de la zone.",
-        videoUrl: "https://www.youtube.com/@ornikar",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "La premi\xE8re \xE9tape face \xE0 un accident est :", options: ["Secourir", "Prot\xE9ger", "Alerter", "Filmer"], correctOptionIndex: 1, explanation: "Prot\xE9ger en premier." },
-          { questionText: "Prot\xE9ger la zone consiste \xE0 :", options: ["Rien", "\xC9viter le suraccident (gilet, triangle, d\xE9tresse)", "Filmer", "Rien"], correctOptionIndex: 1, explanation: "Balisage de s\xE9curit\xE9." },
-          { questionText: "L'ordre correct est :", options: ["Alerter, Secourir, Prot\xE9ger", "Prot\xE9ger, Alerter, Secourir", "Secourir, Prot\xE9ger, Alerter", "Aucun"], correctOptionIndex: 1, explanation: "Prot\xE9ger -> Alerter -> Secourir." },
-          { questionText: "Avant de s'approcher d'un accident, il faut :", options: ["Rien", "V\xE9rifier l'absence de danger imm\xE9diat", "Foncer", "Rien"], correctOptionIndex: 1, explanation: "\xC9valuer la s\xE9curit\xE9." },
-          { questionText: "Le triangle de signalisation sert \xE0 :", options: ["Rien", "Pr\xE9venir les usagers du danger en amont", "D\xE9corer", "Rien"], correctOptionIndex: 1, explanation: "Pr\xE9venir du danger." }
+        "_id": "lec-12-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 12.1 \u2014 La proc\xE9dure PAS : Prot\xE9ger, Alerter, Secourir",
+        "ordre": 1,
+        "description": "S\xE9curisation d\u2019une zone d\u2019accident, pr\xE9vention du sur-accident et ordre des actions \xE0 effectuer.",
+        "videoUrl": "https://www.youtube.com/watch?v=VcOPgmOW3Zc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-12-1-1",
+            "questionText": "Quel est l\u2019ordre chronologique STRICT des actions \xE0 mener en arrivant le premier sur un accident ?",
+            "options": [
+              "Secourir, Alerter, Prot\xE9ger",
+              "Prot\xE9ger la zone (P), Alerter les secours (A), Secourir les victimes (S)",
+              "Alerter, Secourir, Prot\xE9ger",
+              "Prendre des photos"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La r\xE8gle universelle est PAS : Prot\xE9ger d\u2019abord pour \xE9viter le sur-accident, Alerter, puis Secourir."
+          },
+          {
+            "_id": "q-lec-12-1-2",
+            "questionText": "Comment PROT\xC9GER efficacement les lieux d\u2019un accident sur route de campagne ?",
+            "options": [
+              "Courir sur la route",
+              "Allumer feux de d\xE9tresse, enfiler son gilet jaune, poser le triangle \xE0 au moins 30 m avant le virage/accident et faire baliser",
+              "Allumer une cigarette",
+              "Klaxonner"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le balisage visible pr\xE9vient les autres usagers et \xE9vite une collision en cha\xEEne."
+          },
+          {
+            "_id": "q-lec-12-1-3",
+            "questionText": "Pourquoi ne doit-on JAMAIS fumer ni approcher avec une flamme pr\xE8s d\u2019un accident de la route ?",
+            "options": [
+              "C\u2019est impoli",
+              "Risque majeur d\u2019incendie ou d\u2019explosion d\xFB aux vapeurs d\u2019essence ou de carburant r\xE9pandu",
+              "Pour garder le calme",
+              "C\u2019est interdit la nuit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les fuites de carburant ou de batterie peuvent s\u2019enflammer instantan\xE9ment."
+          },
+          {
+            "_id": "q-lec-12-1-4",
+            "questionText": "Doit-on couper le contact des v\xE9hicules accident\xE9s si cela est accessible en s\xE9curit\xE9 ?",
+            "options": [
+              "Non, laisser tourner le moteur",
+              "Oui, couper le contact et serrer le frein \xE0 main pour \xE9liminer le risque d\u2019\xE9tincelle et d\u2019incendie",
+              "Couper les c\xE2bles avec des ciseaux",
+              "Enlever les pneus"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Couper le contact neutralise les circuits \xE9lectriques et coupe l\u2019alimentation d\u2019essence."
+          },
+          {
+            "_id": "q-lec-12-1-5",
+            "questionText": "O\xF9 placer les t\xE9moins non bless\xE9s et passagers valides ?",
+            "options": [
+              "Au milieu de la chauss\xE9e",
+              "En lieu s\xFBr, derri\xE8re les glissi\xE8res de s\xE9curit\xE9 ou sur le bas-c\xF4t\xE9 d\xE9gag\xE9",
+              "Dans les v\xE9hicules accident\xE9s",
+              "Sur le capot"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La mise \xE0 l\u2019abri des personnes valides \xE9vite qu\u2019elles ne soient fauch\xE9es."
+          }
         ]
       },
       {
-        _id: "lec-12-2",
-        _type: "lecon",
-        title: "Le\xE7on 12.2 \u2013 Alerter les secours efficacement",
-        ordre: 2,
-        description: "Num\xE9ros d'urgence (15, 17, 18, 112) et informations essentielles \xE0 transmettre.",
-        videoUrl: "https://www.youtube.com/@EnVoitureSimone",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Le num\xE9ro d'urgence europ\xE9en unique est :", options: ["15", "112", "17", "18"], correctOptionIndex: 1, explanation: "112 num\xE9ro unique." },
-          { questionText: "Le SAMU correspond au num\xE9ro :", options: ["15", "17", "18", "112"], correctOptionIndex: 0, explanation: "SAMU = 15." },
-          { questionText: "La police/gendarmerie correspond au num\xE9ro :", options: ["15", "17", "18", "112"], correctOptionIndex: 1, explanation: "Police = 17." },
-          { questionText: "Les pompiers correspondent au num\xE9ro :", options: ["15", "17", "18", "112"], correctOptionIndex: 2, explanation: "Pompiers = 18." },
-          { questionText: "Lors de l'appel, il faut donner en priorit\xE9 :", options: ["Rien", "Le lieu pr\xE9cis et la nature de l'accident", "Nom", "Rien"], correctOptionIndex: 1, explanation: "Lieu et bilan." }
+        "_id": "lec-12-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 12.2 \u2014 Alerter les secours efficacement",
+        "ordre": 2,
+        "description": "Num\xE9ros 15, 17, 18 et 112 ; informations essentielles \xE0 transmettre et comportement pendant l\u2019appel.",
+        "videoUrl": "https://www.youtube.com/watch?v=VcOPgmOW3Zc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-12-2-1",
+            "questionText": "Quel est le num\xE9ro d\u2019urgence europ\xE9en gratuit et accessible partout depuis un mobile ?",
+            "options": [
+              "15",
+              "18",
+              "112",
+              "911"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Le 112 est le num\xE9ro d\u2019appel d\u2019urgence universel dans toute l\u2019Union europ\xE9enne."
+          },
+          {
+            "_id": "q-lec-12-2-2",
+            "questionText": "Quel num\xE9ro direct compose-t-on pour joindre le SAMU (urgences m\xE9dicales) en France ?",
+            "options": [
+              "15",
+              "17",
+              "18",
+              "114"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Le 15 relie directement au m\xE9decin r\xE9gulateur du SAMU."
+          },
+          {
+            "_id": "q-lec-12-2-3",
+            "questionText": "Quel num\xE9ro d\u2019urgence par SMS/\xE9crit est r\xE9serv\xE9 aux personnes sourdes ou malentendantes ?",
+            "options": [
+              "112",
+              "114",
+              "118",
+              "15"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le 114 permet d\u2019envoyer une alerte par SMS avec g\xE9olocalisation."
+          },
+          {
+            "_id": "q-lec-12-2-4",
+            "questionText": "Quelles informations indispensables devez-vous fournir aux secours lors de l\u2019appel ?",
+            "options": [
+              "Votre avis politique",
+              "Lieu pr\xE9cis de l\u2019accident, nombre et \xE9tat apparent des victimes, types de v\xE9hicules impliqu\xE9s, risques particuliers (incendie, mati\xE8res dangereuses)",
+              "Le prix de la voiture",
+              "Votre profession"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un message d\u2019alerte clair et pr\xE9cis conditionne l\u2019envoi des moyens de secours adapt\xE9s."
+          },
+          {
+            "_id": "q-lec-12-2-5",
+            "questionText": "Quand devez-vous raccrocher lors d\u2019un appel d\u2019urgence ?",
+            "options": [
+              "D\xE8s que vous avez fini de parler",
+              "Uniquement quand l\u2019op\xE9rateur des secours vous dit express\xE9ment de raccrocher",
+              "Au bout de 30 secondes",
+              "Jamais"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019op\xE9rateur doit valider que toutes les informations n\xE9cessaires ont \xE9t\xE9 transmises."
+          }
         ]
       },
       {
-        _id: "lec-12-3",
-        _type: "lecon",
-        title: "Le\xE7on 12.3 \u2013 Gestes de premiers secours de base",
-        ordre: 3,
-        description: "Position lat\xE9rale de s\xE9curit\xE9 (PLS) et v\xE9rification de la respiration.",
-        videoUrl: "https://www.youtube.com/@codesrousseau",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "La PLS est utilis\xE9e pour :", options: ["Une personne consciente", "Une personne inconsciente qui respire", "Arr\xEAt cardiaque", "Rien"], correctOptionIndex: 1, explanation: "Inconsciente qui respire." },
-          { questionText: "Un bless\xE9 grave ne doit \xEAtre d\xE9plac\xE9 que :", options: ["Toujours", "En cas de danger imm\xE9diat uniquement", "Jamais", "Rien"], correctOptionIndex: 1, explanation: "Danger imm\xE9diat." },
-          { questionText: "Avant tout geste, il faut v\xE9rifier :", options: ["Rien", "La conscience et la respiration de la victime", "T\xE9l\xE9phone", "Rien"], correctOptionIndex: 1, explanation: "\xC9tat de conscience." },
-          { questionText: "En cas d'arr\xEAt cardiaque, le geste prioritaire est :", options: ["PLS", "Massage cardiaque et alerte imm\xE9diate", "Rien", "Attendre"], correctOptionIndex: 1, explanation: "Massage cardiaque." },
-          { questionText: "Un d\xE9fibrillateur (DAE) peut \xEAtre utilis\xE9 par :", options: ["M\xE9decins", "Toute personne (guidage vocal)", "Personne", "Rien"], correctOptionIndex: 1, explanation: "Accessible \xE0 tous." }
+        "_id": "lec-12-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 12.3 \u2014 Gestes de premiers secours de base",
+        "ordre": 3,
+        "description": "V\xE9rification de la conscience et de la respiration, PLS, massage cardiaque, d\xE9fibrillateur et non-d\xE9placement d\u2019un bless\xE9 sauf danger imm\xE9diat.",
+        "videoUrl": "https://www.youtube.com/watch?v=VcOPgmOW3Zc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-12-3-1",
+            "questionText": "Doit-on d\xE9placer ou extraire une victime bless\xE9e de son v\xE9hicule ?",
+            "options": [
+              "Oui pour aller plus vite",
+              "Non, JAMAIS, sauf en cas de DANGER IMM\xC9DIAT ET NON CONTR\xD4LABLE (v\xE9hicule en feu, noyade)",
+              "Oui pour la poser sur le trottoir",
+              "Toujours imm\xE9diatement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Tout d\xE9placement risque d\u2019aggraver des l\xE9sions de la colonne vert\xE9brale."
+          },
+          {
+            "_id": "q-lec-12-3-2",
+            "questionText": "Si une victime est INCONSCIENTE mais RESPIRE normalement, quelle position adopter ?",
+            "options": [
+              "La mettre assise",
+              "La placer en Position Lat\xE9rale de S\xE9curit\xE9 (PLS) pour lib\xE9rer les voies a\xE9riennes et \xE9viter l\u2019\xE9touffement",
+              "La laisser sur le dos",
+              "La mettre sur le ventre"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La PLS emp\xEAche l\u2019\xE9touffement par la langue ou des vomissements."
+          },
+          {
+            "_id": "q-lec-12-3-3",
+            "questionText": "Si la victime est inconsciente et NE RESPIRE PLUS, que faire imm\xE9diatement ?",
+            "options": [
+              "Attendre les secours sans rien faire",
+              "Alerter le 15/112 et d\xE9buter imm\xE9diatement un massage cardiaque (30 compressions / 2 insufflations) avec DAE",
+              "Lui donner \xE0 boire de l\u2019eau",
+              "Lui donner des gifles"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La r\xE9animation cardio-pulmonaire imm\xE9diate maintient l\u2019oxyg\xE9nation du cerveau."
+          },
+          {
+            "_id": "q-lec-12-3-4",
+            "questionText": "Un D\xE9fibrillateur Automatis\xE9 Externe (DAE) peut-il \xEAtre utilis\xE9 par une personne non m\xE9decin ?",
+            "options": [
+              "Non, r\xE9serv\xE9 aux chirurgiens",
+              "Oui, par TOUTE personne : l\u2019appareil guide vocalement chaque \xE9tape et d\xE9livre le choc en autonomie si n\xE9cessaire",
+              "Uniquement avec un dipl\xF4me d\u2019\xC9tat",
+              "Interdit en public"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le DAE est con\xE7u pour \xEAtre utilis\xE9 par n\u2019importe quel t\xE9moin en toute s\xE9curit\xE9."
+          },
+          {
+            "_id": "q-lec-12-3-5",
+            "questionText": "Doit-on donner \xE0 boire ou \xE0 manger \xE0 une victime bless\xE9e d\u2019accident de la route ?",
+            "options": [
+              "Oui, du soda",
+              "Non, JAMAIS (risque d\u2019\xE9touffement et complication lors d\u2019une anesth\xE9sie d\u2019urgence)",
+              "Oui, du caf\xE9 chaud",
+              "Un verre d\u2019eau sucr\xE9e"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Ne jamais rien administrer par voie orale \xE0 un bless\xE9."
+          }
         ]
       },
       {
-        _id: "lec-12-4",
-        _type: "lecon",
-        title: "Le\xE7on 12.4 \u2013 Que faire en cas d'accident mat\xE9riel ou corporel",
-        ordre: 4,
-        description: "Constat amiable, \xE9change d'informations et obligations l\xE9gales.",
-        videoUrl: "https://www.youtube.com/@prepacode",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Apr\xE8s un accident mat\xE9riel sans bless\xE9, il faut :", options: ["Fuir", "Remplir un constat amiable", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Constat amiable." },
-          { questionText: "Quitter les lieux d'un accident sans s'arr\xEAter est :", options: ["Autoris\xE9", "Un d\xE9lit de fuite", "Tol\xE9r\xE9", "Rien"], correctOptionIndex: 1, explanation: "D\xE9lit p\xE9nale." },
-          { questionText: "En cas d'accident corporel, la priorit\xE9 est :", options: ["Constat", "Prot\xE9ger, alerter, secourir avant tout", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Secourir d'abord." },
-          { questionText: "Le constat amiable doit \xEAtre sign\xE9 par :", options: ["Un seul", "Les deux conducteurs impliqu\xE9s", "Personne", "Rien"], correctOptionIndex: 1, explanation: "Les deux conducteurs." },
-          { questionText: "En cas de d\xE9saccord sur le constat, il faut :", options: ["Rien", "Noter ses r\xE9serves dans les observations", "Falsifier", "Rien"], correctOptionIndex: 1, explanation: "Noter les r\xE9serves." }
+        "_id": "lec-12-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 12.4 \u2014 Que faire en cas d\u2019accident mat\xE9riel ou corporel",
+        "ordre": 4,
+        "description": "Constat amiable, \xE9change d\u2019informations, absence de d\xE9lit de fuite et priorit\xE9 au triptyque prot\xE9ger-alerter-secourir s\u2019il y a des victimes.",
+        "videoUrl": "https://www.youtube.com/watch?v=VcOPgmOW3Zc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-12-4-1",
+            "questionText": "Quitter les lieux d\u2019un accident sans s\u2019arr\xEAter ni communiquer son identit\xE9 constitue :",
+            "options": [
+              "Une simple incivilit\xE9",
+              "Le D\xC9LIT DE FUITE, puni de 3 ans de prison, 75 000 \u20AC d\u2019amende et retrait de 6 points",
+              "Une contravention \xE0 35 \u20AC",
+              "Aucune faute"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le d\xE9lit de fuite est un crime lourdement r\xE9prim\xE9 par le code p\xE9nal."
+          },
+          {
+            "_id": "q-lec-12-4-2",
+            "questionText": "Le constat amiable automobile europ\xE9en est :",
+            "options": [
+              "Un document de culpabilit\xE9 p\xE9nale",
+              "Un document amiable descriptif et contradictoire des faits servant aux assurances",
+              "Un document facultatif sans valeur",
+              "Un jugement de tribunal"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le constat retrace les circonstances mat\xE9rielles pour la prise en charge assurantielle."
+          },
+          {
+            "_id": "q-lec-12-4-3",
+            "questionText": "Une fois le constat amiable sign\xE9 par les deux conducteurs, peut-on modifier le recto ?",
+            "options": [
+              "Oui chez soi au stylo",
+              "Non, aucune modification unilat\xE9rale n\u2019est admise apr\xE8s signature",
+              "Oui le lendemain",
+              "Oui si on n\u2019est plus d\u2019accord"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La signature fige les d\xE9clarations communes de la face avant."
+          },
+          {
+            "_id": "q-lec-12-4-4",
+            "questionText": "En cas de d\xE9saccord avec l\u2019autre conducteur sur les cases coch\xE9es du constat :",
+            "options": [
+              "On se bat",
+              "On ne signe pas le constat ou on consigne express\xE9ment ses r\xE9serves dans la case \xAB Mes observations \xBB",
+              "On d\xE9chire tout",
+              "On accepte sans rien dire"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La case observations permet d\u2019exprimer clairement son d\xE9saccord avant envoi."
+          },
+          {
+            "_id": "q-lec-12-4-5",
+            "questionText": "Dans quel d\xE9lai l\xE9gal doit-on envoyer le constat amiable \xE0 son assureur ?",
+            "options": [
+              "Dans les 24 heures",
+              "Dans les 5 jours ouvr\xE9s suivant l\u2019accident",
+              "Dans le mois",
+              "Aucun d\xE9lai"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le d\xE9lai r\xE9glementaire de d\xE9claration de sinistre est de 5 jours ouvr\xE9s."
+          }
         ]
       },
       {
-        _id: "lec-12-5",
-        _type: "lecon",
-        title: "Le\xE7on 12.5 \u2013 Pr\xE9venir les sur-accidents",
-        ordre: 5,
-        description: "Signalisation d'un v\xE9hicule accident\xE9 ou en panne et gilet de s\xE9curit\xE9.",
-        videoUrl: "https://www.youtube.com/@ornikar",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Apr\xE8s un accident, les occupants doivent :", options: ["Rester dans le v\xE9hicule", "Se mettre en s\xE9curit\xE9 derri\xE8re la glissi\xE8re", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Mettre \xE0 l'abri." },
-          { questionText: "Le gilet de s\xE9curit\xE9 doit \xEAtre enfil\xE9 :", options: ["Apr\xE8s \xEAtre sorti", "Avant de sortir du v\xE9hicule", "Jamais", "Rien"], correctOptionIndex: 1, explanation: "Avant la sortie." },
-          { questionText: "Un v\xE9hicule accident\xE9 sur la chauss\xE9e doit avoir :", options: ["Rien", "Feux de d\xE9tresse et triangle", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Balisage d'urgence." },
-          { questionText: "Rester sur la chauss\xE9e pr\xE8s d'un v\xE9hicule accident\xE9 est :", options: ["S\xFBr", "Tr\xE8s dangereux", "Recommand\xE9", "Rien"], correctOptionIndex: 1, explanation: "Danger de suraccident." },
-          { questionText: "Pr\xE9venir un suraccident, c'est :", options: ["Rien", "\xC9viter qu'un autre usager ne percute la zone", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Protection." }
+        "_id": "lec-12-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 12.5 \u2014 Pr\xE9venir les sur-accidents",
+        "ordre": 5,
+        "description": "Feux de d\xE9tresse, gilet, triangle lorsque cela est sans danger, protection des occupants et mise \xE0 l\u2019abri.",
+        "videoUrl": "https://www.youtube.com/watch?v=VcOPgmOW3Zc",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-12-5-1",
+            "questionText": "Qu\u2019est-ce qu\u2019un \xAB sur-accident \xBB ?",
+            "options": [
+              "Un accident avec deux v\xE9los",
+              "Un second accident provoqu\xE9 par la collision de nouveaux v\xE9hicules avec les v\xE9hicules d\xE9j\xE0 accident\xE9s ou les secours",
+              "Un accident sans gravit\xE9",
+              "Un accrochage de parking"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le sur-accident est souvent bien plus meurtrier que l\u2019accident initial."
+          },
+          {
+            "_id": "q-lec-12-5-2",
+            "questionText": "\xC0 quelle distance minimale doit-on placer le triangle de pr\xE9signalisation sur route hors autoroute ?",
+            "options": [
+              "\xC0 5 m\xE8tres",
+              "\xC0 au moins 30 m\xE8tres en amont de l\u2019accident (ou avant le virage/sommet de c\xF4te)",
+              "\xC0 1 kilom\xE8tre",
+              "Sur le pare-brise"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "30 m\xE8tres permet aux usagers qui arrivent d\u2019avoir le temps de ralentir."
+          },
+          {
+            "_id": "q-lec-12-5-3",
+            "questionText": "La nuit sur route non \xE9clair\xE9e, comment rendre le lieu d\u2019accident visible ?",
+            "options": [
+              "Allumer les feux des v\xE9hicules en s\xE9curit\xE9, utiliser des lampes torches et porter des gilets fluo",
+              "\xC9teindre toutes les lumi\xE8res",
+              "Faire un feu de camp",
+              "Klaxonner en continu"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "La visibilit\xE9 lumineuse est le premier rempart contre le sur-accident nocturne."
+          },
+          {
+            "_id": "q-lec-12-5-4",
+            "questionText": "Les passagers d\u2019un v\xE9hicule immobilis\xE9 sur une route dangereuse doivent :",
+            "options": [
+              "Rester assis au chaud",
+              "Sortir du c\xF4t\xE9 oppos\xE9 \xE0 la circulation et se mettre en s\xE9curit\xE9 sur le bas-c\xF4t\xE9 d\xE9gag\xE9",
+              "Marcher sur la route",
+              "Pousser la voiture imm\xE9diatement"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019\xE9vacuation c\xF4t\xE9 droit prot\xE8ge les personnes des v\xE9hicules en approche."
+          },
+          {
+            "_id": "q-lec-12-5-5",
+            "questionText": "En pr\xE9sence de c\xE2bles \xE9lectriques tomb\xE9s sur la voiture accident\xE9e :",
+            "options": [
+              "Faire sortir tout le monde en marchant",
+              "Interdire \xE0 quiconque de toucher la carrosserie ou de sortir en attendant les secours qualifi\xE9s (risque d\u2019\xE9lectrocution)",
+              "Couper les c\xE2bles \xE0 la main",
+              "Verser de l\u2019eau"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La carrosserie peut \xEAtre sous tension \xE9lectrique mortelle : il ne faut pas poser le pied \xE0 terre."
+          }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // MODULE 13
   {
-    _id: "mod-13",
-    _type: "moduleFormation",
-    code: "MOD-013",
-    title: "Module 13 : Documents, assurance et responsabilit\xE9 du conducteur",
-    summary: "Ce module traite des documents obligatoires, de l'assurance, du permis \xE0 points, et des responsabilit\xE9s civiles et p\xE9nales.",
-    learningObjectives: [
-      "Pr\xE9senter permis, carte grise et attestation d'assurance en contr\xF4le",
-      "Comprendre le capital de 6 points du permis probatoire",
-      "Distinguer assurance au tiers obligatoire et tous risques",
-      "Conna\xEEtre les responsabilit\xE9s civiles et p\xE9nales du conducteur"
+    "_id": "mod-13",
+    "_type": "moduleFormation",
+    "code": "MOD-013",
+    "title": "Module 13 \u2014 Documents, assurance et responsabilit\xE9",
+    "summary": "Documents de bord obligatoires, permis \xE0 points et p\xE9riode probatoire, infractions, d\xE9lits, assurances et responsabilit\xE9s civile/p\xE9nale.",
+    "learningObjectives": [
+      "Conna\xEEtre tous les documents obligatoires \xE0 pr\xE9senter lors d'un contr\xF4le routier",
+      "Comprendre le fonctionnement du capital de points et de la p\xE9riode probatoire",
+      "Distinguer contraventions et d\xE9lits routiers ainsi que leurs sanctions",
+      "Ma\xEEtriser les garanties d'assurance automobile (Tiers, Tous risques) et les responsabilit\xE9s"
     ],
-    ordre: 13,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/@ornikar",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 13,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=GbIYOi387iI",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-13-1",
-        _type: "lecon",
-        title: "Le\xE7on 13.1 \u2013 Documents obligatoires \xE0 bord",
-        ordre: 1,
-        description: "Permis, carte grise, attestation d'assurance et contr\xF4le technique.",
-        videoUrl: "https://www.youtube.com/@EnVoitureSimone",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Les documents obligatoires \xE0 pr\xE9senter en contr\xF4le sont :", options: ["Rien", "Permis, carte grise, assurance", "Permis uniquement", "Rien"], correctOptionIndex: 1, explanation: "Permis, carte grise, assurance." },
-          { questionText: "Ne pas pr\xE9senter son assurance peut entra\xEEner :", options: ["Rien", "Une amende forfaitaire", "Un bonus", "Rien"], correctOptionIndex: 1, explanation: "Amende pour d\xE9faut de pr\xE9sentation." },
-          { questionText: "La carte grise prouve :", options: ["Rien", "L'immatriculation et l'identit\xE9 du titulaire", "L'assurance", "Rien"], correctOptionIndex: 1, explanation: "Certificat d'immatriculation." },
-          { questionText: "Le contr\xF4le technique doit \xEAtre \xE0 jour pour :", options: ["Rien", "Circuler l\xE9galement sur voie publique", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Obligation l\xE9gale." },
-          { questionText: "Conduire sans permis valide est :", options: ["Tol\xE9r\xE9", "Un d\xE9lit p\xE9nale lourd", "Sans risque", "Rien"], correctOptionIndex: 1, explanation: "D\xE9lit p\xE9nale." }
+        "_id": "lec-13-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 13.1 \u2014 Documents obligatoires \xE0 bord",
+        "ordre": 1,
+        "description": "Permis, certificat d\u2019immatriculation, assurance et contr\xF4le technique pour les v\xE9hicules concern\xE9s.",
+        "videoUrl": "https://www.youtube.com/watch?v=GbIYOi387iI",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-13-1-1",
+            "questionText": "Quels documents originaux et valides devez-vous \xEAtre en mesure de pr\xE9senter lors d\u2019un contr\xF4le routier ?",
+            "options": [
+              "Permis de conduire, certificat d\u2019immatriculation (carte grise) et attestation d\u2019assurance valide",
+              "Le livret de famille",
+              "Le contrat de travail",
+              "La facture d\u2019achat du v\xE9hicule"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Ces 3 pi\xE8ces justificatives sont strictement obligatoires pour circuler."
+          },
+          {
+            "_id": "q-lec-13-1-2",
+            "questionText": "La vignette de contr\xF4le technique sur le pare-brise prouve-t-elle \xE0 elle seule la validit\xE9 du contr\xF4le ?",
+            "options": [
+              "Oui",
+              "Non, c\u2019est le timbre coll\xE9 sur le certificat d\u2019immatriculation et le proc\xE8s-verbal qui font foi juridiquement",
+              "Oui pour les policiers",
+              "Ce n\u2019est pas obligatoire"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le timbre sur la carte grise et le PV constituent la preuve l\xE9gale officielle."
+          },
+          {
+            "_id": "q-lec-13-1-3",
+            "questionText": "En cas de non-pr\xE9sentation imm\xE9diate des papiers lors d\u2019un contr\xF4le, dans quel d\xE9lai devez-vous les pr\xE9senter au commissariat ?",
+            "options": [
+              "Dans les 24 heures",
+              "Dans les 5 jours",
+              "Dans le mois",
+              "Jamais"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Vous disposez d\u2019un d\xE9lai de 5 jours sous peine d\u2019amende forfaitaire aggrav\xE9e."
+          },
+          {
+            "_id": "q-lec-13-1-4",
+            "questionText": "Le certificat d\u2019immatriculation (carte grise) doit \xEAtre mis \xE0 jour \xE0 votre nouvelle adresse dans un d\xE9lai de :",
+            "options": [
+              "1 semaine",
+              "1 mois",
+              "6 mois",
+              "1 an"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Tout changement de domicile doit \xEAtre d\xE9clar\xE9 sous 30 jours sur le site officiel."
+          },
+          {
+            "_id": "q-lec-13-1-5",
+            "questionText": "Circuler \xE0 bord d\u2019un v\xE9hicule sans contr\xF4le technique valide est passible de :",
+            "options": [
+              "Une amende de 135 \u20AC et immobilisation du v\xE9hicule",
+              "Une simple lettre",
+              "Prison ferme",
+              "Rien"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Le d\xE9faut de contr\xF4le technique entra\xEEne 135 \u20AC d\u2019amende et la saisie de la carte grise."
+          }
         ]
       },
       {
-        _id: "lec-13-2",
-        _type: "lecon",
-        title: "Le\xE7on 13.2 \u2013 Le permis \xE0 points",
-        ordre: 2,
-        description: "Fonctionnement du capital de points, infractions et r\xE9cup\xE9ration.",
-        videoUrl: "https://www.youtube.com/@prepacode",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Le capital initial d'un permis probatoire est de :", options: ["12 points", "6 points", "8 points", "4 points"], correctOptionIndex: 1, explanation: "6 points initiaux." },
-          { questionText: "Un permis confirm\xE9 dispose de :", options: ["6 points", "12 points", "8 points", "20 points"], correctOptionIndex: 1, explanation: "12 points max." },
-          { questionText: "En probatoire, le capital augmente chaque ann\xE9e sans infraction de :", options: ["2 points (ou 3 si AAC)", "Rien", "6 points", "Rien"], correctOptionIndex: 0, explanation: "+2 ou +3 points par an." },
-          { questionText: "Un permis \xE0 0 point entra\xEEne :", options: ["Rien", "L'invalidation du permis de conduire", "Une m\xE9daille", "Rien"], correctOptionIndex: 1, explanation: "Invalidation." },
-          { questionText: "On peut r\xE9cup\xE9rer jusqu'\xE0 4 points via :", options: ["Rien", "Un stage de sensibilisation \xE0 la s\xE9curit\xE9 routi\xE8re", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Stage de r\xE9cup\xE9ration." }
+        "_id": "lec-13-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 13.2 \u2014 Le permis \xE0 points",
+        "ordre": 2,
+        "description": "Capital initial en p\xE9riode probatoire, retraits, r\xE9cup\xE9ration de points, invalidation \xE0 z\xE9ro point et stages de sensibilisation.",
+        "videoUrl": "https://www.youtube.com/watch?v=GbIYOi387iI",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-13-2-1",
+            "questionText": "Quel est le capital initial de points sur un permis probatoire (formation traditionnelle) ?",
+            "options": [
+              "6 points (avec gain de 2 points par an sans infraction pendant 3 ans)",
+              "12 points direct",
+              "8 points",
+              "10 points"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Le permis d\xE9bute \xE0 6 points et atteint 12 points au bout de 3 ans sans infraction (2 ans en conduite accompagn\xE9e)."
+          },
+          {
+            "_id": "q-lec-13-2-2",
+            "questionText": "En conduite accompagn\xE9e (AAC), en combien d\u2019ann\xE9es sans infraction atteint-on les 12 points ?",
+            "options": [
+              "1 an",
+              "2 ans (gain de 3 points par an)",
+              "3 ans",
+              "4 ans"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019AAC permet de capitaliser 3 points par an et d\u2019obtenir 12 points en 2 ans."
+          },
+          {
+            "_id": "q-lec-13-2-3",
+            "questionText": "Combien de points maximum peut-on perdre lors d\u2019une seule infraction ?",
+            "options": [
+              "3 points",
+              "6 points (ex: alcool, stup\xE9fiants, refus de priorit\xE9 pi\xE9ton)",
+              "8 points",
+              "12 points"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Une infraction unique ne peut retirer plus de 6 points au maximum."
+          },
+          {
+            "_id": "q-lec-13-2-4",
+            "questionText": "En cas d\u2019infractions simultan\xE9es commises en m\xEAme temps, le cumul maximal de retrait est de :",
+            "options": [
+              "6 points",
+              "8 points au maximum",
+              "10 points",
+              "12 points"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le cumul de retraits de points lors d\u2019un m\xEAme contr\xF4le est plafonn\xE9 \xE0 8 points."
+          },
+          {
+            "_id": "q-lec-13-2-5",
+            "questionText": "Combien de points permet de r\xE9cup\xE9rer un stage de sensibilisation \xE0 la s\xE9curit\xE9 routi\xE8re ?",
+            "options": [
+              "2 points",
+              "4 points (au maximum dans la limite de 12 points, 1 fois par an)",
+              "6 points",
+              "Tous les points"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le stage de 2 jours permet de r\xE9cup\xE9rer jusqu\u2019\xE0 4 points, une fois tous les ans."
+          }
         ]
       },
       {
-        _id: "lec-13-3",
-        _type: "lecon",
-        title: "Le\xE7on 13.3 \u2013 Infractions et sanctions",
-        ordre: 3,
-        description: "Classement des infractions, amendes, suspensions et annulations.",
-        videoUrl: "https://www.youtube.com/@codesrousseau",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Un grand exc\xE8s de vitesse peut entra\xEEner :", options: ["Rien", "Amende, retrait de points et suspension imm\xE9diate", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Suspension du permis." },
-          { questionText: "La conduite sans assurance est :", options: ["Contravention", "Un d\xE9lit sanctionn\xE9 lourdement", "Sans effet", "Rien"], correctOptionIndex: 1, explanation: "D\xE9lit p\xE9nale." },
-          { questionText: "Une suspension du permis est :", options: ["D\xE9finitive", "Une interdiction temporaire de conduire", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Interdiction temporaire." },
-          { questionText: "Une annulation judiciaire impose de :", options: ["Rien", "Repasser l'examen pour reconduire", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Repasser les \xE9preuves." },
-          { questionText: "Le d\xE9lit de fuite est sanctionn\xE9 par :", options: ["Rien", "De lourdes peines de prison et amendes", "Rien", "Rien"], correctOptionIndex: 1, explanation: "D\xE9lit grave." }
+        "_id": "lec-13-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 13.3 \u2014 Infractions et sanctions",
+        "ordre": 3,
+        "description": "Contraventions, d\xE9lits, amendes, suspension ou annulation de permis et gravit\xE9 du d\xE9lit de fuite.",
+        "videoUrl": "https://www.youtube.com/watch?v=GbIYOi387iI",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-13-3-1",
+            "questionText": "En droit routier fran\xE7ais, quelles sont les deux grandes cat\xE9gories d\u2019infractions ?",
+            "options": [
+              "Les petites et les grandes fautes",
+              "Les contraventions (classes 1 \xE0 5) et les d\xE9lits (jug\xE9s au tribunal correctionnel)",
+              "Les fautes de jour et de nuit",
+              "Les fautes de vitesse"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les contraventions sont punies d\u2019amendes forfaitaires, les d\xE9lits de peines de prison et de tribunal."
+          },
+          {
+            "_id": "q-lec-13-3-2",
+            "questionText": "Conduire sans \xEAtre titulaire du permis de conduire constitue :",
+            "options": [
+              "Une contravention",
+              "Un D\xC9LIT puni de 1 an de prison, 15 000 \u20AC d\u2019amende et confiscation du v\xE9hicule",
+              "Une erreur tol\xE9r\xE9e",
+              "Une amende de 35 \u20AC"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La conduite sans permis est un d\xE9lit p\xE9nal lourd."
+          },
+          {
+            "_id": "q-lec-13-3-3",
+            "questionText": "Que risque un jeune conducteur qui perd 3 points ou plus en p\xE9riode probatoire lors d\u2019une infraction ?",
+            "options": [
+              "Rien",
+              "L\u2019obligation d\u2019effectuer un stage de sensibilisation dans les 4 mois (lettre 48N)",
+              "La perte d\xE9finitive du permis",
+              "Une amende de 10 000 \u20AC"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La lettre 48N rend le stage obligatoire avec remboursement de l\u2019amende."
+          },
+          {
+            "_id": "q-lec-13-3-4",
+            "questionText": "Lorsque le solde de points tombe \xE0 Z\xC9RO (lettre 48SI), le permis est :",
+            "options": [
+              "Suspendu 1 mois",
+              "Invalid\xE9 pour solde nul : interdiction de conduire pendant 6 mois et obligation de repasser les \xE9preuves",
+              "Recharg\xE9 automatiquement",
+              "Remplac\xE9"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019invalidation 48SI oblige \xE0 restituer le permis en pr\xE9fecture."
+          },
+          {
+            "_id": "q-lec-13-3-5",
+            "questionText": "Un grand exc\xE8s de vitesse \xE9gal ou sup\xE9rieur \xE0 50 km/h au-dessus de la limite entra\xEEne :",
+            "options": [
+              "Une amende simple",
+              "Retrait de 6 points, r\xE9tention imm\xE9diate du permis, saisie du v\xE9hicule et suspension",
+              "1 point en moins",
+              "Rien"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est une infraction majeure de 5\xE8me classe trait\xE9e avec s\xE9v\xE9rit\xE9 judiciaire."
+          }
         ]
       },
       {
-        _id: "lec-13-4",
-        _type: "lecon",
-        title: "Le\xE7on 13.4 \u2013 Assurance automobile",
-        ordre: 4,
-        description: "Assurance au tiers vs tous risques, garanties et franchise.",
-        videoUrl: "https://www.youtube.com/@ornikar",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "L'assurance au tiers minimale est :", options: ["Facultative", "Obligatoire pour tout v\xE9hicule en circulation", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Assurance au tiers obligatoire." },
-          { questionText: "L'assurance tous risques couvre :", options: ["Tiers uniquement", "Aussi les dommages caus\xE9s \xE0 son propre v\xE9hicule", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Couverture compl\xE8te." },
-          { questionText: "La franchise correspond \xE0 :", options: ["Rien", "La somme restant \xE0 la charge de l'assur\xE9", "L'amende", "Rien"], correctOptionIndex: 1, explanation: "Franchise d'assurance." },
-          { questionText: "Rouler sans assurance expose \xE0 :", options: ["Rien", "Rembourser personnellement les d\xE9g\xE2ts caus\xE9s toute sa vie", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Remboursement des d\xE9g\xE2ts." },
-          { questionText: "D\xE9clarer un sinistre doit se faire dans un d\xE9lai de :", options: ["5 jours ouvr\xE9s en g\xE9n\xE9ral", "1 an", "Jamais", "Rien"], correctOptionIndex: 0, explanation: "5 jours ouvr\xE9s." }
+        "_id": "lec-13-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 13.4 \u2014 Assurance automobile",
+        "ordre": 4,
+        "description": "Assurance obligatoire au tiers, garanties, assurance tous risques, franchise et d\xE9claration d\u2019un sinistre.",
+        "videoUrl": "https://www.youtube.com/watch?v=GbIYOi387iI",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-13-4-1",
+            "questionText": "Quelle est la seule garantie d\u2019assurance l\xE9galement OBLIGATOIRE pour faire circuler un v\xE9hicule \xE0 moteur ?",
+            "options": [
+              "L\u2019assurance Tous Risques",
+              "L\u2019assurance Responsabilit\xE9 Civile (appel\xE9e assurance \xAB au Tiers \xBB)",
+              "L\u2019assurance vol et incendie",
+              "L\u2019assurance bris de glace"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La garantie responsabilit\xE9 civile au tiers est le minimum obligatoire l\xE9gal."
+          },
+          {
+            "_id": "q-lec-13-4-2",
+            "questionText": "Que couvre l\u2019assurance Responsabilit\xE9 Civile (au Tiers) ?",
+            "options": [
+              "Vos propres blessures et les d\xE9g\xE2ts sur votre voiture",
+              "Les dommages mat\xE9riels et corporels caus\xE9s aux AUTRES personnes (passagers, pi\xE9tons, autres v\xE9hicules)",
+              "La panne moteur",
+              "Le carburant"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019assurance au tiers indemnise exclusivement les victimes et tiers l\xE9s\xE9s par votre v\xE9hicule."
+          },
+          {
+            "_id": "q-lec-13-4-3",
+            "questionText": "Circuler sans aucune assurance automobile (d\xE9faut d\u2019assurance) est :",
+            "options": [
+              "Tol\xE9r\xE9 le week-end",
+              "Un d\xE9lit puni de 3 750 \u20AC d\u2019amende, suspension/annulation de permis et confiscation du v\xE9hicule",
+              "Une amende de 11 \u20AC",
+              "Autoris\xE9 sur autoroute"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le d\xE9faut d\u2019assurance est un d\xE9lit grave. En cas d\u2019accident, le conducteur responsable paie toute sa vie."
+          },
+          {
+            "_id": "q-lec-13-4-4",
+            "questionText": "Qu\u2019est-ce que la \xAB franchise \xBB dans un contrat d\u2019assurance auto ?",
+            "options": [
+              "Un bonus financier",
+              "La somme restant obligatoirement \xE0 la charge de l\u2019assur\xE9 lors du r\xE8glement d\u2019un sinistre",
+              "Le prix du contr\xF4le technique",
+              "Une taxe d\u2019\xC9tat"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La franchise est le montant non rembours\xE9 par l\u2019assureur en cas de dommage."
+          },
+          {
+            "_id": "q-lec-13-4-5",
+            "questionText": "Comment \xE9volue le coefficient de Bonus-Malus apr\xE8s une ann\xE9e compl\xE8te sans accident responsable ?",
+            "options": [
+              "Il augmente de 25%",
+              "Il est r\xE9duit de 5% (multipli\xE9 par 0,95)",
+              "Il reste \xE0 1",
+              "Il double"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Chaque ann\xE9e sans sinistre responsable r\xE9duit la prime de 5% (coefficient x 0,95)."
+          }
         ]
       },
       {
-        _id: "lec-13-5",
-        _type: "lecon",
-        title: "Le\xE7on 13.5 \u2013 Responsabilit\xE9 civile et p\xE9nale du conducteur",
-        ordre: 5,
-        description: "Notion de responsabilit\xE9 en cas d'accident et cons\xE9quences civiles/p\xE9nales.",
-        videoUrl: "https://www.youtube.com/@EnVoitureSimone",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "La responsabilit\xE9 civile concerne :", options: ["Rien", "L'indemnisation des dommages caus\xE9s \xE0 autrui", "Les amende", "Rien"], correctOptionIndex: 1, explanation: "Dommages caus\xE9s \xE0 autrui." },
-          { questionText: "La responsabilit\xE9 p\xE9nale concerne :", options: ["Rien", "Les sanctions pr\xE9vues par la loi (amendes, prison)", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Sanctions p\xE9nales." },
-          { questionText: "Un conducteur est responsable des passagers mineurs non attach\xE9s :", options: ["Vrai", "Faux", "Rien", "Rien"], correctOptionIndex: 0, explanation: "Responsable des mineurs." },
-          { questionText: "En cas de sinistre caus\xE9 sous l'emprise de l'alcool, l'assureur peut :", options: ["Rien", "Refuser d'indemniser les d\xE9g\xE2ts du conducteur", "Payer un bonus", "Rien"], correctOptionIndex: 1, explanation: "Refus d'indemnisation." },
-          { questionText: "Pr\xEAter son v\xE9hicule engage la responsabilit\xE9 de la carte grise en cas de radaris\xE9 :", options: ["Vrai", "Faux", "Rien", "Rien"], correctOptionIndex: 0, explanation: "Titulaire de la carte grise." }
+        "_id": "lec-13-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 13.5 \u2014 Responsabilit\xE9 civile et p\xE9nale du conducteur",
+        "ordre": 5,
+        "description": "Indemnisation des dommages caus\xE9s \xE0 autrui, sanctions p\xE9nales et responsabilit\xE9 du conducteur en cas d\u2019accident.",
+        "videoUrl": "https://www.youtube.com/watch?v=GbIYOi387iI",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-13-5-1",
+            "questionText": "Quelle est la diff\xE9rence entre responsabilit\xE9 civile et responsabilit\xE9 p\xE9nale ?",
+            "options": [
+              "Aucune",
+              "La responsabilit\xE9 civile r\xE9pare et indemnise les dommages financiers caus\xE9s aux victimes ; la responsabilit\xE9 p\xE9nale punit les infractions devant la soci\xE9t\xE9 (amende, prison)",
+              "La p\xE9nale est pour les v\xE9los",
+              "La civile est pour les assurances priv\xE9es"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le volet civil indemnise les pr\xE9judices, le volet p\xE9nal sanctionne la faute l\xE9gale."
+          },
+          {
+            "_id": "q-lec-13-5-2",
+            "questionText": "L\u2019assurance peut-elle se retourner contre le conducteur responsable d\u2019un accident sous alcool ou stup\xE9fiants ?",
+            "options": [
+              "Non jamais",
+              "Oui, l\u2019assureur peut r\xE9silier le contrat et exiger le remboursement total des sommes vers\xE9es aux victimes (d\xE9ch\xE9ance de garantie)",
+              "L\u2019assureur paie tout sans rien dire",
+              "Uniquement pour les moins de 18 ans"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La conduite sous emprise toxique entra\xEEne la d\xE9ch\xE9ance des garanties facultatives."
+          },
+          {
+            "_id": "q-lec-13-5-3",
+            "questionText": "Le propri\xE9taire de la carte grise peut-il \xEAtre tenu p\xE9cuniairement responsable d\u2019un exc\xE8s de vitesse commis avec son v\xE9hicule s\u2019il ne d\xE9nonce pas le conducteur ?",
+            "options": [
+              "Non",
+              "Oui, il est redevable de l\u2019amende p\xE9cuniaire sauf s\u2019il prouve le vol ou d\xE9signe l\u2019auteur de l\u2019infraction",
+              "Uniquement s\u2019il \xE9tait passager",
+              "Jamais"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le titulaire de la carte grise est pr\xE9sum\xE9 responsable du paiement des amendes radars."
+          },
+          {
+            "_id": "q-lec-13-5-4",
+            "questionText": "Causer involontairement la mort d\u2019un usager de la route lors d\u2019un accident avec circonstances aggravantes (alcool + vitesse) constitue :",
+            "options": [
+              "Un simple accident mat\xE9riel",
+              "Un homicide involontaire aggrav\xE9 puni de jusqu\u2019\xE0 10 ans de prison et 150 000 \u20AC d\u2019amende",
+              "Une amende de classe 4",
+              "Une faute civile sans prison"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est un d\xE9lit criminellement grave jug\xE9 avec s\xE9v\xE9rit\xE9 par les tribunaux."
+          },
+          {
+            "_id": "q-lec-13-5-5",
+            "questionText": "Peut-on assurer un v\xE9hicule au nom d\u2019un tiers pour payer moins cher tout en \xE9tant le conducteur principal r\xE9el ?",
+            "options": [
+              "Oui c\u2019est l\xE9gal",
+              "Non, c\u2019est une fausse d\xE9claration intentionnelle pouvant entra\xEEner la nullit\xE9 totale du contrat d\u2019assurance",
+              "Oui sur internet",
+              "Oui en famille"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La fausse d\xE9claration intentionnelle annule le contrat et supprime toute couverture en cas d\u2019accident."
+          }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // MODULE 14
   {
-    _id: "mod-14",
-    _type: "moduleFormation",
-    code: "MOD-014",
-    title: "Module 14 : \xC9coconduite et entretien du v\xE9hicule",
-    summary: "Ce module aborde l'\xE9coconduite, l'entretien courant du v\xE9hicule et l'impact environnemental.",
-    learningObjectives: [
-      "R\xE9duire la consommation en adoptant une conduite souple",
-      "V\xE9rifier r\xE9guli\xE8rement la pression des pneus et niveaux",
-      "Comprendre le classement Crit'Air et les zones ZFE",
-      "Utiliser le frein moteur pour pr\xE9server les freins"
+    "_id": "mod-14",
+    "_type": "moduleFormation",
+    "code": "MOD-014",
+    "title": "Module 14 \u2014 \xC9coconduite et entretien",
+    "summary": "Principes de l'\xE9coconduite, gestion du r\xE9gime moteur, pression des pneus, niveaux d'huile et liquide, v\xE9rifications de s\xE9curit\xE9 et mobilit\xE9 verte.",
+    "learningObjectives": [
+      "Appliquer les principes d'une conduite souple, \xE9conomique et \xE9cologique",
+      "Optimiser les passages de vitesses et utiliser le frein moteur pour r\xE9duire la consommation",
+      "Effectuer les contr\xF4les r\xE9guliers de pression des pneus et niveaux sous le capot",
+      "Pr\xE9parer un long trajet en s\xE9curit\xE9 et limiter l'empreinte environnementale"
     ],
-    ordre: 14,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/@EnVoitureSimone",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 14,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=BK5m9SMjeCs",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-14-1",
-        _type: "lecon",
-        title: "Le\xE7on 14.1 \u2013 Principes de l'\xE9coconduite",
-        ordre: 1,
-        description: "Anticipation, r\xE9gime moteur optimal et r\xE9duction de la consommation.",
-        videoUrl: "https://www.youtube.com/@ornikar",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "L'\xE9coconduite vise \xE0 :", options: ["Rouler plus vite", "R\xE9duire la consommation et les \xE9missions", "Rien", "Rien"], correctOptionIndex: 1, explanation: "\xC9conomie de carburant." },
-          { questionText: "Anticiper les ralentissements permet de :", options: ["Rien", "R\xE9duire l'usage des freins et la consommation", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Moins consommer." },
-          { questionText: "Rouler en sur-r\xE9gime moteur :", options: ["\xC9conomise", "Augmente fortement la consommation", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Surconsommation." },
-          { questionText: "Une conduite souple est :", options: ["Plus \xE9conomique", "Plus co\xFBteuse", "Rien", "Rien"], correctOptionIndex: 0, explanation: "\xC9conome." },
-          { questionText: "Couper le moteur \xE0 l'arr\xEAt prolong\xE9 permet de :", options: ["Rien", "\xC9conomiser du carburant", "Ab\xEEmer la batterie", "Rien"], correctOptionIndex: 1, explanation: "\xC9conomiser." }
+        "_id": "lec-14-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 14.1 \u2014 Principes de l\u2019\xE9coconduite",
+        "ordre": 1,
+        "description": "Anticipation, conduite souple, r\xE9gime moteur adapt\xE9, r\xE9duction de la consommation et des \xE9missions.",
+        "videoUrl": "https://www.youtube.com/watch?v=BK5m9SMjeCs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-14-1-1",
+            "questionText": "Quel gain moyen de consommation de carburant permet une \xE9coconduite bien appliqu\xE9e ?",
+            "options": [
+              "Moins de 1%",
+              "Entre 15% et 25% d\u2019\xE9conomie de carburant",
+              "Aucune \xE9conomie",
+              "50%"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019\xE9coconduite fait \xE9conomiser jusqu\u2019\xE0 20 \xE0 25% de carburant et r\xE9duit d\u2019autant les \xE9missions de CO2."
+          },
+          {
+            "_id": "q-lec-14-1-2",
+            "questionText": "Sur une voiture \xE0 essence, \xE0 quel r\xE9gime moteur est-il recommand\xE9 de passer le rapport sup\xE9rieur en \xE9coconduite ?",
+            "options": [
+              "\xC0 5000 tr/min",
+              "Vers 2000 \xE0 2500 tr/min maximum",
+              "\xC0 1000 tr/min",
+              "En zone rouge"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Passer les rapports t\xF4t (vers 2000 tr/min sur diesel, 2500 tr/min sur essence) \xE9vite le surr\xE9gime \xE9nergivore."
+          },
+          {
+            "_id": "q-lec-14-1-3",
+            "questionText": "Quelle est la r\xE8gle d\u2019or de l\u2019\xE9coconduite pour limiter les freinages et acc\xE9l\xE9rations brusques ?",
+            "options": [
+              "Rouler vite",
+              "L\u2019anticipation du trafic et la fluidit\xE9 des trajectoires en maintenant une bonne distance",
+              "Acc\xE9l\xE9rer fort puis piler",
+              "Rouler au point mort"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Anticiper les feux et ralentissements permet de laisser rouler le v\xE9hicule sur son \xE9lan."
+          },
+          {
+            "_id": "q-lec-14-1-4",
+            "questionText": "Lorsque vous rel\xE2chez totalement l\u2019acc\xE9l\xE9rateur avec une vitesse enclench\xE9e (frein moteur), la consommation instantan\xE9e est de :",
+            "options": [
+              "10 litres/100 km",
+              "0,0 litre/100 km (coupure totale d\u2019injection)",
+              "5 litres/100 km",
+              "Maximale"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les moteurs modernes coupent totalement l\u2019injection de carburant en d\xE9c\xE9l\xE9ration."
+          },
+          {
+            "_id": "q-lec-14-1-5",
+            "questionText": "Est-il conseill\xE9 de rouler au point mort (roue libre) pour \xE9conomiser du carburant ?",
+            "options": [
+              "Oui c\u2019est tr\xE8s efficace",
+              "Non, c\u2019est dangereux (perte de frein moteur et de contr\xF4le) et cela consomme du carburant au ralenti",
+              "Oui en descente",
+              "Oui sur autoroute"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Au point mort, le moteur consomme du carburant pour maintenir le ralenti et on perd le frein moteur."
+          }
         ]
       },
       {
-        _id: "lec-14-2",
-        _type: "lecon",
-        title: "Le\xE7on 14.2 \u2013 Pression des pneus et entretien courant",
-        ordre: 2,
-        description: "Importance de la pression des pneus, niveaux et plaquettes de frein.",
-        videoUrl: "https://www.youtube.com/@EnVoitureSimone",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Un sous-gonflage des pneus augmente :", options: ["Rien", "La consommation et le risque d'\xE9clatement", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Risque et surconsommation." },
-          { questionText: "La pression des pneus se v\xE9rifie environ :", options: ["Une fois par an", "Une fois par mois \xE0 froid", "Tous les 5 ans", "Rien"], correctOptionIndex: 1, explanation: "Mensuellement \xE0 froid." },
-          { questionText: "Le niveau d'huile moteur doit se contr\xF4ler :", options: ["Rien", "R\xE9guli\xE8rement sur sol plat moteur froid", "En roulant", "Rien"], correctOptionIndex: 1, explanation: "Moteur froid sur sol plat." },
-          { questionText: "Des plaquettes de frein us\xE9es provoquent :", options: ["Rien", "Un allongement des distances d'arr\xEAt", "Une meilleure vue", "Rien"], correctOptionIndex: 1, explanation: "Freinage rallong\xE9." },
-          { questionText: "Le liquide de refroidissement \xE9vite :", options: ["Rien", "La surchauffe moteur", "Le froid", "Rien"], correctOptionIndex: 1, explanation: "Anti-surchauffe." }
+        "_id": "lec-14-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 14.2 \u2014 Pression des pneus et entretien courant",
+        "ordre": 2,
+        "description": "Pression des pneus, niveaux d\u2019huile et de refroidissement, usure des plaquettes et entretien pr\xE9ventif.",
+        "videoUrl": "https://www.youtube.com/watch?v=BK5m9SMjeCs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-14-2-1",
+            "questionText": "\xC0 quelle fr\xE9quence doit-on v\xE9rifier la pression de ses pneumatiques ?",
+            "options": [
+              "Tous les ans",
+              "Au moins une fois par mois et avant chaque long trajet, de pr\xE9f\xE9rence \xE0 froid",
+              "Tous les 5 ans",
+              "Uniquement au contr\xF4le technique"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un contr\xF4le mensuel des pressions pr\xE9vient l\u2019usure pr\xE9matur\xE9e et l\u2019\xE9clatement."
+          },
+          {
+            "_id": "q-lec-14-2-2",
+            "questionText": "Quelles sont les cons\xE9quences directes d\u2019un sous-gonflage des pneumatiques ?",
+            "options": [
+              "Une meilleure vitesse",
+              "Surconsommation de carburant, \xE9chauffement excessif, risque d\u2019\xE9clatement et d\xE9gradation de la tenue de route",
+              "Aucune cons\xE9quence",
+              "Moins d\u2019usure"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un pneu sous-gonfl\xE9 augmente la r\xE9sistance au roulement et peut \xE9clater sous l\u2019effet de la chaleur."
+          },
+          {
+            "_id": "q-lec-14-2-3",
+            "questionText": "O\xF9 trouve-t-on les valeurs de pression pr\xE9conis\xE9es par le constructeur pour son v\xE9hicule ?",
+            "options": [
+              "Sur le permis",
+              "Sur l\u2019\xE9tiquette coll\xE9e dans la porti\xE8re conducteur, dans la trappe \xE0 carburant ou le livret de bord",
+              "Sur le tableau de bord",
+              "Sur le pare-brise"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les pressions exactes sont indiqu\xE9es sur la tranche de la porti\xE8re ou dans la trappe \xE0 essence."
+          },
+          {
+            "_id": "q-lec-14-2-4",
+            "questionText": "Le niveau du liquide de frein doit se situer :",
+            "options": [
+              "En dessous du minimum",
+              "Entre les rep\xE8res MIN et MAX du bocal transparent",
+              "Au-dessus du bouchon",
+              "Bocal vide"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le niveau doit imp\xE9rativement rester entre les rep\xE8res MIN et MAX."
+          },
+          {
+            "_id": "q-lec-14-2-5",
+            "questionText": "Si le liquide de refroidissement est au niveau MIN, quel liquide ajouter moteur FROID ?",
+            "options": [
+              "De l\u2019huile moteur",
+              "Du liquide de refroidissement sp\xE9cifique pr\xE9conis\xE9",
+              "De l\u2019eau savonneuse",
+              "Du liquide de frein"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "On compl\xE8te avec du liquide de refroidissement adapt\xE9 en veillant \xE0 ne jamais ouvrir le bocal \xE0 chaud."
+          }
         ]
       },
       {
-        _id: "lec-14-3",
-        _type: "lecon",
-        title: "Le\xE7on 14.3 \u2013 Impact environnemental de l'automobile",
-        ordre: 3,
-        description: "\xC9missions, vignettes Crit'Air et zones \xE0 faibles \xE9missions (ZFE).",
-        videoUrl: "https://www.youtube.com/@prepacode",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "La vignette Crit'Air classe les v\xE9hicules selon :", options: ["La couleur", "Leur niveau d'\xE9mission polluante", "Le prix", "Rien"], correctOptionIndex: 1, explanation: "Niveau polluant." },
-          { questionText: "Les ZFE visent \xE0 :", options: ["Rien", "Limiter la pollution en r\xE9servant l'acc\xE8s aux v\xE9hicules moins polluants", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Qualit\xE9 de l'air." },
-          { questionText: "Un v\xE9hicule trop polluant dans une ZFE peut \xEAtre :", options: ["Rien", "Interdit de circulation", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Acc\xE8s interdit." },
-          { questionText: "Adopter l'\xE9coconduite r\xE9duit les \xE9missions de CO2 de :", options: ["0%", "10% \xE0 20%", "100%", "Rien"], correctOptionIndex: 1, explanation: "10 \xE0 20% de baisse CO2." },
-          { questionText: "La vignette Crit'Air se colle sur :", options: ["Le coffre", "Le pare-brise en bas \xE0 droite", "Le volant", "Rien"], correctOptionIndex: 1, explanation: "Bas du pare-brise." }
+        "_id": "lec-14-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 14.3 \u2014 V\xE9rifications avant un long trajet",
+        "ordre": 3,
+        "description": "Contr\xF4le de l\u2019\xE9tat des pneus, des feux, des niveaux, des documents et du chargement avant un trajet important.",
+        "videoUrl": "https://www.youtube.com/watch?v=BK5m9SMjeCs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-14-3-1",
+            "questionText": "Comment charger un coffre volumineux avant de partir en vacances ?",
+            "options": [
+              "Mettre les objets les plus lourds au fond du coffre contre les dossiers de si\xE8ges",
+              "Poser les objets lourds sur la plage arri\xE8re",
+              "Tout mettre sur le toit",
+              "Sur le capot"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Les charges lourdes au plancher abaissent le centre de gravit\xE9 et ne risquent pas de voler vers l\u2019avant."
+          },
+          {
+            "_id": "q-lec-14-3-2",
+            "questionText": "Des objets lourds pos\xE9s librement sur la plage arri\xE8re repr\xE9sentent en cas de choc \xE0 50 km/h :",
+            "options": [
+              "Aucun danger",
+              "Des projectiles mortels capables de tuer les passagers avant lors d\u2019une d\xE9c\xE9l\xE9ration brutale",
+              "Un coussin de protection",
+              "Une d\xE9coration"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Un objet de quelques kilos devient une masse de plusieurs dizaines de kilos sous l\u2019impact."
+          },
+          {
+            "_id": "q-lec-14-3-3",
+            "questionText": "Si vous transportez un coffre de toit ou des barres de toit charg\xE9es :",
+            "options": [
+              "La consommation diminue",
+              "La consommation augmente de 10 \xE0 20% \xE0 cause de la r\xE9sistance a\xE9rodynamique",
+              "La vitesse maximale est augment\xE9e",
+              "Aucun effet"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La prise au vent augmente la tra\xEEn\xE9e a\xE9rodynamique et la facture de carburant."
+          },
+          {
+            "_id": "q-lec-14-3-4",
+            "questionText": "Avant de partir charg\xE9, devez-vous ajuster la hauteur des faisceaux de phares ?",
+            "options": [
+              "Non jamais",
+              "Oui, baisser les phares avec la molette de r\xE9glage pour \xE9viter d\u2019\xE9blouir \xE0 cause de l\u2019affaissement de l\u2019arri\xE8re",
+              "Allumer les antibrouillards",
+              "Mettre en feux de route"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le poids sur l\u2019essieu arri\xE8re l\xE8ve le nez de la voiture et fait pointer les phares vers le haut."
+          },
+          {
+            "_id": "q-lec-14-3-5",
+            "questionText": "Quelle est la v\xE9rification essentielle \xE0 faire sur les essuie-glaces avant un long voyage ?",
+            "options": [
+              "V\xE9rifier l\u2019absence de craquelures sur les balais et le niveau du r\xE9servoir de lave-glace",
+              "Les peindre en noir",
+              "Les d\xE9monter",
+              "Les couper"
+            ],
+            "correctOptionIndex": 0,
+            "explanation": "Des balais propres et un liquide lave-glace plein assurent une visibilit\xE9 irr\xE9prochable."
+          }
         ]
       },
       {
-        _id: "lec-14-4",
-        _type: "lecon",
-        title: "Le\xE7on 14.4 \u2013 V\xE9rifications avant un long trajet",
-        ordre: 4,
-        description: "Contr\xF4les pr\xE9alables (pneus, niveaux, \xE9clairage) avant trajet long.",
-        videoUrl: "https://www.youtube.com/@codesrousseau",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Avant un grand trajet, on v\xE9rifie :", options: ["Rien", "Pneus, liquides, feux et essuie-glaces", "Radio", "Rien"], correctOptionIndex: 1, explanation: "V\xE9rification compl\xE8te." },
-          { questionText: "Charger excessivement le toit d'une voiture :", options: ["\xC9conomise", "Augmente fortement la prise au vent et la consommation", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Prise au vent." },
-          { questionText: "Faire des pauses toutes les 2h permet de :", options: ["Rien", "Maintenir la vigilance et la s\xE9curit\xE9", "Perdre du temps", "Rien"], correctOptionIndex: 1, explanation: "Pauses r\xE9guli\xE8res." },
-          { questionText: "La pression des pneus pour autoroute ou voiture charg\xE9e doit \xEAtre :", options: ["Diminu\xE9e", "L\xE9g\xE8rement augment\xE9e selon pr\xE9conisations", "Nulle", "Rien"], correctOptionIndex: 1, explanation: "Augment\xE9e \xE0 la charge." },
-          { questionText: "V\xE9rifier l'\xE9clairage permet :", options: ["Rien", "De voir et d'\xEAtre vu en toute circonstance", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Voir et \xEAtre vu." }
+        "_id": "lec-14-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 14.4 \u2014 Pollution et mobilit\xE9 responsable",
+        "ordre": 4,
+        "description": "R\xE9duction des \xE9missions, choix de mobilit\xE9, optimisation des d\xE9placements et entretien du v\xE9hicule.",
+        "videoUrl": "https://www.youtube.com/watch?v=BK5m9SMjeCs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-14-4-1",
+            "questionText": "Que certifie la vignette environnementale Crit\u2019Air appos\xE9e sur le pare-brise ?",
+            "options": [
+              "Le paiement des taxes",
+              "La classe environnementale du v\xE9hicule selon son niveau d\u2019\xE9mission de polluants et son carburant",
+              "L\u2019assurance tous risques",
+              "Le permis du conducteur"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La vignette Crit\u2019Air d\xE9termine les autorisations de circuler dans les Zones \xE0 Faibles \xC9missions (ZFE)."
+          },
+          {
+            "_id": "q-lec-14-4-2",
+            "questionText": "Lors d\u2019un pic de pollution de l\u2019air en ville, quelle mesure de conduite est souvent impos\xE9e ?",
+            "options": [
+              "Rouler en feux de route",
+              "Abaissement de 20 km/h de la vitesse maximale autoris\xE9e et circulation diff\xE9renci\xE9e",
+              "Interdiction de freiner",
+              "Augmentation de la vitesse"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "R\xE9duire la vitesse de 20 km/h diminue directement les \xE9missions de particules fines et d\u2019oxydes d\u2019azote."
+          },
+          {
+            "_id": "q-lec-14-4-3",
+            "questionText": "L\u2019utilisation de la climatisation en continu dans l\u2019habitacle entra\xEEne :",
+            "options": [
+              "Une baisse de la consommation",
+              "Une surconsommation de carburant pouvant atteindre 10 \xE0 15% et des rejets suppl\xE9mentaires",
+              "Une panne de frein",
+              "Aucun effet"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le compresseur de climatisation demande de l\u2019\xE9nergie au moteur et augmente la consommation."
+          },
+          {
+            "_id": "q-lec-14-4-4",
+            "questionText": "Pour les trajets tr\xE8s courts du quotidien (moins de 2 km), quelle est l\u2019alternative la plus responsable ?",
+            "options": [
+              "Prendre son gros 4x4",
+              "Privil\xE9gier la marche \xE0 pied, le v\xE9lo ou les transports en commun",
+              "Rouler moteur froid \xE0 fond",
+              "Laisser tourner le moteur 10 min"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est sur les premiers kilom\xE8tres que le moteur froid pollue et consomme le plus."
+          },
+          {
+            "_id": "q-lec-14-4-5",
+            "questionText": "Le covoiturage r\xE9gulier permet de :",
+            "options": [
+              "Multiplier les bouchons",
+              "Diviser les frais de carburant, r\xE9duire le nombre de v\xE9hicules sur la route et diminuer la pollution globale",
+              "Perdre des points",
+              "Augmenter le risque de panne"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le partage des trajets all\xE8ge le trafic et les \xE9missions de gaz \xE0 effet de serre."
+          }
         ]
       },
       {
-        _id: "lec-14-5",
-        _type: "lecon",
-        title: "Le\xE7on 14.5 \u2013 Conduite \xE9conomique et anticipation",
-        ordre: 5,
-        description: "Utilisation du frein moteur et planification d'itin\xE9raire.",
-        videoUrl: "https://www.youtube.com/@ornikar",
-        durationSeconds: 480,
-        tempsMinimumVisionnageSeconds: 384,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Utiliser le frein moteur permet de :", options: ["\xC9conomiser", "\xC9conomiser le carburant et m\xE9nager les freins", "Ab\xEEmer la bo\xEEte", "Rien"], correctOptionIndex: 1, explanation: "Frein moteur." },
-          { questionText: "Retirer les barres de toit inutilis\xE9es permet de :", options: ["Rien", "\xC9conomiser du carburant", "Rouler plus vite", "Rien"], correctOptionIndex: 1, explanation: "\xC9conomie carburant." },
-          { questionText: "Planifier son itin\xE9raire \xE9vite :", options: ["Rien", "Les embouteillages et les kilom\xE8tres inutiles", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Itin\xE9raire optimis\xE9." },
-          { questionText: "La climatisation \xE0 fond augmente la consommation de :", options: ["0%", "Environ 10% \xE0 15%", "100%", "Rien"], correctOptionIndex: 1, explanation: "Surconsommation clim." },
-          { questionText: "Anticiper les feux tricolores \xE0 distance permet de :", options: ["Rien", "Conserver l'\xE9lan et \xE9viter l'arr\xEAt complet", "Acc\xE9l\xE9rer", "Rien"], correctOptionIndex: 1, explanation: "Conserver l'\xE9lan." }
+        "_id": "lec-14-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 14.5 \u2014 Conduite \xE9conomique en pratique",
+        "ordre": 5,
+        "description": "Acc\xE9l\xE9ration progressive, anticipation, frein moteur, limitation de la climatisation excessive et r\xE9duction des consommations inutiles.",
+        "videoUrl": "https://www.youtube.com/watch?v=BK5m9SMjeCs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-14-5-1",
+            "questionText": "Pour d\xE9marrer et acc\xE9l\xE9rer de fa\xE7on \xE9co-responsable, on doit :",
+            "options": [
+              "Faire crisser les pneus",
+              "Monter doucement dans les tours et passer rapidement les rapports sup\xE9rieurs sans pousser les r\xE9gimes",
+              "Rester en 1\xE8re jusqu\u2019\xE0 50 km/h",
+              "Acc\xE9l\xE9rer \xE0 fond"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La mont\xE9e en vitesse souple et le passage pr\xE9coce des rapports sont au c\u0153ur de l\u2019\xE9coconduite."
+          },
+          {
+            "_id": "q-lec-14-5-2",
+            "questionText": "\xC0 l\u2019arr\xEAt prolong\xE9 (plus d\u2019une minute \xE0 un passage \xE0 niveau ou dans un embouteillage statique) :",
+            "options": [
+              "Laisser tourner le moteur",
+              "Couper le moteur manuellement ou laisser agir le syst\xE8me Start & Stop",
+              "Donner des coups d\u2019acc\xE9l\xE9rateur",
+              "Allumer la clim"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Couper le moteur d\xE8s 30 secondes d\u2019arr\xEAt \xE9limine toute consommation et pollution inutile."
+          },
+          {
+            "_id": "q-lec-14-5-3",
+            "questionText": "Quelle est la cons\xE9quence de rouler vitres ouvertes \xE0 130 km/h sur autoroute ?",
+            "options": [
+              "Aucun effet",
+              "Forte surconsommation due \xE0 la d\xE9gradation a\xE9rodynamique par turbulence d\u2019air",
+              "\xC9conomie de carburant",
+              "Refroidissement des pneus"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "\xC0 vitesse \xE9lev\xE9e, l\u2019a\xE9rodynamisme prime : les vitres ouvertes freinent le v\xE9hicule."
+          },
+          {
+            "_id": "q-lec-14-5-4",
+            "questionText": "L\u2019utilisation du r\xE9gulateur de vitesse sur autoroute par temps sec permet :",
+            "options": [
+              "De s\u2019endormir",
+              "De stabiliser sa vitesse et d\u2019optimiser la consommation de carburant sur le plat",
+              "De doubler par la droite",
+              "De couper les freins"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Une vitesse stable sans \xE0-coups limite les surconsommations sur les longs trajets."
+          },
+          {
+            "_id": "q-lec-14-5-5",
+            "questionText": "D\xE9monter les barres de toit ou porte-v\xE9los lorsqu\u2019on ne s\u2019en sert pas :",
+            "options": [
+              "Est inutile",
+              "Permet de supprimer la r\xE9sistance \xE0 l\u2019air inutile et d\u2019\xE9conomiser du carburant",
+              "Est interdit",
+              "Ab\xEEme le toit"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Retirer les accessoires inutiles r\xE9tablit le profil a\xE9rodynamique d\u2019origine du v\xE9hicule."
+          }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
-  // MODULE 15
   {
-    _id: "mod-15",
-    _type: "moduleFormation",
-    code: "MOD-015",
-    title: "Module 15 : R\xE9visions g\xE9n\xE9rales et examens blancs type ETG",
-    summary: "Synth\xE8se et r\xE9visions transversales sur l'ensemble du programme et tests blancs dans les conditions de l'ETG.",
-    learningObjectives: [
-      "R\xE9viser l'int\xE9gralit\xE9 des 14 modules th\xE9oriques du Permis B",
-      "Comprendre le d\xE9roulement officiel de l'\xE9preuve th\xE9orique ETG",
-      "G\xE9rer le temps imparti de 20 secondes par question",
-      "Valider l'examen blanc avec un score minimum de 35/40 (80%)"
+    "_id": "mod-15",
+    "_type": "moduleFormation",
+    "code": "MOD-015",
+    "title": "Module 15 \u2014 R\xE9visions et examens blancs",
+    "summary": "Synth\xE8se g\xE9n\xE9rale et examens blancs type ETG (\xC9preuve Th\xE9orique G\xE9n\xE9rale) couvrant les 10 th\xE8mes du Code de la Route.",
+    "learningObjectives": [
+      "R\xE9viser l'ensemble des panneaux de danger, interdiction, obligation et indication",
+      "Valider les priorit\xE9s aux intersections et les r\xE8gles de circulation complexes",
+      "Ma\xEEtriser tous les calculs de distances d'arr\xEAt, de freinage et de s\xE9curit\xE9",
+      "R\xE9ussir l'examen blanc final type ETG officiel de 40 questions avec un score sup\xE9rieur \xE0 35/40"
     ],
-    ordre: 15,
-    typePermis: "B",
-    programmePermis: { _type: "reference", _ref: "prog-permis-b" },
-    videoUrl: "https://www.youtube.com/@codesrousseau",
-    durationSeconds: 540,
-    tempsMinimumVisionnage: 432,
-    scoreMinimumQuiz: 80,
-    isActive: true,
-    lecons: [
+    "ordre": 15,
+    "typePermis": "B",
+    "programmePermis": {
+      "_type": "reference",
+      "_ref": "prog-permis-b"
+    },
+    "videoUrl": "https://www.youtube.com/watch?v=FvS-JIuclvs",
+    "durationSeconds": 720,
+    "tempsMinimumVisionnage": 576,
+    "scoreMinimumQuiz": 80,
+    "isActive": true,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "lecons": [
       {
-        _id: "lec-15-1",
-        _type: "lecon",
-        title: "Le\xE7on 15.1 \u2013 R\xE9vision : v\xE9hicule, circulation et signalisation",
-        ordre: 1,
-        description: "Synth\xE8se des modules 1 \xE0 3 sous forme de r\xE9vision active.",
-        videoUrl: "https://www.youtube.com/@ornikar",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Fonction principale des voyants du tableau de bord ?", options: ["D\xE9coration", "Informer/alerter le conducteur", "Rien", "Rien"], correctOptionIndex: 1, explanation: "T\xE9moins de s\xE9curit\xE9." },
-          { questionText: "Une ligne continue signifie :", options: ["Franchissement autoris\xE9", "Franchissement interdit", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Interdiction absolue." },
-          { questionText: "Un panneau triangulaire annonce :", options: ["Obligation", "Danger", "Interdiction", "Indication"], correctOptionIndex: 1, explanation: "Danger." },
-          { questionText: "La ceinture de s\xE9curit\xE9 doit \xEAtre port\xE9e :", options: ["Parfois", "En permanence", "Jamais", "Rien"], correctOptionIndex: 1, explanation: "En permanence." },
-          { questionText: "Un panneau rond \xE0 fond bleu indique :", options: ["Interdiction", "Obligation", "Danger", "Rien"], correctOptionIndex: 1, explanation: "Obligation." }
+        "_id": "lec-15-1",
+        "_type": "lecon",
+        "title": "Le\xE7on 15.1 \u2014 R\xE9vision g\xE9n\xE9rale des panneaux",
+        "ordre": 1,
+        "description": "R\xE9vision des panneaux de danger, d\u2019interdiction, d\u2019obligation, d\u2019indication, de direction et de priorit\xE9.",
+        "videoUrl": "https://www.youtube.com/watch?v=FvS-JIuclvs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-15-1-1",
+            "questionText": "Quelle est la signification d\u2019un panneau triangulaire invers\xE9 pointant vers le bas ?",
+            "options": [
+              "Danger virage",
+              "C\xE9dez le passage \xE0 l\u2019intersection",
+              "Arr\xEAt absolu",
+              "Sens unique"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le triangle invers\xE9 est le signal universel du C\xE9dez le passage."
+          },
+          {
+            "_id": "q-lec-15-1-2",
+            "questionText": "Un panneau carr\xE9 bleu avec un pictogramme blanc d\u2019autoroute annonce :",
+            "options": [
+              "Une piste cyclable",
+              "L\u2019entr\xE9e sur une section d\u2019autoroute avec application des r\xE8gles autorouti\xE8res",
+              "La sortie d\u2019autoroute",
+              "Un p\xE9age"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il marque le d\xE9but de l\u2019autoroute o\xF9 les pi\xE9tons, v\xE9los et engins lents sont interdits."
+          },
+          {
+            "_id": "q-lec-15-1-3",
+            "questionText": "Que signifie un panneau rond blanc cercl\xE9 de rouge totalement vierge \xE0 l\u2019int\xE9rieur ?",
+            "options": [
+              "Sens interdit",
+              "Circulation interdite \xE0 tout v\xE9hicule dans les deux sens",
+              "Stationnement interdit",
+              "Fin d\u2019interdiction"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "C\u2019est le signal d\u2019acc\xE8s interdit \xE0 tout v\xE9hicule dans les deux sens de circulation."
+          },
+          {
+            "_id": "q-lec-15-1-4",
+            "questionText": "Que signifie un panneau rond rouge avec une barre blanche horizontale ?",
+            "options": [
+              "C\xE9dez le passage",
+              "Sens interdit (interdiction de p\xE9n\xE9trer dans ce sens)",
+              "Route barr\xE9e",
+              "Douane"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le sens interdit prohibe l\u2019entr\xE9e dans cette direction."
+          },
+          {
+            "_id": "q-lec-15-1-5",
+            "questionText": "Un panneau octogonal rouge portant le mot STOP impose :",
+            "options": [
+              "Un ralentissement",
+              "Un temps d\u2019arr\xEAt complet et marqu\xE9 des roues au niveau de la ligne continue",
+              "De klaxonner",
+              "De faire demi-tour"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le Stop impose l\u2019arr\xEAt absolu inconditionnel."
+          }
         ]
       },
       {
-        _id: "lec-15-2",
-        _type: "lecon",
-        title: "Le\xE7on 15.2 \u2013 R\xE9vision : priorit\xE9s, vitesse et d\xE9passement",
-        ordre: 2,
-        description: "Synth\xE8se des modules 4 \xE0 7.",
-        videoUrl: "https://www.youtube.com/@EnVoitureSimone",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "En l'absence de signalisation, qui est prioritaire ?", options: ["Gauche", "Droite", "Aucun", "Rien"], correctOptionIndex: 1, explanation: "Priorit\xE9 \xE0 droite." },
-          { questionText: "Vitesse maximale en agglom\xE9ration ?", options: ["30", "50", "70", "90"], correctOptionIndex: 1, explanation: "50 km/h." },
-          { questionText: "La distance d'arr\xEAt inclut :", options: ["Freinage seul", "R\xE9action + freinage", "R\xE9action seule", "Rien"], correctOptionIndex: 1, explanation: "R\xE9action + freinage." },
-          { questionText: "Le d\xE9passement est interdit sur :", options: ["Ligne discontinue", "Ligne continue", "Autoroute", "Rien"], correctOptionIndex: 1, explanation: "Ligne continue." },
-          { questionText: "Sur autoroute, la voie de gauche sert \xE0 :", options: ["Circulation normale", "D\xE9passement", "Stationnement", "Rien"], correctOptionIndex: 1, explanation: "D\xE9passement." }
+        "_id": "lec-15-2",
+        "_type": "lecon",
+        "title": "Le\xE7on 15.2 \u2014 R\xE9vision g\xE9n\xE9rale des priorit\xE9s et intersections",
+        "ordre": 2,
+        "description": "Priorit\xE9 \xE0 droite, Stop, C\xE9dez-le-passage, giratoires, feux et passages \xE0 niveau.",
+        "videoUrl": "https://www.youtube.com/watch?v=FvS-JIuclvs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-15-2-1",
+            "questionText": "En l\u2019absence de tout panneau \xE0 un carrefour, qui passe en premier ?",
+            "options": [
+              "Le v\xE9hicule venant de gauche",
+              "Le v\xE9hicule venant de droite (priorit\xE9 \xE0 droite)",
+              "Le plus rapide",
+              "Le v\xE9hicule le plus lourd"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La r\xE8gle par d\xE9faut est la priorit\xE9 \xE0 droite."
+          },
+          {
+            "_id": "q-lec-15-2-2",
+            "questionText": "Au feu vert, je souhaite tourner \xE0 gauche. Qui est prioritaire ?",
+            "options": [
+              "Moi seul",
+              "Les v\xE9hicules arrivant en face qui vont tout droit ou tournent \xE0 droite",
+              "Les voitures derri\xE8re moi",
+              "Personne"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "En coupant la voie d\u2019en face, on doit c\xE9der le passage aux usagers d\u2019en face."
+          },
+          {
+            "_id": "q-lec-15-2-3",
+            "questionText": "Sur un rond-point \xE0 sens giratoire avec panneaux C\xE9dez le passage aux entr\xE9es :",
+            "options": [
+              "Ceux qui entrent ont la priorit\xE9",
+              "Les v\xE9hicules circulant sur l\u2019anneau sont prioritaires",
+              "Priorit\xE9 \xE0 droite",
+              "Priorit\xE9 aux camions"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La priorit\xE9 appartient aux usagers engag\xE9s dans l\u2019anneau."
+          },
+          {
+            "_id": "q-lec-15-2-4",
+            "questionText": "Face \xE0 un feu rouge clignotant \xE0 un passage \xE0 niveau :",
+            "options": [
+              "Je passe vite",
+              "L\u2019arr\xEAt imm\xE9diat et absolu est obligatoire",
+              "Je klaxonne",
+              "Je double"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le feu rouge clignotant interdit formellement de franchir la voie ferr\xE9e."
+          },
+          {
+            "_id": "q-lec-15-2-5",
+            "questionText": "Un v\xE9hicule de police approche avec gyrophare bleu et sir\xE8ne deux-tons active :",
+            "options": [
+              "J\u2019acc\xE9l\xE8re",
+              "Je lui c\xE8de le passage et facilite sa progression en serrant \xE0 droite",
+              "Je garde ma vitesse",
+              "Je le bloque"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Les v\xE9hicules de secours en intervention sont prioritaires absolus."
+          }
         ]
       },
       {
-        _id: "lec-15-3",
-        _type: "lecon",
-        title: "Le\xE7on 15.3 \u2013 R\xE9vision : conditions difficiles et capacit\xE9s du conducteur",
-        ordre: 3,
-        description: "Synth\xE8se des modules 8 \xE0 10.",
-        videoUrl: "https://www.youtube.com/@prepacode",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "En cas de panne sur autoroute, se garer sur :", options: ["Voie de gauche", "Bande d'arr\xEAt d'urgence", "Voie centrale", "Rien"], correctOptionIndex: 1, explanation: "Bande d'arr\xEAt d'urgence." },
-          { questionText: "Vitesse maximale sur autoroute sous la pluie ?", options: ["130", "110", "90", "150"], correctOptionIndex: 1, explanation: "110 km/h." },
-          { questionText: "Taux d'alcool\xE9mie maximal pour conducteur confirm\xE9 ?", options: ["0,2", "0,5", "0,8", "1"], correctOptionIndex: 1, explanation: "0,5 g/L." },
-          { questionText: "Que faire en cas de somnolence au volant ?", options: ["Continuer", "S'arr\xEAter et faire une pause", "Acc\xE9l\xE9rer", "Rien"], correctOptionIndex: 1, explanation: "Pause obligatoire." },
-          { questionText: "Tenir son t\xE9l\xE9phone en main au volant est :", options: ["Autoris\xE9", "Interdit", "Tol\xE9r\xE9", "Rien"], correctOptionIndex: 1, explanation: "Interdit." }
+        "_id": "lec-15-3",
+        "_type": "lecon",
+        "title": "Le\xE7on 15.3 \u2014 R\xE9vision des distances, vitesses et risques",
+        "ordre": 3,
+        "description": "Distance d\u2019arr\xEAt, distance de s\xE9curit\xE9, limitations, alcool, fatigue, t\xE9l\xE9phone et conditions difficiles.",
+        "videoUrl": "https://www.youtube.com/watch?v=FvS-JIuclvs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-15-3-1",
+            "questionText": "\xC0 50 km/h sur sol sec, quelle est l\u2019estimation de la distance totale d\u2019arr\xEAt ?",
+            "options": [
+              "15 m\xE8tres",
+              "25 m\xE8tres (5 x 5)",
+              "50 m\xE8tres",
+              "100 m\xE8tres"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Formule : 5 x 5 = 25 m\xE8tres d\u2019arr\xEAt total."
+          },
+          {
+            "_id": "q-lec-15-3-2",
+            "questionText": "Sur sol mouill\xE9, que devient la distance de freinage ?",
+            "options": [
+              "Elle diminue",
+              "Elle est multipli\xE9e par deux",
+              "Elle est divis\xE9e par deux",
+              "Inchang\xE9e"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019adh\xE9rence divis\xE9e par 2 double la distance de freinage."
+          },
+          {
+            "_id": "q-lec-15-3-3",
+            "questionText": "Quel est le taux l\xE9gal maximal d\u2019alcool\xE9mie en permis probatoire ?",
+            "options": [
+              "0,0 g/l",
+              "0,2 g/l de sang (tol\xE9rance z\xE9ro)",
+              "0,5 g/l",
+              "0,8 g/l"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le seuil probatoire est de 0,2 g/l de sang."
+          },
+          {
+            "_id": "q-lec-15-3-4",
+            "questionText": "Quel est le temps moyen d\u2019un intervalle de s\xE9curit\xE9 r\xE9glementaire entre 2 voitures ?",
+            "options": [
+              "0,5 s",
+              "1 s",
+              "2 secondes au moins",
+              "5 s"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "L\u2019intervalle de s\xE9curit\xE9 doit \xEAtre d\u2019au moins 2 secondes."
+          },
+          {
+            "_id": "q-lec-15-3-5",
+            "questionText": "L\u2019utilisation d\u2019un smartphone tenu en main en conduisant retire :",
+            "options": [
+              "1 point",
+              "2 points",
+              "3 points et 135 \u20AC d\u2019amende",
+              "6 points"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "T\xE9l\xE9phoner au volant entra\xEEne le retrait de 3 points."
+          }
         ]
       },
       {
-        _id: "lec-15-4",
-        _type: "lecon",
-        title: "Le\xE7on 15.4 \u2013 R\xE9vision : usagers vuln\xE9rables, secours et responsabilit\xE9s",
-        ordre: 4,
-        description: "Synth\xE8se des modules 11 \xE0 14.",
-        videoUrl: "https://www.youtube.com/@codesrousseau",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "Ordre de la proc\xE9dure en cas d'accident ?", options: ["Alerter, Secourir, Prot\xE9ger", "Prot\xE9ger, Alerter, Secourir", "Secourir, Alerter, Prot\xE9ger", "Rien"], correctOptionIndex: 1, explanation: "Prot\xE9ger -> Alerter -> Secourir." },
-          { questionText: "Num\xE9ro d'urgence europ\xE9en unique ?", options: ["15", "112", "17", "18"], correctOptionIndex: 1, explanation: "112." },
-          { questionText: "Points d'un permis probatoire au d\xE9part ?", options: ["12", "6", "8", "4"], correctOptionIndex: 1, explanation: "6 points." },
-          { questionText: "Que classe la vignette Crit'Air ?", options: ["Prix", "Niveau de pollution", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Pollution." },
-          { questionText: "Distance lat\xE9rale minimale pour d\xE9passer un v\xE9lo en agglom\xE9ration ?", options: ["0,5 m", "1 m", "3 m", "5 m"], correctOptionIndex: 1, explanation: "1 m\xE8tre." }
+        "_id": "lec-15-4",
+        "_type": "lecon",
+        "title": "Le\xE7on 15.4 \u2014 R\xE9vision m\xE9canique, s\xE9curit\xE9 et environnement",
+        "ordre": 4,
+        "description": "Voyants, pneus, \xE9quipements, entretien, \xE9coconduite et s\xE9curit\xE9 des passagers.",
+        "videoUrl": "https://www.youtube.com/watch?v=FvS-JIuclvs",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-15-4-1",
+            "questionText": "L\u2019allumage d\u2019un voyant de couleur ROUGE en circulation exige :",
+            "options": [
+              "Un contr\xF4le annuel",
+              "Un arr\xEAt imm\xE9diat et s\xE9curis\xE9 du v\xE9hicule",
+              "D\u2019acc\xE9l\xE9rer",
+              "D\u2019allumer les antibrouillards"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Le voyant rouge signale un danger critique imposant l\u2019arr\xEAt imm\xE9diat."
+          },
+          {
+            "_id": "q-lec-15-4-2",
+            "questionText": "Quelle est la profondeur minimale des rainures de pneus autoris\xE9e par la loi ?",
+            "options": [
+              "0,5 mm",
+              "1,6 mm sur toute la bande de roulement",
+              "3,0 mm",
+              "5,0 mm"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "La limite l\xE9gale est de 1,6 mm."
+          },
+          {
+            "_id": "q-lec-15-4-3",
+            "questionText": "Le syst\xE8me ABS a pour fonction premi\xE8re de :",
+            "options": [
+              "Remplacer la ceinture",
+              "Emp\xEAcher le blocage des roues pour garder le contr\xF4le de direction lors d\u2019un freinage fort",
+              "Couper le moteur",
+              "Acc\xE9l\xE9rer"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019ABS pr\xE9serve la man\u0153uvrabilit\xE9 du v\xE9hicule pendant le freinage."
+          },
+          {
+            "_id": "q-lec-15-4-4",
+            "questionText": "Le port de la ceinture de s\xE9curit\xE9 est obligatoire :",
+            "options": [
+              "\xC0 l\u2019avant seulement",
+              "\xC0 toutes les places \xE9quip\xE9es d\u2019une ceinture (avant et arri\xE8re)",
+              "Uniquement sur autoroute",
+              "Uniquement pour le conducteur"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Tous les passagers doivent \xEAtre attach\xE9s."
+          },
+          {
+            "_id": "q-lec-15-4-5",
+            "questionText": "L\u2019\xE9coconduite permet une \xE9conomie moyenne de carburant de :",
+            "options": [
+              "1%",
+              "5%",
+              "15% \xE0 25%",
+              "50%"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "Une conduite souple et anticipative \xE9conomise jusqu\u2019\xE0 25% de carburant."
+          }
         ]
       },
       {
-        _id: "lec-15-5",
-        _type: "lecon",
-        title: "Le\xE7on 15.5 \u2013 M\xE9thodologie de l'examen th\xE9orique (ETG)",
-        ordre: 5,
-        description: "D\xE9roulement de l'examen officiel (40 questions, seuil de r\xE9ussite 35/40), gestion du stress.",
-        videoUrl: "https://www.youtube.com/@ornikar",
-        durationSeconds: 600,
-        tempsMinimumVisionnageSeconds: 480,
-        hasInlineQuiz: true,
-        inlineQuiz: [
-          { questionText: "L'examen th\xE9orique g\xE9n\xE9ral (ETG) comporte :", options: ["20 questions", "40 questions", "60 questions", "10 questions"], correctOptionIndex: 1, explanation: "40 questions." },
-          { questionText: "Le seuil de r\xE9ussite \xE0 l'examen est de :", options: ["30/40", "35/40", "40/40", "20/40"], correctOptionIndex: 1, explanation: "35 bonnes r\xE9ponses (5 fautes max)." },
-          { questionText: "Chaque question \xE0 l'examen doit \xEAtre trait\xE9e en environ :", options: ["20 secondes", "5 minutes", "1 minute", "Rien"], correctOptionIndex: 0, explanation: "20 secondes par question." },
-          { questionText: "En cas de doute sur une question, il vaut mieux :", options: ["R\xE9pondre au hasard", "Analyser calmement les indices visuels et le contexte", "Passer", "Rien"], correctOptionIndex: 1, explanation: "Analyse calme." },
-          { questionText: "Un pi\xE8ge fr\xE9quent \xE0 l'examen est :", options: ["Les questions \xE0 r\xE9ponses multiples n\xE9cessitant une lecture attentive", "Rien", "Absence", "Rien"], correctOptionIndex: 0, explanation: "R\xE9ponses multiples." }
+        "_id": "lec-15-5",
+        "_type": "lecon",
+        "title": "Le\xE7on 15.5 \u2014 Examen blanc final type ETG",
+        "ordre": 5,
+        "description": "Simulation finale de 40 questions couvrant les dix th\xE9matiques officielles du code de la route.",
+        "videoUrl": "https://www.youtube.com/watch?v=vOEc9e1qq_E",
+        "durationSeconds": 540,
+        "tempsMinimumVisionnageSeconds": 432,
+        "hasInlineQuiz": true,
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-01-01T00:00:00Z",
+        "inlineQuiz": [
+          {
+            "_id": "q-lec-15-5-1",
+            "questionText": "Pour r\xE9ussir l\u2019examen officiel du Code de la Route (ETG), combien de fautes maximum sont tol\xE9r\xE9es sur 40 questions ?",
+            "options": [
+              "3 fautes",
+              "5 fautes maximum (score minimal requis : 35/40)",
+              "8 fautes",
+              "10 fautes"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "Il faut obtenir au moins 35 bonnes r\xE9ponses sur 40 pour \xEAtre re\xE7u \xE0 l\u2019examen."
+          },
+          {
+            "_id": "q-lec-15-5-2",
+            "questionText": "Combien de th\xE9matiques officielles composent l\u2019examen du Code de la route ?",
+            "options": [
+              "3 th\xE8mes",
+              "5 th\xE8mes",
+              "10 th\xE9matiques officielles (L, C, U, R, D, A, M, S, P, E)",
+              "20 th\xE8mes"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "L\u2019ETG couvre 10 familles officielles de r\xE9glementation et s\xE9curit\xE9 routi\xE8re."
+          },
+          {
+            "_id": "q-lec-15-5-3",
+            "questionText": "Quelle est la premi\xE8re cause de mortalit\xE9 sur les autoroutes fran\xE7aises ?",
+            "options": [
+              "La pluie",
+              "La somnolence et la fatigue au volant",
+              "Les pannes d\u2019essence",
+              "Les animaux"
+            ],
+            "correctOptionIndex": 1,
+            "explanation": "L\u2019endormissement est le 1er facteur mortel sur autoroute."
+          },
+          {
+            "_id": "q-lec-15-5-4",
+            "questionText": "La distance de s\xE9curit\xE9 minimale \xE0 laisser en d\xE9passant un cycliste hors agglom\xE9ration est de :",
+            "options": [
+              "0,5 m",
+              "1 m",
+              "1,50 m",
+              "2,5 m"
+            ],
+            "correctOptionIndex": 2,
+            "explanation": "1,50 m hors ville, 1 m en agglom\xE9ration."
+          },
+          {
+            "_id": "q-lec-15-5-5",
+            "questionText": "Le refus de priorit\xE9 \xE0 un pi\xE9ton engag\xE9 sur un passage clout\xE9 est sanctionn\xE9 par :",
+            "options": [
+              "1 point",
+              "2 points",
+              "4 points",
+              "6 points et suspension du permis"
+            ],
+            "correctOptionIndex": 3,
+            "explanation": "Cette infraction majeure est punie du retrait maximal de 6 points."
+          }
         ]
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   }
 ];
 var PERMIS_B_QUIZZES = [
   {
-    _id: "quiz-mod-1",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-1" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-1",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 1 \u2014 Comprendre le v\xE9hicule",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-1"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. Dans quel compartiment du v\xE9hicule se trouve g\xE9n\xE9ralement le moteur d'une voiture de tourisme ?",
-        options: ["Dans le coffre arri\xE8re", "Sous le capot avant", "Sous le si\xE8ge du conducteur", "Dans le r\xE9servoir"],
-        correctOptionIndex: 1,
-        explanation: "Le moteur est habituellement situ\xE9 \xE0 l'avant sous le capot."
+        "_id": "q-final-1-1",
+        "questionText": "Quelle est la profondeur minimale l\xE9gale des rainures d\u2019un pneumatique ?",
+        "options": [
+          "1,0 mm",
+          "1,6 mm",
+          "2,5 mm",
+          "3,5 mm"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La loi impose au moins 1,6 mm de rainures sur toute la bande de roulement."
       },
       {
-        questionText: "2. Quelle commande \xE0 pied est sp\xE9cifiquement pr\xE9sente sur une voiture \xE0 bo\xEEte de vitesses manuelle ?",
-        options: ["La p\xE9dale d'acc\xE9l\xE9rateur", "La p\xE9dale de frein", "La p\xE9dale d'embrayage", "Le commodo de clignotant"],
-        correctOptionIndex: 2,
-        explanation: "L'embrayage est sp\xE9cifique aux v\xE9hicules \xE0 bo\xEEte manuelle."
+        "_id": "q-final-1-2",
+        "questionText": "L\u2019allumage d\u2019un voyant rouge d\u2019alerte en circulation n\xE9cessite :",
+        "options": [
+          "De continuer \xE0 vitesse mod\xE9r\xE9e",
+          "Un arr\xEAt imm\xE9diat et s\xE9curis\xE9 du v\xE9hicule",
+          "D\u2019acc\xE9l\xE9rer jusqu\u2019au garage",
+          "D\u2019allumer les feux"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le voyant rouge impose de s\u2019arr\xEAter d\xE8s que possible en s\xE9curit\xE9."
       },
       {
-        questionText: "3. Si le voyant d'alerte ROUGE de temp\xE9rature de liquide de refroidissement s'allume en roulant, vous devez :",
-        options: ["Continuer jusqu'au garage le plus proche", "Allumer les feux de brouillard", "Vous s'arr\xEAter imm\xE9diatement en s\xE9curit\xE9 et couper le moteur", "Mettre du lave-glace"],
-        correctOptionIndex: 2,
-        explanation: "Un voyant rouge impose l'arr\xEAt imm\xE9diat pour \xE9viter des d\xE9g\xE2ts irr\xE9versibles sur le moteur."
+        "_id": "q-final-1-3",
+        "questionText": "Quelle est la mission principale du syst\xE8me ABS ?",
+        "options": [
+          "R\xE9duire la vitesse en virage",
+          "Maintenir le pouvoir directionnel en \xE9vitant le blocage des roues",
+          "Remplacer les freins",
+          "Recharger la batterie"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "L\u2019ABS emp\xEAche les roues de se bloquer pour permettre l\u2019\xE9vitement."
       },
       {
-        questionText: "4. Quelle est la profondeur minimale l\xE9gale des rainures d'un pneu automobile ?",
-        options: ["0,8 mm", "1,6 mm", "2,5 mm", "4,0 mm"],
-        correctOptionIndex: 1,
-        explanation: "La limite l\xE9gale d'usure est fix\xE9e \xE0 1,6 mm."
+        "_id": "q-final-1-4",
+        "questionText": "Pour une bonne installation au poste de conduite, que r\xE8gle-t-on en dernier ?",
+        "options": [
+          "Le si\xE8ge",
+          "Les r\xE9troviseurs",
+          "Le volant",
+          "La ceinture de s\xE9curit\xE9"
+        ],
+        "correctOptionIndex": 3,
+        "explanation": "La ceinture se boucle en dernier une fois tous les r\xE9glages termin\xE9s."
       },
       {
-        questionText: "5. \xC0 quoi sert le syst\xE8me ABS lors d'un freinage violent ?",
-        options: ["Il permet de stopper la voiture sur 2 m\xE8tres", "Il \xE9vite le blocage des roues et pr\xE9serve le pouvoir directionnel", "Il remplace la ceinture de s\xE9curit\xE9", "Il \xE9teint les phares"],
-        correctOptionIndex: 1,
-        explanation: "L'ABS emp\xEAche le blocage des roues pour garder le contr\xF4le du volant."
+        "_id": "q-final-1-5",
+        "questionText": "De quelle couleur est le t\xE9moin d\u2019avertissement du niveau de carburant ?",
+        "options": [
+          "Rouge",
+          "Orange / Jaune",
+          "Vert",
+          "Bleu"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le t\xE9moin de r\xE9serve est orange car il n\u2019impose pas un arr\xEAt d\u2019urgence."
       },
       {
-        questionText: "6. Quelle est la premi\xE8re chose \xE0 r\xE9gler en prenant place au poste de conduite ?",
-        options: ["La ceinture de s\xE9curit\xE9", "Les r\xE9troviseurs", "L'assise et la hauteur du si\xE8ge de conduite", "La radio"],
-        correctOptionIndex: 2,
-        explanation: "On r\xE8gle d'abord sa position de si\xE8ge avant d'ajuster les r\xE9troviseurs et d'attacher sa ceinture."
+        "_id": "q-final-1-6",
+        "questionText": "Quelle pression appliquer aux pneus avant un long trajet autoroutier ?",
+        "options": [
+          "Diminuer de 0,5 bar",
+          "Laisser sous-gonfl\xE9",
+          "Augmenter de 0,2 \xE0 0,3 bar",
+          "Aucun changement"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "On augmente la pression de 0,2 \xE0 0,3 bar pour \xE9viter l\u2019\xE9chauffement sur autoroute."
       },
       {
-        questionText: "7. De quelle couleur est le voyant indiquant l'allumage des feux de route (pleins phares) ?",
-        options: ["Vert", "Jaune / Orange", "Bleu", "Rouge"],
-        correctOptionIndex: 2,
-        explanation: "Le t\xE9moin des feux de route est d'un bleu vif caract\xE9ristique."
+        "_id": "q-final-1-7",
+        "questionText": "\xC0 quoi sert la commande d\u2019essuie-glaces ?",
+        "options": [
+          "\xC0 refroidir les vitres",
+          "\xC0 \xE9vacuer l\u2019eau pour assurer une bonne visibilit\xE9",
+          "\xC0 r\xE9gler les phares",
+          "\xC0 d\xE9givrer"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les essuie-glaces garantissent la visibilit\xE9 par mauvais temps."
       },
       {
-        questionText: "8. En cas de choc frontal, le r\xF4le de la ceinture de s\xE9curit\xE9 est de :",
-        options: ["Maintenir le corps solidaire de l'habitacle et \xE9viter l'\xE9jection", "D\xE9clencher l'alarme", "Bloquer le moteur", "Ouvrir les portes"],
-        correctOptionIndex: 0,
-        explanation: "La ceinture retient l'occupant sur son si\xE8ge et r\xE9duit consid\xE9rablement le risque de traumatisme grave."
+        "_id": "q-final-1-8",
+        "questionText": "Sans ceinture attach\xE9e, l\u2019airbag peut-il blesser gri\xE8vement l\u2019occupant ?",
+        "options": [
+          "Non, jamais",
+          "Oui, le choc direct avec le coussin en d\xE9ploiement peut \xEAtre tr\xE8s violent",
+          "C\u2019est sans danger",
+          "L\u2019airbag ne s\u2019ouvre pas"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Sans retenue de ceinture, la projection contre l\u2019airbag peut \xEAtre mortelle."
       },
       {
-        questionText: "9. Quel est l'intervalle l\xE9gal de passage au contr\xF4le technique p\xE9riodique pour un v\xE9hicule de plus de 4 ans ?",
-        options: ["Chaque ann\xE9e", "Tous les 2 ans", "Tous les 3 ans", "Tous les 5 ans"],
-        correctOptionIndex: 1,
-        explanation: "Apr\xE8s les 4 ans du v\xE9hicule, le contr\xF4le technique doit \xEAtre renouvel\xE9 tous les 2 ans."
+        "_id": "q-final-1-9",
+        "questionText": "Sur bo\xEEte manuelle, quand utilise-t-on la p\xE9dale d\u2019embrayage ?",
+        "options": [
+          "Pour acc\xE9l\xE9rer",
+          "Pour passer les vitesses et s\u2019arr\xEAter sans caler",
+          "Pour freiner fort",
+          "En virage"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "On d\xE9braye pour changer de rapport et lors de l\u2019arr\xEAt du v\xE9hicule."
       },
       {
-        questionText: "10. Si un voyant ORANGE d'usure des plaquettes de frein s'allume, vous devez :",
-        options: ["Vous s'arr\xEAter au milieu de la route", "Pr\xE9voir le remplacement des plaquettes \xE0 bref d\xE9lai", "Ignorer l'avertissement", "Vider le coffre"],
-        correctOptionIndex: 1,
-        explanation: "L'orange pr\xE9vient d'un entretien \xE0 effectuer prochainement en atelier sans n\xE9cessiter d'arr\xEAt d'urgence."
+        "_id": "q-final-1-10",
+        "questionText": "Comment v\xE9rifier le niveau d\u2019huile moteur \xE0 la jauge manuelle ?",
+        "options": [
+          "Moteur tournant en pente",
+          "Moteur froid/arr\xEAt\xE9 sur sol horizontal",
+          "\xC0 90 km/h",
+          "Ce n\u2019est pas possible"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le contr\xF4le s\u2019effectue moteur coup\xE9 et froid, sur un sol parfaitement plat."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-2",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-2" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-2",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 2 \u2014 R\xE8gles g\xE9n\xE9rales de circulation",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-2"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. En l'absence de toute signalisation \xE0 une intersection, quelle r\xE8gle de priorit\xE9 s'applique ?",
-        options: ["Priorit\xE9 \xE0 la voie la plus large", "Priorit\xE9 au v\xE9hicule venant de gauche", "Priorit\xE9 \xE0 droite", "Priorit\xE9 au plus rapide"],
-        correctOptionIndex: 2,
-        explanation: "La priorit\xE9 \xE0 droite s'applique par d\xE9faut en l'absence de panneaux."
+        "_id": "q-final-2-1",
+        "questionText": "En marche normale sur route \xE0 plusieurs voies, o\xF9 devez-vous rouler ?",
+        "options": [
+          "Au milieu",
+          "Sur la voie la plus \xE0 droite",
+          "\xC0 gauche",
+          "Peu importe"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "On circule sur la voie de droite, les autres servant aux d\xE9passements."
       },
       {
-        questionText: "2. Quelle est la distance lat\xE9rale minimale de s\xE9curit\xE9 pour d\xE9passer un cycliste HORS agglom\xE9ration ?",
-        options: ["0,5 m\xE8tre", "1,0 m\xE8tre", "1,5 m\xE8tre", "2,5 m\xE8tres"],
-        correctOptionIndex: 2,
-        explanation: "1,5 m\xE8tre est obligatoire hors agglom\xE9ration (1,0 m en agglom\xE9ration)."
+        "_id": "q-final-2-2",
+        "questionText": "Distance lat\xE9rale minimale pour d\xE9passer un v\xE9lo hors agglom\xE9ration ?",
+        "options": [
+          "0,5 m",
+          "1 m",
+          "1,5 m",
+          "2,5 m"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Hors agglom\xE9ration, la vitesse exige un \xE9cart minimal de 1,50 m."
       },
       {
-        questionText: "3. Sur autoroute, la bande d'arr\xEAt d'urgence peut \xEAtre utilis\xE9e pour :",
-        options: ["Consulter son t\xE9l\xE9phone portable", "Attendre un ami", "S'immobiliser exclusivement en cas de panne grave ou urgence absolue", "Faire une sieste"],
-        correctOptionIndex: 2,
-        explanation: "La BAU est strictement r\xE9serv\xE9e aux d\xE9faillances graves et secours."
+        "_id": "q-final-2-3",
+        "questionText": "Une ligne jaune continue le long du trottoir interdit :",
+        "options": [
+          "Le stationnement seul",
+          "L\u2019arr\xEAt et le stationnement",
+          "Les v\xE9los",
+          "Le d\xE9passement"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La ligne continue jaune interdit \xE0 la fois l\u2019arr\xEAt et le stationnement."
       },
       {
-        questionText: "4. Lors d'un changement de voie, l'observation de l'angle mort se fait par :",
-        options: ["Le r\xE9troviseur central uniquement", "Un coup d'\u0153il direct en tournant la t\xEAte par-dessus l'\xE9paule", "Le GPS", "Les feux de d\xE9tresse"],
-        correctOptionIndex: 1,
-        explanation: "La v\xE9rification directe de l'angle mort exige une rotation de la t\xEAte."
+        "_id": "q-final-2-4",
+        "questionText": "Avant de changer de voie, quelle est la chronologie obligatoire ?",
+        "options": [
+          "Clignotant puis braquer",
+          "R\xE9troviseurs + angle mort, clignotant, puis man\u0153uvre",
+          "Freiner puis tourner",
+          "Klaxonner"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les contr\xF4les visuels complets pr\xE9c\xE8dent toujours le clignotant."
       },
       {
-        questionText: "5. Face \xE0 un pi\xE9ton engag\xE9 sur un passage pour pi\xE9tons, le conducteur doit :",
-        options: ["Acc\xE9l\xE9rer pour passer vite", "Klaxonner pour l'avertir de s'arr\xEAter", "S'arr\xEAter pour lui c\xE9der la priorit\xE9", "Le d\xE9passer par la gauche"],
-        correctOptionIndex: 2,
-        explanation: "Le pi\xE9ton engag\xE9 b\xE9n\xE9ficie de la priorit\xE9 absolue."
+        "_id": "q-final-2-5",
+        "questionText": "Peut-on s\u2019arr\xEAter sur la BAU pour passer un appel t\xE9l\xE9phonique ?",
+        "options": [
+          "Oui avec feux de d\xE9tresse",
+          "Non, c\u2019est strictement interdit et tr\xE8s dangereux",
+          "Oui si c\u2019est urgent",
+          "La nuit oui"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Seule une panne grave, un malaise ou accident justifie l\u2019arr\xEAt sur BAU."
       },
       {
-        questionText: "6. Un stationnement sur un passage pi\xE9ton est consid\xE9r\xE9 comme :",
-        options: ["Un stationnement autoris\xE9 si c'est court", "Un stationnement tr\xE8s g\xEAnant passible d'une amende et fourri\xE8re", "Une simple tol\xE9rance", "Un arr\xEAt de courtoisie"],
-        correctOptionIndex: 1,
-        explanation: "Stationner sur un passage pi\xE9ton nuit gravement \xE0 la s\xE9curit\xE9 et constitue une infraction s\xE9v\xE8re."
+        "_id": "q-final-2-6",
+        "questionText": "Un pi\xE9ton regarde la chauss\xE9e au bord du passage pi\xE9ton :",
+        "options": [
+          "Je passe vite",
+          "Je ralentis et je m\u2019arr\xEAte pour le laisser traverser",
+          "Je klaxonne",
+          "Je l\u2019ignore"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le conducteur doit s\u2019arr\xEAter pour laisser traverser le pi\xE9ton."
       },
       {
-        questionText: "7. Qui poss\xE8de la priorit\xE9 lors de l'insertion sur une autoroute via la voie d'acc\xE9l\xE9ration ?",
-        options: ["Le v\xE9hicule entrant", "Les usagers circulant d\xE9j\xE0 sur la voie d'autoroute", "Le v\xE9hicule le plus lourd", "Premier arriv\xE9"],
-        correctOptionIndex: 1,
-        explanation: "Les usagers engag\xE9s sur l'autoroute ont la priorit\xE9."
+        "_id": "q-final-2-7",
+        "questionText": "Sur voie d\u2019insertion, si aucun espace n\u2019est disponible :",
+        "options": [
+          "Je force le passage",
+          "Je roule sur la BAU",
+          "Je ralentis/m\u2019arr\xEAte au d\xE9but en attendant un cr\xE9neau",
+          "Je fais demi-tour"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Il faut ralentir au d\xE9but de la voie d\u2019insertion pour pouvoir acc\xE9l\xE9rer ensuite."
       },
       {
-        questionText: "8. Avant de tourner \xE0 gauche dans une rue \xE0 double sens, vous devez vous placer :",
-        options: ["Sur le trottoir", "Le long de l'axe central s\xE9parant les sens de circulation", "Tout \xE0 fait \xE0 droite", "Au milieu de la voie de gauche inverse"],
-        correctOptionIndex: 1,
-        explanation: "On serre l'axe m\xE9dian de la chauss\xE9e sans mordre sur le sens oppos\xE9."
+        "_id": "q-final-2-8",
+        "questionText": "Stationner sur un emplacement r\xE9serv\xE9 aux personnes handicap\xE9es sans carte :",
+        "options": [
+          "Est tol\xE9r\xE9 10 min",
+          "Est une infraction passible de 135 \u20AC d\u2019amende et fourri\xE8re",
+          "Co\xFBte 11 \u20AC",
+          "Est gratuit"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Ce stationnement g\xEAnant est puni d\u2019une amende forfaitaire de 135 \u20AC."
       },
       {
-        questionText: "9. En cas de d\xE9passement d'un camion lourd \xE0 l'arr\xEAt, \xE0 quoi devez-vous \xEAtre particuli\xE8rement attentif ?",
-        options: ["Au bruit du moteur", "\xC0 un pi\xE9ton masqu\xE9 surgissant devant le bus/camion", "\xC0 la peinture de la carrosserie", "Aux essuie-glaces"],
-        correctOptionIndex: 1,
-        explanation: "Le gabarit du poids lourd masque les pi\xE9tons traversant la chauss\xE9e."
+        "_id": "q-final-2-9",
+        "questionText": "Dans un virage \xE0 droite sans visibilit\xE9, pour bien se positionner, on doit :",
+        "options": [
+          "Couper \xE0 gauche",
+          "Serrer \xE0 droite dans sa voie",
+          "Rouler au milieu",
+          "Acc\xE9l\xE9rer"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Serrer \xE0 droite \xE9largit le champ de vision et prot\xE8ge des v\xE9hicules en face."
       },
       {
-        questionText: "10. Que devez-vous faire avant d'entamer toute man\u0153uvre de d\xE9port ou changement de direction ?",
-        options: ["Mettre son clignotant au dernier moment", "Contr\xF4ler r\xE9troviseurs et angles morts, puis signaler l'intention au clignotant", "Freiner brutalement", "Allumer les feux de route"],
-        correctOptionIndex: 1,
-        explanation: "La s\xE9quence observation puis signalisation est la r\xE8gle de s\xE9curit\xE9 incontournable."
+        "_id": "q-final-2-10",
+        "questionText": "Quel est l\u2019int\xE9r\xEAt du coup d\u2019\u0153il direct dans l\u2019angle mort ?",
+        "options": [
+          "Regarder les passagers",
+          "D\xE9celer un usager masqu\xE9 dans l\u2019angle invisible du r\xE9troviseur",
+          "V\xE9rifier la vitre",
+          "R\xE9gler le si\xE8ge"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La vision directe permet de voir ce que le r\xE9troviseur ne refl\xE8te pas."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-3",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-3" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-3",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 3 \u2014 Signalisation routi\xE8re",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-3"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. Un panneau de forme triangulaire bord\xE9 de rouge annonce :",
-        options: ["Une interdiction stricte", "Un danger potentiel", "Une obligation", "Une direction touristique"],
-        correctOptionIndex: 1,
-        explanation: "Les panneaux triangulaires annoncent toujours un danger."
+        "_id": "q-final-3-1",
+        "questionText": "\xC0 quelle distance est plac\xE9 un panneau de danger hors agglom\xE9ration ?",
+        "options": [
+          "50 m",
+          "100 m",
+          "150 m",
+          "200 m"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Hors agglom\xE9ration, la distance r\xE9glementaire est de 150 m\xE8tres."
       },
       {
-        questionText: "2. \xC0 quelle distance du danger un panneau triangulaire est-il implant\xE9 en agglom\xE9ration ?",
-        options: ["50 m\xE8tres", "150 m\xE8tres", "300 m\xE8tres", "10 m\xE8tres"],
-        correctOptionIndex: 0,
-        explanation: "En agglom\xE9ration, le pr\xE9avis est de 50 m\xE8tres."
+        "_id": "q-final-3-2",
+        "questionText": "\xC0 partir de quel point s\u2019applique une interdiction signal\xE9e par un panneau rond rouge ?",
+        "options": [
+          "\xC0 150 m",
+          "D\xE8s la hauteur du panneau",
+          "\xC0 la prochaine intersection",
+          "Au prochain p\xE9age"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les prescriptions prennent effet imm\xE9diatement \xE0 la hauteur du panneau."
       },
       {
-        questionText: `3. Que signifie un panneau rond bleu avec l'inscription "30" ?`,
-        options: ["Vitesse maximale 30 km/h", "Vitesse minimale obligatoire de 30 km/h", "Fin de zone 30", "Stationnement durant 30 min"],
-        correctOptionIndex: 1,
-        explanation: "Un panneau rond bleu impose une obligation, ici la vitesse minimale."
+        "_id": "q-final-3-3",
+        "questionText": "Quelle signalisation pr\xE9vaut sur les feux tricolores ?",
+        "options": [
+          "Les panneaux sous les feux",
+          "Les injonctions des forces de l\u2019ordre",
+          "Le marquage au sol",
+          "La priorit\xE9 \xE0 droite"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les agents de police ont l\u2019autorit\xE9 supr\xEAme sur la circulation."
       },
       {
-        questionText: "4. En pr\xE9sence d'un feu tricolore ORANGE FIXE, vous devez :",
-        options: ["Acc\xE9l\xE9rer pour passer rapidement", "Vous s'arr\xEAter, sauf si cet arr\xEAt repr\xE9sente un danger pour les usagers arri\xE8res", "Klaxonner", "Faire un appel de phares"],
-        correctOptionIndex: 1,
-        explanation: "L'arr\xEAt au feu orange est obligatoire sauf danger av\xE9r\xE9 pour les v\xE9hicules suiveurs."
+        "_id": "q-final-3-4",
+        "questionText": "Que devez-vous faire devant un feu rouge clignotant ?",
+        "options": [
+          "Passer avec prudence",
+          "Arr\xEAt absolu obligatoire",
+          "Acc\xE9l\xE9rer",
+          "Klaxonner"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le feu rouge clignotant impose un arr\xEAt inconditionnel (ex: passage \xE0 niveau)."
       },
       {
-        questionText: "5. En cas de contradiction entre les ordres d'un agent de police et des feux tricolores :",
-        options: ["Le feu tricolore l'emporte", "Les injonctions de l'agent de police pr\xE9valent sur toute autre signalisation", "Le panneau l'emporte", "La priorit\xE9 \xE0 droite s'applique"],
-        correctOptionIndex: 1,
-        explanation: "L'agent de circulation s'impose sur tous les panneaux, feux et r\xE8gles."
+        "_id": "q-final-3-5",
+        "questionText": "Sur autoroute, quelle est la couleur des panneaux de direction ?",
+        "options": [
+          "Verte",
+          "Bleue",
+          "Blanche",
+          "Jaune"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La signalisation autorouti\xE8re est exclusivement bleue en France."
       },
       {
-        questionText: "6. Quelle est la couleur des panneaux de signalisation temporaire de chantier ?",
-        options: ["Blanche", "Bleue", "Jaune", "Verte"],
-        correctOptionIndex: 2,
-        explanation: "Le jaune est la couleur r\xE9serv\xE9e aux \xE9v\xE9nements et chantiers temporaires."
+        "_id": "q-final-3-6",
+        "questionText": "Un panneau de danger \xE0 fond JAUNE indique :",
+        "options": [
+          "Un danger temporaire (travaux, d\xE9viation)",
+          "Un danger permanent",
+          "Une zone 30",
+          "Une piste cyclable"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Le fond jaune signale une situation temporaire de chantier."
       },
       {
-        questionText: "7. Un panneau de direction vert indique un itin\xE9raire reliant :",
-        options: ["Des petites routes de village", "Des autoroutes payantes", "Des agglom\xE9rations importantes sur le r\xE9seau principal", "Des zones agricoles"],
-        correctOptionIndex: 2,
-        explanation: "Le vert est utilis\xE9 pour le r\xE9seau des grandes liaisons nationales."
+        "_id": "q-final-3-7",
+        "questionText": "Une fl\xE8che au sol pointant vers la gauche dans votre voie vous oblige \xE0 :",
+        "options": [
+          "Tourner \xE0 gauche \xE0 l\u2019intersection",
+          "Aller tout droit",
+          "Faire demi-tour",
+          "Vous arr\xEAter"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Les fl\xE8ches de s\xE9lection obligent \xE0 suivre la direction indiqu\xE9e."
       },
       {
-        questionText: "8. Est-il autoris\xE9 de franchir une ligne continue blanche au sol ?",
-        options: ["Oui, si la voie d'en face est vide", "Non, c'est strictement interdit", "Oui, pour d\xE9passer les v\xE9los le dimanche", "Oui, la nuit"],
-        correctOptionIndex: 1,
-        explanation: "Le franchissement d'une ligne continue est une infraction s\xE9v\xE8re au code de la route."
+        "_id": "q-final-3-8",
+        "questionText": "Que faire \xE0 un feu orange fixe ?",
+        "options": [
+          "Acc\xE9l\xE9rer pour passer",
+          "S\u2019arr\xEAter sauf risque de choc arri\xE8re av\xE9r\xE9",
+          "Klaxonner",
+          "Faire demi-tour"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le feu orange impose l\u2019arr\xEAt sauf risque de collision par l\u2019arri\xE8re."
       },
       {
-        questionText: "9. Que signale un feu jaune clignotant situ\xE9 au bas d'un ensemble tricolore ?",
-        options: ["Passez \xE0 100 km/h", "Le feu est inactif : traversez avec prudence selon la signalisation ou la priorit\xE9 \xE0 droite", "Arr\xEAt absolu", "Sens interdit"],
-        correctOptionIndex: 1,
-        explanation: "Le feu jaune clignotant invite \xE0 la prudence et r\xE9tablit les r\xE8gles de priorit\xE9 ordinaires."
+        "_id": "q-final-3-9",
+        "questionText": "Un panneau rond bleu avec un v\xE9lo blanc signifie :",
+        "options": [
+          "Interdit aux v\xE9los",
+          "Piste cyclable obligatoire pour les cycles",
+          "Parking v\xE9lo",
+          "Location de v\xE9los"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "C\u2019est une obligation impos\xE9e aux cyclistes."
       },
       {
-        questionText: `10. Que signifie le panneau octogonal ROUGE portant l'inscription "STOP" ?`,
-        options: ["C\xE9der le passage sans s'arr\xEAter si c'est libre", "Marquer obligatoirement l'arr\xEAt complet des roues et c\xE9der le passage", "Priorit\xE9 absolue", "Virage dangereux"],
-        correctOptionIndex: 1,
-        explanation: "Le STOP impose l'arr\xEAt complet des roues \xE0 la ligne de marquage avant de s'engager."
+        "_id": "q-final-3-10",
+        "questionText": "Une ligne de rive continue \xE0 droite sur autoroute d\xE9limite :",
+        "options": [
+          "La voie rapide",
+          "La bande d\u2019arr\xEAt d\u2019urgence",
+          "Un passage pi\xE9ton",
+          "Une piste cyclable"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Elle s\xE9pare la chauss\xE9e de la bande d\u2019arr\xEAt d\u2019urgence."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-4",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-4" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-4",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 4 \u2014 Feux et priorit\xE9s",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-4"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. \xC0 un croisement sans panneau ni marquage, quelle est la r\xE8gle par d\xE9faut ?",
-        options: ["Priorit\xE9 \xE0 gauche", "Priorit\xE9 \xE0 droite", "Priorit\xE9 au v\xE9hicule le plus rapide", "Priorit\xE9 \xE0 la voie la plus large"],
-        correctOptionIndex: 1,
-        explanation: "La priorit\xE9 \xE0 droite est la r\xE8gle par d\xE9faut \xE0 toute intersection sans signalisation."
+        "_id": "q-final-4-1",
+        "questionText": "En l\u2019absence totale de signalisation \xE0 une intersection, quelle r\xE8gle s\u2019applique ?",
+        "options": [
+          "Priorit\xE9 \xE0 gauche",
+          "Priorit\xE9 \xE0 droite",
+          "Priorit\xE9 au plus rapide",
+          "Priorit\xE9 aux poids lourds"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La priorit\xE9 \xE0 droite s\u2019applique par d\xE9faut \xE0 tout carrefour sans panneau."
       },
       {
-        questionText: "2. Devez-vous vous s'arr\xEAter au C\xE9der le passage si la voie transversale est compl\xE8tement d\xE9gag\xE9e ?",
-        options: ["Oui toujours 3 secondes", "Non, si la visibilit\xE9 est bonne et qu'aucun v\xE9hicule n'approche", "Oui la nuit", "Oui avec le warning"],
-        correctOptionIndex: 1,
-        explanation: "Le C\xE9der le passage n'oblige pas \xE0 l'arr\xEAt complet si aucune voiture n'approche."
+        "_id": "q-final-4-2",
+        "questionText": "O\xF9 doit s\u2019effectuer l\u2019arr\xEAt obligatoire d\u2019un panneau STOP ?",
+        "options": [
+          "\xC0 la ligne continue au sol",
+          "Au panneau",
+          "Au milieu de la chauss\xE9e",
+          "5 m\xE8tres avant"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "L\u2019arr\xEAt doit se faire pr\xE9cis\xE9ment \xE0 la limite de la ligne continue de stop."
       },
       {
-        questionText: "3. Dans un carrefour giratoire avec panneaux C\xE9der le passage \xE0 l'entr\xE9e, qui a la priorit\xE9 ?",
-        options: ["Les usagers entrant", "Les usagers d\xE9j\xE0 engag\xE9s sur l'anneau", "Les bus uniquement", "Le plus rapide"],
-        correctOptionIndex: 1,
-        explanation: "Les usagers engag\xE9s sur l'anneau ont la priorit\xE9."
+        "_id": "q-final-4-3",
+        "questionText": "Un v\xE9hicule prioritaire arrive derri\xE8re vous avec sir\xE8ne deux-tons et gyrophare :",
+        "options": [
+          "Vous acc\xE9l\xE9rez pour le semer",
+          "Vous facilitez son passage en serrant \xE0 droite en s\xE9curit\xE9",
+          "Vous freinez en urgence au milieu",
+          "Vous l\u2019ignorez"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "On facilite imm\xE9diatement son d\xE9gagement en serrant \xE0 droite."
       },
       {
-        questionText: "4. Face \xE0 un v\xE9hicule d'urgence (pompiers, SAMU) feux bleus et sir\xE8ne activ\xE9s :",
-        options: ["Conserver la m\xEAme vitesse", "C\xE9der le passage imm\xE9diatement en vous serrant \xE0 droite ou en vous arr\xEAtant", "Acc\xE9l\xE9rer", "Klaxonner"],
-        correctOptionIndex: 1,
-        explanation: "Faciliter le passage d'un v\xE9hicule d'urgence prioritaire est une obligation l\xE9gale."
+        "_id": "q-final-4-4",
+        "questionText": "Au feu vert, pour tourner \xE0 gauche, vous devez c\xE9der le passage :",
+        "options": [
+          "Aux voitures derri\xE8re vous",
+          "Aux v\xE9hicules arrivant en face et pi\xE9tons traversant",
+          "\xC0 personne",
+          "Aux avions"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Tourner \xE0 gauche coupe l\u2019axe des v\xE9hicules venant d\u2019en face."
       },
       {
-        questionText: "5. Au Stop, l'arr\xEAt complet des roues doit \xEAtre effectu\xE9 :",
-        options: ["Au niveau du panneau", "\xC0 la ligne blanche d'arr\xEAt peinte au sol", "Au milieu du carrefour", "10 m\xE8tres avant"],
-        correctOptionIndex: 1,
-        explanation: "L'arr\xEAt des roues se fait \xE0 la ligne de marquage au sol."
+        "_id": "q-final-4-5",
+        "questionText": "Sur un carrefour \xE0 sens giratoire conventionnel :",
+        "options": [
+          "Ceux qui entrent sont prioritaires",
+          "Les usagers engag\xE9s sur l\u2019anneau sont prioritaires",
+          "Priorit\xE9 \xE0 droite",
+          "Priorit\xE9 aux deux-roues"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les panneaux C\xE9dez le passage donnent la priorit\xE9 aux usagers de l\u2019anneau."
       },
       {
-        questionText: "6. Si un v\xE9hicule sort d'un chemin priv\xE9 ou d'un garage :",
-        options: ["Il a la priorit\xE9 \xE0 droite", "Il doit c\xE9der le passage \xE0 tous les usagers de la voie publique", "Il passe en premier la nuit", "Il klaxonne et passe"],
-        correctOptionIndex: 1,
-        explanation: "Sortir d'un chemin priv\xE9 impose de c\xE9der la priorit\xE9 \xE0 tous."
+        "_id": "q-final-4-6",
+        "questionText": "Que faire face \xE0 un feu jaune clignotant en bas \xE0 la place du vert ?",
+        "options": [
+          "Arr\xEAt absolu",
+          "Passer avec prudence en respectant la signalisation de priorit\xE9",
+          "Faire demi-tour",
+          "Acc\xE9l\xE9rer"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le jaune clignotant appelle \xE0 la prudence et confirme la priorit\xE9 de passage."
       },
       {
-        questionText: "7. Pour tourner \xE0 gauche dans un giratoire \xE0 2 voies, il est conseill\xE9 de se placer :",
-        options: ["Sur la voie de droite uniquement", "Sur la voie de gauche de l'anneau", "Sur le trottoir", "Au milieu"],
-        correctOptionIndex: 1,
-        explanation: "On peut serrer l'anneau par la gauche pour contourner le giratoire."
+        "_id": "q-final-4-7",
+        "questionText": "Combien de points retire le non-respect d\u2019un panneau Stop ou feu rouge ?",
+        "options": [
+          "2 points",
+          "3 points",
+          "4 points",
+          "6 points"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Le refus de priorit\xE9 \xE0 un feu rouge ou Stop retire 4 points."
       },
       {
-        questionText: "8. Quand allumer le clignotant droit pour sortir d'un giratoire ?",
-        options: ["\xC0 l'entr\xE9e", "Juste apr\xE8s avoir franchi la sortie pr\xE9c\xE9dant la sien", "Dans la rue de sortie", "Jamais"],
-        correctOptionIndex: 1,
-        explanation: "On indique sa sortie en allumant le clignotant droit au niveau de la sortie pr\xE9c\xE9dente."
+        "_id": "q-final-4-8",
+        "questionText": "Un v\xE9hicule d\xE9bouchant d\u2019un parking de supermarch\xE9 :",
+        "options": [
+          "A la priorit\xE9 \xE0 droite",
+          "Doit c\xE9der le passage \xE0 tous les usagers de la voie publique",
+          "Est prioritaire s\u2019il a son clignotant",
+          "Passe en premier"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les sorties de parkings et lieux priv\xE9s n\u2019ont jamais la priorit\xE9."
       },
       {
-        questionText: "9. Un agent de la circulation qui vous pr\xE9sente sa poitrine ou son dos signifie :",
-        options: ["Passage autoris\xE9", "Arr\xEAt obligatoire (\xE9quivalent feu rouge)", "Ralentir", "Priorit\xE9 \xE0 droite"],
-        correctOptionIndex: 1,
-        explanation: "Poitrine ou dos face au conducteur = interdiction de passer."
+        "_id": "q-final-4-9",
+        "questionText": "Face \xE0 un tramway arrivant \xE0 un croisement :",
+        "options": [
+          "Vous passez s\u2019il est \xE0 gauche",
+          "Le tramway a la priorit\xE9 absolue",
+          "Vous le doublez",
+          "Il doit vous c\xE9der le passage"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le tramway est toujours prioritaire."
       },
       {
-        questionText: "10. En agglom\xE9ration, devez-vous faciliter la r\xE9insertion d'un autobus quittant son arr\xEAt ?",
-        options: ["Oui, en ralentissant ou en s'arr\xEAtant si n\xE9cessaire", "Non, le bus doit attendre", "Uniquement s'il roule \xE0 80 km/h", "Jamais"],
-        correctOptionIndex: 0,
-        explanation: "En agglom\xE9ration, la priorit\xE9 de d\xE9part est accord\xE9e aux bus indiquant leur sortie d'arr\xEAt."
+        "_id": "q-final-4-10",
+        "questionText": "Si une intersection est encombr\xE9e alors que votre feu est vert :",
+        "options": [
+          "Vous avancez pour forcer le passage",
+          "Vous vous arr\xEAtez avant l\u2019intersection pour ne pas la bloquer",
+          "Vous klaxonnez",
+          "Vous faites marche arri\xE8re"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "On ne s\u2019engage dans un carrefour que si la sortie est totalement d\xE9gag\xE9e."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-5",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-5" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-5",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 5 \u2014 Intersections et carrefours",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-5"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. Quelle est la vitesse maximale autoris\xE9e sur autoroute par temps sec pour un conducteur confirm\xE9 ?",
-        options: ["110 km/h", "120 km/h", "130 km/h", "140 km/h"],
-        correctOptionIndex: 2,
-        explanation: "La vitesse maximale est de 130 km/h sur autoroute par temps sec."
+        "_id": "q-final-5-1",
+        "questionText": "Pour emprunter la premi\xE8re sortie \xE0 droite dans un rond-point :",
+        "options": [
+          "On reste au milieu",
+          "On allume le clignotant droit d\xE8s l\u2019entr\xE9e et on serre \xE0 droite",
+          "On met le clignotant gauche",
+          "On ne met rien"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Pour sortir \xE0 droite, le clignotant droit est activ\xE9 avant l\u2019entr\xE9e dans le giratoire."
       },
       {
-        questionText: "2. En cas de pluie, la vitesse maximale sur autoroute est de :",
-        options: ["130 km/h", "110 km/h", "100 km/h", "90 km/h"],
-        correctOptionIndex: 1,
-        explanation: "La pluie abaisse la vitesse sur autoroute \xE0 110 km/h."
+        "_id": "q-final-5-2",
+        "questionText": "Si la sonnerie retentit \xE0 un passage \xE0 niveau mais que les barri\xE8res sont encore lev\xE9es :",
+        "options": [
+          "J\u2019acc\xE9l\xE8re pour passer",
+          "L\u2019arr\xEAt absolu est obligatoire",
+          "Je passe si la voie est libre",
+          "Je klaxonne"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La sonnerie annonce la fermeture imminente : interdiction formelle de s\u2019engager."
       },
       {
-        questionText: "3. Pendant le temps de r\xE9action (moyen 1 seconde), \xE0 90 km/h vous parcourez :",
-        options: ["9 m\xE8tres", "18 m\xE8tres", "27 m\xE8tres (9 x 3)", "50 m\xE8tres"],
-        correctOptionIndex: 2,
-        explanation: "Distance en 1 sec \u2248 dizaine x 3 -> 9 x 3 = 27 m\xE8tres."
+        "_id": "q-final-5-3",
+        "questionText": "Dans un carrefour complexe avec feux fl\xE9ch\xE9s, la fl\xE8che verte vers la gauche signifie :",
+        "options": [
+          "Je tourne \xE0 gauche en coupant un trafic prioritaire en face",
+          "La voie d\u2019en face est au rouge, le tourne-\xE0-gauche est prot\xE9g\xE9",
+          "Le feu est en panne",
+          "Seuls les v\xE9los peuvent tourner"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Une fl\xE8che verte directionnelle garantit une travers\xE9e prot\xE9g\xE9e."
       },
       {
-        questionText: "4. Sur chauss\xE9e mouill\xE9e, la distance de freinage est :",
-        options: ["Identique", "Doubl\xE9e (multipli\xE9e par 2)", "Tripl\xE9e", "Divis\xE9e par 2"],
-        correctOptionIndex: 1,
-        explanation: "La pluie r\xE9duit l'adh\xE9rence et double la distance de freinage."
+        "_id": "q-final-5-4",
+        "questionText": "Si vous \xEAtes engag\xE9 sur un giratoire et qu\u2019une voiture veut entrer :",
+        "options": [
+          "Elle a la priorit\xE9",
+          "Vous avez la priorit\xE9 de circulation sur l\u2019anneau",
+          "Vous devez piler",
+          "Elle passe en premier"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les v\xE9hicules sur l\u2019anneau sont prioritaires sur ceux qui entrent."
       },
       {
-        questionText: "5. Quel intervalle de temps minimal de s\xE9curit\xE9 devez-vous maintenir avec la voiture devant vous ?",
-        options: ["0,5 seconde", "1 seconde", "Au moins 2 secondes", "5 secondes"],
-        correctOptionIndex: 2,
-        explanation: "La loi impose au moins 2 secondes d'intervalle de s\xE9curit\xE9."
+        "_id": "q-final-5-5",
+        "questionText": "Que faire en cas de panne m\xE9canique immobilisant la voiture sur une voie ferr\xE9e ?",
+        "options": [
+          "Pousser la voiture seul sans sortir les passagers",
+          "Faire \xE9vacuer imm\xE9diatement les passagers et utiliser la borne d\u2019urgence",
+          "Attendre le train",
+          "T\xE9l\xE9phoner \xE0 un ami"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La priorit\xE9 absolue est l\u2019\xE9vacuation des occupants et l\u2019alerte imm\xE9diate."
       },
       {
-        questionText: "6. Si vous doublez votre vitesse (de 50 km/h \xE0 100 km/h), votre distance de freinage est :",
-        options: ["Doubl\xE9e", "Tripl\xE9e", "Quadrupl\xE9e (x 4)", "Identique"],
-        correctOptionIndex: 2,
-        explanation: "Le freinage varie avec le carr\xE9 de la vitesse : v x 2 = freinage x 4."
+        "_id": "q-final-5-6",
+        "questionText": "Dans un croisement \xE0 l\u2019indon\xE9sienne, les voitures tournant \xE0 gauche se croisent :",
+        "options": [
+          "L\u2019une derri\xE8re l\u2019autre",
+          "L\u2019une devant l\u2019autre face \xE0 face",
+          "Par la droite",
+          "En marche arri\xE8re"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Elles passent l\u2019une devant l\u2019autre sans faire le tour du centre."
       },
       {
-        questionText: "7. En pr\xE9sence d'un brouillard \xE9pais r\xE9duisant la visibilit\xE9 \xE0 moins de 50m, la vitesse est limit\xE9e \xE0 :",
-        options: ["80 km/h", "50 km/h sur tout le r\xE9seau", "30 km/h", "70 km/h"],
-        correctOptionIndex: 1,
-        explanation: "Visibilit\xE9 < 50m = 50 km/h maximum sur toutes les routes."
+        "_id": "q-final-5-7",
+        "questionText": "\xC0 quelle distance minimale d\u2019un passage \xE0 niveau sans barri\xE8re doit-on s\u2019arr\xEAter ?",
+        "options": [
+          "\xC0 1 m\xE8tre",
+          "\xC0 la ligne Stop ou au moins 5 m\xE8tres du premier rail",
+          "Sur les rails",
+          "\xC0 100 m\xE8tres"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "On doit respecter une distance de s\xE9curit\xE9 d\u2019au moins 5 m\xE8tres des rails."
       },
       {
-        questionText: "8. L'\xE9co-conduite permet de r\xE9duire la consommation de carburant de :",
-        options: ["1 \xE0 2 %", "15 \xE0 20 %", "50 %", "0 %"],
-        correctOptionIndex: 1,
-        explanation: "Une conduite anticipative permet 15 \xE0 20% d'\xE9conomie de carburant."
+        "_id": "q-final-5-8",
+        "questionText": "L\u2019angle mort droit lors de la sortie d\u2019un giratoire permet de d\xE9tecter :",
+        "options": [
+          "Un oiseau",
+          "Un cycliste ou scooter circulant sur le bord droit de l\u2019anneau",
+          "Le panneau de sortie",
+          "Le passager"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Un deux-roues peut se trouver le long de votre flanc droit lors de la sortie."
       },
       {
-        questionText: "9. \xC0 50 km/h sur sol sec, quelle est la distance d'arr\xEAt totale approximative ?",
-        options: ["15 m\xE8tres", "25 m\xE8tres (5 x 5)", "50 m\xE8tres", "5 m\xE8tres"],
-        correctOptionIndex: 1,
-        explanation: "Calcul d'arr\xEAt total sec : (dizaine)\xB2 = 5 x 5 = 25m."
+        "_id": "q-final-5-9",
+        "questionText": "Un miroir de carrefour donne-t-il la priorit\xE9 ?",
+        "options": [
+          "Oui toujours",
+          "Non, c\u2019est une aide visuelle sans modification des priorit\xE9s",
+          "Oui aux heures de pointe",
+          "Uniquement aux camions"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le miroir ne conf\xE8re aucune priorit\xE9 l\xE9gale."
       },
       {
-        questionText: "10. Un choc frontal sans ceinture \xE0 50 km/h \xE9quivaut \xE0 une chute de quel \xE9tage d'un immeuble ?",
-        options: ["1er \xE9tage", "3\xE8me \xE9tage", "10\xE8me \xE9tage", "20\xE8me \xE9tage"],
-        correctOptionIndex: 1,
-        explanation: "Un choc \xE0 50 km/h \xE9quivaut \xE0 une chute du 3\xE8me \xE9tage."
+        "_id": "q-final-5-10",
+        "questionText": "La communication par le regard avec un pi\xE9ton \xE0 une intersection permet de :",
+        "options": [
+          "Le forcer \xE0 courir",
+          "Confirmer qu\u2019il est vu et qu\u2019il peut traverser en toute s\xE9curit\xE9",
+          "Lui faire peur",
+          "Le saluer"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le contact visuel garantit une compr\xE9hension mutuelle s\xE9curisante."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-6",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-6" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-6",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 6 \u2014 Vitesse, freinage et distances",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-6"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. Lorsque vous croisez un v\xE9hicule la nuit sur route non \xE9clair\xE9e, vous devez :",
-        options: ["Rester en pleins phares", "Passer imm\xE9diatement en feux de croisement", "\xC9teindre les feux", "Mettre le clignotant"],
-        correctOptionIndex: 1,
-        explanation: "Les feux de croisement \xE9vitent d'\xE9blouir les usagers crois\xE9s."
+        "_id": "q-final-6-1",
+        "questionText": "Quelle est la limitation de vitesse sur autoroute par temps de pluie (permis confirm\xE9) ?",
+        "options": [
+          "130 km/h",
+          "110 km/h",
+          "100 km/h",
+          "90 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Par pluie, la vitesse sur autoroute passe de 130 \xE0 110 km/h."
       },
       {
-        questionText: "2. Les feux de brouillard ARRI\xC8RE peuvent \xEAtre utilis\xE9s sous :",
-        options: ["La pluie forte", "Le brouillard et la chute de neige uniquement", "Le beau temps la nuit", "Toutes les intemp\xE9ries"],
-        correctOptionIndex: 1,
-        explanation: "Le brouillard arri\xE8re est strictement interdit sous la pluie car trop \xE9blouissant."
+        "_id": "q-final-6-2",
+        "questionText": "\xC0 90 km/h sur sol sec, quelle est la distance parcourue pendant 1 seconde de r\xE9action ?",
+        "options": [
+          "15 m",
+          "27 m",
+          "45 m",
+          "81 m"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Formule : 9 x 3 = 27 m\xE8tres."
       },
       {
-        questionText: "3. En cas d'aquaplaning sur autoroute, vous devez :",
-        options: ["Piler sur le frein", "Maintenir le volant droit et rel\xE2cher doucement l'acc\xE9l\xE9rateur", "Tirer le frein \xE0 main", "Braquer \xE0 fond"],
-        correctOptionIndex: 1,
-        explanation: "Garder les roues droites et d\xE9c\xE9l\xE9rer permet de retrouver l'adh\xE9rence."
+        "_id": "q-final-6-3",
+        "questionText": "\xC0 90 km/h sur sol sec, quelle est l\u2019estimation de la distance totale d\u2019arr\xEAt ?",
+        "options": [
+          "27 m",
+          "54 m",
+          "81 m",
+          "100 m"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Formule : 9 x 9 = 81 m\xE8tres."
       },
       {
-        questionText: "4. Sur route verglac\xE9e, la distance de freinage est multipli\xE9e par :",
-        options: ["2", "4", "10", "100"],
-        correctOptionIndex: 2,
-        explanation: "L'absence d'adh\xE9rence sur verglas multiplie le freinage par 10."
+        "_id": "q-final-6-4",
+        "questionText": "Sur sol mouill\xE9, par combien est multipli\xE9e la distance de freinage ?",
+        "options": [
+          "Par 1,2",
+          "Par 2",
+          "Par 4",
+          "Par 10"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "L\u2019adh\xE9rence divis\xE9e par 2 double la distance n\xE9cessaire pour freiner."
       },
       {
-        questionText: "5. Dans un tunnel, quelle distance de s\xE9curit\xE9 observer ?",
-        options: ["5 m\xE8tres", "Celle mat\xE9rialis\xE9e par les rep\xE8res bleus sur les parois", "Rester coll\xE9", "1 m\xE8tre"],
-        correctOptionIndex: 1,
-        explanation: "Les rep\xE8res ou diodes bleues en tunnel indiquent l'intervalle l\xE9gal."
+        "_id": "q-final-6-5",
+        "questionText": "Combien de temps correspond au minimum l\xE9gal de s\xE9curit\xE9 entre deux v\xE9hicules qui se suivent ?",
+        "options": [
+          "1 seconde",
+          "2 secondes",
+          "3 secondes",
+          "5 secondes"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La r\xE8gle r\xE9glementaire minimale est de 2 secondes."
       },
       {
-        questionText: "6. Si un incendie survient dans un tunnel devant vous, vous devez :",
-        options: ["Attendre dans la voiture", "Couper le moteur et gagner imm\xE9diatement une issue de secours / niche d'\xE9vacuation \xE0 pied", "Acc\xE9l\xE9rer dans la fum\xE9e", "Faire un demi-tour rapide"],
-        correctOptionIndex: 1,
-        explanation: "Il faut \xE9vacuer le v\xE9hicule et s'abriter dans une issue de secours."
+        "_id": "q-final-6-6",
+        "questionText": "Sur autoroute, pour respecter la distance de s\xE9curit\xE9, on doit laisser visible entre soi et le pr\xE9c\xE9dent :",
+        "options": [
+          "1 ligne blanche de BAU",
+          "2 traits de bande d\u2019arr\xEAt d\u2019urgence",
+          "10 m\xE8tres",
+          "La plaque d\u2019immatriculation"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "\xAB Deux traits = s\xE9curit\xE9 \xBB est le rep\xE8re officiel autoroutier."
       },
       {
-        questionText: "7. Entre un v\xE9hicule descendant et un v\xE9hicule montant sur une forte pente \xE9troite de m\xEAme cat\xE9gorie :",
-        options: ["Le descendant a la priorit\xE9", "Le montant a la priorit\xE9 (red\xE9marrage en c\xF4te difficile)", "Le plus gros passe", "Le plus rapide passe"],
-        correctOptionIndex: 1,
-        explanation: "Le v\xE9hicule qui monte est prioritaire pour s'\xE9pargner un red\xE9marrage en c\xF4te."
+        "_id": "q-final-6-7",
+        "questionText": "Si la vitesse est multipli\xE9e par 3, l\u2019\xE9nergie cin\xE9tique est multipli\xE9e par :",
+        "options": [
+          "3",
+          "6",
+          "9",
+          "12"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "L\u2019\xE9nergie cin\xE9tique d\xE9pend du carr\xE9 de la vitesse : 3\xB2 = 9."
       },
       {
-        questionText: "8. La loi Montagne impose en p\xE9riode hivernale dans les zones pr\xE9fectorales :",
-        options: ["4 pneus hiver ou cha\xEEnes/chaussettes \xE0 neige dans le coffre", "Un moteur hybride", "De rouler \xE0 20 km/h", "Le port d'un gilet jaune"],
-        correctOptionIndex: 0,
-        explanation: "Les \xE9quipements sp\xE9ciaux hiver sont obligatoires du 1er nov au 31 mars en zone montagne."
+        "_id": "q-final-6-8",
+        "questionText": "En cas de brouillard r\xE9duisant la visibilit\xE9 \xE0 moins de 50 m, la vitesse max est de :",
+        "options": [
+          "30 km/h",
+          "50 km/h",
+          "70 km/h",
+          "80 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La limite l\xE9gale est de 50 km/h sur toutes les routes et autoroutes."
       },
       {
-        questionText: "9. \xC0 quelle distance minimale \xE9clairant vers l'avant doivent r\xE9pondre les feux de croisement ?",
-        options: ["10 m\xE8tres", "30 m\xE8tres", "100 m\xE8tres", "300 m\xE8tres"],
-        correctOptionIndex: 1,
-        explanation: "Les feux de croisement doivent \xE9clairer \xE0 au moins 30m."
+        "_id": "q-final-6-9",
+        "questionText": "Quelle sanction encourt le non-respect des distances de s\xE9curit\xE9 ?",
+        "options": [
+          "135 \u20AC et retrait de 3 points",
+          "68 \u20AC sans retrait de point",
+          "Prison ferme",
+          "Suspension de 5 ans"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "C\u2019est une contravention de 4\xE8me classe avec retrait de 3 points."
       },
       {
-        questionText: "10. \xC0 quelle distance minimale vers l'avant doivent \xE9clairer les feux de route (pleins phares) ?",
-        options: ["30 m\xE8tres", "50 m\xE8tres", "100 m\xE8tres", "500 m\xE8tres"],
-        correctOptionIndex: 2,
-        explanation: "Les feux de route doivent \xE9clairer \xE0 au moins 100m."
+        "_id": "q-final-6-10",
+        "questionText": "Pour un conducteur novice (permis probatoire), la vitesse sur route \xE0 80 km/h est de :",
+        "options": [
+          "60 km/h",
+          "70 km/h",
+          "80 km/h",
+          "90 km/h"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Sur les routes \xE0 double sens limit\xE9es \xE0 80 km/h, la vitesse reste 80 km/h pour les jeunes conducteurs."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-7",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-7" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-7",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 7 \u2014 Croisement et d\xE9passement",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-7"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. Passer les rapports \xE0 bas r\xE9gime (vers 2000-2500 tr/min) fait partie de :",
-        options: ["La conduite sportive", "L'\xE9co-conduite", "Le freinage d'urgence", "Le rodage du moteur"],
-        correctOptionIndex: 1,
-        explanation: "Changer de rapport \xE0 bas r\xE9gime r\xE9duit la consommation et les rejets polluants."
+        "_id": "q-final-7-1",
+        "questionText": "Quelle est la distance minimale pour d\xE9passer un cycliste hors agglom\xE9ration ?",
+        "options": [
+          "0,5 m",
+          "1,0 m",
+          "1,50 m",
+          "2,5 m"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Hors ville, l\u2019\xE9cart de s\xE9curit\xE9 obligatoire est de 1,50 m\xE8tre."
       },
       {
-        questionText: "2. Sur le frein moteur (d\xE9c\xE9l\xE9ration vitesse enclench\xE9e), la consommation instantan\xE9e est de :",
-        options: ["0 Litre / 100 km", "3 Litres / 100 km", "Maximale", "10 Litres"],
-        correctOptionIndex: 0,
-        explanation: "L'injection de carburant est coup\xE9e \xE0 100% sur le frein moteur."
+        "_id": "q-final-7-2",
+        "questionText": "Sur une route en forte pente, qui doit reculer si deux voitures ne peuvent pas croiser ?",
+        "options": [
+          "Le v\xE9hicule qui monte",
+          "Le v\xE9hicule qui descend",
+          "Le plus rapide",
+          "Le plus r\xE9cent"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le v\xE9hicule descendant doit s\u2019arr\xEAter et reculer."
       },
       {
-        questionText: "3. Quand doit-on contr\xF4ler la pression des pneus ?",
-        options: ["\xC0 chaud apr\xE8s 100 km", "\xC0 froid au moins 1 fois par mois", "Une fois par an", "Au contr\xF4le technique uniquement"],
-        correctOptionIndex: 1,
-        explanation: "Le contr\xF4le de pression se fait \xE0 froid mensuellement."
+        "_id": "q-final-7-3",
+        "questionText": "Est-il autoris\xE9 de d\xE9passer par la droite sur autoroute ?",
+        "options": [
+          "Oui si la voie de droite est libre",
+          "Non, c\u2019est strictement interdit (3 points en moins)",
+          "Oui si la voiture roule \xE0 100 km/h",
+          "Oui le week-end"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Tout d\xE9passement doit obligatoirement s\u2019effectuer par la gauche."
       },
       {
-        questionText: "4. En cas de d\xE9faillance majeure au contr\xF4le technique, la contre-visite doit avoir lieu dans un d\xE9lai de :",
-        options: ["24h", "2 mois", "6 mois", "1 an"],
-        correctOptionIndex: 1,
-        explanation: "Le propri\xE9taire dispose de 2 mois pour effectuer les r\xE9parations."
+        "_id": "q-final-7-4",
+        "questionText": "Peut-on chevaucher une ligne continue pour d\xE9passer un v\xE9lo avec bonne visibilit\xE9 ?",
+        "options": [
+          "Non jamais",
+          "Oui, le chevauchement de ligne est l\xE9galement autoris\xE9 pour d\xE9passer un cycliste",
+          "Uniquement en ville",
+          "Uniquement pour les tracteurs"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La loi autorise le chevauchement de ligne continue pour prot\xE9ger les cyclistes."
       },
       {
-        questionText: "5. La vignette obligatoire en France pour circuler dans les Zones \xE0 Faibles \xC9missions (ZFE) est :",
-        options: ["Crit'Air", "Autoroute", "Assurance", "Contr\xF4le Technique"],
-        correctOptionIndex: 0,
-        explanation: "Le macaron Crit'Air classe la pollution des v\xE9hicules."
+        "_id": "q-final-7-5",
+        "questionText": "Quand un usager vous d\xE9passe, vous devez :",
+        "options": [
+          "Acc\xE9l\xE9rer",
+          "Maintenir votre vitesse et serrer \xE0 droite",
+          "Mettre vos feux de d\xE9tresse",
+          "Freiner brusquement"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Il est interdit d\u2019acc\xE9l\xE9rer quand on est d\xE9pass\xE9."
       },
       {
-        questionText: "6. Rouler avec un coffre de toit vide non d\xE9mont\xE9 provoque une surconsommation de :",
-        options: ["0 %", "10 \xE0 15 %", "50 %", "80 %"],
-        correctOptionIndex: 1,
-        explanation: "La r\xE9sistance a\xE9rodynamique suppl\xE9mentaire augmente la consommation."
+        "_id": "q-final-7-6",
+        "questionText": "Quand peut-on se rabattre en toute s\xE9curit\xE9 apr\xE8s un d\xE9passement ?",
+        "options": [
+          "D\xE8s qu\u2019on a pass\xE9 le pare-choc",
+          "D\xE8s que le v\xE9hicule d\xE9pass\xE9 appara\xEEt en entier dans le r\xE9troviseur int\xE9rieur",
+          "Apr\xE8s 2 km",
+          "Quand on veut"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La vision de la face avant compl\xE8te dans le r\xE9troviseur central assure un intervalle suffisant."
       },
       {
-        questionText: "7. Quel gaz est le principal responsable de l'effet de serre rejet\xE9 par les voitures ?",
-        options: ["Le dioxyde de carbone (CO2)", "L'oxyg\xE8ne (O2)", "L'azote", "L'h\xE9lium"],
-        correctOptionIndex: 0,
-        explanation: "Le CO2 est le principal responsable du r\xE9chauffement climatique li\xE9 aux carburants."
+        "_id": "q-final-7-7",
+        "questionText": "Peut-on d\xE9passer un chasse-neige qui sale ou d\xE9neige la chauss\xE9e ?",
+        "options": [
+          "Oui par la gauche",
+          "Non, c\u2019est strictement interdit par le code de la route",
+          "Oui avec le clignotant",
+          "Oui s\u2019il roule \xE0 30 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le d\xE9passement des engins de service hivernal en intervention est prohib\xE9."
       },
       {
-        questionText: '8. Si le niveau du liquide de frein descend sous le rep\xE8re "MINI", cela traduit :',
-        options: ["Un fonctionnement normal", "Une usure prononc\xE9e des plaquettes ou une fuite", "Un manque d'essence", "Un probl\xE8me de lave-glace"],
-        correctOptionIndex: 1,
-        explanation: "Une baisse du liquide de frein signale un d\xE9faut d'usure ou de fuite \xE0 v\xE9rifier."
+        "_id": "q-final-7-8",
+        "questionText": "\xC0 l\u2019approche d\u2019un sommet de c\xF4te sur route \xE0 2 voies \xE0 double sens :",
+        "options": [
+          "Le d\xE9passement est interdit",
+          "Le d\xE9passement est autoris\xE9 \xE0 80 km/h",
+          "On peut doubler les camions",
+          "On acc\xE9l\xE8re"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "L\u2019absence de visibilit\xE9 frontale interdit tout d\xE9passement."
       },
       {
-        questionText: "9. Couper son moteur lors d'un arr\xEAt prolong\xE9 sup\xE9rieur \xE0 10 secondes (ou Stop & Start) :",
-        options: ["D\xE9truit le moteur", "\xC9conomise du carburant et r\xE9duit la pollution en ville", "Doubler la consommation", "Bloque la batterie"],
-        correctOptionIndex: 1,
-        explanation: "Extinction du moteur \xE0 l'arr\xEAt r\xE9duit les \xE9missions inutiles."
+        "_id": "q-final-7-9",
+        "questionText": "Quel diff\xE9rentiel de vitesse est recommand\xE9 pour doubler un v\xE9hicule sans tra\xEEner ?",
+        "options": [
+          "2 km/h",
+          "Au moins 20 km/h sans franchir la vitesse limite",
+          "60 km/h",
+          "Aucun"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Une r\xE9serve d\u2019environ 20 km/h garantit une man\u0153uvre br\xE8ve et s\xFBre."
       },
       {
-        questionText: "10. Le filtre \xE0 particules (FAP) sur les moteurs diesel sert \xE0 retenir :",
-        options: ["L'eau de pluie", "Les particules fines toxiques", "L'huile", "Le bruit"],
-        correctOptionIndex: 1,
-        explanation: "Le FAP pi\xE8ge les suies et particules fines nocives."
+        "_id": "q-final-7-10",
+        "questionText": "Le franchissement d\u2019une ligne continue pour un d\xE9passement non autoris\xE9 co\xFBte :",
+        "options": [
+          "1 point",
+          "2 points",
+          "3 points et 135 \u20AC d\u2019amende",
+          "6 points"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Franchir une ligne continue entra\xEEne la perte de 3 points."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-8",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-8" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-8",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 8 \u2014 Autoroutes et voies rapides",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-8"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. Quel est le taux maximal d'alcool\xE9mie autoris\xE9 pour un permis probatoire ?",
-        options: ["0,0 g/l", "0,2 g/l de sang (strictement z\xE9ro verre)", "0,5 g/l", "0,8 g/l"],
-        correctOptionIndex: 1,
-        explanation: "Le taux probatoire est fix\xE9 \xE0 0,2 g/l de sang."
+        "_id": "q-final-8-1",
+        "questionText": "Sur autoroute fluide, quelle voie doit-on emprunter en marche normale ?",
+        "options": [
+          "La voie du milieu",
+          "La voie de gauche",
+          "La voie la plus \xE0 droite",
+          "Peu importe"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Le code impose de circuler sur la voie de droite."
       },
       {
-        questionText: "2. \xC0 quelle vitesse l'alcool s'\xE9limine-t-il naturellement de l'organisme ?",
-        options: ["1 g/l par heure", "Environ 0,10 \xE0 0,15 g/l de sang par heure", "En buvant un caf\xE9 fort", "En prenant une douche"],
-        correctOptionIndex: 1,
-        explanation: "L'\xE9limination est lente et ne peut \xEAtre acc\xE9l\xE9r\xE9e par aucun rem\xE8de."
+        "_id": "q-final-8-2",
+        "questionText": "\xC0 130 km/h sur autoroute, la distance de s\xE9curit\xE9 minimale est de :",
+        "options": [
+          "30 m",
+          "50 m",
+          "78 m (2 traits de BAU)",
+          "150 m"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Deux traits de bande d\u2019arr\xEAt d\u2019urgence repr\xE9sentent l\u2019intervalle de s\xE9curit\xE9 l\xE9gal."
       },
       {
-        questionText: "3. La conduite sous stup\xE9fiants (cannabis, coca\xEFne) est sanctionn\xE9e par :",
-        options: ["Une amende de 15 \u20AC", "Un d\xE9lit passible de retrait de 6 points, amende lourde et prison", "Un simple avertissement", "Rien"],
-        correctOptionIndex: 1,
-        explanation: "C'est un d\xE9lit entra\xEEnant 6 points en moins et sanctions p\xE9nales."
+        "_id": "q-final-8-3",
+        "questionText": "En cas de panne sur autoroute, la premi\xE8re chose \xE0 faire avant de sortir est :",
+        "options": [
+          "Poser le triangle",
+          "Allumer les feux de d\xE9tresse et enfiler son gilet r\xE9tro-r\xE9fl\xE9chissant",
+          "T\xE9l\xE9phoner",
+          "Ouvrir le capot"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le gilet doit \xEAtre enfil\xE9 \xE0 l\u2019int\xE9rieur avant de poser le pied dehors."
       },
       {
-        questionText: "4. Tous les combien de temps une pause est-elle recommand\xE9e sur un long trajet ?",
-        options: ["Toutes les 30 min", "Toutes les 2 heures au maximum", "Toutes les 5h", "Au r\xE9servoir vide"],
-        correctOptionIndex: 1,
-        explanation: "Une pause de 15-20 min s'impose au moins toutes les 2h."
+        "_id": "q-final-8-4",
+        "questionText": "O\xF9 les passagers doivent-ils attendre les secours sur autoroute ?",
+        "options": [
+          "Dans la voiture",
+          "Sur la bande d\u2019arr\xEAt d\u2019urgence",
+          "Derri\xE8re la glissi\xE8re de s\xE9curit\xE9",
+          "Sur le toit"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Tout le monde doit se tenir \xE0 l\u2019abri derri\xE8re la glissi\xE8re m\xE9tallique."
       },
       {
-        questionText: "5. La premi\xE8re cause de mortalit\xE9 sur autoroute est :",
-        options: ["La somnolence et la fatigue", "Les crevaisons", "Les pannes", "Le mauvais temps"],
-        correctOptionIndex: 0,
-        explanation: "La somnolence cause 1 accident mortel sur 3 sur autoroute."
+        "_id": "q-final-8-5",
+        "questionText": "O\xF9 commence-t-on \xE0 ralentir pour quitter une autoroute ?",
+        "options": [
+          "Sur la voie de droite de l\u2019autoroute",
+          "D\xE8s le d\xE9but de la voie de d\xE9c\xE9l\xE9ration",
+          "Au milieu de l\u2019autoroute",
+          "Dans le virage de sortie"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le freinage s\u2019effectue exclusivement sur la voie de d\xE9c\xE9l\xE9ration."
       },
       {
-        questionText: "6. L'usage du t\xE9l\xE9phone tenu en main au volant est puni par :",
-        options: ["135 \u20AC d'amende et retrait de 3 points", "Aucune amende", "Une amende de 15 \u20AC", "Un permis blanc"],
-        correctOptionIndex: 0,
-        explanation: "T\xE9l\xE9phone en main = 135 \u20AC et 3 points en moins."
+        "_id": "q-final-8-6",
+        "questionText": "Sur autoroute, faire marche arri\xE8re pour rattraper une sortie rat\xE9e est puni de :",
+        "options": [
+          "Rien du tout",
+          "Amende, retrait de 4 points et suspension de permis",
+          "1 point en moins",
+          "10 \u20AC"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La man\u0153uvre en marche arri\xE8re sur autoroute est passible de 4 points et suspension."
       },
       {
-        questionText: "7. Le port d'\xE9couteurs ou d'oreillettes audio en conduisant est :",
-        options: ["Autoris\xE9 pour la musique", "Strictement interdit par la loi", "Autoris\xE9 \xE0 droite", "Obligatoire"],
-        correctOptionIndex: 1,
-        explanation: "Tout dispositif audio \xE0 l'oreille est interdit au volant."
+        "_id": "q-final-8-7",
+        "questionText": "La vitesse minimale sur la voie de gauche sur autoroute en conditions normales est de :",
+        "options": [
+          "60 km/h",
+          "80 km/h",
+          "100 km/h",
+          "110 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La vitesse minimale sur la voie de gauche est de 80 km/h."
       },
       {
-        questionText: "8. \xC9crire un SMS en conduisant multiplie le risque d'accident par :",
-        options: ["2", "5", "23", "100"],
-        correctOptionIndex: 2,
-        explanation: "R\xE9diger un SMS distrait les yeux pendant 5 sec, soit un risque x 23."
+        "_id": "q-final-8-8",
+        "questionText": "Le triangle de pr\xE9signalisation doit-il obligatoirement \xEAtre pos\xE9 sur autoroute ?",
+        "options": [
+          "Oui toujours \xE0 100 m",
+          "Non, si la man\u0153uvre constitue un danger pour la vie du conducteur",
+          "Oui au milieu des voies",
+          "Oui sur la voie de gauche"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Sur autoroute, la s\xE9curit\xE9 prime : le triangle est facultatif s\u2019il y a danger."
       },
       {
-        questionText: "9. Le m\xE9lange d'alcool et de cannabis multiplie le risque d'accident mortel par :",
-        options: ["2", "5", "29", "100"],
-        correctOptionIndex: 2,
-        explanation: "Le cumul des deux stup\xE9fiants multiplie par 29 le risque mortel."
+        "_id": "q-final-8-9",
+        "questionText": "Quel moyen privil\xE9gier pour appeler les secours d\u2019autoroute ?",
+        "options": [
+          "Les bornes d\u2019appel d\u2019urgence orange (tous les 2 km)",
+          "Faire des signes avec les bras",
+          "Klaxonner",
+          "Courir vers le p\xE9age"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "La borne d\u2019urgence g\xE9olocalise imm\xE9diatement l\u2019appel."
       },
       {
-        questionText: "10. Si vous ressentez les yeux qui picotent et des baillements r\xE9p\xE9t\xE9s :",
-        options: ["Ouvrir la fen\xEAtre et continuer", "Vous arr\xEAter pour faire une sieste de 15 \xE0 20 min", "Monter la musique", "Boire un soda"],
-        correctOptionIndex: 1,
-        explanation: "La sieste sur une aire s\xE9curis\xE9e est la seule solution face \xE0 la somnolence."
+        "_id": "q-final-8-10",
+        "questionText": "Quelle est la limitation de vitesse sur autoroute pour un jeune conducteur par temps sec ?",
+        "options": [
+          "100 km/h",
+          "110 km/h",
+          "120 km/h",
+          "130 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les permis probatoires sont plafonn\xE9s \xE0 110 km/h sur autoroute."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-9",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-9" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-9",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 9 \u2014 Conduite de nuit et m\xE9t\xE9o difficile",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-9"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. Dans une Zone de Rencontre en ville, la vitesse est limit\xE9e \xE0 :",
-        options: ["10 km/h", "20 km/h", "30 km/h", "50 km/h"],
-        correctOptionIndex: 1,
-        explanation: "La vitesse en zone de rencontre est de 20 km/h max et le pi\xE9ton a la priorit\xE9 absolue."
+        "_id": "q-final-9-1",
+        "questionText": "Quels feux doit-on allumer par temps de pluie ?",
+        "options": [
+          "Feux de position seuls",
+          "Feux de croisement",
+          "Feux de brouillard arri\xE8re",
+          "Feux de route"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les feux de croisement sont obligatoires d\xE8s l\u2019apparition de la pluie."
       },
       {
-        questionText: "2. Quelle distance lat\xE9rale minimale laisser pour d\xE9passer un v\xE9lo EN AGGLOM\xC9RATION ?",
-        options: ["0,5m", "1,0 m\xE8tre", "1,5 m\xE8tre", "3,0 m\xE8tres"],
-        correctOptionIndex: 1,
-        explanation: "En ville (agglom\xE9ration), l'\xE9cart minimal est de 1,0m (1,5m hors agglo)."
+        "_id": "q-final-9-2",
+        "questionText": "L\u2019utilisation des feux de brouillard arri\xE8re est STRICTEMENT INTERDITE :",
+        "options": [
+          "Par temps de neige",
+          "Par temps de pluie (car ils \xE9blouissent les usagers derri\xE8re)",
+          "Par temps de brouillard",
+          "La nuit"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "L\u2019eau pulv\xE9ris\xE9e r\xE9fl\xE9chit la lumi\xE8re intense des antibrouillards arri\xE8re et \xE9blouit."
       },
       {
-        questionText: "3. Qu'est-ce qu'un sas v\xE9lo devant un feu tricolore ?",
-        options: ["Un garage v\xE9lo", "Un espace r\xE9serv\xE9 aux v\xE9los devant les voitures pour \xEAtre bien vus", "Un couloir de bus", "Un parking"],
-        correctOptionIndex: 1,
-        explanation: "Le sas permet aux cyclistes de se positionner devant les voitures au feu rouge."
+        "_id": "q-final-9-3",
+        "questionText": "\xC0 quelle distance minimale doivent \xE9clairer les feux de route (pleins phares) ?",
+        "options": [
+          "30 m",
+          "50 m",
+          "100 m",
+          "200 m"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Les feux de route doivent projeter leur faisceau \xE0 au moins 100 m\xE8tres."
       },
       {
-        questionText: "4. Les trottinettes \xE9lectriques (EDPM) ont-elles le droit de rouler sur les trottoirs ?",
-        options: ["Oui \xE0 25 km/h", "Strictement interdit (sauf moteur coup\xE9 au pas)", "Oui la nuit", "Oui en Zone 30"],
-        correctOptionIndex: 1,
-        explanation: "Les EDPM doivent emprunter les voies cyclables ou la chauss\xE9e, trottoir interdit."
+        "_id": "q-final-9-4",
+        "questionText": "En pr\xE9sence d\u2019une nappe de brouillard dense avec visibilit\xE9 sous 50 m, la vitesse max est de :",
+        "options": [
+          "30 km/h",
+          "50 km/h partout",
+          "70 km/h",
+          "80 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La limite absolue est de 50 km/h sur l\u2019ensemble du r\xE9seau routier."
       },
       {
-        questionText: "5. La vitesse maximale par construction d'une trottinette \xE9lectrique (EDPM) est brid\xE9e \xE0 :",
-        options: ["15 km/h", "25 km/h", "45 km/h", "80 km/h"],
-        correctOptionIndex: 1,
-        explanation: "La vitesse limite par construction est de 25 km/h."
+        "_id": "q-final-9-5",
+        "questionText": "Pour limiter le risque d\u2019aquaplaning sous forte pluie, on doit :",
+        "options": [
+          "Gonfler les pneus \xE0 5 bars",
+          "R\xE9duire sa vitesse et s\u2019assurer que les pneus ont des sculptures d\u2019au moins 1,6 mm",
+          "Freiner en continu",
+          "Acc\xE9l\xE9rer"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La vitesse mod\xE9r\xE9e et de bonnes rainures \xE9vacuent l\u2019eau sous le pneu."
       },
       {
-        questionText: "6. Pour \xE9viter d'emporter un cycliste en ouvrant sa porti\xE8re de voiture c\xF4t\xE9 rue, il convient de :",
-        options: ["Ouvrir d'un coup sec", "Ouvrir avec la main oppos\xE9e (main droite) pour pivoter le buste et regarder l'angle mort", "Fermer les yeux", "Sortir par le coffre"],
-        correctOptionIndex: 1,
-        explanation: "La poign\xE9e hollandaise (main oppos\xE9e) oriente le regard vers l'arri\xE8re."
+        "_id": "q-final-9-6",
+        "questionText": "Que faire imm\xE9diatement si le v\xE9hicule part en aquaplaning ?",
+        "options": [
+          "Piler sur le frein",
+          "Garder les roues droites et d\xE9c\xE9l\xE9rer sans geste brusque",
+          "Tirer le frein \xE0 main",
+          "Braquer d\u2019un coup"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "On soulage l\u2019acc\xE9l\xE9rateur en douceur pour reprendre contact avec le sol."
       },
       {
-        questionText: `7. L'autocollant "Attention Angles Morts" sur les camions pr\xE9vient :`,
-        options: ["D'une publicit\xE9", "Des zones aveugles autour du poids lourd o\xF9 les usagers sont invisibles", "D'un danger de panne", "D'une amende"],
-        correctOptionIndex: 1,
-        explanation: "Il avertit des angles morts masquant les usagers proches du camion."
+        "_id": "q-final-9-7",
+        "questionText": "Le panneau B26 (pneu avec cha\xEEnes) rend obligatoire :",
+        "options": [
+          "Les pneus neufs",
+          "Le montage de cha\xEEnes sur au moins deux roues motrices",
+          "L\u2019arr\xEAt du v\xE9hicule",
+          "La marche arri\xE8re"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les cha\xEEnes ou dispositifs antid\xE9rapants deviennent obligatoires."
       },
       {
-        questionText: "8. Peut-on franchir une ligne continue pour doubler un cycliste ?",
-        options: ["Non jamais", "Oui, le chevauchement de ligne est tol\xE9r\xE9 si la visibilit\xE9 le permet", "Oui la nuit", "Uniquement en autoroute"],
-        correctOptionIndex: 1,
-        explanation: "Le chevauchement de ligne continue est exceptionnellement tol\xE9r\xE9 pour doubler un v\xE9lo en s\xE9curit\xE9."
+        "_id": "q-final-9-8",
+        "questionText": "Pourquoi les feux de route sont-ils inefficaces et dangereux dans le brouillard ?",
+        "options": [
+          "Ils n\u2019\xE9clairent rien",
+          "Ils cr\xE9ent un mur blanc \xE9blouissant par r\xE9verb\xE9ration sur les gouttelettes",
+          "Ils chauffent",
+          "Ils \xE9teignent le moteur"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le faisceau haut se r\xE9fl\xE9chit sur les micro-gouttes d\u2019eau."
       },
       {
-        questionText: "9. \xC0 l'approche d'une personne malvoyante avec une canne blanche s'engageant sur la rue :",
-        options: ["Klaxonner", "S'arr\xEAter pour lui c\xE9der la priorit\xE9 absolue", "Acc\xE9l\xE9rer", "Faire des appels de phares"],
-        correctOptionIndex: 1,
-        explanation: "Les personnes vuln\xE9rables b\xE9n\xE9ficient de la priorit\xE9 absolue."
+        "_id": "q-final-9-9",
+        "questionText": "Face \xE0 un fort vent lat\xE9ral en doublant un camion :",
+        "options": [
+          "On acc\xE9l\xE8re",
+          "On s\u2019attend \xE0 une d\xE9viation lors du d\xE9passement et \xE0 une rafale \xE0 la sortie du camion",
+          "On klaxonne",
+          "On freine fort"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le camion fait \xE9cran puis le vent r\xE9appara\xEEt brutalement au niveau de la cabine."
       },
       {
-        questionText: "10. Est-il autoris\xE9 d'interrompre un convoi militaire ou cort\xE8ge officiel en circulation ?",
-        options: ["Oui", "Strictement interdit de s'immiscer dans un convoi constitu\xE9", "Oui le week-end", "Oui en klaxonnant"],
-        correctOptionIndex: 1,
-        explanation: "Il est interdit de couper un convoi officiel en mouvement."
+        "_id": "q-final-9-10",
+        "questionText": "La nuit en croisant un v\xE9hicule, quel rep\xE8re regarder pour ne pas \xEAtre \xE9bloui ?",
+        "options": [
+          "Le ciel",
+          "La ligne blanche continue ou le bord droit de la chauss\xE9e",
+          "Les phares d\u2019en face",
+          "Le tableau de bord"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Guider son regard le long de la ligne de rive droite prot\xE8ge la r\xE9tine."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-10",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-10" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
+    "_id": "quiz-mod-10",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 10 \u2014 Alcool, drogues, fatigue et capacit\xE9s",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-10"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
       {
-        questionText: "1. Combien de fautes maximum sont autoris\xE9es \xE0 l'examen officiel ETG (Code de la route) ?",
-        options: ["0 faute", "5 fautes maximum (score min : 35/40)", "10 fautes", "15 fautes"],
-        correctOptionIndex: 1,
-        explanation: "Le candidat doit r\xE9ussir au moins 35 questions sur 40."
+        "_id": "q-final-10-1",
+        "questionText": "Quel est le taux d\u2019alcool\xE9mie maximal l\xE9gal pour un conducteur en p\xE9riode probatoire ?",
+        "options": [
+          "0,0 g/l",
+          "0,2 g/l de sang (tol\xE9rance z\xE9ro)",
+          "0,5 g/l",
+          "0,8 g/l"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le seuil probatoire est fix\xE9 \xE0 0,2 g/l de sang."
       },
       {
-        questionText: `2. \xC0 l'examen, si une question demande "Je peux d\xE9passer ?", cela signifie :`,
-        options: ["J'ai l'obligation de d\xE9passer", "C'est une possibilit\xE9 autoris\xE9e par la s\xE9curit\xE9 et le code", "C'est interdit", "Il faut piler"],
-        correctOptionIndex: 1,
-        explanation: `"Je peux" interroge sur la possibilit\xE9 / autorisation sans caract\xE8re d'obligation.`
+        "_id": "q-final-10-2",
+        "questionText": "\xC0 partir de quel taux d\u2019alcool l\u2019infraction devient-elle un d\xE9lit p\xE9nal ?",
+        "options": [
+          "0,2 g/l",
+          "0,5 g/l",
+          "0,8 g/l de sang",
+          "1,2 g/l"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "D\xE8s 0,8 g/l de sang, le tribunal correctionnel peut prononcer jusqu\u2019\xE0 2 ans de prison."
       },
       {
-        questionText: "3. En cas d'accident de la route, quel est le premier r\xE9flexe du protocole P.A.S. ?",
-        options: ["Secourir", "Prot\xE9ger la zone pour \xE9viter le suraccident (gilet, feux d\xE9tresse, triangle)", "Alerter les pompiers", "Partir"],
-        correctOptionIndex: 1,
-        explanation: "P.A.S. = Prot\xE9ger d'abord, Alerter ensuite, Secourir enfin."
+        "_id": "q-final-10-3",
+        "questionText": "Un pictogramme triangulaire ROUGE (Niveau 3) sur une bo\xEEte de m\xE9dicament signifie :",
+        "options": [
+          "Conduite prudente",
+          "Attention pour les camions",
+          "Conduite formellement d\xE9conseill\xE9e / interdite",
+          "Aucun effet"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Le niveau 3 interdit la conduite pendant le traitement."
       },
       {
-        questionText: "4. Quel est le num\xE9ro d'appel d'urgence europ\xE9en gratuit ?",
-        options: ["112", "18", "15", "17"],
-        correctOptionIndex: 0,
-        explanation: "Le 112 est le num\xE9ro d'urgence unique europ\xE9en."
+        "_id": "q-final-10-4",
+        "questionText": "Quel est le temps moyen d\u2019\xE9limination d\u2019un verre d\u2019alcool par le foie ?",
+        "options": [
+          "10 min",
+          "1h \xE0 2h par verre",
+          "5h",
+          "24h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le foie \xE9limine environ 0,10 \xE0 0,15 g/l par heure."
       },
       {
-        questionText: "5. Devant une victime inconsciente qui respire, dans quelle position la placer ?",
-        options: ["Assise", "Position Lat\xE9rale de S\xE9curit\xE9 (PLS)", "Sur le dos les jambes lev\xE9es", "Debout"],
-        correctOptionIndex: 1,
-        explanation: "La PLS pr\xE9vient l'\xE9touffement chez la personne inconsciente qui respire."
+        "_id": "q-final-10-5",
+        "questionText": "Le port d\u2019oreillettes ou \xE9couteurs au volant est sanctionn\xE9 par :",
+        "options": [
+          "Rien",
+          "135 \u20AC d\u2019amende et retrait de 3 points",
+          "10 \u20AC",
+          "1 point"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Tout \xE9couteur dans l\u2019oreille est strictement interdit."
       },
       {
-        questionText: "6. Faut-il enlever le casque d'un motard accident\xE9 au sol ?",
-        options: ["Oui tout de suite", "Non, jamais (risque de paralysie cervicale) sauf secouriste sp\xE9cialis\xE9", "Oui pour lui donner de l'eau", "Oui s'il a chaud"],
-        correctOptionIndex: 1,
-        explanation: "Retirer le casque risque de cr\xE9er des l\xE9sions m\xE9dullaires irr\xE9parables."
+        "_id": "q-final-10-6",
+        "questionText": "Tous les combien de temps doit-on marquer une pause sur long trajet ?",
+        "options": [
+          "Toutes les 2 heures au moins",
+          "Toutes les 4 heures",
+          "Toutes les 6 heures",
+          "\xC0 l\u2019arriv\xE9e"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Une pause de 15 \xE0 20 minutes s\u2019impose toutes les 2 heures."
       },
       {
-        questionText: "7. Quelle est la dur\xE9e de r\xE9ponse accord\xE9e par question sur la tablette d'examen ?",
-        options: ["5 secondes", "20 secondes", "1 minute", "Illimit\xE9e"],
-        correctOptionIndex: 1,
-        explanation: "Le candidat dispose de 20 secondes pour valider sa r\xE9ponse."
+        "_id": "q-final-10-7",
+        "questionText": "Quel est l\u2019unique moyen de r\xE9cup\xE9rer de la vigilance en cas de somnolence aigu\xEB ?",
+        "options": [
+          "Caf\xE9 fort",
+          "Ouvrir la vitre",
+          "Une courte sieste de 15 \xE0 20 minutes",
+          "Chanter"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Seul le sommeil r\xE9pare l\u2019\xE9puisement c\xE9r\xE9bral."
       },
       {
-        questionText: "8. Un feu vert avec un pi\xE9ton engag\xE9 sur le passage \xE0 droite :",
-        options: ["Le v\xE9hicule passe car le feu est vert", "Le v\xE9hicule s'arr\xEAte pour c\xE9der la priorit\xE9 au pi\xE9ton engag\xE9", "Le v\xE9hicule klaxonne", "Le v\xE9hicule fait demi-tour"],
-        correctOptionIndex: 1,
-        explanation: "La priorit\xE9 absolue revient au pi\xE9ton engag\xE9."
+        "_id": "q-final-10-8",
+        "questionText": "Conduire sous l\u2019emprise de stup\xE9fiants (cannabis, etc.) entra\xEEne :",
+        "options": [
+          "Un simple avertissement",
+          "Un d\xE9lit avec retrait de 6 points, r\xE9tention de permis et peines de prison",
+          "Une amende de 11 \u20AC",
+          "Rien sans accident"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La tol\xE9rance z\xE9ro stup\xE9fiants est sanctionn\xE9e par un d\xE9lit lourd."
       },
       {
-        questionText: "9. Si un v\xE9hicule vous suit de tr\xE8s pr\xE8s \xE0 un feu orange :",
-        options: ["Piler net", "Franchir le feu orange avec prudence si l'arr\xEAt brutal provoque un choc arri\xE8re", "Tirer le frein \xE0 main", "Reculer"],
-        correctOptionIndex: 1,
-        explanation: "L'observation de l'arri\xE8re primant sur l'arr\xEAt abrupt pour la s\xE9curit\xE9."
+        "_id": "q-final-10-9",
+        "questionText": "Lire un message sur son smartphone en conduisant multiplie le risque d\u2019accident par :",
+        "options": [
+          "2",
+          "5",
+          "10",
+          "23"
+        ],
+        "correctOptionIndex": 3,
+        "explanation": "Le risque d\u2019accident est multipli\xE9 par 23 lors de la lecture d\u2019un SMS."
       },
       {
-        questionText: "10. Pour valider le programme complet Permis B sur Matoa, l'\xE9l\xE8ve doit :",
-        options: ["Valider tous les modules et r\xE9ussir leurs quiz avec au moins 80%", "Regarder 1 minute de vid\xE9o", "Payer un suppl\xE9ment", "Passer 100 heures en ligne"],
-        correctOptionIndex: 0,
-        explanation: "La validation th\xE9orique exige la r\xE9ussite de l'ensemble du parcours et des quizzes."
+        "_id": "q-final-10-10",
+        "questionText": "Le champ visuel d\u2019un conducteur alcoolis\xE9 :",
+        "options": [
+          "S\u2019\xE9largit",
+          "Se r\xE9tr\xE9cit de fa\xE7on notable",
+          "Reste identique",
+          "Devient multicolore"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "L\u2019alcool r\xE9duit consid\xE9rablement la vision p\xE9riph\xE9rique."
       }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    ]
   },
   {
-    _id: "quiz-mod-11",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-11" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
-      { questionText: "1. Qui est prioritaire sur un passage pi\xE9ton engag\xE9 ?", options: ["La voiture", "Le pi\xE9ton", "Le v\xE9lo", "Personne"], correctOptionIndex: 1, explanation: "Le pi\xE9ton engag\xE9." },
-      { questionText: "2. Quelle est la vitesse limite dans une zone de rencontre ?", options: ["50 km/h", "20 km/h", "30 km/h", "10 km/h"], correctOptionIndex: 1, explanation: "20 km/h." },
-      { questionText: "3. \xC0 quoi sert le sas v\xE9lo ?", options: ["\xC0 garer la voiture", "Permettre aux cyclistes de se positionner en s\xE9curit\xE9 devant les voitures", "\xC0 doubler", "Rien"], correctOptionIndex: 1, explanation: "Positionnement s\xE9curis\xE9 v\xE9lo." },
-      { questionText: "4. Que v\xE9rifier avant de tourner \xE0 droite en ville ?", options: ["Rien", "La pr\xE9sence d'un cycliste dans l'angle mort", "La radio", "Rien"], correctOptionIndex: 1, explanation: "Angle mort cycliste." },
-      { questionText: "5. Pourquoi les deux-roues sont-ils plus difficiles \xE0 voir ?", options: ["Ils vont trop vite", "\xC0 cause de leur gabarit \xE9troit", "Ils sont sombres", "Rien"], correctOptionIndex: 1, explanation: "Gabarit \xE9troit." },
-      { questionText: "6. Quelle distance de s\xE9curit\xE9 adopter avec un deux-roues ?", options: ["Nulle", "Au moins \xE9quivalente \xE0 celle d'une voiture", "Moiti\xE9", "Rien"], correctOptionIndex: 1, explanation: "Distance \xE9quivalente." },
-      { questionText: "7. Comment ouvrir sa porti\xE8re en s\xE9curit\xE9 ?", options: ["Tr\xE8s vite", "Avec la main oppos\xE9e pour se retourner (m\xE9thode hollandaise)", "Sans regarder", "Rien"], correctOptionIndex: 1, explanation: "M\xE9thode hollandaise." },
-      { questionText: "8. Pourquoi redoubler de prudence pr\xE8s d'une \xE9cole ?", options: ["Rien", "Le comportement des enfants est impr\xE9visible", "Le bruit", "Rien"], correctOptionIndex: 1, explanation: "Impr\xE9visibilit\xE9 des enfants." },
-      { questionText: "9. Que faut-il accorder \xE0 une personne \xE0 mobilit\xE9 r\xE9duite qui traverse ?", options: ["Du klaxon", "Du temps suppl\xE9mentaire et de la patience", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Patience et temps." },
-      { questionText: "10. Sur quoi repose le partage apais\xE9 de la route ?", options: ["La force", "Le respect mutuel entre tous les usagers", "La vitesse", "Rien"], correctOptionIndex: 1, explanation: "Respect mutuel." }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    "_id": "quiz-mod-11",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 11 \u2014 Usagers vuln\xE9rables",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-11"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
+      {
+        "_id": "q-final-11-1",
+        "questionText": "Quel est le retrait de points pour un refus de priorit\xE9 \xE0 un pi\xE9ton sur un passage clout\xE9 ?",
+        "options": [
+          "2 points",
+          "3 points",
+          "4 points",
+          "6 points et suspension possible"
+        ],
+        "correctOptionIndex": 3,
+        "explanation": "Le refus de priorit\xE9 pi\xE9ton est sanctionn\xE9 par un retrait maximal de 6 points."
+      },
+      {
+        "_id": "q-final-11-2",
+        "questionText": "Quelle est la vitesse maximale autoris\xE9e dans une \xAB Zone de rencontre \xBB ?",
+        "options": [
+          "10 km/h",
+          "20 km/h (priorit\xE9 aux pi\xE9tons)",
+          "30 km/h",
+          "50 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La vitesse est limit\xE9e \xE0 20 km/h avec priorit\xE9 absolue aux pi\xE9tons."
+      },
+      {
+        "_id": "q-final-11-3",
+        "questionText": "Quelle est la distance minimale pour d\xE9passer un cycliste en ville ?",
+        "options": [
+          "0,5 m",
+          "1 m\xE8tre",
+          "1,50 m\xE8tre",
+          "2 m\xE8tres"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "En agglom\xE9ration, l\u2019\xE9cart minimal de d\xE9passement est de 1 m\xE8tre."
+      },
+      {
+        "_id": "q-final-11-4",
+        "questionText": "\xC0 quoi sert la technique d\u2019ouverture de porti\xE8re \xE0 la hollandaise (avec la main oppos\xE9e) ?",
+        "options": [
+          "\xC0 ne pas salir la poign\xE9e",
+          "\xC0 faire pivoter le haut du corps pour v\xE9rifier l\u2019angle mort et \xE9viter d\u2019emporter un cycliste",
+          "\xC0 fermer plus vite",
+          "\xC0 faire du sport"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Cette man\u0153uvre \xE9vite les accidents de porti\xE8re avec les cyclistes."
+      },
+      {
+        "_id": "q-final-11-5",
+        "questionText": "Un pi\xE9ton tenant une canne blanche dress\xE9e ou lev\xE9e :",
+        "options": [
+          "Doit attendre votre passage",
+          "A la priorit\xE9 absolue en toute circonstance",
+          "Est un policier",
+          "Ne doit pas traverser"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La canne blanche signale une personne non-voyante prioritaire."
+      },
+      {
+        "_id": "q-final-11-6",
+        "questionText": "En cas d\u2019accident corporel avec un motard au sol, doit-on lui enlever son casque ?",
+        "options": [
+          "Oui imm\xE9diatement",
+          "Non, jamais (sauf arr\xEAt respiratoire par secouriste form\xE9)",
+          "Oui pour lui parler",
+          "Oui pour le rafra\xEEchir"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Retirer le casque peut aggraver un traumatisme cervical fatal."
+      },
+      {
+        "_id": "q-final-11-7",
+        "questionText": "Quelle est la probabilit\xE9 de survie d\u2019un pi\xE9ton percut\xE9 \xE0 30 km/h ?",
+        "options": [
+          "Environ 20%",
+          "Environ 50%",
+          "Environ 90%",
+          "0%"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "\xC0 30 km/h, 9 pi\xE9tons sur 10 survivent \xE0 l\u2019impact."
+      },
+      {
+        "_id": "q-final-11-8",
+        "questionText": "O\xF9 les voitures doivent-elles s\u2019arr\xEAter \xE0 un feu tricolore pr\xE9c\xE9d\xE9 d\u2019un sas v\xE9lo ?",
+        "options": [
+          "Sur le sas v\xE9lo",
+          "Avant la premi\xE8re ligne d\u2019arr\xEAt du sas v\xE9lo",
+          "Au feu",
+          "Sur le passage pi\xE9ton"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le sas v\xE9lo doit \xEAtre laiss\xE9 libre pour les cyclistes."
+      },
+      {
+        "_id": "q-final-11-9",
+        "questionText": "Un ballon roule sur la route devant vous, que devez-vous anticiper ?",
+        "options": [
+          "Le vent",
+          "L\u2019irruption imm\xE9diate d\u2019un enfant qui court apr\xE8s son ballon",
+          "Rien",
+          "Un chien"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Un enfant suit presque toujours son ballon sur la chauss\xE9e."
+      },
+      {
+        "_id": "q-final-11-10",
+        "questionText": "En zone 30, les rues \xE0 sens unique pour les voitures sont g\xE9n\xE9ralement :",
+        "options": [
+          "Interdites aux v\xE9los",
+          "\xC0 double sens de circulation pour les cyclistes (double sens cyclable)",
+          "R\xE9serv\xE9es aux camions",
+          "Ferm\xE9es la nuit"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les double-sens cyclables sont la r\xE8gle par d\xE9faut en zone 30."
+      }
+    ]
   },
   {
-    _id: "quiz-mod-12",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-12" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
-      { questionText: "1. Quel est l'ordre de la proc\xE9dure PAS ?", options: ["Alerter, Secourir, Prot\xE9ger", "Prot\xE9ger, Alerter, Secourir", "Secourir, Prot\xE9ger, Alerter", "Rien"], correctOptionIndex: 1, explanation: "Prot\xE9ger, Alerter, Secourir." },
-      { questionText: "2. Quel est le num\xE9ro d'urgence europ\xE9en unique ?", options: ["15", "112", "17", "18"], correctOptionIndex: 1, explanation: "112." },
-      { questionText: "3. Quel num\xE9ro correspond au SAMU ?", options: ["15", "17", "18", "112"], correctOptionIndex: 0, explanation: "15." },
-      { questionText: "4. Quel num\xE9ro correspond aux pompiers ?", options: ["15", "17", "18", "112"], correctOptionIndex: 2, explanation: "18." },
-      { questionText: "5. Quand utiliser la PLS ?", options: ["Personne consciente", "Pour une personne inconsciente qui respire encore", "Arr\xEAt cardiaque", "Rien"], correctOptionIndex: 1, explanation: "Inconsciente qui respire." },
-      { questionText: "6. Quand peut-on d\xE9placer un bless\xE9 grave ?", options: ["Toujours", "Uniquement en cas de danger imm\xE9diat (feu, suraccident)", "Jamais", "Rien"], correctOptionIndex: 1, explanation: "Danger imm\xE9diat." },
-      { questionText: "7. Que faire en priorit\xE9 en cas d'arr\xEAt cardiaque ?", options: ["PLS", "Masser le thorax et alerter imm\xE9diatement", "Attendre", "Rien"], correctOptionIndex: 1, explanation: "Massage et alerte." },
-      { questionText: "8. Que faire apr\xE8s un accident mat\xE9riel sans bless\xE9 ?", options: ["Fuir", "Remplir un constat amiable", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Constat amiable." },
-      { questionText: "9. Quitter les lieux d'un accident sans motif est-il l\xE9gal ?", options: ["Oui", "Non, c'est un d\xE9lit de fuite", "Oui le dimanche", "Rien"], correctOptionIndex: 1, explanation: "D\xE9lit de fuite." },
-      { questionText: "10. Comment signaler un v\xE9hicule accident\xE9 sur la chauss\xE9e ?", options: ["Rien", "Feux de d\xE9tresse et triangle de pr\xE9signalisation", "Klaxon", "Rien"], correctOptionIndex: 1, explanation: "Feux de d\xE9tresse et triangle." }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    "_id": "quiz-mod-12",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 12 \u2014 Premiers secours et accident",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-12"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
+      {
+        "_id": "q-final-12-1",
+        "questionText": "Que signifie l\u2019acronyme vital PAS lors d\u2019un accident ?",
+        "options": [
+          "Partir, Appeler, Soigner",
+          "Prot\xE9ger, Alerter, Secourir",
+          "Pousser, Aider, Stopper",
+          "Pr\xE9venir, Attendre, Sauver"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "L\u2019ordre officiel d\u2019intervention est Prot\xE9ger, Alerter, Secourir."
+      },
+      {
+        "_id": "q-final-12-2",
+        "questionText": "Quel est le num\xE9ro d\u2019urgence europ\xE9en unique gratuit ?",
+        "options": [
+          "15",
+          "17",
+          "18",
+          "112"
+        ],
+        "correctOptionIndex": 3,
+        "explanation": "Le 112 fonctionne dans toute l\u2019Union europ\xE9enne."
+      },
+      {
+        "_id": "q-final-12-3",
+        "questionText": "Dans quel cas exceptionnel peut-on d\xE9placer un bless\xE9 de la route ?",
+        "options": [
+          "S\u2019il a froid",
+          "Uniquement en pr\xE9sence d\u2019un DANGER IMM\xC9DIAT ET NON CONTR\xD4LABLE (incendie, noyade)",
+          "Pour le mettre dans son lit",
+          "Pour lib\xE9rer la route"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Seul un p\xE9ril mortel imminent justifie un d\xE9gagement d\u2019urgence."
+      },
+      {
+        "_id": "q-final-12-4",
+        "questionText": "Si une victime inconsciente respire normalement, on la place en :",
+        "options": [
+          "Position assise",
+          "Position Lat\xE9rale de S\xE9curit\xE9 (PLS)",
+          "Position debout",
+          "Sur le dos les bras crois\xE9s"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La PLS maintient les voies respiratoires d\xE9gag\xE9es."
+      },
+      {
+        "_id": "q-final-12-5",
+        "questionText": "Le fait de ne pas s\u2019arr\xEAter apr\xE8s un accident que l\u2019on a caus\xE9 ou subi est qualifi\xE9 de :",
+        "options": [
+          "D\xE9lit de fuite (3 ans de prison, 75000 \u20AC d\u2019amende et 6 points)",
+          "Refus d\u2019obtemp\xE9rer",
+          "Simple erreur de parcours",
+          "Infraction mineure"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "C\u2019est un d\xE9lit de fuite s\xE9v\xE8rement puni par la justice."
+      },
+      {
+        "_id": "q-final-12-6",
+        "questionText": "Quel num\xE9ro joindre pour une urgence m\xE9dicale vitale directe (SAMU) ?",
+        "options": [
+          "15",
+          "17",
+          "18",
+          "114"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Le 15 est le num\xE9ro direct du SAMU en France."
+      },
+      {
+        "_id": "q-final-12-7",
+        "questionText": "Combien de compressions thoraciques effectue-t-on avant 2 insufflations lors d\u2019un massage cardiaque ?",
+        "options": [
+          "10",
+          "15",
+          "30 compressions",
+          "50"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Le rythme officiel de r\xE9animation est de 30 compressions pour 2 insufflations."
+      },
+      {
+        "_id": "q-final-12-8",
+        "questionText": "\xC0 quelle distance minimale poser le triangle de pr\xE9signalisation sur route ?",
+        "options": [
+          "5 m\xE8tres",
+          "Au moins 30 m\xE8tres en amont",
+          "100 m\xE8tres",
+          "Sur le coffre"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "30 m\xE8tres minimum pour laisser une distance de freinage aux autres usagers."
+      },
+      {
+        "_id": "q-final-12-9",
+        "questionText": "Dans quel d\xE9lai doit-on faire parvenir un constat amiable \xE0 son assurance ?",
+        "options": [
+          "24 heures",
+          "5 jours ouvr\xE9s",
+          "15 jours",
+          "1 mois"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le d\xE9lai l\xE9gal de transmission du constat est de 5 jours ouvr\xE9s."
+      },
+      {
+        "_id": "q-final-12-10",
+        "questionText": "Doit-on donner de l\u2019eau \xE0 un bless\xE9 d\u2019accident qui r\xE9clame \xE0 boire ?",
+        "options": [
+          "Oui un grand verre",
+          "Non, jamais rien donner \xE0 boire ni \xE0 manger",
+          "Oui avec du sucre",
+          "Oui du caf\xE9"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "L\u2019ingestion de liquide peut compliquer les soins ou l\u2019anesth\xE9sie d\u2019urgence."
+      }
+    ]
   },
   {
-    _id: "quiz-mod-13",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-13" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
-      { questionText: "1. Quels documents doit-on pouvoir pr\xE9senter en cas de contr\xF4le ?", options: ["Carte bancaire", "Permis, carte grise, attestation d'assurance", "Permis seul", "Rien"], correctOptionIndex: 1, explanation: "Permis, carte grise, assurance." },
-      { questionText: "2. Combien de points a un permis probatoire au d\xE9part ?", options: ["12 points", "6 points", "8 points", "4 points"], correctOptionIndex: 1, explanation: "6 points." },
-      { questionText: "3. Combien de points a un permis confirm\xE9 ?", options: ["6 points", "12 points", "8 points", "20 points"], correctOptionIndex: 1, explanation: "12 points." },
-      { questionText: "4. Que se passe-t-il \xE0 0 point ?", options: ["Rien", "Invalidation du permis", "Bonus", "Rien"], correctOptionIndex: 1, explanation: "Invalidation." },
-      { questionText: "5. Comment r\xE9cup\xE9rer des points ?", options: ["Rien", "Stage de sensibilisation ou d\xE9lai sans infraction", "Payer", "Rien"], correctOptionIndex: 1, explanation: "Stage ou d\xE9lai." },
-      { questionText: "6. La conduite sans assurance est-elle une contravention ou un d\xE9lit ?", options: ["Contravention", "Un d\xE9lit p\xE9nale", "Rien", "Rien"], correctOptionIndex: 1, explanation: "D\xE9lit p\xE9nale." },
-      { questionText: "7. Que couvre l'assurance tous risques en plus du tiers ?", options: ["Tiers seul", "Dommages \xE0 son propre v\xE9hicule", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Propre v\xE9hicule." },
-      { questionText: "8. Qu'est-ce que la franchise ?", options: ["Une taxe", "La somme restant \xE0 la charge de l'assur\xE9 en cas de sinistre", "Un cadeau", "Rien"], correctOptionIndex: 1, explanation: "Reste \xE0 charge." },
-      { questionText: "9. Que concerne la responsabilit\xE9 civile ?", options: ["Amendes", "L'indemnisation des dommages caus\xE9s \xE0 autrui", "Prison", "Rien"], correctOptionIndex: 1, explanation: "Dommages caus\xE9s \xE0 autrui." },
-      { questionText: "10. Les sanctions sont-elles aggrav\xE9es en cas d'accident sous alcool ?", options: ["Non", "Oui, fortement aggrav\xE9es", "Inchang\xE9es", "Rien"], correctOptionIndex: 1, explanation: "Sanctions aggrav\xE9es." }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    "_id": "quiz-mod-13",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 13 \u2014 Documents, assurance et responsabilit\xE9",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-13"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
+      {
+        "_id": "q-final-13-1",
+        "questionText": "Quel document minimum d\u2019assurance est l\xE9galement obligatoire pour circuler ?",
+        "options": [
+          "Tous risques",
+          "Responsabilit\xE9 civile (\xAB au tiers \xBB)",
+          "Vol-incendie",
+          "Assurance z\xE9ro franchise"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "L\u2019assurance au tiers (responsabilit\xE9 civile) est le minimum l\xE9gal impos\xE9."
+      },
+      {
+        "_id": "q-final-13-2",
+        "questionText": "Quel est le capital de d\xE9part sur un permis probatoire classique ?",
+        "options": [
+          "6 points",
+          "8 points",
+          "10 points",
+          "12 points"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Le permis commence avec un capital probatoire de 6 points."
+      },
+      {
+        "_id": "q-final-13-3",
+        "questionText": "La non-pr\xE9sentation imm\xE9diate du permis lors d\u2019un contr\xF4le doit \xEAtre r\xE9gularis\xE9e sous :",
+        "options": [
+          "24 heures",
+          "5 jours",
+          "15 jours",
+          "1 mois"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le conducteur dispose de 5 jours pour pr\xE9senter ses papiers en gendarmerie."
+      },
+      {
+        "_id": "q-final-13-4",
+        "questionText": "Combien de points peut-on perdre au maximum lors d\u2019une seule infraction ?",
+        "options": [
+          "3 points",
+          "4 points",
+          "6 points",
+          "8 points"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Le plafond de retrait pour une infraction unique est de 6 points."
+      },
+      {
+        "_id": "q-final-13-5",
+        "questionText": "Circuler sans \xEAtre titulaire du permis de conduire est :",
+        "options": [
+          "Une contravention",
+          "Un d\xE9lit passible d\u2019une peine de prison et d\u2019une lourde amende",
+          "Une faute mineure",
+          "Autoris\xE9 avec un accompagnateur sans dipl\xF4me"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La conduite sans permis est un d\xE9lit p\xE9nal."
+      },
+      {
+        "_id": "q-final-13-6",
+        "questionText": "En cas de changement d\u2019adresse, la carte grise doit \xEAtre modifi\xE9e dans un d\xE9lai de :",
+        "options": [
+          "15 jours",
+          "1 mois",
+          "3 mois",
+          "1 an"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La d\xE9claration de changement de domicile doit se faire dans le mois."
+      },
+      {
+        "_id": "q-final-13-7",
+        "questionText": "Combien de points permet de r\xE9cup\xE9rer un stage de sensibilisation de 2 jours ?",
+        "options": [
+          "2 points",
+          "4 points au maximum",
+          "6 points",
+          "12 points"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le stage de s\xE9curit\xE9 routi\xE8re permet d\u2019obtenir 4 points."
+      },
+      {
+        "_id": "q-final-13-8",
+        "questionText": "L\u2019assurance responsabilit\xE9 civile au tiers indemnise :",
+        "options": [
+          "Les d\xE9g\xE2ts caus\xE9s aux tiers et autres usagers",
+          "La voiture du conducteur responsable",
+          "Le vol du v\xE9hicule",
+          "Les pannes m\xE9caniques"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Elle prend en charge les dommages caus\xE9s aux autres personnes."
+      },
+      {
+        "_id": "q-final-13-9",
+        "questionText": "Un conducteur responsable d\u2019un accident avec 1,2 g/l d\u2019alcool dans le sang :",
+        "options": [
+          "Est couvert \xE0 100% par son assurance",
+          "S\u2019expose \xE0 la d\xE9ch\xE9ance de garantie et au remboursement des frais",
+          "Re\xE7oit un bonus",
+          "N\u2019a aucune sanction"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "L\u2019alcool entra\xEEne la d\xE9ch\xE9ance des garanties contractuelles."
+      },
+      {
+        "_id": "q-final-13-10",
+        "questionText": "La lettre 48SI envoy\xE9e en recommand\xE9 par le Minist\xE8re de l\u2019Int\xE9rieur notifie :",
+        "options": [
+          "L\u2019obtention de 12 points",
+          "L\u2019invalidation du permis pour solde de points nul",
+          "Une convocation \xE0 un stage",
+          "Une r\xE9duction d\u2019assurance"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La lettre 48SI acte l\u2019invalidation et l\u2019interdiction de conduire."
+      }
+    ]
   },
   {
-    _id: "quiz-mod-14",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-14" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
-      { questionText: "1. Quel est l'objectif principal de l'\xE9coconduite ?", options: ["Rouler vite", "R\xE9duire la consommation de carburant et les \xE9missions", "Gagner du temps", "Rien"], correctOptionIndex: 1, explanation: "R\xE9duire consommation et pollution." },
-      { questionText: "2. \xC0 quelle fr\xE9quence v\xE9rifier la pression des pneus ?", options: ["Tous les ans", "Environ une fois par mois \xE0 froid", "Chaque jour", "Rien"], correctOptionIndex: 1, explanation: "Chaque mois \xE0 froid." },
-      { questionText: "3. Que provoquent des plaquettes de frein us\xE9es ?", options: ["Rien", "Une distance de freinage allong\xE9e", "Meilleure vue", "Rien"], correctOptionIndex: 1, explanation: "Distance de freinage allong\xE9e." },
-      { questionText: "4. \xC0 quoi sert le liquide de refroidissement ?", options: ["Rien", "\xC9viter la surchauffe du moteur", "Chauffer les si\xE8ges", "Rien"], correctOptionIndex: 1, explanation: "\xC9viter la surchauffe." },
-      { questionText: "5. Que classe la vignette Crit'Air ?", options: ["Prix", "Le niveau de pollution du v\xE9hicule", "Taille", "Rien"], correctOptionIndex: 1, explanation: "Niveau polluant." },
-      { questionText: "6. Que visent les zones \xE0 faibles \xE9missions (ZFE) ?", options: ["Rien", "R\xE9duire la pollution en limitant l'acc\xE8s aux v\xE9hicules polluants", "Rien", "Rien"], correctOptionIndex: 1, explanation: "R\xE9duire la pollution." },
-      { questionText: "7. Que faut-il v\xE9rifier avant un long trajet ?", options: ["Radio", "Pneus, niveaux, \xE9clairage et freins", "Clim", "Rien"], correctOptionIndex: 1, explanation: "Pneus, niveaux, feux, freins." },
-      { questionText: "8. Pourquoi utiliser le frein moteur ?", options: ["Pour s'amuser", "Pour \xE9conomiser les freins et le carburant", "Rien", "Rien"], correctOptionIndex: 1, explanation: "\xC9conomiser freins et essence." },
-      { questionText: "9. Pourquoi \xE9viter de transporter une charge inutile ?", options: ["C'est lourd", "Cela augmente la consommation de carburant", "Rien", "Rien"], correctOptionIndex: 1, explanation: "Augmente la consommation." },
-      { questionText: "10. Quel est l'int\xE9r\xEAt de planifier son itin\xE9raire ?", options: ["Rien", "\xC9viter les embouteillages et r\xE9duire la consommation", "Rien", "Rien"], correctOptionIndex: 1, explanation: "\xC9viter embouteillages." }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    "_id": "quiz-mod-14",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 14 \u2014 \xC9coconduite et entretien",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-14"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
+      {
+        "_id": "q-final-14-1",
+        "questionText": "L\u2019\xE9coconduite permet une \xE9conomie moyenne de carburant de l\u2019ordre de :",
+        "options": [
+          "1%",
+          "5%",
+          "15 \xE0 25%",
+          "50%"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "L\u2019\xE9coconduite g\xE9n\xE8re 15 \xE0 25% d\u2019\xE9conomie de carburant."
+      },
+      {
+        "_id": "q-final-14-2",
+        "questionText": "\xC0 quel moment doit-on v\xE9rifier la pression des pneumatiques ?",
+        "options": [
+          "Tous les ans",
+          "Au moins une fois par mois et \xE0 froid",
+          "Tous les 5 ans",
+          "Uniquement l\u2019\xE9t\xE9"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La v\xE9rification mensuelle \xE0 froid garantit la s\xE9curit\xE9 et l\u2019\xE9conomie."
+      },
+      {
+        "_id": "q-final-14-3",
+        "questionText": "Un pneu sous-gonfl\xE9 entra\xEEne :",
+        "options": [
+          "Une baisse de consommation",
+          "Une surconsommation et un risque d\u2019\xE9chauffement/\xE9clatement",
+          "Une meilleure adh\xE9rence",
+          "Aucun effet"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le sous-gonflage augmente la r\xE9sistance au roulement et le risque d\u2019\xE9clatement."
+      },
+      {
+        "_id": "q-final-14-4",
+        "questionText": "Lorsque l\u2019on d\xE9c\xE9l\xE8re avec une vitesse enclench\xE9e (frein moteur), la consommation est de :",
+        "options": [
+          "0 litre / 100 km",
+          "2 litres / 100 km",
+          "5 litres / 100 km",
+          "10 litres / 100 km"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "L\u2019injection est totalement coup\xE9e en d\xE9c\xE9l\xE9ration."
+      },
+      {
+        "_id": "q-final-14-5",
+        "questionText": "La vignette Crit\u2019Air sert \xE0 :",
+        "options": [
+          "Payer les autoroutes",
+          "Identifier la classe environnementale pour les ZFE et pics de pollution",
+          "Contr\xF4ler la vitesse",
+          "Remplacer la carte grise"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Elle classe les v\xE9hicules selon leurs \xE9missions polluantes."
+      },
+      {
+        "_id": "q-final-14-6",
+        "questionText": "Pour charger les bagages dans le coffre, o\xF9 positionner les valises les plus lourdes ?",
+        "options": [
+          "Tout en haut sur la plage arri\xE8re",
+          "Tout au fond au plancher contre les dossiers de si\xE8ges",
+          "Sur le c\xF4t\xE9 droit",
+          "Sur le capot"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Les masses lourdes au plancher stabilisent l\u2019assiette du v\xE9hicule."
+      },
+      {
+        "_id": "q-final-14-7",
+        "questionText": "Sur autoroute \xE0 130 km/h, rouler vitres grandes ouvertes :",
+        "options": [
+          "\xC9conomise la clim",
+          "Augmente fortement la consommation par r\xE9sistance a\xE9rodynamique",
+          "Refroidit le moteur",
+          "Est sans effet"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La tra\xEEn\xE9e a\xE9rodynamique freine le v\xE9hicule et augmente la consommation."
+      },
+      {
+        "_id": "q-final-14-8",
+        "questionText": "L\u2019usage excessif de la climatisation en voiture g\xE9n\xE8re une surconsommation de :",
+        "options": [
+          "0%",
+          "10 \xE0 15%",
+          "50%",
+          "80%"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La climatisation sollicite le moteur et augmente la d\xE9pense d\u2019\xE9nergie."
+      },
+      {
+        "_id": "q-final-14-9",
+        "questionText": "\xC0 quel r\xE9gime moteur passer la vitesse sup\xE9rieure en conduite souple (essence) ?",
+        "options": [
+          "\xC0 2000-2500 tr/min",
+          "\xC0 4500 tr/min",
+          "\xC0 6000 tr/min",
+          "\xC0 1000 tr/min"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Passer les rapports entre 2000 et 2500 tr/min optimise le rendement."
+      },
+      {
+        "_id": "q-final-14-10",
+        "questionText": "Le syst\xE8me Start & Stop permet de :",
+        "options": [
+          "Acc\xE9l\xE9rer plus fort",
+          "Couper automatiquement le moteur \xE0 l\u2019arr\xEAt pour r\xE9duire pollution et consommation",
+          "Couper les phares",
+          "Freiner tout seul"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le Start & Stop coupe le moteur aux arr\xEAts prolong\xE9s pour \xE9conomiser l\u2019\xE9nergie."
+      }
+    ]
   },
   {
-    _id: "quiz-mod-15",
-    _type: "quiz",
-    module: { _type: "reference", _ref: "mod-15" },
-    timerSeconds: 600,
-    scoreMinimum: 80,
-    questions: [
-      { questionText: "1. Combien de questions comporte l'ETG ?", options: ["20", "40 questions", "60", "10"], correctOptionIndex: 1, explanation: "40 questions." },
-      { questionText: "2. Quel est le seuil de r\xE9ussite ?", options: ["30/40", "35 bonnes r\xE9ponses sur 40 (5 fautes max)", "40/40", "20/40"], correctOptionIndex: 1, explanation: "35/40 minimum." },
-      { questionText: "3. Qui est prioritaire en l'absence de signalisation ?", options: ["Gauche", "Celui qui vient de droite", "Le plus rapide", "Rien"], correctOptionIndex: 1, explanation: "Priorit\xE9 \xE0 droite." },
-      { questionText: "4. Quelle est la vitesse maximale en agglom\xE9ration ?", options: ["30 km/h", "50 km/h", "70 km/h", "90 km/h"], correctOptionIndex: 1, explanation: "50 km/h." },
-      { questionText: "5. Quel est l'ordre de la proc\xE9dure en cas d'accident ?", options: ["Alerter, Secourir, Prot\xE9ger", "Prot\xE9ger, Alerter, Secourir", "Secourir, Prot\xE9ger, Alerter", "Rien"], correctOptionIndex: 1, explanation: "Prot\xE9ger, Alerter, Secourir." },
-      { questionText: "6. Quel est le taux d'alcool\xE9mie maximal pour un conducteur confirm\xE9 ?", options: ["0,2 g/L", "0,5 g/L", "0,8 g/L", "1 g/L"], correctOptionIndex: 1, explanation: "0,5 g/L." },
-      { questionText: "7. Que faut-il faire en cas de panne sur autoroute ?", options: ["S'arr\xEAter au milieu", "Se garer sur la bande d'arr\xEAt d'urgence le plus \xE0 droite", "Continuer", "Rien"], correctOptionIndex: 1, explanation: "Bande d'arr\xEAt d'urgence." },
-      { questionText: "8. Quelle est la distance de s\xE9curit\xE9 de base entre deux v\xE9hicules ?", options: ["1 seconde", "2 secondes minimum", "10 secondes", "Rien"], correctOptionIndex: 1, explanation: "2 secondes minimum." },
-      { questionText: "9. Qu'est-ce que la vignette Crit'Air ?", options: ["Une amende", "Un classement du v\xE9hicule selon son niveau de pollution", "Un permis", "Rien"], correctOptionIndex: 1, explanation: "Classement de pollution." },
-      { questionText: "10. Quel num\xE9ro appeler en urgence en Europe ?", options: ["15", "112", "17", "18"], correctOptionIndex: 1, explanation: "112." }
-    ],
-    createdAt: "2026-01-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
+    "_id": "quiz-mod-15",
+    "_type": "quiz",
+    "title": "\xC9valuation Finale \u2014 Module 15 \u2014 R\xE9visions et examens blancs",
+    "module": {
+      "_type": "reference",
+      "_ref": "mod-15"
+    },
+    "timerSeconds": 600,
+    "scoreMinimum": 80,
+    "createdAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z",
+    "questions": [
+      {
+        "_id": "q-final-15-1",
+        "questionText": "Pour \xEAtre re\xE7u \xE0 l\u2019examen th\xE9orique g\xE9n\xE9ral du permis B (ETG), le score minimal est de :",
+        "options": [
+          "30/40",
+          "33/40",
+          "35/40 (5 fautes maximum)",
+          "38/40"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "35 bonnes r\xE9ponses sur 40 questions sont obligatoires pour d\xE9crocher le code."
+      },
+      {
+        "_id": "q-final-15-2",
+        "questionText": "Quelle est la vitesse maximale sur autoroute par temps de pluie (permis confirm\xE9) ?",
+        "options": [
+          "130 km/h",
+          "110 km/h",
+          "100 km/h",
+          "90 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La vitesse sur autoroute est r\xE9duite \xE0 110 km/h par temps pluvieux."
+      },
+      {
+        "_id": "q-final-15-3",
+        "questionText": "Quel est le taux l\xE9gal maximal d\u2019alcool\xE9mie pour un jeune conducteur probatoire ?",
+        "options": [
+          "0,0 g/l",
+          "0,2 g/l de sang (tol\xE9rance z\xE9ro)",
+          "0,5 g/l",
+          "0,8 g/l"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le seuil probatoire l\xE9gal est de 0,2 g/l de sang."
+      },
+      {
+        "_id": "q-final-15-4",
+        "questionText": "Sur route s\xE8che \xE0 90 km/h, la distance totale d\u2019arr\xEAt est estim\xE9e \xE0 :",
+        "options": [
+          "27 m",
+          "54 m",
+          "81 m",
+          "120 m"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Calcul th\xE9orique : 9 x 9 = 81 m\xE8tres."
+      },
+      {
+        "_id": "q-final-15-5",
+        "questionText": "La r\xE8gle de s\xE9curit\xE9 des 2 secondes entre deux v\xE9hicules correspond \xE0 130 km/h \xE0 :",
+        "options": [
+          "30 m",
+          "50 m",
+          "78 m\xE8tres (2 traits de BAU)",
+          "150 m"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "13 x 6 = 78 m\xE8tres, soit deux bandes blanches de bande d\u2019arr\xEAt d\u2019urgence."
+      },
+      {
+        "_id": "q-final-15-6",
+        "questionText": "Quelle est la premi\xE8re action vitale \xE0 mener en arrivant sur un accident ?",
+        "options": [
+          "Secourir",
+          "Alerter",
+          "Prot\xE9ger les lieux pour \xE9viter le sur-accident",
+          "Prendre des photos"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "P = Prot\xE9ger est la premi\xE8re obligation absolue."
+      },
+      {
+        "_id": "q-final-15-7",
+        "questionText": "Le port de la ceinture de s\xE9curit\xE9 est obligatoire :",
+        "options": [
+          "Uniquement \xE0 l\u2019avant",
+          "\xC0 toutes les places \xE9quip\xE9es d\u2019un v\xE9hicule",
+          "Uniquement hors agglom\xE9ration",
+          "Pour le conducteur seul"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Tous les passagers doivent boucler leur ceinture."
+      },
+      {
+        "_id": "q-final-15-8",
+        "questionText": "Quelle sanction encourt le non-respect d\u2019un feu rouge ou d\u2019un panneau Stop ?",
+        "options": [
+          "135 \u20AC et 1 point",
+          "135 \u20AC et 4 points de retrait",
+          "68 \u20AC sans point",
+          "Prison ferme"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Le refus de priorit\xE9 au feu rouge ou Stop retire 4 points."
+      },
+      {
+        "_id": "q-final-15-9",
+        "questionText": "Dans une \xAB Zone de rencontre \xBB, quelle est la vitesse maximale autoris\xE9e ?",
+        "options": [
+          "10 km/h",
+          "20 km/h avec priorit\xE9 absolue aux pi\xE9tons",
+          "30 km/h",
+          "50 km/h"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "La vitesse est plafonn\xE9e \xE0 20 km/h avec pi\xE9tons prioritaires sur toute la chauss\xE9e."
+      },
+      {
+        "_id": "q-final-15-10",
+        "questionText": "Les feux de brouillard arri\xE8re sont formellement INTERDITS :",
+        "options": [
+          "Par temps de brouillard",
+          "Par temps de neige",
+          "Par temps de pluie (pour cause d\u2019\xE9blouissement)",
+          "La nuit"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "La r\xE9verb\xE9ration de la lumi\xE8re dans l\u2019eau de pluie \xE9blouit dangereusement les usagers derri\xE8re."
+      }
+    ]
   }
 ];
 
