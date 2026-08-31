@@ -6,6 +6,7 @@ import { ModuleFormation, Quiz, ProgressionModule, Certificat } from '../types';
 import { CertificateModal } from '../components/CertificateModal';
 import { generateCertificatePDF } from '../lib/certificatePdfService';
 import { ModuleProgressionCharts } from '../components/ModuleProgressionCharts';
+import { RoadSignsViewer } from '../components/RoadSignsViewer';
 import {
   GraduationCap,
   PlayCircle,
@@ -189,12 +190,6 @@ export const ElevePortal: React.FC = () => {
   const [structuredProgression, setStructuredProgression] = useState<any[]>([]);
   const [eleveDetail, setEleveDetail] = useState<any>(eleve);
   const [certificat, setCertificat] = useState<Certificat | null>(null);
-
-  // Panneau State
-  const [eleves, setEleves] = useState<any[]>([]);
-  const [elevesLoading, setElevesLoading] = useState(false);
-  const [elevesError, setElevesError] = useState<string | null>(null);
-  const [eleveSearch, setEleveSearch] = useState('');
 
   // Active Video Player state
   const [activeModuleItem, setActiveModuleItem] = useState<any | null>(null);
@@ -437,27 +432,6 @@ export const ElevePortal: React.FC = () => {
       console.error(e);
     }
   };
-
-  useEffect(() => {
-    if (activeTab !== 'panneau') return;
-    const fetchEleves = async () => {
-      setElevesLoading(true);
-      setElevesError(null);
-      try {
-        const res = await fetch('/api/eleves', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) throw new Error('Failed to load students');
-        const data = await res.json();
-        setEleves(data);
-      } catch (e: any) {
-        setElevesError(e.message);
-      } finally {
-        setElevesLoading(false);
-      }
-    };
-    fetchEleves();
-  }, [activeTab, token]);
 
   // Synchroniser le temps de visionnage de la vidéo (native ou YouTube)
   const syncWatchTime = async (currentTime: number, isFinished?: boolean) => {
@@ -938,7 +912,7 @@ export const ElevePortal: React.FC = () => {
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
-            <Info className="w-4 h-4" />
+            <AlertTriangle className="w-4 h-4 text-amber-500" />
             <span>{t('tabStudentPanel')}</span>
           </button>
         </div>
@@ -1683,65 +1657,9 @@ export const ElevePortal: React.FC = () => {
           </div>
         )}
         
-        {/* TAB 5: PANNEAU */}
+        {/* TAB 5: PANNEAUX ROUTIERS */}
         {activeTab === 'panneau' && (
-          <div className="space-y-4">
-            <h2 className="text-lg font-black text-slate-900 tracking-tight">{t('studentsPanelTitle')}</h2>
-            <div className="flex items-center space-x-2">
-              <input
-                type="text"
-                placeholder={t('searchPlaceholder')}
-                value={eleveSearch}
-                onChange={e => setEleveSearch(e.target.value)}
-                className="flex-1 p-2 border rounded-md"
-              />
-              <Search className="w-5 h-5 text-slate-500" />
-            </div>
-
-            {elevesLoading ? (
-              <p>{t('loadingIndicator')}</p>
-            ) : elevesError ? (
-              <p className="text-red-600">{elevesError}</p>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full table-auto border-collapse">
-                  <thead className="bg-slate-100">
-                    <tr>
-                      <th className="px-4 py-2 text-left">{t('studentCol')}</th>
-                      <th className="px-4 py-2 text-left">{t('emailLabel')}</th>
-                      <th className="px-4 py-2 text-left">{t('phoneLabel')}</th>
-                      <th className="px-4 py-2 text-left">{t('studentCodeCol')}</th>
-                      <th className="px-4 py-2 text-left">{t('statusCol')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {eleves
-                      .filter(e =>
-                        (e.user?.name ?? '').toLowerCase().includes(eleveSearch.toLowerCase()) ||
-                        (e.codeEleveUnique ?? '').toLowerCase().includes(eleveSearch.toLowerCase())
-                      )
-                      .map(e => (
-                        <tr key={e._id} className="border-t">
-                          <td className="px-4 py-2">{e.user?.name || '—'}</td>
-                          <td className="px-4 py-2">{e.user?.email || '—'}</td>
-                          <td className="px-4 py-2">{e.telephone || '—'}</td>
-                          <td className="px-4 py-2 font-mono">{e.codeEleveUnique || '—'}</td>
-                          <td className="px-4 py-2">
-                            {e.isBlocked ? (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-red-50 text-red-800 rounded">{t('blocked')}</span>
-                            ) : e.isExpired ? (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-amber-50 text-amber-800 rounded">{t('expired')}</span>
-                            ) : (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-emerald-50 text-emerald-800 rounded">{t('valid')}</span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+          <RoadSignsViewer />
         )}
           </motion.div>
         </AnimatePresence>
